@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_page_service_categories",
+  "info": {
+    "displayName": "Service Categories",
+    "description": "Section affichant les catégories de services",
+    "icon": "grid"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "maxLength": 200,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "categories": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.service-category-info"
+    }
+  }
+}

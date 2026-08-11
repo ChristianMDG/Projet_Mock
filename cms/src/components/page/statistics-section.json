@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_page_statistics_sections",
+  "info": {
+    "displayName": "Section Statistiques",
+    "description": "Affichage des statistiques de l'entreprise avec icônes",
+    "icon": "chartBubble"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Taxibrousse en chiffres"
+    },
+    "statistics": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.statistic-item"
+    }
+  }
+}

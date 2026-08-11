@@ -1,0 +1,11 @@
+UPDATE ville SET frequence = 100 WHERE name ILIKE 'ANTANANARIVO%';
+UPDATE ville SET frequence = 99 WHERE name ILIKE 'ANTSIRABE%';
+UPDATE ville SET frequence = 99 WHERE name ILIKE 'FIANARANTSOA%';
+UPDATE ville SET frequence = 96 WHERE name ILIKE 'TOLIARY%';
+UPDATE ville SET frequence = 97 WHERE name ILIKE 'MAHAJANGA%';
+UPDATE ville SET frequence = 98 WHERE name ILIKE 'TOAMASINA%';
+UPDATE ville SET frequence = 96 WHERE name ILIKE 'ANTSIRANANA%';
+UPDATE ville SET frequence = 90 WHERE name ILIKE 'MORONDAVA%';
+UPDATE ville SET frequence = 90 WHERE name ILIKE 'MIANDRIVAZO%';
+UPDATE ville SET frequence = 92 WHERE name ILIKE 'AMBOSITRA%';
+UPDATE ville SET frequence = 93 WHERE name ILIKE 'MIARINARIVO%';

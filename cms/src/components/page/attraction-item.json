@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_page_attraction_items",
+  "info": {
+    "displayName": "Élément Attraction",
+    "description": "Attraction individuelle pour les destinations",
+    "icon": "star"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Sources thermales",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

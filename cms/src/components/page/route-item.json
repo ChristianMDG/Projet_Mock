@@ -1,0 +1,56 @@
+{
+  "collectionName": "components_page_route_items",
+  "info": {
+    "displayName": "Élément Route",
+    "description": "Élément de route individuel",
+    "icon": "car"
+  },
+  "options": {},
+  "attributes": {
+    "from": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Antananarivo",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "to": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Antsirabe",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "price": {
+      "type": "integer",
+      "required": true,
+      "min": 0,
+      "default": 8000
+    },
+    "duration": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "default": "3h",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "comfort": {
+      "type": "enumeration",
+      "enum": ["Standard", "Confort", "VIP"],
+      "default": "Standard",
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "description": "Dynamic page for Promotions - Promotions & Offres Spéciales",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "promotions",
+  "icon": "LocalOffer",
+  "locales": {
+    "fr": {
+      "title": "Promotions & Offres Spéciales",
+      "slug": "promotions",
+      "icon": "LocalOffer",
+      "pageHeader": {
+        "title": "Promotions & Offres Spéciales",
+        "description": "Découvrez nos meilleures offres pour vos voyages à travers Madagascar",
+        "alertType": "info",
+        "alertTitle": "Nouveauté",
+        "alertMessage": "Inscrivez-vous à notre newsletter pour recevoir les promotions en avant-première"
+      },
+      "sections": [
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Current Promotions",
+          "sectionType": "page.current-promotions"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Loyalty Program",
+          "sectionType": "page.loyalty-program"
+        }
+      ],
+      "callToAction": {
+        "__component": "page.call-to-action",
+        "title": "Ne Manquez Aucune Promotion !",
+        "description": "Inscrivez-vous à notre newsletter et soyez le premier informé de nos offres exclusives",
+        "buttonText": "S'Inscrire à la Newsletter",
+        "buttonUrl": "/",
+        "buttonVariant": "contained",
+        "buttonColor": "primary",
+        "buttonIcon": "CardGiftcard"
+      }
+    },
+    "en": {
+      "title": "Promotions & Special Offers",
+      "slug": "promotions",
+      "icon": "LocalOffer",
+      "pageHeader": {
+        "title": "Promotions & Special Offers",
+        "description": "Discover our best deals for your travels across Madagascar",
+        "alertType": "info",
+        "alertTitle": "New",
+        "alertMessage": "Subscribe to our newsletter to receive promotions first"
+      },
+      "sections": [
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Current Promotions",
+          "sectionType": "page.current-promotions"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Loyalty Program",
+          "sectionType": "page.loyalty-program"
+        }
+      ],
+      "callToAction": {
+        "__component": "page.call-to-action",
+        "title": "Don't Miss Any Promotion!",
+        "description": "Subscribe to our newsletter and be the first to know about our exclusive offers",
+        "buttonText": "Subscribe to Newsletter",
+        "buttonUrl": "/",
+        "buttonVariant": "contained",
+        "buttonColor": "primary",
+        "buttonIcon": "CardGiftcard"
+      }
+    },
+    "mg": {
+      "title": "Promotions sy Tolotra Manokana",
+      "slug": "promotions",
+      "icon": "LocalOffer",
+      "pageHeader": {
+        "title": "Promotions sy Tolotra Manokana",
+        "description": "Fantaro ny tolotra tsara indrindra ho an'ny dianao manerana an'i Madagasikara",
+        "alertType": "info",
+        "alertTitle": "Vaovao",
+        "alertMessage": "Misoratra anarana amin'ny newsletter mba hahazoana ny promotions aloha"
+      },
+      "sections": [
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Current Promotions",
+          "sectionType": "page.current-promotions"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Loyalty Program",
+          "sectionType": "page.loyalty-program"
+        }
+      ],
+      "callToAction": {
+        "__component": "page.call-to-action",
+        "title": "Aza Adino ny Promotions!",
+        "description": "Misoratra anarana amin'ny newsletter ary ho voalohany hahalala ny tolotra manokana",
+        "buttonText": "Misoratra anarana",
+        "buttonUrl": "/",
+        "buttonVariant": "contained",
+        "buttonColor": "primary",
+        "buttonIcon": "CardGiftcard"
+      }
+    }
+  }
+}

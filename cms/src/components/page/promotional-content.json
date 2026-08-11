@@ -1,0 +1,48 @@
+{
+  "collectionName": "components_page_promotional_content",
+  "info": {
+    "displayName": "Contenu Promotionnel",
+    "description": "Section pour afficher le contenu promotionnel avec images et descriptions",
+    "icon": "gift"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Actualités et promotions",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "promotions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.promotion-item",
+      "required": true,
+      "min": 1,
+      "max": 8
+    },
+    "callToAction": {
+      "type": "component",
+      "repeatable": false,
+      "component": "page.call-to-action",
+      "required": false
+    },
+    "backgroundColor": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "background.default",
+      "description": "Section background color"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg",
+      "description": "Container maximum width"
+    }
+  }
+}

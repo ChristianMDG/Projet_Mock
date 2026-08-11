@@ -1,0 +1,51 @@
+{
+  "collectionName": "components_page_trust_indicators",
+  "info": {
+    "displayName": "Trust Indicators",
+    "description": "Indicateurs de confiance et garanties",
+    "icon": "shield-check"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "indicators": {
+      "type": "component",
+      "repeatable": true,
+      "required": true,
+      "component": "page.trust-indicator-item"
+    },
+    "layout": {
+      "type": "enumeration",
+      "enum": ["horizontal", "vertical", "grid"],
+      "default": "horizontal"
+    },
+    "showBorder": {
+      "type": "boolean",
+      "default": true
+    },
+    "backgroundColor": {
+      "type": "string"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg"
+    }
+  }
+}

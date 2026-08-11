@@ -1,0 +1,11 @@
+export { default as HomePage } from './HomePage';
+export { default as LoginPage } from './LoginPage';
+export { default as MessagesPage } from './MessagesPage';
+export { default as ReservationPage } from './ReservationPage';
+export { default as RouteManagementPage } from './RouteManagementPage';
+export { default as AnalyticsPage } from './AnalyticsPage';
+export { default as VoyageManagementPage } from './VoyageManagementPage';
+export { default as KoperativeManagementPage } from './KoperativeManagementPage';
+export { default as UserManagementPage } from './UserManagementPage';
+export { default as OperateurManagementPage } from './OperateurManagementPage';
+export { default as ClassesPage } from './ClassesPage';

@@ -1,0 +1,119 @@
+{
+  "description": "Trust Indicators section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.trust-indicators",
+  "locales": {
+    "fr": {
+      "__component": "page.trust-indicators",
+      "title": "Voyagez en Toute Confiance",
+      "subtitle": "Votre sécurité et satisfaction sont nos priorités absolues",
+      "layout": "horizontal",
+      "showBorder": true,
+      "backgroundColor": "#f8f9fa",
+      "containerMaxWidth": "lg",
+      "indicators": [
+        {
+          "icon": "shield",
+          "title": "Garantie Sécurité",
+          "description": "Tous nos véhicules sont contrôlés et certifiés conformes aux normes de sécurité en vigueur",
+          "link": "/securite",
+          "linkText": "En savoir plus"
+        },
+        {
+          "icon": "headphone",
+          "title": "Support 24/7",
+          "description": "Notre équipe est disponible à tout moment pour vous assister en cas de besoin",
+          "link": "/contact",
+          "linkText": "Nous contacter"
+        },
+        {
+          "icon": "priceTag",
+          "title": "Remboursement Garanti",
+          "description": "Annulation gratuite jusqu'à 24h avant le départ avec remboursement intégral",
+          "link": "/conditions",
+          "linkText": "Voir conditions"
+        },
+        {
+          "icon": "user",
+          "title": "Chauffeurs Certifiés",
+          "description": "Tous nos chauffeurs sont formés, expérimentés et possèdent les licences requises"
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.trust-indicators",
+      "title": "Travel with Confidence",
+      "subtitle": "Your safety and satisfaction are our absolute priorities",
+      "layout": "horizontal",
+      "showBorder": true,
+      "backgroundColor": "#f8f9fa",
+      "containerMaxWidth": "lg",
+      "indicators": [
+        {
+          "icon": "shield",
+          "title": "Safety Guarantee",
+          "description": "All our vehicles are inspected and certified to comply with current safety standards",
+          "link": "/securite",
+          "linkText": "Learn more"
+        },
+        {
+          "icon": "headphone",
+          "title": "24/7 Support",
+          "description": "Our team is available at all times to assist you when needed",
+          "link": "/contact",
+          "linkText": "Contact us"
+        },
+        {
+          "icon": "priceTag",
+          "title": "Guaranteed Refund",
+          "description": "Free cancellation up to 24 hours before departure with full refund",
+          "link": "/conditions",
+          "linkText": "See conditions"
+        },
+        {
+          "icon": "user",
+          "title": "Certified Drivers",
+          "description": "All our drivers are trained, experienced and hold the required licenses"
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.trust-indicators",
+      "title": "Mankanesa Amim-pahatokiana",
+      "subtitle": "Ny fiarovana sy ny fahafaham-ponao no laharam-pahamehana tanteraka",
+      "layout": "horizontal",
+      "showBorder": true,
+      "backgroundColor": "#f8f9fa",
+      "containerMaxWidth": "lg",
+      "indicators": [
+        {
+          "icon": "shield",
+          "title": "Antoka Fiarovana",
+          "description": "Ny fiaranay rehetra dia voamarina sy voaporofo fa mifanaraka amin'ny fenitra fiarovana manan-kery",
+          "link": "/securite",
+          "linkText": "Fantaro bebe kokoa"
+        },
+        {
+          "icon": "headphone",
+          "title": "Fanampiana 24/7",
+          "description": "Ny ekipanay dia vonona hanampy anao amin'ny fotoana rehetra raha ilaina",
+          "link": "/contact",
+          "linkText": "Mifandraisa aminay"
+        },
+        {
+          "icon": "priceTag",
+          "title": "Famerenana Vola Azo Antoka",
+          "description": "Fanafoanana maimaim-poana hatramin'ny 24 ora alohan'ny fiaingana miaraka amin'ny famerenana vola feno",
+          "link": "/conditions",
+          "linkText": "Jereo ny fepetra"
+        },
+        {
+          "icon": "user",
+          "title": "Mpamily Voaporofo",
+          "description": "Ny mpamilinay rehetra dia voaofana, za-draharaha ary manana ny fahazoan-dalana ilaina"
+        }
+      ]
+    }
+  }
+}

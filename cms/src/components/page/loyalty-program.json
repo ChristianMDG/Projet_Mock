@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_page_loyalty_programs",
+  "info": {
+    "displayName": "Loyalty Program",
+    "description": "Section programme de fidélité",
+    "icon": "gift"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "programName": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 500,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "levels": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.loyalty-level"
+    }
+  }
+}

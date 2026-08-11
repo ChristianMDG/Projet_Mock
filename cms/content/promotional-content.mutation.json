@@ -1,0 +1,170 @@
+{
+  "description": "Promotional Content section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.promotional-content",
+  "locales": {
+    "fr": {
+      "__component": "page.promotional-content",
+      "title": "Offres spéciales et promotions",
+      "backgroundColor": "background.default",
+      "containerMaxWidth": "xl",
+      "promotions": [
+        {
+          "title": "Découverte Madagascar - 20% de réduction",
+          "subtitle": "Offre nouveau client",
+          "description": "Partez à la découverte des merveilles de Madagascar avec notre offre spéciale sur tous les trajets vers les destinations touristiques. Profitez de 20% de réduction sur votre premier voyage.",
+          "discount": 20,
+          "originalPrice": 50000,
+          "discountedPrice": 40000,
+          "validUntil": "2025-06-30T23:59:59.000Z",
+          "code": "DECOUVERTE20",
+          "route": "Nosy Be, Andasibe, Morondava, Ifaty, Antsirabe",
+          "isLimited": true,
+          "remaining": 658,
+          "category": "earlybird",
+          "isVIP": false,
+          "progress": 34,
+          "gridSize": "large",
+          "order": 1
+        },
+        {
+          "title": "Forfait Famille - Voyagez ensemble, économisez plus",
+          "subtitle": "À partir de 4 personnes",
+          "description": "À partir de 4 personnes voyageant ensemble, bénéficiez de tarifs familiaux exceptionnels. Idéal pour les vacances en famille ou les regroupements familiaux.",
+          "discount": 25,
+          "originalPrice": 100000,
+          "discountedPrice": 75000,
+          "validUntil": "2025-12-31T23:59:59.000Z",
+          "code": "FAMILLE25",
+          "route": "Toutes destinations",
+          "isLimited": false,
+          "remaining": 0,
+          "category": "family",
+          "isVIP": false,
+          "progress": 0,
+          "gridSize": "small",
+          "order": 2
+        }
+      ],
+      "callToAction": {
+        "title": "Prêt à partir à l'aventure ?",
+        "description": "Réservez dès maintenant votre prochain voyage et découvrez Madagascar en toute sérénité avec Taxibrousse.",
+        "buttonText": "Voir toutes les destinations",
+        "buttonUrl": "/destinations",
+        "buttonVariant": "contained",
+        "buttonColor": "primary",
+        "buttonIcon": "ExploreRounded",
+        "backgroundColor": "primary.main"
+      }
+    },
+    "en": {
+      "__component": "page.promotional-content",
+      "title": "Special offers and promotions",
+      "backgroundColor": "background.default",
+      "containerMaxWidth": "xl",
+      "promotions": [
+        {
+          "title": "Discover Madagascar - 20% discount",
+          "subtitle": "New customer offer",
+          "description": "Set off to discover the wonders of Madagascar with our special offer on all trips to tourist destinations. Enjoy 20% off your first trip.",
+          "discount": 20,
+          "originalPrice": 50000,
+          "discountedPrice": 40000,
+          "validUntil": "2025-06-30T23:59:59.000Z",
+          "code": "DISCOVER20",
+          "route": "Nosy Be, Andasibe, Morondava, Ifaty, Antsirabe",
+          "isLimited": true,
+          "remaining": 658,
+          "category": "earlybird",
+          "isVIP": false,
+          "progress": 34,
+          "gridSize": "large",
+          "order": 1
+        },
+        {
+          "title": "Family Package - Travel together, save more",
+          "subtitle": "From 4 people",
+          "description": "From 4 people traveling together, enjoy exceptional family rates. Ideal for family vacations or family reunions.",
+          "discount": 25,
+          "originalPrice": 100000,
+          "discountedPrice": 75000,
+          "validUntil": "2025-12-31T23:59:59.000Z",
+          "code": "FAMILY25",
+          "route": "All destinations",
+          "isLimited": false,
+          "remaining": 0,
+          "category": "family",
+          "isVIP": false,
+          "progress": 0,
+          "gridSize": "small",
+          "order": 2
+        }
+      ],
+      "callToAction": {
+        "title": "Ready for adventure?",
+        "description": "Book your next trip now and discover Madagascar with peace of mind with Taxibrousse.",
+        "buttonText": "See all destinations",
+        "buttonUrl": "/destinations",
+        "buttonVariant": "contained",
+        "buttonColor": "primary",
+        "buttonIcon": "ExploreRounded",
+        "backgroundColor": "primary.main"
+      }
+    },
+    "mg": {
+      "__component": "page.promotional-content",
+      "title": "Tolotra manokana sy fampiroboroboana",
+      "backgroundColor": "background.default",
+      "containerMaxWidth": "xl",
+      "promotions": [
+        {
+          "title": "Hahita an'i Madagasikara - fihenam-bidy 20%",
+          "subtitle": "Tolotra mpanjifa vaovao",
+          "description": "Miainga hahita ny zava-mahagaga ao Madagasikara miaraka amin'ny tolotra manokana amin'ny dia rehetra mankany amin'ny toerana fizahan-tany. Ankafizo ny fihenam-bidy 20% amin'ny dia voalohany.",
+          "discount": 20,
+          "originalPrice": 50000,
+          "discountedPrice": 40000,
+          "validUntil": "2025-06-30T23:59:59.000Z",
+          "code": "FAHITA20",
+          "route": "Nosy Be, Andasibe, Morondava, Ifaty, Antsirabe",
+          "isLimited": true,
+          "remaining": 658,
+          "category": "earlybird",
+          "isVIP": false,
+          "progress": 34,
+          "gridSize": "large",
+          "order": 1
+        },
+        {
+          "title": "Forfait Fianakaviana - Mandeha miaraka, mitsitsy be",
+          "subtitle": "Manomboka amin'ny 4 olona",
+          "description": "Manomboka amin'ny 4 olona mandeha miaraka, ankafizo ny vidiny fianakaviana tsy manam-paharoa. Tsara ho an'ny fialan-tsasatra fianakaviana na fivoriana fianakaviana.",
+          "discount": 25,
+          "originalPrice": 100000,
+          "discountedPrice": 75000,
+          "validUntil": "2025-12-31T23:59:59.000Z",
+          "code": "FIANAKAVIANA25",
+          "route": "Toerana rehetra",
+          "isLimited": false,
+          "remaining": 0,
+          "category": "family",
+          "isVIP": false,
+          "progress": 0,
+          "gridSize": "small",
+          "order": 2
+        }
+      ],
+      "callToAction": {
+        "title": "Vonona ho amin'ny zava-nitranga ve?",
+        "description": "Mamandrika ny dia manaraka ankehitriny ary hahita an'i Madagasikara am-pahatokiana miaraka amin'ny Taxibrousse.",
+        "buttonText": "Hijery ny toerana rehetra",
+        "buttonUrl": "/toerana",
+        "buttonVariant": "contained",
+        "buttonColor": "primary",
+        "buttonIcon": "ExploreRounded",
+        "backgroundColor": "primary.main"
+      }
+    }
+  }
+}

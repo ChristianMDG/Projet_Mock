@@ -1,0 +1,54 @@
+{
+  "collectionName": "components_page_travel_destinations",
+  "info": {
+    "displayName": "Travel Destinations",
+    "description": "Section de destinations de voyage avec grille d'images",
+    "icon": "globe"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "destinations": {
+      "type": "component",
+      "repeatable": true,
+      "required": true,
+      "component": "page.travel-destination-item"
+    },
+    "buttonText": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "buttonUrl": {
+      "type": "string"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": "#f5f5f5"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "xl"
+    }
+  }
+}

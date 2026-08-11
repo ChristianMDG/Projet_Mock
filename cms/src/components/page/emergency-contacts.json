@@ -1,0 +1,53 @@
+{
+  "collectionName": "components_page_emergency_contacts",
+  "info": {
+    "displayName": "Contacts d'Urgence",
+    "description": "Section des contacts d'urgence",
+    "icon": "phone"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Contacts d'urgence",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "alertType": {
+      "type": "enumeration",
+      "enum": ["info", "success", "warning", "error"],
+      "default": "warning"
+    },
+    "alertTitle": {
+      "type": "string",
+      "maxLength": 100,
+      "default": "Important information en cas d'urgence",
+      "required": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "alertMessage": {
+      "type": "text",
+      "maxLength": 500,
+      "default": "En cas d'urgence, composez le 117 (police) ou le 118 (pompiers)",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "contacts": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.contact-item"
+    }
+  }
+}

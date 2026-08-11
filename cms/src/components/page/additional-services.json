@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_page_additional_services",
+  "info": {
+    "displayName": "Additional Services",
+    "description": "Section services supplémentaires",
+    "icon": "plus"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "services": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.additional-service-item"
+    }
+  }
+}

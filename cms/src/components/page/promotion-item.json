@@ -1,0 +1,147 @@
+{
+  "collectionName": "components_page_promotion_items",
+  "info": {
+    "displayName": "Élément Promotion",
+    "description": "Carte promotionnelle avec image, titre et description",
+    "icon": "priceTag"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Promotion Étudiante",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 150,
+      "default": "-20% sur tous vos voyages",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500,
+      "default": "Bénéficiez de 20% de réduction sur tous vos voyages avec votre carte étudiante valide.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "discount": {
+      "type": "integer",
+      "min": 0,
+      "max": 100,
+      "default": 20,
+      "description": "Discount percentage (0-100)"
+    },
+    "originalPrice": {
+      "type": "decimal",
+      "min": 0,
+      "default": 10000,
+      "description": "Original price before discount"
+    },
+    "discountedPrice": {
+      "type": "decimal",
+      "min": 0,
+      "default": 8000,
+      "description": "Final price after discount"
+    },
+    "validUntil": {
+      "type": "datetime",
+      "required": true,
+      "description": "Promotion valid until this date"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "code": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "default": "ETUDIANT20",
+      "description": "Promotion code for booking"
+    },
+    "route": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Antananarivo - Antsirabe",
+      "description": "Route this promotion applies to"
+    },
+    "isLimited": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a limited-time offer"
+    },
+    "remaining": {
+      "type": "integer",
+      "min": 0,
+      "default": 100,
+      "description": "Number of uses remaining for limited offers"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "earlybird",
+        "seasonal",
+        "route-specific",
+        "volume",
+        "student",
+        "senior",
+        "family"
+      ],
+      "default": "student",
+      "required": true,
+      "description": "Promotion category"
+    },
+    "isVIP": {
+      "type": "boolean",
+      "default": false,
+      "description": "VIP exclusive promotion"
+    },
+    "progress": {
+      "type": "integer",
+      "min": 0,
+      "max": 100,
+      "default": 65,
+      "description": "Progress percentage for limited offers"
+    },
+    "imageUrl": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&h=300&fit=crop",
+      "description": "Alternative URL for image if no upload"
+    },
+    "gridSize": {
+      "type": "enumeration",
+      "enum": ["small", "large"],
+      "default": "small",
+      "description": "Card size (small: md=5, large: md=7)"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0,
+      "description": "Display order (0 = first)"
+    }
+  }
+}

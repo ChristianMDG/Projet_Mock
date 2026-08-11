@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_page_faq_items",
+  "info": {
+    "displayName": "Élément FAQ",
+    "description": "Élément FAQ individuel avec question et réponse",
+    "icon": "message"
+  },
+  "options": {},
+  "attributes": {
+    "question": {
+      "type": "string",
+      "required": true,
+      "maxLength": 300,
+      "default": "Comment puis-je réserver un voyage ?",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "answer": {
+      "type": "text",
+      "required": true,
+      "maxLength": 1000,
+      "default": "Vous pouvez réserver un voyage en sélectionnant vos villes de départ et de destination, en choisissant une date et en sélectionnant parmi les itinéraires disponibles sur notre page d'accueil.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

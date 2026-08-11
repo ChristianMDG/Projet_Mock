@@ -1,0 +1,71 @@
+{
+  "description": "Additional Services section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.additional-services",
+  "locales": {
+    "fr": {
+      "__component": "page.additional-services",
+      "title": "Services supplémentaires",
+      "services": [
+        {
+          "icon": "Luggage",
+          "title": "Bagages supplémentaires",
+          "description": "Bagages jusqu'à 50kg moyennant supplément (1 000 Ar/kg)"
+        },
+        {
+          "icon": "Support",
+          "title": "Assistance personnalisée",
+          "description": "Service d'accompagnement pour personnes âgées ou à mobilité réduite"
+        },
+        {
+          "icon": "DirectionsBus",
+          "title": "Transport privé",
+          "description": "Location de véhicules avec chauffeur pour vos déplacements spéciaux"
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.additional-services",
+      "title": "Additional Services",
+      "services": [
+        {
+          "icon": "Luggage",
+          "title": "Extra Luggage",
+          "description": "Luggage up to 50kg with additional fee (1,000 Ar/kg)"
+        },
+        {
+          "icon": "Support",
+          "title": "Personalized Assistance",
+          "description": "Escort service for elderly or mobility-impaired passengers"
+        },
+        {
+          "icon": "DirectionsBus",
+          "title": "Private Transport",
+          "description": "Vehicle rental with driver for your special trips"
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.additional-services",
+      "title": "Tolotra fanampiny",
+      "services": [
+        {
+          "icon": "Luggage",
+          "title": "Entana fanampiny",
+          "description": "Entana hatramin'ny 50kg miaraka amin'ny saram-panampiny (1 000 Ar/kg)"
+        },
+        {
+          "icon": "Support",
+          "title": "Fanampiana manokana",
+          "description": "Serivisy fiarahana ho an'ny zokiolona na olona manana fahasembanana"
+        },
+        {
+          "icon": "DirectionsBus",
+          "title": "Fitaterana manokana",
+          "description": "Fampanofana fiara miaraka amin'ny mpamily ho an'ny dianao manokana"
+        }
+      ]
+    }
+  }
+}

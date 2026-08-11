@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "route",
+  "info": {
+    "singularName": "route",
+    "pluralName": "routes",
+    "displayName": "Route"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "departureGare": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::gare.gare"
+    },
+    "arrivalGare": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::gare.gare"
+    },
+    "estimatedDurationHours": {
+      "type": "decimal"
+    },
+    "distanceKm": {
+      "type": "decimal"
+    },
+    "fraisTaxibrousse": {
+      "type": "decimal"
+    },
+    "fraisKoperative": {
+      "type": "decimal"
+    },
+    "description": {
+      "type": "text"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    },
+    "routeStops": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::route-stop.route-stop",
+      "mappedBy": "route"
+    },
+    "voyages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::voyage.voyage",
+      "mappedBy": "route"
+    }
+  }
+}

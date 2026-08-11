@@ -1,0 +1,118 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "@strapi/plugin-users-permissions": {
+      "name": "@strapi/plugin-users-permissions",
+      "severity": "low",
+      "isDirect": true,
+      "via": [
+        "grant",
+        "jwk-to-pem"
+      ],
+      "effects": [],
+      "range": "<=0.0.0-next.ffc36acb308febe288f1a31b62cbbb75b286585c || >=4.6.0-alpha.0",
+      "nodes": [
+        "node_modules/@strapi/plugin-users-permissions"
+      ],
+      "fixAvailable": {
+        "name": "@strapi/plugin-users-permissions",
+        "version": "4.5.6",
+        "isSemVerMajor": true
+      }
+    },
+    "elliptic": {
+      "name": "elliptic",
+      "severity": "low",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1112030,
+          "name": "elliptic",
+          "dependency": "elliptic",
+          "title": "Elliptic Uses a Cryptographic Primitive with a Risky Implementation",
+          "url": "https://github.com/advisories/GHSA-848j-6mx2-7j84",
+          "severity": "low",
+          "cwe": [
+            "CWE-1240"
+          ],
+          "cvss": {
+            "score": 5.6,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L"
+          },
+          "range": "<=6.6.1"
+        }
+      ],
+      "effects": [
+        "jwk-to-pem"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/elliptic"
+      ],
+      "fixAvailable": {
+        "name": "@strapi/plugin-users-permissions",
+        "version": "4.5.6",
+        "isSemVerMajor": true
+      }
+    },
+    "grant": {
+      "name": "grant",
+      "severity": "low",
+      "isDirect": false,
+      "via": [
+        "jwk-to-pem"
+      ],
+      "effects": [
+        "@strapi/plugin-users-permissions"
+      ],
+      "range": ">=5.1.0",
+      "nodes": [
+        "node_modules/grant"
+      ],
+      "fixAvailable": {
+        "name": "@strapi/plugin-users-permissions",
+        "version": "4.5.6",
+        "isSemVerMajor": true
+      }
+    },
+    "jwk-to-pem": {
+      "name": "jwk-to-pem",
+      "severity": "low",
+      "isDirect": false,
+      "via": [
+        "elliptic"
+      ],
+      "effects": [
+        "@strapi/plugin-users-permissions",
+        "grant"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/jwk-to-pem"
+      ],
+      "fixAvailable": {
+        "name": "@strapi/plugin-users-permissions",
+        "version": "4.5.6",
+        "isSemVerMajor": true
+      }
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 4,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 4
+    },
+    "dependencies": {
+      "prod": 1413,
+      "dev": 0,
+      "optional": 115,
+      "peer": 39,
+      "peerOptional": 0,
+      "total": 1566
+    }
+  }
+}

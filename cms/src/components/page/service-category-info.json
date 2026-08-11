@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_page_service_category_infos",
+  "info": {
+    "displayName": "Service Category Info",
+    "description": "Une catégorie de services avec icône et liste",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "icon": {
+      "type": "string",
+      "required": true,
+      "default": "Star"
+    },
+    "color": {
+      "type": "enumeration",
+      "enum": ["primary", "secondary", "success", "warning", "error", "info"],
+      "default": "primary",
+      "required": true
+    },
+    "services": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.service-category-item"
+    }
+  }
+}

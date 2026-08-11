@@ -1,0 +1,71 @@
+{
+  "collectionName": "components_page_call_to_actions",
+  "info": {
+    "displayName": "Appel à l'Action",
+    "description": "Section d'appel à l'action pour les pages dynamiques",
+    "icon": "cursor"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Prêt à réserver votre voyage ?",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 500,
+      "default": "Réservez dès maintenant et profitez de nos services de transport fiables à travers Madagascar.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "buttonText": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Réserver maintenant",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "buttonUrl": {
+      "type": "string",
+      "required": true,
+      "maxLength": 300,
+      "default": "/"
+    },
+    "buttonVariant": {
+      "type": "enumeration",
+      "enum": ["contained", "outlined", "text"],
+      "default": "contained"
+    },
+    "buttonColor": {
+      "type": "enumeration",
+      "enum": ["primary", "secondary", "success", "error", "warning", "info"],
+      "default": "primary"
+    },
+    "buttonIcon": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "DirectionsBus",
+      "description": "Material UI icon name (e.g., VerifiedUser, DirectionsBus)"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "background.paper",
+      "description": "Background color for the CTA section"
+    }
+  }
+}

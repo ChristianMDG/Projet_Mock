@@ -1,0 +1,65 @@
+{
+  "description": "Legal Content section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.legal-content",
+  "locales": {
+    "fr": {
+      "__component": "page.legal-content",
+      "title": "Conditions générales et informations légales",
+      "subtitle": "Veuillez lire attentivement ces conditions avant d'utiliser nos services de transport",
+      "sections": [
+        {
+          "title": "Conditions générales de transport",
+          "content": "**Article 1 - Acceptation des conditions**\nLes présentes conditions générales régissent l'utilisation des services de transport proposés par Taxibrousse Madagascar. En réservant un billet, le passager accepte sans réserve ces conditions.\n\n**Article 2 - Réservation et paiement**\nLa réservation peut être effectuée en ligne, par téléphone ou directement à la gare. Le paiement doit être effectué au moment de la réservation. Les billets sont nominatifs et non remboursables sauf conditions spécifiques d'annulation.\n\n**Article 3 - Obligations du transporteur**\nTaxibrousse s'engage à transporter le passager de la gare de départ à la gare d'arrivée dans les conditions de sécurité optimales. En cas de retard supérieur à 2 heures, le passager peut demander un report gratuit.\n\n**Article 4 - Obligations du passager**\nLe passager doit se présenter 30 minutes avant le départ avec une pièce d'identité valide. Il est responsable de ses bagages et doit respecter les limites de poids autorisées."
+        },
+        {
+          "title": "Politique de remboursement et d'annulation",
+          "content": "**Délais d'annulation**\n- Plus de 48 heures avant le départ : remboursement de 80% du prix du billet\n- Entre 24 et 48 heures : remboursement de 50%\n- Moins de 24 heures : aucun remboursement sauf assurance annulation\n\n**Procédure de remboursement**\nLes demandes de remboursement doivent être effectuées via votre compte en ligne ou par email à remboursements@taxibrousse.mg. Le délai de traitement est de 7 jours ouvrés.\n\n**Cas de force majeure**\nEn cas de conditions météorologiques extrêmes, de catastrophes naturelles ou de fermeture de routes par les autorités, Taxibrousse propose un report gratuit ou un remboursement intégral."
+        },
+        {
+          "title": "Responsabilité et couverture d'assurance",
+          "content": "**Assurance responsabilité civile**\nTous nos véhicules sont couverts par une assurance responsabilité civile obligatoire avec un plafond de 50 000 000 Ar pour les dommages corporels et matériels causés aux tiers.\n\n**Assurance tous risques**\nUne assurance tous risques complémentaire couvre les passagers en cas d'accident, avec une indemnisation jusqu'à 100 000 000 Ar par sinistre.\n\n**Limitation de responsabilité**\nTaxibrousse n'est pas responsable des retards causés par des événements extérieurs (conditions météorologiques, état des routes, contrôles routiers). La responsabilité pour les bagages est limitée à 500 000 Ar par passager."
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.legal-content",
+      "title": "General terms and legal information",
+      "subtitle": "Please read these terms carefully before using our transport services",
+      "sections": [
+        {
+          "title": "General transport conditions",
+          "content": "**Article 1 - Acceptance of conditions**\nThese general conditions govern the use of transport services offered by Taxibrousse Madagascar. By booking a ticket, the passenger accepts these conditions without reservation.\n\n**Article 2 - Booking and payment**\nBooking can be made online, by phone or directly at the station. Payment must be made at the time of booking. Tickets are nominative and non-refundable except under specific cancellation conditions.\n\n**Article 3 - Carrier obligations**\nTaxibrousse undertakes to transport the passenger from the departure station to the arrival station under optimal safety conditions. In case of delay exceeding 2 hours, the passenger may request a free rescheduling.\n\n**Article 4 - Passenger obligations**\nThe passenger must arrive 30 minutes before departure with valid identification. They are responsible for their luggage and must respect authorized weight limits."
+        },
+        {
+          "title": "Refund and cancellation policy",
+          "content": "**Cancellation deadlines**\n- More than 48 hours before departure: 80% refund of ticket price\n- Between 24 and 48 hours: 50% refund\n- Less than 24 hours: no refund except with cancellation insurance\n\n**Refund procedure**\nRefund requests must be made via your online account or by email to refunds@taxibrousse.mg. Processing time is 7 business days.\n\n**Force majeure**\nIn case of extreme weather conditions, natural disasters or road closures by authorities, Taxibrousse offers free rescheduling or full refund."
+        },
+        {
+          "title": "Liability and insurance coverage",
+          "content": "**Civil liability insurance**\nAll our vehicles are covered by mandatory civil liability insurance with a ceiling of 50,000,000 Ar for bodily injury and property damage caused to third parties.\n\n**Comprehensive insurance**\nAdditional comprehensive insurance covers passengers in case of accident, with compensation up to 100,000,000 Ar per claim.\n\n**Limitation of liability**\nTaxibrousse is not responsible for delays caused by external events (weather conditions, road conditions, road checks). Liability for luggage is limited to 500,000 Ar per passenger."
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.legal-content",
+      "title": "Fepetra ankapobeny sy fampahalalana ara-dalàna",
+      "subtitle": "Vakio tsara ireto fepetra ireto alohan'ny hampiasanao ny serivisy fitaterana anay",
+      "sections": [
+        {
+          "title": "Fepetra ankapoben'ny fitaterana",
+          "content": "**Andininy 1 - Fankatoavana ny fepetra**\nIreto fepetra ankapobeny ireto dia mifehy ny fampiasana ny serivisy fitaterana atolotry ny Taxibrousse Madagascar. Amin'ny famandrihana tapakila, ny mpandeha dia manaiky ireo fepetra ireo tsy misy fepetra.\n\n**Andininy 2 - Famandrihana sy fandoavana**\nNy famandrihana dia azo atao an-tserasera, amin'ny telefaonina na mivantana any amin'ny toeram-piantsonana. Ny fandoavana dia tsy maintsy atao amin'ny fotoanan'ny famandrihana. Ny tapakila dia nominatifa ary tsy averina afa-tsy amin'ny fepetra fanafoanan manokana.\n\n**Andininy 3 - Andraikitry ny mpitondra**\nTaxibrousse dia manolo-tena hitondra ny mpandeha avy any amin'ny toeram-piantsonana fiaingana mankany amin'ny toeram-piantsonana fahatongavana amin'ny fepetra fiarovana tsara indrindra. Raha misy fahatarana mihoatra ny 2 ora, ny mpandeha dia afaka mangataka famerenana maimaimpoana.\n\n**Andininy 4 - Andraikitry ny mpandeha**\nNy mpandeha dia tsy maintsy tonga 30 minitra mialohan'ny fiaingana miaraka amin'ny taratasy famantarana mety. Izy no tompon'andraikitry ny entany ary tsy maintsy manaja ny fetra lanja omena."
+        },
+        {
+          "title": "Politika famerenana sy fanafoanan",
+          "content": "**Fe-potoana fanafoanan**\n- Mihoatra ny 48 ora mialohan'ny fiaingana: famerenana 80% ny vidin'ny tapakila\n- Eo anelanelan'ny 24 sy 48 ora: famerenana 50%\n- Latsaky ny 24 ora: tsy misy famerenana afa-tsy misy fiantohana fanafoanan\n\n**Fomba famerenana**\nNy fangatahana famerenana dia tsy maintsy atao amin'ny alàlan'ny kaontinao an-tserasera na amin'ny mailaka ho any amin'ny remboursements@taxibrousse.mg. Ny fe-potoana fanodinana dia 7 andro fiasana.\n\n**Tranga tsy azo anoharana**\nRaha misy toe-trandro mahery vaika, loza voajanahary na fanakatonana làlana ataon'ny manampahefana, Taxibrousse dia manolotra famerenana maimaimpoana na famerenana feno."
+        },
+        {
+          "title": "Andraikitra sy fiarovana amin'ny fiantohana",
+          "content": "**Fiantohana andraikitra sivily**\nNy fiaranay rehetra dia voarakitra amin'ny fiantohana andraikitra sivily tsy maintsy atao miaraka amin'ny tafo 50 000 000 Ar ho an'ny ratra ara-batana sy ara-pitaovana ateraky ny hafa.\n\n**Fiantohana feno**\nNy fiantohana feno fanampiny dia miaro ny mpandeha raha misy loza, miaraka amin'ny fanonerana hatramin'ny 100 000 000 Ar isaky ny loza.\n\n**Famerana ny andraikitra**\nTaxibrousse dia tsy tompon'andraikitra amin'ny fahatarana ateraky ny zava-mitranga ivelany (toe-trandro, toe-dalana, fanamarinana an-dalana). Ny andraikitra amin'ny entana dia voafetra amin'ny 500 000 Ar isaky ny mpandeha."
+        }
+      ]
+    }
+  }
+}

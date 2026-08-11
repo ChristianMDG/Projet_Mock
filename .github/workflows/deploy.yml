@@ -1,0 +1,363 @@
+name: Deploy To Contabo Server
+
+on:
+  push:
+    branches:
+      - 'release/release-*'
+      - 'staging'
+      - 'dev'
+    tags:
+      - 'v*.*.*'
+      - 'release-*'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME_API: ${{ github.repository }}-api
+  IMAGE_NAME_CMS: ${{ github.repository }}-cms
+  IMAGE_NAME_FRONT: ${{ github.repository }}-front
+  IMAGE_NAME_DASHBOARD: ${{ github.repository }}-dashboard
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  # ── Step 1: Detect which services have changes ──
+  Detect-Changes:
+    runs-on: ubuntu-latest
+    outputs:
+      api: ${{ steps.filter.outputs.api }}
+      cms: ${{ steps.filter.outputs.cms }}
+      front: ${{ steps.filter.outputs.front }}
+      dashboard: ${{ steps.filter.outputs.dashboard }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            api:
+              - 'src/**'
+              - 'pom.xml'
+              - 'Dockerfile'
+            cms:
+              - 'cms/**'
+            front:
+              - 'front/**'
+            dashboard:
+              - 'dashboard/**'
+
+  # ── Step 2: Build only changed services ──
+  Build:
+    name: build-${{ matrix.service.name }}
+    needs: Detect-Changes
+    runs-on: ubuntu-latest
+    environment: taxibrousse
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - name: api
+            context: .
+            dockerfile: ./Dockerfile
+            image_env: IMAGE_NAME_API
+          - name: cms
+            context: ./cms
+            dockerfile: ./cms/Dockerfile
+            image_env: IMAGE_NAME_CMS
+          - name: front
+            context: ./front
+            dockerfile: ./front/Dockerfile
+            image_env: IMAGE_NAME_FRONT
+          - name: dashboard
+            context: ./dashboard
+            dockerfile: ./dashboard/Dockerfile
+            image_env: IMAGE_NAME_DASHBOARD
+
+    steps:
+    # Skip service if nothing changed (unless manual trigger)
+    - name: Check If Build Needed
+      id: check
+      run: |
+        CHANGED="${{ needs.Detect-Changes.outputs[matrix.service.name] }}"
+        if [ "${{ github.event_name }}" == "workflow_dispatch" ] || [ "$CHANGED" == "true" ]; then
+          echo "skip=false" >> $GITHUB_OUTPUT
+        else
+          echo "skip=true" >> $GITHUB_OUTPUT
+          echo "⏭️ Skipping ${{ matrix.service.name }} — no changes detected"
+        fi
+
+    - uses: actions/checkout@v4
+      if: steps.check.outputs.skip == 'false'
+
+    - uses: docker/setup-buildx-action@v3
+      if: steps.check.outputs.skip == 'false'
+
+    - uses: docker/login-action@v3
+      if: steps.check.outputs.skip == 'false'
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract Metadata
+      if: steps.check.outputs.skip == 'false'
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env[matrix.service.image_env] }}
+        tags: |
+          type=ref,event=branch,suffix=-{{sha}}
+          type=ref,event=pr
+          type=sha
+          type=raw,value=latest,enable={{is_default_branch}}
+        flavor: latest=auto
+
+    - name: Determine Build Args
+      if: steps.check.outputs.skip == 'false'
+      id: build-args
+      shell: bash
+      run: |
+        args=""
+        if [ "${{ matrix.service.name }}" == "front" ]; then
+          args=$(cat <<EOF
+        VITE_API_URL=https://${{ vars.DOMAIN_MAIN }}/api
+        VITE_CMS_API_URL=https://${{ vars.DOMAIN_CMS }}/api
+        VITE_CMS_API_KEY=${{ secrets.VITE_CMS_API_KEY }}
+        VITE_GOOGLE_CLIENT_ID=${{ vars.GOOGLE_CLIENT_ID }}
+        VITE_FACEBOOK_APP_ID=${{ vars.FACEBOOK_CLIENT_ID }}
+        VITE_DOMAIN_CMS=${{ vars.DOMAIN_CMS }}
+        EOF
+        )
+        elif [ "${{ matrix.service.name }}" == "dashboard" ]; then
+          args=$(cat <<EOF
+        VITE_API_URL=https://${{ vars.DOMAIN_MAIN }}/api
+        VITE_DOMAIN_MAIN=${{ vars.DOMAIN_MAIN }}
+        EOF
+        )
+        fi
+        echo "args<<EOF" >> $GITHUB_OUTPUT
+        echo "$args" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Build And Push Image
+      if: steps.check.outputs.skip == 'false'
+      uses: docker/build-push-action@v5
+      with:
+        context: ${{ matrix.service.context }}
+        file: ${{ matrix.service.dockerfile }}
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha,scope=${{ matrix.service.name }}
+        cache-to: type=gha,mode=max,scope=${{ matrix.service.name }}
+        build-args: ${{ steps.build-args.outputs.args }}
+
+  # ── Step 3: Deploy — pull & restart only changed services ──
+  Deploy:
+    needs: [Detect-Changes, Build]
+    if: always() && !failure() && !cancelled()
+    runs-on: self-hosted
+    environment: taxibrousse
+
+    steps:
+    - name: Show free disk space at start
+      run: df -h
+    - name: Remove old logs (tune this for your needs)
+      run: rm -rf /home/actions-runner/actions-runner/_diag/*
+
+    - uses: actions/checkout@v4
+
+    - uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract Metadata For Api
+      id: meta-api
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_API }}
+        tags: |
+          type=ref,event=branch,suffix=-{{sha}}
+          type=ref,event=pr
+          type=sha
+          type=raw,value=latest,enable={{is_default_branch}}
+        flavor: latest=auto
+
+    - name: Extract Metadata For CMS
+      id: meta-cms
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_CMS }}
+        tags: |
+          type=ref,event=branch,suffix=-{{sha}}
+          type=ref,event=pr
+          type=sha
+          type=raw,value=latest,enable={{is_default_branch}}
+        flavor: latest=auto
+
+    - name: Extract Metadata For Front
+      id: meta-front
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_FRONT }}
+        tags: |
+          type=ref,event=branch,suffix=-{{sha}}
+          type=ref,event=pr
+          type=sha
+          type=raw,value=latest,enable={{is_default_branch}}
+        flavor: latest=auto
+
+    - name: Extract Metadata For Dashboard
+      id: meta-dashboard
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_DASHBOARD }}
+        tags: |
+          type=ref,event=branch,suffix=-{{sha}}
+          type=ref,event=pr
+          type=sha
+          type=raw,value=latest,enable={{is_default_branch}}
+        flavor: latest=auto
+
+    - name: Set Image Tags
+      id: tags
+      run: |
+        echo "api=$(echo '${{ steps.meta-api.outputs.tags }}' | head -n1)" >> $GITHUB_OUTPUT
+        echo "cms=$(echo '${{ steps.meta-cms.outputs.tags }}' | head -n1)" >> $GITHUB_OUTPUT
+        echo "front=$(echo '${{ steps.meta-front.outputs.tags }}' | head -n1)" >> $GITHUB_OUTPUT
+        echo "dashboard=$(echo '${{ steps.meta-dashboard.outputs.tags }}' | head -n1)" >> $GITHUB_OUTPUT
+
+    - name: Prepare Deployment
+      run: |
+        mkdir -p /opt/taxibrousse
+        cp docker-compose.yml /opt/taxibrousse/docker-compose.yml
+        rsync -av --delete nginx/ /opt/taxibrousse/nginx/
+        rsync -av --delete kibana/ /opt/taxibrousse/kibana/
+        rsync -av --delete metricbeat/ /opt/taxibrousse/metricbeat/
+        rsync -av --delete logstash/ /opt/taxibrousse/logstash/
+
+    - name: Create Production Environment File
+      run: |
+        cat > /opt/taxibrousse/.env << EOF
+        POSTGRES_DB=taxibrousse
+        POSTGRES_USER=${{ vars.DATABASE_USERNAME }}
+        POSTGRES_PASSWORD="${{ secrets.DATABASE_PASSWORD }}"
+        DATABASE_URL="postgresql://postgres:${{ secrets.DATABASE_PASSWORD }}@postgres:5432/taxibrousse"
+        DATABASE_USERNAME=${{ vars.DATABASE_USERNAME }}
+        DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}"
+        SPRING_PROFILES_ACTIVE=production
+        JAVA_OPTS="-Xmx1536m -Xms768m -XX:+UseG1GC -XX:+UseStringDeduplication -XX:MaxGCPauseMillis=200 -Djava.security.egd=file:/dev/./urandom -server"
+        JVM_ARGS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+        SPRING_JPA_SHOW_SQL=false
+        SPRING_JPA_HIBERNATE_DDL_AUTO=update
+        SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=15
+        SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=5
+        SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT=300000
+        SPRING_DATASOURCE_HIKARI_MAX_LIFETIME=1800000
+        SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT=20000
+        LOGGING_LEVEL_MG_TAXIBROUSSE=INFO
+        LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=WARN
+        LOGGING_LEVEL_ORG_HIBERNATE=WARN
+        FACEBOOK_CLIENT_ID=${{ vars.FACEBOOK_CLIENT_ID }}
+        FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }}
+        GOOGLE_CLIENT_ID=${{ vars.GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+        TAXIBROUSSE_URL=https://${{ vars.DOMAIN_MAIN }}
+        REDIS_URL=redis://redis:6379
+        REDIS_TIMEOUT=${{ vars.REDIS_TIMEOUT }}
+        REDIS_POOL_MAX_ACTIVE=${{ vars.REDIS_POOL_MAX_ACTIVE }}
+        REDIS_POOL_MAX_IDLE=${{ vars.REDIS_POOL_MAX_IDLE }}
+        REDIS_POOL_MIN_IDLE=${{ vars.REDIS_POOL_MIN_IDLE }}
+        MVOLA_CLIENT_ID=${{ secrets.MVOLA_CLIENT_ID }}
+        MVOLA_CLIENT_SECRET=${{ secrets.MVOLA_CLIENT_SECRET }}
+        MVOLA_BASE_URL=${{ vars.MVOLA_BASE_URL }}
+        MVOLA_PARTNER_NAME=${{ vars.MVOLA_PARTNER_NAME }}
+        MVOLA_USER_ACCOUNT_MSISDN=${{ vars.MVOLA_USER_ACCOUNT_MSISDN }}
+        MVOLA_CREDIT_PARTY_MSISDN=${{ vars.MVOLA_CREDIT_PARTY_MSISDN }}
+        AIRTELMONEY_CLIENT_ID=${{ secrets.AIRTELMONEY_CLIENT_ID }}
+        AIRTELMONEY_CLIENT_SECRET=${{ secrets.AIRTELMONEY_CLIENT_SECRET }}
+        AIRTELMONEY_BASE_URL=${{ vars.AIRTELMONEY_BASE_URL }}
+        AIRTELMONEY_PARTNER_NAME=${{ vars.AIRTELMONEY_PARTNER_NAME }}
+        ORANGEMONEY_CLIENT_ID=${{ secrets.ORANGEMONEY_CLIENT_ID }}
+        ORANGEMONEY_CLIENT_SECRET=${{ secrets.ORANGEMONEY_CLIENT_SECRET }}
+        ORANGEMONEY_MERCHANT_KEY=${{ secrets.ORANGEMONEY_MERCHANT_KEY }}
+        CMS_HOST=0.0.0.0
+        CMS_PORT=1337
+        CMS_APP_KEYS="${{ secrets.CMS_APP_KEYS }}"
+        CMS_API_TOKEN_SALT=${{ secrets.CMS_API_TOKEN_SALT }}
+        CMS_ADMIN_JWT_SECRET=${{ secrets.CMS_ADMIN_JWT_SECRET }}
+        CMS_TRANSFER_TOKEN_SALT=${{ secrets.CMS_TRANSFER_TOKEN_SALT }}
+        CMS_JWT_SECRET=${{ secrets.CMS_JWT_SECRET }}
+        URL=https://${{ vars.DOMAIN_CMS }}
+        PUBLIC_URL=https://${{ vars.DOMAIN_CMS }}
+        DATABASE_CLIENT=postgres
+        DATABASE_HOST=postgres
+        DATABASE_PORT=5432
+        DATABASE_NAME=taxibrousse
+        CLOUDINARY_NAME=${{ vars.CLOUDINARY_NAME }}
+        CLOUDINARY_KEY=${{ vars.CLOUDINARY_KEY }}
+        CLOUDINARY_SECRET="${{ secrets.CLOUDINARY_SECRET }}"
+        VITE_API_URL=${{ vars.VITE_API_URL }}
+        VITE_CMS_API_URL=${{ vars.VITE_CMS_API_URL }}
+        VITE_CMS_API_KEY="${{ secrets.VITE_CMS_API_KEY }}"
+        API_IMAGE="${{ steps.tags.outputs.api }}"
+        CMS_IMAGE="${{ steps.tags.outputs.cms }}"
+        FRONT_IMAGE="${{ steps.tags.outputs.front }}"
+        DASHBOARD_IMAGE="${{ steps.tags.outputs.dashboard }}"
+        DOMAIN_MAIN=${{ vars.DOMAIN_MAIN }}
+        DOMAIN_CMS=${{ vars.DOMAIN_CMS }}
+        MAVEN_OPTS=-Xmx2048m
+        NODE_OPTIONS=--max-old-space-size=2048
+        NODE_ENV=production
+        PORT=8080
+        ELASTICSEARCH_PASSWORD=${{ secrets.ELASTICSEARCH_PASSWORD }}
+        KIBANA_SYSTEM_PASSWORD=${{ secrets.KIBANA_SYSTEM_PASSWORD }}
+        KIBANA_ENCRYPTION_KEY=${{ secrets.KIBANA_ENCRYPTION_KEY }}
+        KIBANA_PUBLIC_URL=https://${{ vars.DOMAIN_KIBANA }}
+        LOGSTASH_HOST=logstash
+        LOGSTASH_PORT=5000
+        EOF
+
+    - name: Pull And Restart Changed Services
+      run: |
+        cd /opt/taxibrousse
+        SERVICES=""
+        MANUAL="${{ github.event_name == 'workflow_dispatch' }}"
+
+        if [ "$MANUAL" == "true" ] || [ "${{ needs.Detect-Changes.outputs.api }}" == "true" ]; then
+          docker pull "${{ steps.tags.outputs.api }}" && SERVICES="$SERVICES api"
+        fi
+        if [ "$MANUAL" == "true" ] || [ "${{ needs.Detect-Changes.outputs.cms }}" == "true" ]; then
+          docker pull "${{ steps.tags.outputs.cms }}" && SERVICES="$SERVICES cms"
+        fi
+        if [ "$MANUAL" == "true" ] || [ "${{ needs.Detect-Changes.outputs.front }}" == "true" ]; then
+          docker pull "${{ steps.tags.outputs.front }}" && SERVICES="$SERVICES front"
+        fi
+        if [ "$MANUAL" == "true" ] || [ "${{ needs.Detect-Changes.outputs.dashboard }}" == "true" ]; then
+          docker pull "${{ steps.tags.outputs.dashboard }}" && SERVICES="$SERVICES dashboard"
+        fi
+
+        if [ -n "$SERVICES" ]; then
+          echo "Restarting services:$SERVICES"
+          docker compose up -d --no-deps --wait $SERVICES
+        fi
+
+        # Always reload nginx to pick up any config changes and new container IPs
+        docker compose exec -T nginx nginx -s reload
+
+    - name: Health Check
+      run: |
+        sleep 30
+        cd /opt/taxibrousse
+        docker compose ps
+

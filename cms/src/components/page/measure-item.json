@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_page_measure_items",
+  "info": {
+    "displayName": "Élément Mesure",
+    "description": "Élément de mesure de sécurité individuel",
+    "icon": "check"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "default": "Shield",
+      "description": "Material UI icon name (e.g., DirectionsBus, Person, Build, Shield)"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Véhicules contrôlés",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500,
+      "default": "Tous nos véhicules subissent des contrôles techniques réguliers pour garantir votre sécurité.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

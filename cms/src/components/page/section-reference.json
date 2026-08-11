@@ -1,0 +1,80 @@
+{
+  "collectionName": "components_page_section_references",
+  "info": {
+    "displayName": "Référence de Section",
+    "description": "Référence vers des sections réutilisables",
+    "icon": "link"
+  },
+  "options": {
+    "mainField": "sectionTitle"
+  },
+  "attributes": {
+    "sectionTitle": {
+      "type": "enumeration",
+      "enum": [
+        "Safety Measures",
+        "Insurance Coverage",
+        "Safety Tips",
+        "Emergency Contacts",
+        "FAQ Section",
+        "About Us Section",
+        "Popular Routes",
+        "Current Promotions",
+        "Help Center Section",
+        "Service Types",
+        "Contact Section",
+        "Legal Content",
+        "Destinations Grid",
+        "Popular Destinations",
+        "Customer Testimonials",
+        "Why Choose Us",
+        "Promotional Content",
+        "Statistics Section",
+        "Network Section",
+        "Mission Section",
+        "Values Section",
+        "Booking Rules",
+        "Additional Info",
+        "Service Categories",
+        "Loyalty Program",
+        "Additional Services"
+      ],
+      "required": true,
+      "default": "Statistics Section",
+      "description": "Titre pour identifier cette section dans l'interface"
+    },
+    "sectionType": {
+      "type": "enumeration",
+      "enum": [
+        "page.safety-measures",
+        "page.insurance-coverage",
+        "page.safety-tips",
+        "page.emergency-contacts",
+        "page.faq-section",
+        "page.about-us-section",
+        "page.popular-routes",
+        "page.current-promotions",
+        "page.help-center-section",
+        "page.service-types",
+        "page.contact-section",
+        "page.legal-content",
+        "page.destinations-grid",
+        "page.popular-destinations",
+        "page.customer-testimonials",
+        "page.why-choose-us",
+        "page.promotional-content",
+        "page.statistics-section",
+        "page.network-section",
+        "page.mission-section",
+        "page.values-section",
+        "page.booking-rules",
+        "page.additional-info",
+        "page.service-categories",
+        "page.loyalty-program",
+        "page.additional-services"
+      ],
+      "required": true,
+      "default": "page.statistics-section"
+    }
+  }
+}

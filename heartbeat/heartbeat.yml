@@ -1,0 +1,162 @@
+# =============================================================================
+# Heartbeat Configuration - Uptime & Service Monitoring
+# =============================================================================
+
+# =============================================================================
+# HTTP Monitors - Application Health Checks
+# =============================================================================
+heartbeat.monitors:
+  # Spring Boot API
+  - type: http
+    id: taxibrousse-api
+    name: "TaxiBrousse API"
+    schedule: "@every 30s"
+    hosts: ["http://api:8080/actuator/health"]
+    check.request.method: GET
+    check.response.status: [200]
+    timeout: 10s
+    tags: ["api", "backend", "critical"]
+
+  # React Frontend
+  - type: http
+    id: taxibrousse-front
+    name: "TaxiBrousse Frontend"
+    schedule: "@every 30s"
+    hosts: ["http://front:3000/health"]
+    check.request.method: GET
+    check.response.status: [200]
+    timeout: 10s
+    tags: ["frontend", "critical"]
+
+  # Strapi CMS
+  - type: http
+    id: taxibrousse-cms
+    name: "TaxiBrousse CMS"
+    schedule: "@every 30s"
+    hosts: ["http://cms:1337/_health"]
+    check.request.method: GET
+    check.response.status: [200, 204]
+    timeout: 10s
+    tags: ["cms", "backend"]
+
+  # Dashboard
+  - type: http
+    id: taxibrousse-dashboard
+    name: "TaxiBrousse Dashboard"
+    schedule: "@every 30s"
+    hosts: ["http://dashboard:3001/health.json"]
+    check.request.method: GET
+    check.response.status: [200]
+    timeout: 10s
+    tags: ["dashboard", "frontend"]
+
+  # Nginx Reverse Proxy
+  - type: http
+    id: taxibrousse-nginx
+    name: "Nginx Proxy"
+    schedule: "@every 30s"
+    hosts: ["http://nginx:80/health"]
+    check.request.method: GET
+    check.response.status: [200]
+    timeout: 10s
+    tags: ["nginx", "proxy", "critical"]
+
+  # Kibana
+  - type: http
+    id: taxibrousse-kibana
+    name: "Kibana"
+    schedule: "@every 60s"
+    hosts: ["http://kibana:5601/api/status"]
+    check.request.method: GET
+    check.response.status: [200]
+    timeout: 15s
+    tags: ["elk", "monitoring"]
+
+  # Elasticsearch
+  - type: http
+    id: taxibrousse-elasticsearch
+    name: "Elasticsearch"
+    schedule: "@every 30s"
+    hosts: ["http://elasticsearch:9200"]
+    check.request.method: GET
+    check.response.status: [200]
+    timeout: 10s
+    tags: ["elk", "critical"]
+
+# =============================================================================
+# TCP Monitors - Database & Cache
+# =============================================================================
+  # PostgreSQL
+  - type: tcp
+    id: taxibrousse-postgres
+    name: "PostgreSQL Database"
+    schedule: "@every 60s"
+    hosts: ["postgres:5432"]
+    timeout: 10s
+    tags: ["database", "critical"]
+
+  # Redis
+  - type: tcp
+    id: taxibrousse-redis
+    name: "Redis Cache"
+    schedule: "@every 60s"
+    hosts: ["redis:6379"]
+    timeout: 10s
+    tags: ["cache", "critical"]
+
+  # Logstash
+  - type: tcp
+    id: taxibrousse-logstash
+    name: "Logstash Pipeline"
+    schedule: "@every 60s"
+    hosts: ["logstash:5044"]
+    timeout: 10s
+    tags: ["elk", "logging"]
+
+# =============================================================================
+# Processors
+# =============================================================================
+processors:
+  - add_host_metadata:
+      netinfo.enabled: false
+  - add_fields:
+      target: ""
+      fields:
+        environment: production
+        project: taxibrousse
+
+# =============================================================================
+# Output - Direct to Elasticsearch
+# =============================================================================
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+
+# =============================================================================
+# Kibana - For dashboard loading
+# =============================================================================
+setup.kibana:
+  host: "http://kibana:5601"
+
+setup.dashboards.enabled: false
+
+# =============================================================================
+# Index Lifecycle Management
+# =============================================================================
+setup.ilm.enabled: false
+setup.template.enabled: true
+setup.template.name: "heartbeat"
+setup.template.pattern: "heartbeat-*"
+
+# =============================================================================
+# Logging
+# =============================================================================
+name: taxibrousse-heartbeat
+tags: ["uptime", "monitoring", "observability"]
+
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: /var/log/heartbeat
+  name: heartbeat
+  keepfiles: 7
+  permissions: 0644

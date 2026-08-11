@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_page_destinations_grids",
+  "info": {
+    "displayName": "Grille de Destinations",
+    "description": "Grille de destinations avec détails",
+    "icon": "pinMap"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Destinations populaires",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "text",
+      "maxLength": 500,
+      "default": "Découvrez toutes nos destinations à travers Madagascar avec plus de 50 villes desservies quotidiennement",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "destinations": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.destination-item"
+    }
+  }
+}

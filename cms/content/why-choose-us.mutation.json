@@ -1,0 +1,260 @@
+{
+  "description": "Why Choose Us section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.why-choose-us",
+  "locales": {
+    "fr": {
+      "__component": "page.why-choose-us",
+      "title": "Pourquoi choisir Taxibrousse ?",
+      "subtitle": "Votre partenaire de confiance pour vos déplacements à Madagascar",
+      "showStatistics": true,
+      "backgroundColor": "background.paper",
+      "containerMaxWidth": "xl",
+      "features": [
+        {
+          "title": "Sécurité maximale",
+          "description": "Tous nos véhicules sont régulièrement contrôlés et nos chauffeurs sont formés aux normes de sécurité routière les plus strictes. Votre sécurité est notre priorité absolue.",
+          "icon": "Shield",
+          "color": "primary.main"
+        },
+        {
+          "title": "Réservation en ligne facile",
+          "description": "Réservez vos billets en quelques clics depuis votre smartphone ou ordinateur. Paiement sécurisé par Mobile Money ou carte bancaire. Recevez votre billet par SMS et email.",
+          "icon": "Schedule",
+          "color": "secondary.main"
+        },
+        {
+          "title": "Tarifs transparents",
+          "description": "Pas de frais cachés ! Les prix affichés incluent déjà l'assurance et les taxes. Profitez de nos promotions régulières et de notre programme de fidélité.",
+          "icon": "LocalOffer",
+          "color": "success.main"
+        },
+        {
+          "title": "Réseau national étendu",
+          "description": "Plus de 50 destinations desservies quotidiennement dans tout Madagascar. Des liaisons directes vers les grandes villes et les sites touristiques majeurs.",
+          "icon": "Build",
+          "color": "info.main"
+        },
+        {
+          "title": "Assistance 24/7",
+          "description": "Notre équipe est disponible jour et nuit pour répondre à vos questions et gérer toute situation d'urgence. Contactez-nous par téléphone, WhatsApp ou email.",
+          "icon": "SupportAgent",
+          "color": "warning.main"
+        },
+        {
+          "title": "Confort à bord",
+          "description": "Choisissez parmi 3 classes de confort : Standard, Confort ou VIP. Sièges ergonomiques, climatisation, prises USB et Wi-Fi selon la classe choisie.",
+          "icon": "Star",
+          "color": "error.main"
+        },
+        {
+          "title": "Ponctualité garantie",
+          "description": "95% de nos départs sont à l'heure. En cas de retard exceptionnel, vous êtes informé par SMS et pouvez reporter votre voyage gratuitement.",
+          "icon": "Speed",
+          "color": "primary.dark"
+        },
+        {
+          "title": "Engagement écologique",
+          "description": "Flotte moderne aux normes Euro 4, programme de compensation carbone, et initiatives pour réduire notre empreinte environnementale à chaque trajet.",
+          "icon": "Eco",
+          "color": "success.dark"
+        }
+      ],
+      "statistics": [
+        {
+          "value": "50000+",
+          "label": "Passagers transportés par mois",
+          "color": "primary.main",
+          "icon": "Groups"
+        },
+        {
+          "value": "50+",
+          "label": "Destinations desservies",
+          "color": "secondary.main",
+          "icon": "LocationOn"
+        },
+        {
+          "value": "95%",
+          "label": "Taux de ponctualité",
+          "color": "success.main",
+          "icon": "Speed"
+        },
+        {
+          "value": "4.7/5",
+          "label": "Note de satisfaction",
+          "color": "warning.main",
+          "icon": "Star"
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.why-choose-us",
+      "title": "Why choose Taxibrousse?",
+      "subtitle": "Your trusted partner for travel in Madagascar",
+      "showStatistics": true,
+      "backgroundColor": "background.paper",
+      "containerMaxWidth": "xl",
+      "features": [
+        {
+          "title": "Maximum safety",
+          "description": "All our vehicles are regularly inspected and our drivers are trained to the strictest road safety standards. Your safety is our absolute priority.",
+          "icon": "Shield",
+          "color": "primary.main"
+        },
+        {
+          "title": "Easy online booking",
+          "description": "Book your tickets in a few clicks from your smartphone or computer. Secure payment via Mobile Money or credit card. Receive your ticket by SMS and email.",
+          "icon": "Schedule",
+          "color": "secondary.main"
+        },
+        {
+          "title": "Transparent rates",
+          "description": "No hidden fees! Displayed prices already include insurance and taxes. Enjoy our regular promotions and loyalty program.",
+          "icon": "LocalOffer",
+          "color": "success.main"
+        },
+        {
+          "title": "Extensive national network",
+          "description": "More than 50 destinations served daily throughout Madagascar. Direct connections to major cities and tourist sites.",
+          "icon": "Build",
+          "color": "info.main"
+        },
+        {
+          "title": "24/7 assistance",
+          "description": "Our team is available day and night to answer your questions and handle any emergency. Contact us by phone, WhatsApp or email.",
+          "icon": "SupportAgent",
+          "color": "warning.main"
+        },
+        {
+          "title": "Onboard comfort",
+          "description": "Choose from 3 comfort classes: Standard, Comfort or VIP. Ergonomic seats, air conditioning, USB ports and Wi-Fi depending on the class chosen.",
+          "icon": "Star",
+          "color": "error.main"
+        },
+        {
+          "title": "Guaranteed punctuality",
+          "description": "95% of our departures are on time. In case of exceptional delay, you are notified by SMS and can reschedule your trip for free.",
+          "icon": "Speed",
+          "color": "primary.dark"
+        },
+        {
+          "title": "Ecological commitment",
+          "description": "Modern Euro 4 compliant fleet, carbon offset program, and initiatives to reduce our environmental footprint on every trip.",
+          "icon": "Eco",
+          "color": "success.dark"
+        }
+      ],
+      "statistics": [
+        {
+          "value": "50000+",
+          "label": "Passengers transported per month",
+          "color": "primary.main",
+          "icon": "Groups"
+        },
+        {
+          "value": "50+",
+          "label": "Destinations served",
+          "color": "secondary.main",
+          "icon": "LocationOn"
+        },
+        {
+          "value": "95%",
+          "label": "Punctuality rate",
+          "color": "success.main",
+          "icon": "Speed"
+        },
+        {
+          "value": "4.7/5",
+          "label": "Satisfaction rating",
+          "color": "warning.main",
+          "icon": "Star"
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.why-choose-us",
+      "title": "Nahoana no hifidy an'i Taxibrousse?",
+      "subtitle": "Ny mpiara-miasa azo itokisana ho an'ny fivezivezena anao any Madagasikara",
+      "showStatistics": true,
+      "backgroundColor": "background.paper",
+      "containerMaxWidth": "xl",
+      "features": [
+        {
+          "title": "Fiarovana ambony indrindra",
+          "description": "Ny fiaranay rehetra dia voasava matetika ary ny mpamily anay dia voaofana amin'ny fenitra fiarovana an-dalana hentitra indrindra. Ny fiarovana anao no laharam-pahamehana tanteraka.",
+          "icon": "Shield",
+          "color": "primary.main"
+        },
+        {
+          "title": "Famandrihana an-tserasera mora",
+          "description": "Mandehana tapakila amin'ny kili-bokotra vitsivitsy avy amin'ny finday manan-tsaina na solosaina. Fandoavana azo antoka amin'ny alàlan'ny Mobile Money na karatra banky. Mahazo ny tapakilanao amin'ny SMS sy mailaka.",
+          "icon": "Schedule",
+          "color": "secondary.main"
+        },
+        {
+          "title": "Sanda mazava",
+          "description": "Tsy misy saram-bola miafina! Ny vidiny aseho dia misy ny fiantohana sy ny hetra rahateo. Aoka hahita tombony amin'ny fampihenam-bidy matetika sy ny programa mahatoky.",
+          "icon": "LocalOffer",
+          "color": "success.main"
+        },
+        {
+          "title": "Tambajotra nasionaly midadasika",
+          "description": "Toerana mihoatra ny 50 tompoina isan'andro manerana an'i Madagasikara. Fifandraisana mivantana mankany amin'ny tanàn-dehibe sy ny toerana fizahan-tany lehibe.",
+          "icon": "Build",
+          "color": "info.main"
+        },
+        {
+          "title": "Fanampiana 24/7",
+          "description": "Ny ekipanay dia misy andro aman'alina hamaly ny fanontanianao sy hitantana ny toe-javatra maika rehetra. Mifandraisa aminay amin'ny telefaonina, WhatsApp na mailaka.",
+          "icon": "SupportAgent",
+          "color": "warning.main"
+        },
+        {
+          "title": "Fahazoana aina anaty fiara",
+          "description": "Safidio amin'ny kilasy 3 ho an'ny fahazoana aina: Standard, Confort na VIP. Seza ergonomic, famangatsiahana, faka USB sy Wi-Fi arakaraka ny kilasy nofidinao.",
+          "icon": "Star",
+          "color": "error.main"
+        },
+        {
+          "title": "Fiaingana ara-potoana azo antoka",
+          "description": "95% ny fiaingana anay dia ara-potoana. Raha misy fahatarana tsy mahazatra, ampahafantarina amin'ny SMS ianao ary afaka mamerina ny dianao maimaimpoana.",
+          "icon": "Speed",
+          "color": "primary.dark"
+        },
+        {
+          "title": "Fanoloran-tena ara-tontolo iainana",
+          "description": "Andiana fiara maoderina mifanaraka amin'ny Euro 4, programa fanarenana karbaona, ary hetsika hampihenana ny dian-tongotray ara-tontolo iainana isaky ny dia.",
+          "icon": "Eco",
+          "color": "success.dark"
+        }
+      ],
+      "statistics": [
+        {
+          "value": "50000+",
+          "label": "Mpandeha fitaterana isam-bolana",
+          "color": "primary.main",
+          "icon": "Groups"
+        },
+        {
+          "value": "50+",
+          "label": "Toerana tompoina",
+          "color": "secondary.main",
+          "icon": "LocationOn"
+        },
+        {
+          "value": "95%",
+          "label": "Tahan'ny fiaingana ara-potoana",
+          "color": "success.main",
+          "icon": "Speed"
+        },
+        {
+          "value": "4.7/5",
+          "label": "Sanda fahafaham-po",
+          "color": "warning.main",
+          "icon": "Star"
+        }
+      ]
+    }
+  }
+}

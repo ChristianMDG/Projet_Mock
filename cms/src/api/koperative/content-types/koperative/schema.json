@@ -1,0 +1,103 @@
+{
+  "kind": "collectionType",
+  "collectionName": "koperatives",
+  "info": {
+    "singularName": "koperative",
+    "pluralName": "koperatives",
+    "displayName": "Koperative"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "address": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "phone": {
+      "type": "string",
+      "maxLength": 20
+    },
+    "email": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "registrationNumber": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "taxId": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "website": {
+      "type": "string"
+    },
+    "logoUrl": {
+      "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "ACTIVE",
+        "CONFIRMED",
+        "INACTIVE",
+        "SUSPENDED"
+      ],
+      "default": "ACTIVE",
+      "required": true
+    },
+    "proprietaireId": {
+      "type": "integer"
+    },
+    "guichets": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::guichet.guichet",
+      "mappedBy": "koperative"
+    },
+    "crafters": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::crafter.crafter",
+      "mappedBy": "koperative"
+    },
+    "chauffeurs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::chauffeur.chauffeur",
+      "mappedBy": "koperative"
+    },
+    "contrats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::contrat.contrat",
+      "mappedBy": "koperative"
+    },
+    "voyages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::voyage.voyage",
+      "mappedBy": "koperative"
+    },
+    "villes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::ville.ville"
+    },
+    "classes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::classe.classe",
+      "mappedBy": "koperative"
+    }
+  }
+}

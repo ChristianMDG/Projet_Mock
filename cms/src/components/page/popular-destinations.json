@@ -1,0 +1,52 @@
+{
+  "collectionName": "components_page_popular_destinations",
+  "info": {
+    "displayName": "Destinations Populaires",
+    "description": "Section présentant les destinations les plus populaires avec cartes visuelles",
+    "icon": "pinMap"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Destinations populaires",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "Découvrez les destinations les plus demandées par nos voyageurs",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "destinations": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.destination-item",
+      "required": true,
+      "min": 1,
+      "max": 6
+    },
+    "backgroundColor": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "background.default",
+      "description": "Section background color (ex: background.paper, primary.50)"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg",
+      "description": "Container maximum width"
+    }
+  }
+}

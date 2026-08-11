@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_page_network_sections",
+  "info": {
+    "displayName": "Section Réseau",
+    "description": "Affichage du réseau de l'entreprise par régions",
+    "icon": "manyWays"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Notre Réseau",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "default": "Avec plus de 50 destinations desservies quotidiennement, Taxibrousse relie Antananarivo aux principales villes de Madagascar et dessert les régions les plus reculées de l'île.",
+      "required": true
+    },
+    "regions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.region-item"
+    }
+  }
+}

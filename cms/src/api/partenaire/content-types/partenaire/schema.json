@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "partenaire",
+  "info": {
+    "singularName": "partenaire",
+    "pluralName": "partenaires",
+    "displayName": "Partenaire"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["HOTEL", "MAINTENANCE_PROVIDER", "MARKETING_AGENCY", "INSURANCE_PROVIDER", "FUEL_STATION", "OTHER"],
+      "required": true
+    },
+    "contactPerson": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "phone": {
+      "type": "string",
+      "maxLength": 20
+    },
+    "email": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "address": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    },
+    "contrats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::contrat.contrat",
+      "mappedBy": "partenaire"
+    }
+  }
+}

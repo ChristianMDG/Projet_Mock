@@ -1,0 +1,58 @@
+{
+  "collectionName": "components_page_customer_testimonials",
+  "info": {
+    "displayName": "Témoignages Clients",
+    "description": "Section affichant les avis et témoignages clients avec notes",
+    "icon": "quote"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Ce que disent nos voyageurs",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "Des milliers de Malgaches nous font confiance chaque jour",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "testimonials": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.testimonial-item",
+      "required": true,
+      "min": 1,
+      "max": 12
+    },
+    "overallRating": {
+      "type": "component",
+      "repeatable": false,
+      "component": "page.overall-rating",
+      "required": false
+    },
+    "backgroundColor": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "background.paper",
+      "description": "Section background color"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg",
+      "description": "Container maximum width"
+    }
+  }
+}

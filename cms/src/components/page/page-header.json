@@ -1,0 +1,69 @@
+{
+  "collectionName": "components_page_page_headers",
+  "info": {
+    "displayName": "En-tête de Page",
+    "description": "Section d'en-tête pour les pages dynamiques",
+    "icon": "write"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Bienvenue chez Taxibrousse",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 500,
+      "default": "Votre plateforme de transport fiable à Madagascar",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "alertType": {
+      "type": "enumeration",
+      "enum": ["info", "success", "warning", "error"],
+      "default": "info"
+    },
+    "alertTitle": {
+      "type": "string",
+      "maxLength": 100,
+      "default": "Information importante",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "alertMessage": {
+      "type": "text",
+      "maxLength": 500,
+      "default": "Nous vous rappelons de respecter les consignes de sécurité durant votre voyage.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "minLength": 10,
+      "maxLength": 255,
+      "required": true,
+      "default": "Découvrez notre plateforme de réservation en ligne pour tous vos déplacements à travers Madagascar."
+    }
+  }
+}

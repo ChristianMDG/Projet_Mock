@@ -1,0 +1,48 @@
+{
+  "collectionName": "components_page_benefits_showcases",
+  "info": {
+    "displayName": "Benefits Showcase",
+    "description": "Présentation des avantages clés du service",
+    "icon": "star"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "benefits": {
+      "type": "component",
+      "repeatable": true,
+      "required": true,
+      "component": "page.benefit-item"
+    },
+    "layout": {
+      "type": "enumeration",
+      "enum": ["grid", "carousel", "list"],
+      "default": "grid"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_page_popular_routes",
+  "info": {
+    "displayName": "Routes Populaires",
+    "description": "Section tableau des routes populaires",
+    "icon": "pinMap"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Routes populaires",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "routes": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.route-item"
+    },
+    "disclaimer": {
+      "type": "text",
+      "maxLength": 500,
+      "default": "Les prix peuvent varier selon la période et la disponibilité. Réservez à l'avance pour bénéficier des meilleurs tarifs.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

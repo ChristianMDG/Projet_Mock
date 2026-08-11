@@ -1,0 +1,54 @@
+{
+  "collectionName": "components_page_benefit_items",
+  "info": {
+    "displayName": "Benefit Item",
+    "description": "Un avantage individuel",
+    "icon": "check-circle"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "string",
+      "required": true,
+      "default": "CheckCircle"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "link": {
+      "type": "string"
+    },
+    "linkText": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "highlighted": {
+      "type": "boolean",
+      "default": false
+    },
+    "color": {
+      "type": "enumeration",
+      "enum": ["primary", "secondary", "success", "warning", "info"],
+      "default": "primary"
+    }
+  }
+}

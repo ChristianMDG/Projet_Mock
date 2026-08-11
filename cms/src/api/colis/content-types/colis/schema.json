@@ -1,0 +1,76 @@
+{
+  "kind": "collectionType",
+  "collectionName": "colis",
+  "info": {
+    "singularName": "colis",
+    "pluralName": "colis-entries",
+    "displayName": "Colis"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "senderName": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "senderPhone": {
+      "type": "string",
+      "required": true,
+      "maxLength": 20
+    },
+    "recipientName": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "recipientPhone": {
+      "type": "string",
+      "required": true,
+      "maxLength": 20
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["DOCUMENT", "FRAGILE", "PERISHABLE", "STANDARD", "VALUABLE", "OTHER"]
+    },
+    "content": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "estimatedValue": {
+      "type": "decimal"
+    },
+    "weight": {
+      "type": "decimal"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["REGISTERED", "PENDING", "IN_TRANSIT", "DELIVERED", "RETURNED", "LOST", "CANCELLED"],
+      "default": "REGISTERED",
+      "required": true
+    },
+    "crafter": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::crafter.crafter"
+    },
+    "reservation": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::reservation.reservation"
+    },
+    "voyage": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::voyage.voyage"
+    }
+  }
+}

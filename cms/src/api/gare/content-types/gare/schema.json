@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "gare",
+  "info": {
+    "singularName": "gare",
+    "pluralName": "gares",
+    "displayName": "Gare"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "address": {
+      "type": "string",
+      "maxLength": 150
+    },
+    "ville": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::ville.ville",
+      "inversedBy": "gares"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 150
+    },
+    "isClosed": {
+      "type": "boolean",
+      "default": false
+    },
+    "frequence": {
+      "type": "integer",
+      "default": 0
+    },
+    "guichets": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::guichet.guichet",
+      "mappedBy": "gare"
+    }
+  }
+}

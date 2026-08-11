@@ -1,0 +1,116 @@
+{
+  "description": "Values Section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.values-section",
+  "locales": {
+    "fr": {
+      "__component": "page.values-section",
+      "title": "Nos valeurs fondamentales",
+      "values": [
+        {
+          "title": "Excellence du service",
+          "description": "Nous nous engageons à fournir un service de transport de la plus haute qualité. Chaque aspect de notre opération, de la réservation à l'arrivée, est conçu pour offrir une expérience client exceptionnelle. Nous investissons continuellement dans la formation de notre personnel et l'amélioration de nos processus.",
+          "icon": "Star"
+        },
+        {
+          "title": "Sécurité absolue",
+          "description": "La sécurité de nos passagers est notre priorité numéro un, sans compromis. Tous nos véhicules sont rigoureusement inspectés, nos chauffeurs sont formés aux plus hautes normes de sécurité routière, et nous appliquons des protocoles stricts de maintenance préventive.",
+          "icon": "Security"
+        },
+        {
+          "title": "Intégrité et transparence",
+          "description": "Nous opérons avec la plus grande honnêteté envers nos clients. Nos tarifs sont clairs et sans frais cachés. Nous communiquons ouvertement sur nos politiques, nos horaires et nos services. La confiance de nos passagers est notre actif le plus précieux.",
+          "icon": "Verified"
+        },
+        {
+          "title": "Respect de l'environnement",
+          "description": "Nous reconnaissons notre responsabilité envers l'environnement et les générations futures. Notre programme de développement durable inclut le renouvellement de notre flotte avec des véhicules moins polluants, la formation à l'éco-conduite et des initiatives de compensation carbone.",
+          "icon": "Favorite"
+        },
+        {
+          "title": "Innovation continue",
+          "description": "Nous embrassons le changement et l'innovation pour améliorer constamment nos services. De notre plateforme de réservation en ligne à nos systèmes de gestion de flotte, nous utilisons la technologie pour offrir une expérience moderne et efficace à nos passagers.",
+          "icon": "TrendingUp"
+        },
+        {
+          "title": "Engagement communautaire",
+          "description": "Nous sommes fiers d'être une entreprise malgache qui contribue au développement économique et social du pays. Nous créons des emplois locaux, soutenons les communautés le long de nos routes et participons activement aux initiatives sociales dans les régions que nous desservons.",
+          "icon": "Groups"
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.values-section",
+      "title": "Our core values",
+      "values": [
+        {
+          "title": "Service excellence",
+          "description": "We are committed to providing the highest quality transportation service. Every aspect of our operation, from booking to arrival, is designed to deliver an exceptional customer experience. We continuously invest in staff training and process improvement.",
+          "icon": "Star"
+        },
+        {
+          "title": "Absolute safety",
+          "description": "The safety of our passengers is our number one priority, without compromise. All our vehicles are rigorously inspected, our drivers are trained to the highest road safety standards, and we apply strict preventive maintenance protocols.",
+          "icon": "Security"
+        },
+        {
+          "title": "Integrity and transparency",
+          "description": "We operate with the utmost honesty towards our customers. Our rates are clear with no hidden fees. We communicate openly about our policies, schedules and services. The trust of our passengers is our most valuable asset.",
+          "icon": "Verified"
+        },
+        {
+          "title": "Environmental respect",
+          "description": "We recognize our responsibility to the environment and future generations. Our sustainable development program includes fleet renewal with less polluting vehicles, eco-driving training and carbon offset initiatives.",
+          "icon": "Favorite"
+        },
+        {
+          "title": "Continuous innovation",
+          "description": "We embrace change and innovation to constantly improve our services. From our online booking platform to our fleet management systems, we use technology to deliver a modern and efficient experience to our passengers.",
+          "icon": "TrendingUp"
+        },
+        {
+          "title": "Community engagement",
+          "description": "We are proud to be a Malagasy company that contributes to the economic and social development of the country. We create local jobs, support communities along our routes and actively participate in social initiatives in the regions we serve.",
+          "icon": "Groups"
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.values-section",
+      "title": "Ny soatoavinay fototra",
+      "values": [
+        {
+          "title": "Fahatsaran'ny serivisy",
+          "description": "Manolo-tena izahay hanome serivisy fitaterana amin'ny kalitao avo indrindra. Ny lafiny rehetra amin'ny fandehanan-draharahanay, manomboka amin'ny famandrihana ka hatramin'ny fahatongavana, dia natao hanomezana traikefa mpanjifa miavaka. Mampiasa tsy tapaka amin'ny fanofanana mpiasa sy fanatsarana ny dingana izahay.",
+          "icon": "Star"
+        },
+        {
+          "title": "Fiarovana tanteraka",
+          "description": "Ny fiarovana ny mpandeha anay no laharam-pahamehana voalohany, tsy misy fanaovana an-tsirambina. Ny fiaranay rehetra dia voasava tsara, ny mpamily anay dia voaofana amin'ny fenitra fiarovana an-dalana avo indrindra, ary mampihatra protokaoly hentitra momba ny fikojakojana mialoha izahay.",
+          "icon": "Security"
+        },
+        {
+          "title": "Fahitsiana sy fisokafana",
+          "description": "Miasa amin'ny fahamendrehana lehibe indrindra amin'ny mpanjifanay izahay. Mazava ny saran-dalanay tsy misy sarany miafina. Mifandray an-tsokosoko momba ny politikanay, ny fandaharam-potoananay ary ny serivisy anay izahay. Ny fahatokisan'ny mpandeha anay no fananana sarobidy indrindra.",
+          "icon": "Verified"
+        },
+        {
+          "title": "Fanajana ny tontolo iainana",
+          "description": "Manaiky ny andraikitray amin'ny tontolo iainana sy ny taranaka ho avy izahay. Ny programa fampandrosoana maharitra anay dia misy fanavaozana ny andiana fiara amin'ny fiara tsy mandoto, fanofanana eco-driving ary hetsika fanarenana karbaona.",
+          "icon": "Favorite"
+        },
+        {
+          "title": "Fanavaozana tsy tapaka",
+          "description": "Mandray ny fiovana sy ny fanavaozana izahay mba hanatsara tsy tapaka ny serivisy anay. Manomboka amin'ny sehatra famandrihana an-tserasera anay ka hatramin'ny rafitra fitantanana ny andiana fiaranay, mampiasa teknolojika izahay mba hanolorana traikefa maoderina sy mahomby amin'ny mpandehanay.",
+          "icon": "TrendingUp"
+        },
+        {
+          "title": "Fanoloran-tena amin'ny fiarahamonina",
+          "description": "Manana rehareha izahay fa orinasa Malagasy izay mandray anjara amin'ny fampandrosoana ara-toekarena sy ara-tsosialy ny firenena. Mamorona asa eo an-toerana izahay, manohana ny fiarahamonina manamorona ny làlanay ary mandray anjara mavitrika amin'ny hetsika ara-tsosialy any amin'ny faritra izay tompoinay.",
+          "icon": "Groups"
+        }
+      ]
+    }
+  }
+}

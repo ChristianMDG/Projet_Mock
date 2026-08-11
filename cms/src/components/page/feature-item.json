@@ -1,0 +1,62 @@
+{
+  "collectionName": "components_page_feature_items",
+  "info": {
+    "displayName": "Élément Fonctionnalité",
+    "description": "Fonctionnalité individuelle avec icône, titre et description",
+    "icon": "check"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Sécurité garantie",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 300,
+      "default": "Voyagez en toute tranquillité avec nos véhicules contrôlés et nos chauffeurs expérimentés",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "icon": {
+      "type": "enumeration",
+      "enum": [
+        "Security",
+        "Schedule",
+        "Payment",
+        "SupportAgent",
+        "Nature",
+        "Star",
+        "VerifiedUser",
+        "Speed",
+        "LocalOffer",
+        "Wifi",
+        "AcUnit",
+        "Build",
+        "Shield",
+        "Eco",
+        "Group",
+        "TrendingUp"
+      ],
+      "default": "Security",
+      "required": true
+    },
+    "color": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "primary.main",
+      "description": "Icon color (ex: primary.main, secondary.main)"
+    }
+  }
+}

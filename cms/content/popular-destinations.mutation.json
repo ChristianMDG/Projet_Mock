@@ -1,0 +1,233 @@
+{
+  "description": "Popular Destinations section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.popular-destinations",
+  "locales": {
+    "fr": {
+      "__component": "page.popular-destinations",
+      "title": "Découvrez nos destinations les plus prisées",
+      "subtitle": "De la capitale aux plages paradisiaques, explorez Madagascar avec Taxibrousse",
+      "backgroundColor": "background.paper",
+      "containerMaxWidth": "lg",
+      "destinations": [
+        {
+          "city": "Antsirabe",
+          "route": "Antananarivo - Antsirabe",
+          "region": "Vakinankaratra",
+          "description": "Ville thermale située à 1500m d'altitude, célèbre pour ses sources chaudes, ses pousse-pousse colorés et son climat tempéré. Capitale malgache de l'artisanat et de l'industrie brassicole.",
+          "duration": "3-4h",
+          "category": "Cultural",
+          "popularity": 5,
+          "frequency": "Départs toutes les heures",
+          "price": "À partir de 12 000 Ar"
+        },
+        {
+          "city": "Nosy Be",
+          "route": "Antananarivo - Mahajanga - Nosy Be",
+          "region": "Diana",
+          "description": "L'île aux parfums, paradis tropical du nord-ouest, réputée pour ses plages de sable blanc, ses eaux turquoise, la plongée sous-marine et la culture d'ylang-ylang et de vanille.",
+          "duration": "16-18h + ferry",
+          "category": "Coastal",
+          "popularity": 5,
+          "frequency": "Départs quotidiens",
+          "price": "À partir de 55 000 Ar"
+        },
+        {
+          "city": "Andasibe",
+          "route": "Antananarivo - Andasibe",
+          "region": "Alaotra-Mangoro",
+          "description": "Parc national abritant les célèbres lémuriens Indri-Indri, la plus grande espèce de lémuriens. Forêt tropicale humide idéale pour l'observation de la faune et flore endémiques.",
+          "duration": "2-3h",
+          "category": "Nature",
+          "popularity": 5,
+          "frequency": "Départs quotidiens",
+          "price": "À partir de 8 000 Ar"
+        },
+        {
+          "city": "Toliara",
+          "route": "Antananarivo - Fianarantsoa - Toliara",
+          "region": "Atsimo-Andrefana",
+          "description": "Porte du Grand Sud, ville côtière ensoleillée donnant accès aux plages d'Ifaty, au parc de l'Isalo et aux récifs coralliens. Climat sec et chaud toute l'année.",
+          "duration": "18-20h",
+          "category": "Coastal",
+          "popularity": 4,
+          "frequency": "Départs quotidiens",
+          "price": "À partir de 58 000 Ar"
+        },
+        {
+          "city": "Fianarantsoa",
+          "route": "Antananarivo - Fianarantsoa",
+          "region": "Haute Matsiatra",
+          "description": "Capitale culturelle des Hautes Terres, ville universitaire perchée sur une colline. Point de départ du train FCE et porte d'entrée vers le parc national de Ranomafana.",
+          "duration": "9-10h",
+          "category": "Cultural",
+          "popularity": 4,
+          "frequency": "Départs quotidiens",
+          "price": "À partir de 30 000 Ar"
+        },
+        {
+          "city": "Morondava",
+          "route": "Antananarivo - Morondava",
+          "region": "Menabe",
+          "description": "Célèbre pour l'Allée des Baobabs, une des images emblématiques de Madagascar. Ville côtière donnant accès au parc national de Kirindy et à la forêt de baobabs.",
+          "duration": "14-16h",
+          "category": "Nature",
+          "popularity": 5,
+          "frequency": "Départs quotidiens",
+          "price": "À partir de 45 000 Ar"
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.popular-destinations",
+      "title": "Discover our most popular destinations",
+      "subtitle": "From the capital to paradise beaches, explore Madagascar with Taxibrousse",
+      "backgroundColor": "background.paper",
+      "containerMaxWidth": "lg",
+      "destinations": [
+        {
+          "city": "Antsirabe",
+          "route": "Antananarivo - Antsirabe",
+          "region": "Vakinankaratra",
+          "description": "Thermal city at 1500m altitude, famous for its hot springs, colorful rickshaws, and temperate climate. Malagasy capital of crafts and brewing industry.",
+          "duration": "3-4h",
+          "category": "Cultural",
+          "popularity": 5,
+          "frequency": "Departures every hour",
+          "price": "From 12,000 Ar"
+        },
+        {
+          "city": "Nosy Be",
+          "route": "Antananarivo - Mahajanga - Nosy Be",
+          "region": "Diana",
+          "description": "The perfume island, tropical paradise in the northwest, renowned for its white sand beaches, turquoise waters, scuba diving, and ylang-ylang and vanilla cultivation.",
+          "duration": "16-18h + ferry",
+          "category": "Coastal",
+          "popularity": 5,
+          "frequency": "Daily departures",
+          "price": "From 55,000 Ar"
+        },
+        {
+          "city": "Andasibe",
+          "route": "Antananarivo - Andasibe",
+          "region": "Alaotra-Mangoro",
+          "description": "National park home to the famous Indri-Indri lemurs, the largest lemur species. Tropical rainforest ideal for observing endemic fauna and flora.",
+          "duration": "2-3h",
+          "category": "Nature",
+          "popularity": 5,
+          "frequency": "Daily departures",
+          "price": "From 8,000 Ar"
+        },
+        {
+          "city": "Toliara",
+          "route": "Antananarivo - Fianarantsoa - Toliara",
+          "region": "Atsimo-Andrefana",
+          "description": "Gateway to the Great South, sunny coastal city providing access to Ifaty beaches, Isalo park, and coral reefs. Dry and hot climate year-round.",
+          "duration": "18-20h",
+          "category": "Coastal",
+          "popularity": 4,
+          "frequency": "Daily departures",
+          "price": "From 58,000 Ar"
+        },
+        {
+          "city": "Fianarantsoa",
+          "route": "Antananarivo - Fianarantsoa",
+          "region": "Haute Matsiatra",
+          "description": "Cultural capital of the Highlands, university city perched on a hill. Starting point of the FCE train and gateway to Ranomafana national park.",
+          "duration": "9-10h",
+          "category": "Cultural",
+          "popularity": 4,
+          "frequency": "Daily departures",
+          "price": "From 30,000 Ar"
+        },
+        {
+          "city": "Morondava",
+          "route": "Antananarivo - Morondava",
+          "region": "Menabe",
+          "description": "Famous for the Avenue of the Baobabs, one of Madagascar's iconic images. Coastal city providing access to Kirindy national park and the baobab forest.",
+          "duration": "14-16h",
+          "category": "Nature",
+          "popularity": 5,
+          "frequency": "Daily departures",
+          "price": "From 45,000 Ar"
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.popular-destinations",
+      "title": "Hahita ireo toerana malaza indrindra",
+      "subtitle": "Avy any amin'ny renivohitra ka hatrany amin'ny tora-pasika paradisa, hikaroka an'i Madagasikara miaraka amin'ny Taxibrousse",
+      "backgroundColor": "background.paper",
+      "containerMaxWidth": "lg",
+      "destinations": [
+        {
+          "city": "Antsirabe",
+          "route": "Antananarivo - Antsirabe",
+          "region": "Vakinankaratra",
+          "description": "Tanàna misy loharano mafana amin'ny haavon'ny 1500m, malaza amin'ny loharano mafana, pousse-pousse maro loko ary toetr'andro tsara. Renivohitry ny asa tanana sy indostrian'ny labiera malagasy.",
+          "duration": "3-4h",
+          "category": "Cultural",
+          "popularity": 5,
+          "frequency": "Fiaingana isaky ny ora",
+          "price": "Manomboka amin'ny 12 000 Ar"
+        },
+        {
+          "city": "Nosy Be",
+          "route": "Antananarivo - Mahajanga - Nosy Be",
+          "region": "Diana",
+          "description": "Nosy fofona, paradisa tropikaly any avaratra-andrefana, malaza amin'ny tora-pasika fotsy, rano manga, antsitrika, ary fambolena ylang-ylang sy lavanila.",
+          "duration": "16-18h + sambo",
+          "category": "Coastal",
+          "popularity": 5,
+          "frequency": "Fiaingana isan'andro",
+          "price": "Manomboka amin'ny 55 000 Ar"
+        },
+        {
+          "city": "Andasibe",
+          "route": "Antananarivo - Andasibe",
+          "region": "Alaotra-Mangoro",
+          "description": "Valan-javaboary ahitana gidro Indri-Indri malaza, karazana gidro lehibe indrindra. Ala tropikaly mando tsara hijery biby sy zavamaniry tsy misy afa-tsy eto Madagasikara.",
+          "duration": "2-3h",
+          "category": "Nature",
+          "popularity": 5,
+          "frequency": "Fiaingana isan'andro",
+          "price": "Manomboka amin'ny 8 000 Ar"
+        },
+        {
+          "city": "Toliara",
+          "route": "Antananarivo - Fianarantsoa - Toliara",
+          "region": "Atsimo-Andrefana",
+          "description": "Vavahadin'ny Atsimo Be, tanàna amoron-dranomasina be masoandro manome fidirana amin'ny tora-pasika Ifaty, valan-javaboary Isalo ary haran-dranomasina.",
+          "duration": "18-20h",
+          "category": "Coastal",
+          "popularity": 4,
+          "frequency": "Fiaingana isan'andro",
+          "price": "Manomboka amin'ny 58 000 Ar"
+        },
+        {
+          "city": "Fianarantsoa",
+          "route": "Antananarivo - Fianarantsoa",
+          "region": "Haute Matsiatra",
+          "description": "Renivohitry ny kolontsaina amin'ny Hautes Terres, tanàna oniversite eo an-tampon-kavoana. Toerana fiaingana ny fiaran-dalamby FCE sy vavahady mankany amin'ny valan-javaboary Ranomafana.",
+          "duration": "9-10h",
+          "category": "Cultural",
+          "popularity": 4,
+          "frequency": "Fiaingana isan'andro",
+          "price": "Manomboka amin'ny 30 000 Ar"
+        },
+        {
+          "city": "Morondava",
+          "route": "Antananarivo - Morondava",
+          "region": "Menabe",
+          "description": "Malaza amin'ny Allée des Baobabs, iray amin'ireo sary mari-pamantaran'i Madagasikara. Tanàna amoron-dranomasina manome fidirana amin'ny valan-javaboary Kirindy sy ny ala baobab.",
+          "duration": "14-16h",
+          "category": "Nature",
+          "popularity": 5,
+          "frequency": "Fiaingana isan'andro",
+          "price": "Manomboka amin'ny 45 000 Ar"
+        }
+      ]
+    }
+  }
+}

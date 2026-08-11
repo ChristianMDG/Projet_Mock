@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_page_contact_sections",
+  "info": {
+    "displayName": "Section Contact",
+    "description": "Section d'informations de contact",
+    "icon": "envelop"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Contactez-nous",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 500,
+      "default": "Nous sommes là pour vous aider ! Contactez-nous par l'un des moyens suivants :",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "contactMethods": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.contact-method"
+    }
+  }
+}

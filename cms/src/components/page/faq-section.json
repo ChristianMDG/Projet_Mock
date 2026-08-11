@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_page_faqs",
+  "info": {
+    "displayName": "Section FAQ",
+    "description": "Section FAQ avec questions et réponses",
+    "icon": "question"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Questions Fréquemment Posées",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "faqs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.faq-item"
+    }
+  }
+}

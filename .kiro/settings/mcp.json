@@ -1,0 +1,17 @@
+{
+    "mcpServers": {
+        "strapi-docs": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@kapa-ai/mcp-server-kapa-ai",
+                "https://strapi-docs.mcp.kapa.ai"
+            ],
+            "env": {
+                "NODE_ENV": "production"
+            },
+            "disabled": false,
+            "autoApprove": []
+        }
+    }
+}

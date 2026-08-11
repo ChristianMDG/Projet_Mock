@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "classe",
+  "info": {
+    "singularName": "classe",
+    "pluralName": "classes",
+    "displayName": "Classe"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50
+    },
+    "description": {
+      "type": "json"
+    },
+    "koperative": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::koperative.koperative",
+      "inversedBy": "classes",
+      "required": true
+    },
+    "iconId": {
+      "type": "integer"
+    },
+    "reservations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::reservation.reservation",
+      "mappedBy": "classe"
+    }
+  }
+}

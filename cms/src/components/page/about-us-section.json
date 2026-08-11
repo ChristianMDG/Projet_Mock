@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_page_about_us_sections",
+  "info": {
+    "displayName": "Section À Propos",
+    "description": "Section de contenu à propos de nous",
+    "icon": "information"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "À propos de nous",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "paragraphs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.text-paragraph"
+    }
+  }
+}

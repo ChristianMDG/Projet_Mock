@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_page_tip_items",
+  "info": {
+    "displayName": "Élément Conseil",
+    "description": "Élément de conseil de sécurité individuel",
+    "icon": "check"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "string",
+      "required": false,
+      "maxLength": 50,
+      "default": "CheckCircle",
+      "description": "Material UI icon name (e.g., CheckCircle, Security, Info, Star)"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 150,
+      "default": "Préparez votre trajet",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "text": {
+      "type": "text",
+      "required": true,
+      "maxLength": 300,
+      "default": "Arrivez à la gare au moins 30 minutes avant le départ",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

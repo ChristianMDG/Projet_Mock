@@ -1,0 +1,57 @@
+{
+  "collectionName": "components_page_contact_items",
+  "info": {
+    "displayName": "Élément Contact",
+    "description": "Élément de contact d'urgence individuel",
+    "icon": "user"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "enumeration",
+      "enum": [
+        "Phone",
+        "LocalPolice",
+        "FireTruck",
+        "LocalHospital",
+        "Help",
+        "PermPhoneMsg",
+        "Emergency",
+        "Security",
+        "MedicalServices",
+        "SupportAgent"
+      ],
+      "required": false,
+      "default": "Phone",
+      "description": "Icon representing the contact type"
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Police",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "number": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "default": "117"
+    },
+    "available": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "24h/24",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

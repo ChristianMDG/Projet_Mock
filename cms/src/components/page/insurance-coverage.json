@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_page_insurance_coverages",
+  "info": {
+    "displayName": "Couverture d'Assurance",
+    "description": "Section de couverture d'assurance avec différents types",
+    "icon": "car"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Couverture d'assurance",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "insuranceTypes": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.insurance-type"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "facturation",
+  "info": {
+    "singularName": "facturation",
+    "pluralName": "facturations",
+    "displayName": "Facturation"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "reservation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::reservation.reservation",
+      "inversedBy": "facturation"
+    },
+    "invoiceNumber": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 50
+    },
+    "amount": {
+      "type": "decimal",
+      "required": true
+    },
+    "taxAmount": {
+      "type": "decimal"
+    },
+    "totalAmount": {
+      "type": "decimal",
+      "required": true
+    },
+    "remainingAmount": {
+      "type": "decimal"
+    },
+    "paymentMethodIdentifier": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "paymentReference": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "paymentStatus": {
+      "type": "enumeration",
+      "enum": ["PENDING", "PAID", "FAILED", "REFUNDED", "PARTIALLY_PAID"],
+      "default": "PENDING",
+      "required": true
+    },
+    "paymentDate": {
+      "type": "datetime"
+    },
+    "dueDate": {
+      "type": "datetime"
+    }
+  }
+}

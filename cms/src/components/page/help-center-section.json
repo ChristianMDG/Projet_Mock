@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_page_help_center_sections",
+  "info": {
+    "displayName": "Section Centre d'Aide",
+    "description": "Contenu du centre d'aide avec catégories",
+    "icon": "question"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Centre d'aide",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "categories": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.help-category"
+    }
+  }
+}

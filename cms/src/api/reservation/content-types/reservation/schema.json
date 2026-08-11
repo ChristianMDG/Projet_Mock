@@ -1,0 +1,63 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reservation",
+  "info": {
+    "singularName": "reservation",
+    "pluralName": "reservations",
+    "displayName": "Réservation"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "voyage": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::voyage.voyage",
+      "inversedBy": "reservations"
+    },
+    "voyageurId": {
+      "type": "integer"
+    },
+    "classe": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::classe.classe"
+    },
+    "bookingReference": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 50
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["PENDING_PAYMENT", "CONFIRMED", "CANCELLED_BY_USER", "CANCELLED_BY_OPERATOR", "COMPLETED", "NO_SHOW"],
+      "default": "PENDING_PAYMENT",
+      "required": true
+    },
+    "bookingDate": {
+      "type": "datetime",
+      "required": true
+    },
+    "totalAmount": {
+      "type": "decimal",
+      "required": true
+    },
+    "notes": {
+      "type": "string"
+    },
+    "seats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::seat.seat",
+      "mappedBy": "reservation"
+    },
+    "facturation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::facturation.facturation",
+      "mappedBy": "reservation"
+    }
+  }
+}

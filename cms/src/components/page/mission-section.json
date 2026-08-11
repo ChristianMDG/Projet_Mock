@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_page_mission_sections",
+  "info": {
+    "displayName": "Section Mission",
+    "description": "Affichage de la déclaration de mission de l'entreprise",
+    "icon": "rocket"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Notre Mission"
+    },
+    "tagline": {
+      "type": "string",
+      "default": "Connecter Madagascar, une ville à la fois"
+    },
+    "description": {
+      "type": "text",
+      "default": "Faciliter les déplacements des Malgaches et des visiteurs en offrant un service de transport de qualité, accessible et respectueux de l'environnement. Nous nous engageons à connecter les communautés et à contribuer au développement économique et social de Madagascar."
+    }
+  }
+}

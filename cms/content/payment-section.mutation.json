@@ -1,0 +1,33 @@
+{
+  "description": "Payment Section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.payment-section",
+  "note": "This component uses a relation to api::payment-method.payment-method. Payment methods should be created separately in the payment-method content-type.",
+  "locales": {
+    "fr": {
+      "__component": "page.payment-section",
+      "title": "Modes de paiement sécurisés",
+      "description": "Payez vos billets en toute sécurité avec le moyen de paiement qui vous convient. Nous acceptons les principales solutions de paiement disponibles à Madagascar pour votre commodité.",
+      "buttonText": "Réserver maintenant",
+      "buttonUrl": "/reservation",
+      "backgroundColor": "background.paper"
+    },
+    "en": {
+      "__component": "page.payment-section",
+      "title": "Secure payment methods",
+      "description": "Pay for your tickets securely with the payment method that suits you. We accept the main payment solutions available in Madagascar for your convenience.",
+      "buttonText": "Book now",
+      "buttonUrl": "/booking",
+      "backgroundColor": "background.paper"
+    },
+    "mg": {
+      "__component": "page.payment-section",
+      "title": "Fomba fandoavana azo antoka",
+      "description": "Mandoava ny tapakilanao am-pahatoky amin'ny fomba fandoavana mety aminao. Manaiky ny vahaolana fandoavana lehibe ao Madagasikara izahay mba hanamorana anao.",
+      "buttonText": "Hamandrika izao",
+      "buttonUrl": "/famandrihana",
+      "backgroundColor": "background.paper"
+    }
+  }
+}

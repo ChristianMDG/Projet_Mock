@@ -1,0 +1,34 @@
+{
+  "description": "Banner for cooperative/koperative page",
+  "collection": "api::hero-content.hero-content",
+  "slug": "koperative-banner",
+  "locales": {
+    "fr": {
+      "slug": "koperative-banner",
+      "Title": "Nos Coopératives Partenaires",
+      "SubTitle": "Un réseau de confiance à travers Madagascar",
+      "Description": "Découvrez nos coopératives de transport certifiées",
+      "Localization": "Fianarantsoa, Toliara, Antsiranana",
+      "locale": "fr",
+      "publishedAt": "2025-11-29T00:00:00.000Z"
+    },
+    "en": {
+      "slug": "koperative-banner",
+      "Title": "Our Partner Cooperatives",
+      "SubTitle": "A trusted network across Madagascar",
+      "Description": "Discover our certified transport cooperatives",
+      "Localization": "Fianarantsoa, Toliara, Antsiranana",
+      "locale": "en",
+      "publishedAt": "2025-11-29T00:00:00.000Z"
+    },
+    "mg": {
+      "slug": "koperative-banner",
+      "Title": "Ireo Koperativa mpiara-miasa aminay",
+      "SubTitle": "Tambazotran'ny fitokisana manerana an'i Madagasikara",
+      "Description": "Fantaro ireo koperativa fitaterana voamarina",
+      "Localization": "Fianarantsoa, Toliara, Antsiranana",
+      "locale": "mg",
+      "publishedAt": "2025-11-29T00:00:00.000Z"
+    }
+  }
+}

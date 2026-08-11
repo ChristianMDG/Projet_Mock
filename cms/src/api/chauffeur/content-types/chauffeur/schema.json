@@ -1,0 +1,71 @@
+{
+  "kind": "collectionType",
+  "collectionName": "chauffeur",
+  "info": {
+    "singularName": "chauffeur",
+    "pluralName": "chauffeurs",
+    "displayName": "Chauffeur"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "userId": {
+      "type": "integer"
+    },
+    "licenseNumber": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 50
+    },
+    "licenseAuthority": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "licenseExpiry": {
+      "type": "date"
+    },
+    "experienceYears": {
+      "type": "integer"
+    },
+    "rating": {
+      "type": "decimal"
+    },
+    "isAvailable": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "koperative": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::koperative.koperative",
+      "inversedBy": "chauffeurs"
+    },
+    "crafterAssigned": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::crafter.crafter",
+      "mappedBy": "chauffeur"
+    },
+    "motos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::moto.moto",
+      "mappedBy": "chauffeur"
+    },
+    "contrats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::contrat.contrat",
+      "mappedBy": "chauffeur"
+    },
+    "voyages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::voyage.voyage",
+      "mappedBy": "chauffeur"
+    }
+  }
+}

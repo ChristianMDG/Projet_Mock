@@ -1,0 +1,42 @@
+{
+  "collectionName": "components_page_overall_ratings",
+  "info": {
+    "displayName": "Note Globale",
+    "description": "Affichage de la note moyenne avec statistiques",
+    "icon": "star"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Note moyenne de nos voyageurs",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "averageRating": {
+      "type": "decimal",
+      "required": true,
+      "min": 0,
+      "max": 5,
+      "default": 4.8
+    },
+    "totalReviews": {
+      "type": "integer",
+      "required": true,
+      "min": 0,
+      "default": 12847
+    },
+    "recommendation": {
+      "type": "integer",
+      "required": true,
+      "min": 0,
+      "max": 100,
+      "default": 96
+    }
+  }
+}

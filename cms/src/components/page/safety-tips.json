@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_page_safety_tips",
+  "info": {
+    "displayName": "Conseils de Sécurité",
+    "description": "Section des conseils de sécurité avec liste de conseils",
+    "icon": "lightbulb"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Conseils de sécurité",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "tips": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.tip-item"
+    }
+  }
+}

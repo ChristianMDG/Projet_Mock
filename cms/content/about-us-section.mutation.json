@@ -1,0 +1,80 @@
+{
+  "description": "About Us section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.about-us-section",
+  "locales": {
+    "fr": {
+      "__component": "page.about-us-section",
+      "title": "À propos de Taxibrousse Madagascar",
+      "paragraphs": [
+        {
+          "text": "Fondée en 2010, Taxibrousse Madagascar est devenue la référence du transport interurbain à Madagascar. Notre histoire commence avec une vision simple mais ambitieuse : rendre les déplacements à travers notre magnifique île plus sûrs, plus confortables et accessibles à tous les Malgaches."
+        },
+        {
+          "text": "Avec une flotte de plus de 150 véhicules modernes et entretenus quotidiennement, nous desservons aujourd'hui plus de 50 destinations à travers Madagascar. De la capitale Antananarivo aux plages paradisiaques de Nosy Be, des Hautes Terres aux côtes ensoleillées du sud, notre réseau couvre l'ensemble du territoire national."
+        },
+        {
+          "text": "Notre engagement envers l'excellence se reflète dans chaque aspect de notre service. Nous investissons continuellement dans la formation de nos chauffeurs, l'amélioration de nos véhicules et l'innovation technologique. Notre plateforme de réservation en ligne, lancée en 2018, a révolutionné le secteur en permettant aux voyageurs de réserver et payer leurs billets depuis leur smartphone."
+        },
+        {
+          "text": "La sécurité de nos passagers est notre priorité absolue. Tous nos véhicules subissent des contrôles techniques rigoureux avant chaque départ. Nos chauffeurs sont rigoureusement sélectionnés, formés aux normes internationales de sécurité routière et font l'objet d'évaluations régulières. Nous sommes fiers d'afficher un taux d'accidents parmi les plus bas du secteur."
+        },
+        {
+          "text": "Au-delà du transport, Taxibrousse s'engage pour le développement durable. Nous avons lancé plusieurs initiatives écologiques : renouvellement de notre flotte avec des véhicules aux normes Euro 4, programme de compensation carbone en partenariat avec des ONG locales, et formation des chauffeurs à l'éco-conduite pour réduire notre empreinte environnementale."
+        },
+        {
+          "text": "Chaque année, nous transportons plus de 600 000 passagers en toute sécurité vers leurs destinations. Ces chiffres témoignent de la confiance que les Malgaches nous accordent au quotidien. Mais au-delà des statistiques, ce sont les sourires de nos passagers à l'arrivée, les familles réunies et les voyageurs satisfaits qui donnent tout son sens à notre mission."
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.about-us-section",
+      "title": "About Taxibrousse Madagascar",
+      "paragraphs": [
+        {
+          "text": "Founded in 2010, Taxibrousse Madagascar has become the reference for intercity transport in Madagascar. Our story begins with a simple but ambitious vision: to make travel across our beautiful island safer, more comfortable, and accessible to all Malagasy people."
+        },
+        {
+          "text": "With a fleet of over 150 modern vehicles maintained daily, we now serve more than 50 destinations across Madagascar. From the capital Antananarivo to the paradise beaches of Nosy Be, from the Highlands to the sunny southern coasts, our network covers the entire national territory."
+        },
+        {
+          "text": "Our commitment to excellence is reflected in every aspect of our service. We continuously invest in driver training, vehicle improvements, and technological innovation. Our online booking platform, launched in 2018, revolutionized the industry by allowing travelers to book and pay for their tickets from their smartphones."
+        },
+        {
+          "text": "The safety of our passengers is our absolute priority. All our vehicles undergo rigorous technical inspections before each departure. Our drivers are carefully selected, trained to international road safety standards, and regularly evaluated. We are proud to have one of the lowest accident rates in the industry."
+        },
+        {
+          "text": "Beyond transport, Taxibrousse is committed to sustainable development. We have launched several ecological initiatives: fleet renewal with Euro 4 compliant vehicles, carbon offset program in partnership with local NGOs, and eco-driving training for drivers to reduce our environmental footprint."
+        },
+        {
+          "text": "Every year, we safely transport over 600,000 passengers to their destinations. These figures reflect the trust that Malagasy people place in us every day. But beyond statistics, it is the smiles of our passengers upon arrival, reunited families, and satisfied travelers that give full meaning to our mission."
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.about-us-section",
+      "title": "Momba an'i Taxibrousse Madagascar",
+      "paragraphs": [
+        {
+          "text": "Niforona tamin'ny 2010, Taxibrousse Madagascar dia lasa ny fototry ny fitaterana anelanelan'ny tanàna any Madagasikara. Ny tantaranay dia manomboka amin'ny vina tsotra nefa be hambonin-javatra: ny hahatonga ny fivezivezena eran'ny nosinay tsara tarehy ho azo antoka kokoa, mampiadana kokoa ary takatry ny Malagasy rehetra."
+        },
+        {
+          "text": "Miaraka amin'ny fiara mihoatra ny 150 vaovao sy kojakojaina isan'andro, izahay ankehitriny dia manompo toerana mihoatra ny 50 manerana an'i Madagasikara. Manomboka amin'ny renivohitra Antananarivo ka hatrany amin'ny tora-pasika paradisa ao Nosy Be, hatrany amin'ny Havoana ka hatrany amin'ny morontsiraka mafana any atsimo, ny tambajotra anay dia manaraka ny faritany rehetra."
+        },
+        {
+          "text": "Ny fanoloran-tenanay amin'ny fahombiazana dia hita amin'ny lafiny rehetra amin'ny serivisy anay. Mampiasa tsy tapaka amin'ny fanofanana mpamily, fanatsarana fiara, ary fanavaozana teknolojika izahay. Ny sehatra famandrihana an-tserasera anay, natomboka tamin'ny 2018, dia nanova ny indostria tamin'ny fahafahana manao famandrihana sy mandoa tapakila avy amin'ny finday manan-tsaina."
+        },
+        {
+          "text": "Ny fiarovana ny mpandeha anay no laharam-pahamehana tanteraka. Ny fiaranay rehetra dia mahazo fanamarinana ara-teknika hentitra alohan'ny fiaingana tsirairay. Ny mpamily anay dia voafidy tsara, voaofana araka ny fenitra iraisam-pirenena momba ny fiarovana an-dalana, ary voarain-dolom-be matetika. Manana rehareha izahay fa manana tahan'ny loza ambany indrindra ao amin'ny indostria."
+        },
+        {
+          "text": "Ankoatra ny fitaterana, Taxibrousse dia manolo-tena amin'ny fampandrosoana maharitra. Nanomboka hetsika ara-ekolojia maromaro izahay: fanavaozana ny andiana fiara amin'ny fiara mifanaraka amin'ny Euro 4, programa fanarenana karbaona miaraka amin'ny ONG eo an-toerana, ary fanofanana eco-driving ho an'ny mpamily mba hampihenana ny dian-tongotra ara-tontolo iainana."
+        },
+        {
+          "text": "Isan-taona, izahay dia mitondra mpandeha mihoatra ny 600 000 soa aman-tsara any amin'ny toerana hoaingana. Ireo tarehimarika ireo dia maneho ny fahatokisan'ny Malagasy anay isan'andro. Nefa ankoatry ny statistika, ny tsiky amin'ny mpandeha anay rehefa tonga, ny fianakaviana tafaraka indray, ary ny mpanao dia afa-po no manome hevitra feno ny iraka anay."
+        }
+      ]
+    }
+  }
+}

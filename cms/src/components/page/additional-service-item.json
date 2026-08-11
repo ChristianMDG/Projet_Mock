@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_page_additional_service_items",
+  "info": {
+    "displayName": "Additional Service Item",
+    "description": "Un service supplémentaire",
+    "icon": "star"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "string",
+      "required": true,
+      "default": "Star"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

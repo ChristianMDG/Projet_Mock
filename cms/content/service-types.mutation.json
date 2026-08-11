@@ -1,0 +1,413 @@
+{
+  "description": "Service Types section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.service-types",
+  "locales": {
+    "fr": {
+      "__component": "page.service-types",
+      "title": "Choisissez votre classe de confort",
+      "services": [
+        {
+          "name": "Classe Standard",
+          "price": "À partir de 10 000 Ar",
+          "color": "primary",
+          "features": [
+            {
+              "title": "Sièges confortables",
+              "description": "Sièges ergonomiques avec espace pour les jambes",
+              "icon": "Star",
+              "color": "primary.main"
+            },
+            {
+              "title": "Prises USB",
+              "description": "Rechargez vos appareils pendant le trajet",
+              "icon": "Build",
+              "color": "primary.main"
+            },
+            {
+              "title": "Bagages inclus",
+              "description": "20 kg de bagages en soute + 5 kg en cabine",
+              "icon": "LocalOffer",
+              "color": "primary.main"
+            },
+            {
+              "title": "Assurance tous risques",
+              "description": "Couverture complète pour votre sécurité",
+              "icon": "Shield",
+              "color": "primary.main"
+            }
+          ]
+        },
+        {
+          "name": "Classe Confort",
+          "price": "À partir de 15 000 Ar",
+          "color": "success",
+          "features": [
+            {
+              "title": "Sièges premium inclinables",
+              "description": "Sièges larges avec inclinaison jusqu'à 30°",
+              "icon": "Star",
+              "color": "success.main"
+            },
+            {
+              "title": "Climatisation individuelle",
+              "description": "Contrôlez votre température personnelle",
+              "icon": "AcUnit",
+              "color": "success.main"
+            },
+            {
+              "title": "Prises 220V + USB",
+              "description": "Rechargez ordinateurs et téléphones",
+              "icon": "Build",
+              "color": "success.main"
+            },
+            {
+              "title": "Espace bagages extra",
+              "description": "25 kg de bagages en soute + 7 kg en cabine",
+              "icon": "LocalOffer",
+              "color": "success.main"
+            },
+            {
+              "title": "Snack et boisson offerts",
+              "description": "Collation et eau minérale à bord",
+              "icon": "Nature",
+              "color": "success.main"
+            },
+            {
+              "title": "Wi-Fi gratuit",
+              "description": "Restez connecté pendant tout le trajet",
+              "icon": "Wifi",
+              "color": "success.main"
+            }
+          ]
+        },
+        {
+          "name": "Classe VIP",
+          "price": "À partir de 25 000 Ar",
+          "color": "warning",
+          "features": [
+            {
+              "title": "Sièges cuir premium",
+              "description": "Sièges en cuir avec inclinaison complète (45°)",
+              "icon": "Star",
+              "color": "warning.main"
+            },
+            {
+              "title": "Salon VIP à la gare",
+              "description": "Accès au salon d'attente privé avec collations",
+              "icon": "Nature",
+              "color": "warning.main"
+            },
+            {
+              "title": "Embarquement prioritaire",
+              "description": "Montez en premier et installez-vous tranquillement",
+              "icon": "Speed",
+              "color": "warning.main"
+            },
+            {
+              "title": "Écran individuel",
+              "description": "Films, musique et jeux à la demande",
+              "icon": "Build",
+              "color": "warning.main"
+            },
+            {
+              "title": "Service de restauration",
+              "description": "Menu complet avec choix de plats chauds",
+              "icon": "Nature",
+              "color": "warning.main"
+            },
+            {
+              "title": "Bagages illimités",
+              "description": "Pas de limite de poids pour vos bagages",
+              "icon": "LocalOffer",
+              "color": "warning.main"
+            },
+            {
+              "title": "Wi-Fi haut débit",
+              "description": "Connexion fibre pour streaming sans limite",
+              "icon": "Wifi",
+              "color": "warning.main"
+            },
+            {
+              "title": "Assistance personnelle",
+              "description": "Un steward dédié à votre service",
+              "icon": "SupportAgent",
+              "color": "warning.main"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.service-types",
+      "title": "Choose your comfort class",
+      "services": [
+        {
+          "name": "Standard Class",
+          "price": "From 10,000 Ar",
+          "color": "primary",
+          "features": [
+            {
+              "title": "Comfortable seats",
+              "description": "Ergonomic seats with legroom",
+              "icon": "Star",
+              "color": "primary.main"
+            },
+            {
+              "title": "USB ports",
+              "description": "Charge your devices during the trip",
+              "icon": "Build",
+              "color": "primary.main"
+            },
+            {
+              "title": "Baggage included",
+              "description": "20 kg checked baggage + 5 kg cabin",
+              "icon": "LocalOffer",
+              "color": "primary.main"
+            },
+            {
+              "title": "Comprehensive insurance",
+              "description": "Full coverage for your safety",
+              "icon": "Shield",
+              "color": "primary.main"
+            }
+          ]
+        },
+        {
+          "name": "Comfort Class",
+          "price": "From 15,000 Ar",
+          "color": "success",
+          "features": [
+            {
+              "title": "Premium reclining seats",
+              "description": "Wide seats with up to 30° recline",
+              "icon": "Star",
+              "color": "success.main"
+            },
+            {
+              "title": "Individual air conditioning",
+              "description": "Control your personal temperature",
+              "icon": "AcUnit",
+              "color": "success.main"
+            },
+            {
+              "title": "220V + USB outlets",
+              "description": "Charge laptops and phones",
+              "icon": "Build",
+              "color": "success.main"
+            },
+            {
+              "title": "Extra baggage space",
+              "description": "25 kg checked baggage + 7 kg cabin",
+              "icon": "LocalOffer",
+              "color": "success.main"
+            },
+            {
+              "title": "Complimentary snack and drink",
+              "description": "Snack and mineral water on board",
+              "icon": "Nature",
+              "color": "success.main"
+            },
+            {
+              "title": "Free Wi-Fi",
+              "description": "Stay connected throughout the trip",
+              "icon": "Wifi",
+              "color": "success.main"
+            }
+          ]
+        },
+        {
+          "name": "VIP Class",
+          "price": "From 25,000 Ar",
+          "color": "warning",
+          "features": [
+            {
+              "title": "Premium leather seats",
+              "description": "Leather seats with full recline (45°)",
+              "icon": "Star",
+              "color": "warning.main"
+            },
+            {
+              "title": "VIP lounge at station",
+              "description": "Access to private waiting lounge with refreshments",
+              "icon": "Nature",
+              "color": "warning.main"
+            },
+            {
+              "title": "Priority boarding",
+              "description": "Board first and settle in comfortably",
+              "icon": "Speed",
+              "color": "warning.main"
+            },
+            {
+              "title": "Individual screen",
+              "description": "Movies, music and on-demand games",
+              "icon": "Build",
+              "color": "warning.main"
+            },
+            {
+              "title": "Catering service",
+              "description": "Full menu with choice of hot dishes",
+              "icon": "Nature",
+              "color": "warning.main"
+            },
+            {
+              "title": "Unlimited baggage",
+              "description": "No weight limit for your luggage",
+              "icon": "LocalOffer",
+              "color": "warning.main"
+            },
+            {
+              "title": "High-speed Wi-Fi",
+              "description": "Fiber connection for unlimited streaming",
+              "icon": "Wifi",
+              "color": "warning.main"
+            },
+            {
+              "title": "Personal assistance",
+              "description": "A dedicated steward at your service",
+              "icon": "SupportAgent",
+              "color": "warning.main"
+            }
+          ]
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.service-types",
+      "title": "Safidio ny kilasy fahazoana aina",
+      "services": [
+        {
+          "name": "Kilasy Standard",
+          "price": "Manomboka amin'ny 10 000 Ar",
+          "color": "primary",
+          "features": [
+            {
+              "title": "Seza tsara",
+              "description": "Seza ergonomique miaraka amin'ny toerana ho an'ny tongotra",
+              "icon": "Star",
+              "color": "primary.main"
+            },
+            {
+              "title": "Prise USB",
+              "description": "Mameno ny fitaovanao mandritra ny dia",
+              "icon": "Build",
+              "color": "primary.main"
+            },
+            {
+              "title": "Entana tafiditra",
+              "description": "20 kg entana voarakitra + 5 kg ao anaty fiara",
+              "icon": "LocalOffer",
+              "color": "primary.main"
+            },
+            {
+              "title": "Fiantohana feno",
+              "description": "Fiarovana feno ho an'ny fiarovana anao",
+              "icon": "Shield",
+              "color": "primary.main"
+            }
+          ]
+        },
+        {
+          "name": "Kilasy Confort",
+          "price": "Manomboka amin'ny 15 000 Ar",
+          "color": "success",
+          "features": [
+            {
+              "title": "Seza premium azo ahinjitra",
+              "description": "Seza malalaka miaraka amin'ny fanodinana hatramin'ny 30°",
+              "icon": "Star",
+              "color": "success.main"
+            },
+            {
+              "title": "Climatisation tsirairay",
+              "description": "Fanaraha-maso ny mari-pana manokana",
+              "icon": "AcUnit",
+              "color": "success.main"
+            },
+            {
+              "title": "Prise 220V + USB",
+              "description": "Mameno ordinatera sy telefaona",
+              "icon": "Build",
+              "color": "success.main"
+            },
+            {
+              "title": "Toerana entana fanampiny",
+              "description": "25 kg entana voarakitra + 7 kg ao anaty fiara",
+              "icon": "LocalOffer",
+              "color": "success.main"
+            },
+            {
+              "title": "Sakafo maivana sy zava-pisotro maimaim-poana",
+              "description": "Sakafo maivana sy rano mineraly ao anaty fiara",
+              "icon": "Nature",
+              "color": "success.main"
+            },
+            {
+              "title": "Wi-Fi maimaim-poana",
+              "description": "Mijanona mifandray mandritra ny dia",
+              "icon": "Wifi",
+              "color": "success.main"
+            }
+          ]
+        },
+        {
+          "name": "Kilasy VIP",
+          "price": "Manomboka amin'ny 25 000 Ar",
+          "color": "warning",
+          "features": [
+            {
+              "title": "Seza hoditra premium",
+              "description": "Seza hoditra miaraka amin'ny fanodinana feno (45°)",
+              "icon": "Star",
+              "color": "warning.main"
+            },
+            {
+              "title": "Salon VIP eo amin'ny toeram-piantsonana",
+              "description": "Fidirana amin'ny efitrano fiandrasana manokana miaraka amin'ny sakafo maivana",
+              "icon": "Nature",
+              "color": "warning.main"
+            },
+            {
+              "title": "Fiakarana voalohany",
+              "description": "Miakatra voalohany ary mipetraka am-pitoniana",
+              "icon": "Speed",
+              "color": "warning.main"
+            },
+            {
+              "title": "Efijery tsirairay",
+              "description": "Sarimihetsika, mozika ary lalao araka ny fangatahana",
+              "icon": "Build",
+              "color": "warning.main"
+            },
+            {
+              "title": "Serivisy sakafo",
+              "description": "Menu feno miaraka amin'ny safidy sakafo mafana",
+              "icon": "Nature",
+              "color": "warning.main"
+            },
+            {
+              "title": "Entana tsy voafetra",
+              "description": "Tsy misy fetra lanjany ho an'ny entana",
+              "icon": "LocalOffer",
+              "color": "warning.main"
+            },
+            {
+              "title": "Wi-Fi haingana",
+              "description": "Fifandraisana fiber ho an'ny streaming tsy voafetra",
+              "icon": "Wifi",
+              "color": "warning.main"
+            },
+            {
+              "title": "Fanampiana manokana",
+              "description": "Steward manokana ho an'ny serivisy anao",
+              "icon": "SupportAgent",
+              "color": "warning.main"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

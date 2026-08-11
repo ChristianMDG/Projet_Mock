@@ -1,0 +1,197 @@
+{
+  "description": "Popular Routes section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.popular-routes",
+  "locales": {
+    "fr": {
+      "__component": "page.popular-routes",
+      "title": "Nos routes les plus fréquentées",
+      "disclaimer": "Les tarifs indiqués sont indicatifs et peuvent varier selon la saison, le type de véhicule et les promotions en cours. Réservez en ligne pour bénéficier des meilleurs tarifs.",
+      "routes": [
+        {
+          "from": "Antananarivo",
+          "to": "Toamasina (Tamatave)",
+          "price": 25000,
+          "duration": "7-8 heures",
+          "comfort": "Confort"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Antsirabe",
+          "price": 12000,
+          "duration": "3-4 heures",
+          "comfort": "Standard"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Fianarantsoa",
+          "price": 30000,
+          "duration": "9-10 heures",
+          "comfort": "Confort"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Mahajanga",
+          "price": 35000,
+          "duration": "10-12 heures",
+          "comfort": "VIP"
+        },
+        {
+          "from": "Fianarantsoa",
+          "to": "Tuléar (Toliara)",
+          "price": 28000,
+          "duration": "8-9 heures",
+          "comfort": "Confort"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Andasibe (Périnet)",
+          "price": 8000,
+          "duration": "2-3 heures",
+          "comfort": "Standard"
+        },
+        {
+          "from": "Toamasina (Tamatave)",
+          "to": "Maroantsetra",
+          "price": 40000,
+          "duration": "12-14 heures",
+          "comfort": "Confort"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Morondava",
+          "price": 45000,
+          "duration": "14-16 heures",
+          "comfort": "VIP"
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.popular-routes",
+      "title": "Our most popular routes",
+      "disclaimer": "The prices shown are indicative and may vary depending on season, vehicle type, and current promotions. Book online to get the best rates.",
+      "routes": [
+        {
+          "from": "Antananarivo",
+          "to": "Toamasina (Tamatave)",
+          "price": 25000,
+          "duration": "7-8 hours",
+          "comfort": "Confort"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Antsirabe",
+          "price": 12000,
+          "duration": "3-4 hours",
+          "comfort": "Standard"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Fianarantsoa",
+          "price": 30000,
+          "duration": "9-10 hours",
+          "comfort": "Confort"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Mahajanga",
+          "price": 35000,
+          "duration": "10-12 hours",
+          "comfort": "VIP"
+        },
+        {
+          "from": "Fianarantsoa",
+          "to": "Tuléar (Toliara)",
+          "price": 28000,
+          "duration": "8-9 hours",
+          "comfort": "Confort"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Andasibe (Périnet)",
+          "price": 8000,
+          "duration": "2-3 hours",
+          "comfort": "Standard"
+        },
+        {
+          "from": "Toamasina (Tamatave)",
+          "to": "Maroantsetra",
+          "price": 40000,
+          "duration": "12-14 hours",
+          "comfort": "Confort"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Morondava",
+          "price": 45000,
+          "duration": "14-16 hours",
+          "comfort": "VIP"
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.popular-routes",
+      "title": "Ny làlanay be mpandalo indrindra",
+      "disclaimer": "Ny vidiny aseho dia fanondroana ary mety miova arakaraka ny vanim-potoana, ny karazan'ny fiara ary ny fampihenam-bidy ankehitriny. Mandehana an-tserasera mba hahazoana ny sanda tsara indrindra.",
+      "routes": [
+        {
+          "from": "Antananarivo",
+          "to": "Toamasina (Tamatave)",
+          "price": 25000,
+          "duration": "7-8 ora",
+          "comfort": "Confort"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Antsirabe",
+          "price": 12000,
+          "duration": "3-4 ora",
+          "comfort": "Standard"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Fianarantsoa",
+          "price": 30000,
+          "duration": "9-10 ora",
+          "comfort": "Confort"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Mahajanga",
+          "price": 35000,
+          "duration": "10-12 ora",
+          "comfort": "VIP"
+        },
+        {
+          "from": "Fianarantsoa",
+          "to": "Tuléar (Toliara)",
+          "price": 28000,
+          "duration": "8-9 ora",
+          "comfort": "Confort"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Andasibe (Périnet)",
+          "price": 8000,
+          "duration": "2-3 ora",
+          "comfort": "Standard"
+        },
+        {
+          "from": "Toamasina (Tamatave)",
+          "to": "Maroantsetra",
+          "price": 40000,
+          "duration": "12-14 ora",
+          "comfort": "Confort"
+        },
+        {
+          "from": "Antananarivo",
+          "to": "Morondava",
+          "price": 45000,
+          "duration": "14-16 ora",
+          "comfort": "VIP"
+        }
+      ]
+    }
+  }
+}

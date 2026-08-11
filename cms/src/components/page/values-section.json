@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_page_values_sections",
+  "info": {
+    "displayName": "Section Valeurs",
+    "description": "Affichage des valeurs de l'entreprise",
+    "icon": "star"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Nos Valeurs"
+    },
+    "values": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.value-item"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contrat",
+  "info": {
+    "singularName": "contrat",
+    "pluralName": "contrats",
+    "displayName": "Contrat"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "partenaire": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::partenaire.partenaire",
+      "inversedBy": "contrats"
+    },
+    "chauffeur": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::chauffeur.chauffeur",
+      "inversedBy": "contrats"
+    },
+    "koperative": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::koperative.koperative",
+      "inversedBy": "contrats"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["PARTNERSHIP", "EMPLOYMENT", "SERVICE_AGREEMENT", "RENTAL", "OTHER"],
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "terms": {
+      "type": "richtext"
+    },
+    "startDate": {
+      "type": "date"
+    },
+    "endDate": {
+      "type": "date"
+    },
+    "contractValue": {
+      "type": "decimal"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["DRAFT", "ACTIVE", "EXPIRED", "TERMINATED", "RENEWED"],
+      "default": "DRAFT",
+      "required": true
+    }
+  }
+}

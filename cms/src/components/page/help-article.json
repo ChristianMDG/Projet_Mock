@@ -1,0 +1,39 @@
+{
+  "collectionName": "components_page_help_articles",
+  "info": {
+    "displayName": "Article d'Aide",
+    "description": "Article d'aide individuel",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Comment réserver un voyage",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "content": {
+      "type": "text",
+      "required": true,
+      "maxLength": 2000,
+      "default": "Pour réserver un voyage, suivez ces étapes simples : 1) Sélectionnez votre ville de départ et de destination 2) Choisissez la date de voyage 3) Sélectionnez l'horaire qui vous convient 4) Procédez au paiement sécurisé.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "url": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "/help/comment-reserver",
+      "description": "Link to full article"
+    }
+  }
+}

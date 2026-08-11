@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_page_legal_sections",
+  "info": {
+    "displayName": "Section Légale",
+    "description": "Section légale individuelle avec titre et contenu",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Acceptation des conditions",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "content": {
+      "type": "text",
+      "required": true,
+      "maxLength": 5000,
+      "default": "En utilisant notre service de réservation de taxi-brousse, vous acceptez de respecter les présentes conditions d'utilisation. Ces conditions régissent votre utilisation de notre plateforme et de nos services.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

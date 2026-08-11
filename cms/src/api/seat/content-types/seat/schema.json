@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "seat",
+  "info": {
+    "singularName": "seat",
+    "pluralName": "seats",
+    "displayName": "Siège"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "voyage": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::voyage.voyage",
+      "inversedBy": "seats"
+    },
+    "crafter": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::crafter.crafter",
+      "inversedBy": "seats"
+    },
+    "seatNumber": {
+      "type": "integer",
+      "required": true,
+      "min": 1,
+      "max": 50
+    },
+    "seatStatus": {
+      "type": "enumeration",
+      "enum": ["AVAILABLE", "RESERVED", "BLOCKED", "DAMAGED"],
+      "default": "AVAILABLE",
+      "required": true
+    },
+    "reservation": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::reservation.reservation",
+      "inversedBy": "seats"
+    },
+    "position": {
+      "type": "string",
+      "maxLength": 2
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 100
+    }
+  }
+}

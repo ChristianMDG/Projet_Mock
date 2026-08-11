@@ -1,0 +1,54 @@
+{
+  "collectionName": "components_page_booking_rule_items",
+  "info": {
+    "displayName": "Élément de Règle de Réservation",
+    "description": "Un élément de règle de réservation avec icône, titre et description",
+    "icon": "check"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "enumeration",
+      "enum": [
+        "Schedule",
+        "EventSeat",
+        "Security",
+        "Payment",
+        "CreditCard",
+        "LocalOffer",
+        "Info",
+        "Help",
+        "Verified",
+        "CheckCircle",
+        "Luggage",
+        "Person",
+        "Groups",
+        "AccessTime",
+        "CalendarMonth",
+        "EditCalendar"
+      ],
+      "default": "Info",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

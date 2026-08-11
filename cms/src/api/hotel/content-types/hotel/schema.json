@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hotel",
+  "info": {
+    "singularName": "hotel",
+    "pluralName": "hotels",
+    "displayName": "Hotel"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "ville": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::ville.ville",
+      "inversedBy": "hotels"
+    },
+    "address": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "phone": {
+      "type": "string",
+      "maxLength": 20
+    },
+    "email": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "rating": {
+      "type": "decimal",
+      "min": 0,
+      "max": 5
+    },
+    "amenities": {
+      "type": "richtext"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

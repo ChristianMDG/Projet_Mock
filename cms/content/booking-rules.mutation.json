@@ -1,0 +1,116 @@
+{
+  "description": "Booking Rules section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.booking-rules",
+  "locales": {
+    "fr": {
+      "__component": "page.booking-rules",
+      "title": "Conditions de réservation",
+      "rules": [
+        {
+          "icon": "Schedule",
+          "title": "Réservation et annulation",
+          "description": "Réservez jusqu'à 30 jours à l'avance. Annulation gratuite jusqu'à 24h avant le départ. Entre 24h et 48h, remboursement à 50%."
+        },
+        {
+          "icon": "EventSeat",
+          "title": "Choix des sièges",
+          "description": "Sélectionnez votre siège préféré lors de la réservation. Gratuit pour les services Confort et VIP, 500 Ar pour la classe Standard."
+        },
+        {
+          "icon": "Security",
+          "title": "Paiement sécurisé",
+          "description": "Payez par carte bancaire, mobile money (MVola, Orange Money, Airtel Money) ou en espèces à la gare."
+        },
+        {
+          "icon": "LocalOffer",
+          "title": "Tarifs dynamiques",
+          "description": "Les prix varient selon la demande, la saison et la disponibilité. Réservez tôt pour bénéficier des meilleurs tarifs."
+        },
+        {
+          "icon": "Luggage",
+          "title": "Bagages autorisés",
+          "description": "20 kg de bagages en soute inclus. Bagages supplémentaires facturés 1 000 Ar par kg. Bagages à main limités à 5 kg."
+        },
+        {
+          "icon": "Person",
+          "title": "Tarifs enfants",
+          "description": "Gratuit pour les moins de 2 ans (sans siège). Réduction de 50% pour les enfants de 2 à 12 ans."
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.booking-rules",
+      "title": "Booking conditions",
+      "rules": [
+        {
+          "icon": "Schedule",
+          "title": "Booking and cancellation",
+          "description": "Book up to 30 days in advance. Free cancellation up to 24 hours before departure. Between 24h and 48h, 50% refund."
+        },
+        {
+          "icon": "EventSeat",
+          "title": "Seat selection",
+          "description": "Select your preferred seat when booking. Free for Comfort and VIP services, 500 Ar for Standard class."
+        },
+        {
+          "icon": "Security",
+          "title": "Secure payment",
+          "description": "Pay by credit card, mobile money (MVola, Orange Money, Airtel Money) or cash at the station."
+        },
+        {
+          "icon": "LocalOffer",
+          "title": "Dynamic pricing",
+          "description": "Prices vary according to demand, season and availability. Book early to get the best rates."
+        },
+        {
+          "icon": "Luggage",
+          "title": "Baggage allowance",
+          "description": "20 kg checked baggage included. Additional baggage charged at 1,000 Ar per kg. Carry-on limited to 5 kg."
+        },
+        {
+          "icon": "Person",
+          "title": "Children's fares",
+          "description": "Free for children under 2 years (no seat). 50% discount for children aged 2 to 12 years."
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.booking-rules",
+      "title": "Fepetra famandrihana",
+      "rules": [
+        {
+          "icon": "Schedule",
+          "title": "Famandrihana sy fanafoanan",
+          "description": "Mandehana hatramin'ny 30 andro mialoha. Fanafoanan maimaim-poana hatramin'ny 24 ora mialoha ny fiaingana. Eo anelanelan'ny 24h sy 48h, 50% ny famerenana."
+        },
+        {
+          "icon": "EventSeat",
+          "title": "Fisafidianana seza",
+          "description": "Safidio ny seza tianao rehefa manao famandrihana. Maimaim-poana ho an'ny serivisy Confort sy VIP, 500 Ar ho an'ny kilasy Standard."
+        },
+        {
+          "icon": "Security",
+          "title": "Fandoavana azo antoka",
+          "description": "Mandoava amin'ny karatra banky, mobile money (MVola, Orange Money, Airtel Money) na vola mivantana any amin'ny toeram-piantsonana."
+        },
+        {
+          "icon": "LocalOffer",
+          "title": "Vidiny miova",
+          "description": "Ny vidiny dia miova arakaraka ny fangatahana, ny vanim-potoana ary ny fahazoana. Mandehana aloha mba hahazoana ny sanda tsara indrindra."
+        },
+        {
+          "icon": "Luggage",
+          "title": "Entana azo entina",
+          "description": "20 kg entana ao amin'ny soute tafiditra. Entana fanampiny andraikitra 1 000 Ar isaky ny kg. Entana an-tanana voafetra amin'ny 5 kg."
+        },
+        {
+          "icon": "Person",
+          "title": "Saran-dalana ho an'ny ankizy",
+          "description": "Maimaim-poana ho an'ny ankizy latsaky ny 2 taona (tsy misy seza). Fihenam-bidy 50% ho an'ny ankizy 2 ka hatramin'ny 12 taona."
+        }
+      ]
+    }
+  }
+}

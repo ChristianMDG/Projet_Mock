@@ -1,0 +1,68 @@
+{
+  "collectionName": "components_page_testimonial_items",
+  "info": {
+    "displayName": "Élément Témoignage",
+    "description": "Un témoignage individuel avec nom, localisation, note et commentaire",
+    "icon": "message"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Mialy Rakotoson",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "location": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Antananarivo",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "rating": {
+      "type": "integer",
+      "required": true,
+      "min": 1,
+      "max": 5,
+      "default": 5
+    },
+    "comment": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500,
+      "default": "Excellent service ! J'ai voyagé d'Antananarivo à Antsirabe en toute sécurité. Les sièges sont confortables et le chauffeur très professionnel.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "avatar": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "avatarUrl": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face",
+      "description": "Alternative URL for avatar if no upload"
+    }
+  }
+}

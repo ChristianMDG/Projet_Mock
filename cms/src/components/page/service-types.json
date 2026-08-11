@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_page_service_types",
+  "info": {
+    "displayName": "Types de Services",
+    "description": "Catégories de services avec tarification et fonctionnalités",
+    "icon": "server"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Nos types de services",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "services": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.service-item"
+    }
+  }
+}

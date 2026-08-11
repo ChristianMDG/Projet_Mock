@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_page_value_items",
+  "info": {
+    "displayName": "Élément Valeur",
+    "description": "Valeur de l'entreprise avec icône et description",
+    "icon": "heart"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "Sécurité"
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "default": "La sécurité de nos passagers est notre priorité absolue"
+    },
+    "icon": {
+      "type": "enumeration",
+      "enum": [
+        "Security",
+        "Speed",
+        "Favorite",
+        "LocationOn",
+        "Groups",
+        "DirectionsBus",
+        "TrendingUp",
+        "Star",
+        "CheckCircle",
+        "Verified"
+      ],
+      "default": "Security"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "collectionName": "components_page_additional_info_items",
+  "info": {
+    "displayName": "Additional Info Item",
+    "description": "Élément d'information complémentaire",
+    "icon": "info"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "enumeration",
+      "enum": [
+        "ChildCare",
+        "Luggage",
+        "Pets",
+        "Security",
+        "Info",
+        "Help",
+        "CheckCircle",
+        "Warning",
+        "LocalOffer",
+        "Payment",
+        "AccessTime",
+        "EventSeat"
+      ],
+      "default": "Info",
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "text": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

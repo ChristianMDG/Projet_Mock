@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_page_text_paragraphs",
+  "info": {
+    "displayName": "Paragraphe de Texte",
+    "description": "Composant paragraphe de texte",
+    "icon": "write"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "text",
+      "required": true,
+      "maxLength": 2000,
+      "default": "Taxibrousse est la plateforme de transport leader à Madagascar, connectant les passagers avec des services de taxi-brousse fiables à travers l'île. Notre mission est de rendre le transport accessible, sûr et pratique pour tous les Malgaches.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

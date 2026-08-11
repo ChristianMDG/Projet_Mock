@@ -1,0 +1,155 @@
+{
+  "description": "Dynamic page for Safety & Insurance - Sécurité et Assurance",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "securite-assurance",
+  "icon": "Security",
+  "locales": {
+    "fr": {
+      "title": "Sécurité et Assurance",
+      "slug": "securite-assurance",
+      "icon": "Security",
+      "pageHeader": {
+        "title": "Sécurité et Assurance",
+        "description": "Votre sécurité est notre priorité absolue",
+        "alertType": "info",
+        "alertTitle": "Certification",
+        "alertMessage": "Taxibrousse est agréé par le Ministère des Transports de Madagascar"
+      },
+      "sections": [
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Safety Measures",
+          "sectionType": "page.safety-measures"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Insurance Coverage",
+          "sectionType": "page.insurance-coverage"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Safety Tips",
+          "sectionType": "page.safety-tips"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Emergency Contacts",
+          "sectionType": "page.emergency-contacts"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "FAQ Section",
+          "sectionType": "page.faq-section"
+        }
+      ],
+      "callToAction": {
+        "__component": "page.call-to-action",
+        "title": "Voyagez en toute sérénité",
+        "description": "Avec Taxibrousse, votre sécurité est garantie par nos assurances complètes et nos mesures de sécurité strictes.",
+        "buttonText": "Réserver en toute confiance",
+        "buttonUrl": "/",
+        "buttonVariant": "contained",
+        "buttonColor": "primary",
+        "buttonIcon": "VerifiedUser"
+      }
+    },
+    "en": {
+      "title": "Safety & Insurance",
+      "slug": "safety-insurance",
+      "icon": "Security",
+      "pageHeader": {
+        "title": "Safety & Insurance",
+        "description": "Your safety is our absolute priority",
+        "alertType": "info",
+        "alertTitle": "Certification",
+        "alertMessage": "Taxibrousse is approved by the Ministry of Transport of Madagascar"
+      },
+      "sections": [
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Safety Measures",
+          "sectionType": "page.safety-measures"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Insurance Coverage",
+          "sectionType": "page.insurance-coverage"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Safety Tips",
+          "sectionType": "page.safety-tips"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Emergency Contacts",
+          "sectionType": "page.emergency-contacts"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "FAQ Section",
+          "sectionType": "page.faq-section"
+        }
+      ],
+      "callToAction": {
+        "__component": "page.call-to-action",
+        "title": "Travel with peace of mind",
+        "description": "With Taxibrousse, your safety is guaranteed by our comprehensive insurance and strict safety measures.",
+        "buttonText": "Book with confidence",
+        "buttonUrl": "/",
+        "buttonVariant": "contained",
+        "buttonColor": "primary",
+        "buttonIcon": "VerifiedUser"
+      }
+    },
+    "mg": {
+      "title": "Fiarovana sy Antoka",
+      "slug": "fiarovana-antoka",
+      "icon": "Security",
+      "pageHeader": {
+        "title": "Fiarovana sy Antoka",
+        "description": "Ny fiarovana anao no laharam-pahamehana voalohany",
+        "alertType": "info",
+        "alertTitle": "Fankatoavana",
+        "alertMessage": "Taxibrousse dia neken'ny Minisiteran'ny Fitaterana Malagasy"
+      },
+      "sections": [
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Safety Measures",
+          "sectionType": "page.safety-measures"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Insurance Coverage",
+          "sectionType": "page.insurance-coverage"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Safety Tips",
+          "sectionType": "page.safety-tips"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "Emergency Contacts",
+          "sectionType": "page.emergency-contacts"
+        },
+        {
+          "__component": "page.section-reference",
+          "sectionTitle": "FAQ Section",
+          "sectionType": "page.faq-section"
+        }
+      ],
+      "callToAction": {
+        "__component": "page.call-to-action",
+        "title": "Mandeha amim-piadanana",
+        "description": "Miaraka amin'ny Taxibrousse, ny fiarovana anao dia antoka amin'ny fiantohana feno sy ny fepetra fiarovana hentitra.",
+        "buttonText": "Manao famandrihana amim-pahatokiana",
+        "buttonUrl": "/",
+        "buttonVariant": "contained",
+        "buttonColor": "primary",
+        "buttonIcon": "VerifiedUser"
+      }
+    }
+  }
+}

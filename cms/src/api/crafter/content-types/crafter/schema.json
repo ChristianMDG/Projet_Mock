@@ -1,0 +1,65 @@
+{
+  "kind": "collectionType",
+  "collectionName": "crafter",
+  "info": {
+    "singularName": "crafter",
+    "pluralName": "crafters",
+    "displayName": "Crafter (Véhicule)"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "registrationNumber": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 20
+    },
+    "model": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "kilometrage": {
+      "type": "integer"
+    },
+    "seatCapacity": {
+      "type": "integer",
+      "default": 18,
+      "required": true
+    },
+    "configName": {
+      "type": "string",
+      "maxLength": 25
+    },
+    "seatConfig": {
+      "type": "json"
+    },
+    "koperative": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::koperative.koperative",
+      "inversedBy": "crafters"
+    },
+    "chauffeur": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::chauffeur.chauffeur",
+      "inversedBy": "crafterAssigned"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "dateVisite": {
+      "type": "date"
+    },
+    "seats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::seat.seat",
+      "mappedBy": "crafter"
+    }
+  }
+}

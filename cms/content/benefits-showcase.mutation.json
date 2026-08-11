@@ -1,0 +1,194 @@
+{
+  "description": "Benefits Showcase section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.benefits-showcase",
+  "locales": {
+    "fr": {
+      "__component": "page.benefits-showcase",
+      "title": "Que des avantages avec Taxibrousse",
+      "subtitle": "Voyagez en toute sérénité avec nos services premium",
+      "layout": "grid",
+      "backgroundColor": "#f8f9fa",
+      "containerMaxWidth": "lg",
+      "benefits": [
+        {
+          "icon": "star",
+          "title": "Programme de Fidélité",
+          "description": "Gagnez des points à chaque trajet et bénéficiez de réductions exclusives sur vos prochaines réservations",
+          "highlighted": true,
+          "color": "primary",
+          "link": "/fidelite",
+          "linkText": "En savoir plus"
+        },
+        {
+          "icon": "priceTag",
+          "title": "Paiement Flexible",
+          "description": "Payez en plusieurs fois ou utilisez Mobile Money pour plus de flexibilité dans vos paiements",
+          "highlighted": false,
+          "color": "success",
+          "link": "/paiement",
+          "linkText": "Voir les options"
+        },
+        {
+          "icon": "shield",
+          "title": "Garantie Meilleur Prix",
+          "description": "Nous vous remboursons la différence si vous trouvez moins cher ailleurs pour le même trajet",
+          "highlighted": true,
+          "color": "warning",
+          "link": "/garantie",
+          "linkText": "Conditions"
+        },
+        {
+          "icon": "crown",
+          "title": "Excellence du Service",
+          "description": "Véhicules confortables, chauffeurs professionnels et ponctualité garantie pour tous vos trajets",
+          "highlighted": false,
+          "color": "info"
+        },
+        {
+          "icon": "headphone",
+          "title": "Support 24/7",
+          "description": "Notre équipe est disponible à tout moment pour vous accompagner avant, pendant et après votre voyage",
+          "highlighted": false,
+          "color": "secondary",
+          "link": "/contact",
+          "linkText": "Nous contacter"
+        },
+        {
+          "icon": "lock",
+          "title": "Assurance Voyage",
+          "description": "Voyagez l'esprit tranquille avec notre couverture complète incluse dans chaque réservation",
+          "highlighted": false,
+          "color": "primary",
+          "link": "/assurance",
+          "linkText": "Détails"
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.benefits-showcase",
+      "title": "Nothing but benefits with Taxibrousse",
+      "subtitle": "Travel with complete peace of mind with our premium services",
+      "layout": "grid",
+      "backgroundColor": "#f8f9fa",
+      "containerMaxWidth": "lg",
+      "benefits": [
+        {
+          "icon": "star",
+          "title": "Loyalty Program",
+          "description": "Earn points on every trip and enjoy exclusive discounts on your next bookings",
+          "highlighted": true,
+          "color": "primary",
+          "link": "/fidelite",
+          "linkText": "Learn more"
+        },
+        {
+          "icon": "priceTag",
+          "title": "Flexible Payment",
+          "description": "Pay in installments or use Mobile Money for more flexibility in your payments",
+          "highlighted": false,
+          "color": "success",
+          "link": "/paiement",
+          "linkText": "See options"
+        },
+        {
+          "icon": "shield",
+          "title": "Best Price Guarantee",
+          "description": "We refund the difference if you find a cheaper price elsewhere for the same trip",
+          "highlighted": true,
+          "color": "warning",
+          "link": "/garantie",
+          "linkText": "Conditions"
+        },
+        {
+          "icon": "crown",
+          "title": "Service Excellence",
+          "description": "Comfortable vehicles, professional drivers and guaranteed punctuality for all your trips",
+          "highlighted": false,
+          "color": "info"
+        },
+        {
+          "icon": "headphone",
+          "title": "24/7 Support",
+          "description": "Our team is available at all times to assist you before, during and after your journey",
+          "highlighted": false,
+          "color": "secondary",
+          "link": "/contact",
+          "linkText": "Contact us"
+        },
+        {
+          "icon": "lock",
+          "title": "Travel Insurance",
+          "description": "Travel with peace of mind with our comprehensive coverage included in every booking",
+          "highlighted": false,
+          "color": "primary",
+          "link": "/assurance",
+          "linkText": "Details"
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.benefits-showcase",
+      "title": "Tombontsoa fotsiny miaraka amin'i Taxibrousse",
+      "subtitle": "Mankanesa amim-piadanana feno miaraka amin'ny serivisy premium anay",
+      "layout": "grid",
+      "backgroundColor": "#f8f9fa",
+      "containerMaxWidth": "lg",
+      "benefits": [
+        {
+          "icon": "star",
+          "title": "Programa Mahatoky",
+          "description": "Mahazoa isa isaky ny dia ary ankafizo ny fihenam-bidy manokana amin'ny famandrihana manaraka",
+          "highlighted": true,
+          "color": "primary",
+          "link": "/fidelite",
+          "linkText": "Fantaro bebe kokoa"
+        },
+        {
+          "icon": "priceTag",
+          "title": "Fandoavana Mora",
+          "description": "Mandoava amin'ny imbetsaka na mampiasà Mobile Money mba hanana mora kokoa amin'ny fandoavana",
+          "highlighted": false,
+          "color": "success",
+          "link": "/paiement",
+          "linkText": "Jereo ny safidy"
+        },
+        {
+          "icon": "shield",
+          "title": "Antoka Vidiny Tsara Indrindra",
+          "description": "Averinay aminao ny fahasamihafana raha mahita vidiny mora kokoa any an-kafa ho an'ny dia mitovy",
+          "highlighted": true,
+          "color": "warning",
+          "link": "/garantie",
+          "linkText": "Fepetra"
+        },
+        {
+          "icon": "crown",
+          "title": "Fahatsaran'ny Serivisy",
+          "description": "Fiara mampiadana, mpamily matihanina ary fiaingana ara-potoana azo antoka ho an'ny dianao rehetra",
+          "highlighted": false,
+          "color": "info"
+        },
+        {
+          "icon": "headphone",
+          "title": "Fanampiana 24/7",
+          "description": "Ny ekipanay dia vonona hanampy anao amin'ny fotoana rehetra alohan'ny, mandritra ary aorian'ny dianao",
+          "highlighted": false,
+          "color": "secondary",
+          "link": "/contact",
+          "linkText": "Mifandraisa aminay"
+        },
+        {
+          "icon": "lock",
+          "title": "Fiantohana Dia",
+          "description": "Mankanesa amim-piadanana miaraka amin'ny fiarovana feno voasoratra ao anatin'ny famandrihana tsirairay",
+          "highlighted": false,
+          "color": "primary",
+          "link": "/assurance",
+          "linkText": "Antsipiriany"
+        }
+      ]
+    }
+  }
+}

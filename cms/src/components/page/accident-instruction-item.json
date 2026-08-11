@@ -1,0 +1,51 @@
+{
+  "collectionName": "components_page_accident_instruction_items",
+  "info": {
+    "displayName": "Accident Instruction Item",
+    "description": "Une étape d'instruction en cas d'accident",
+    "icon": "list-ol"
+  },
+  "options": {},
+  "attributes": {
+    "step": {
+      "type": "integer",
+      "required": true
+    },
+    "icon": {
+      "type": "string",
+      "required": true,
+      "default": "CheckCircle"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "priority": {
+      "type": "enumeration",
+      "enum": ["critical", "high", "medium", "low"],
+      "default": "medium"
+    },
+    "details": {
+      "type": "richtext",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "routestop",
+  "info": {
+    "singularName": "route-stop",
+    "pluralName": "route-stops",
+    "displayName": "Route Stop"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "route": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::route.route",
+      "inversedBy": "routeStops"
+    },
+    "ville": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::ville.ville"
+    },
+    "gare": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::gare.gare"
+    },
+    "stopOrder": {
+      "type": "integer",
+      "required": true
+    },
+    "estimatedArrival": {
+      "type": "datetime"
+    },
+    "estimatedDeparture": {
+      "type": "datetime"
+    },
+    "isMandatory": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

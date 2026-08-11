@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_page_legal_contents",
+  "info": {
+    "displayName": "Contenu Légal",
+    "description": "Contenu légal pour confidentialité, conditions, etc.",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Conditions d'utilisation",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "text",
+      "maxLength": 500,
+      "default": "Informations juridiques et conditions d'utilisation pour la plateforme de réservation de Taxibrousse Madagascar. Consultez nos mentions légales, politique de confidentialité et conditions générales d'utilisation.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "sections": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.legal-section"
+    }
+  }
+}

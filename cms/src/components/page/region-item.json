@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_page_region_items",
+  "info": {
+    "displayName": "Élément Région",
+    "description": "Région géographique avec villes",
+    "icon": "pinMap"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "default": "Côte Est"
+    },
+    "province": {
+      "type": "string",
+      "required": true,
+      "default": "Toamasina"
+    },
+    "cities": {
+      "type": "json",
+      "required": true,
+      "default": [
+        {
+          "name": "Toamasina",
+          "region": "Atsinanana",
+          "code": "TMM",
+          "isActive": true
+        },
+        {
+          "name": "Fénérive-Est",
+          "region": "Analanjirofo",
+          "code": "FEN",
+          "isActive": true
+        },
+        {
+          "name": "Maroantsetra",
+          "region": "Analanjirofo",
+          "code": "WMR",
+          "isActive": true
+        }
+      ]
+    }
+  }
+}

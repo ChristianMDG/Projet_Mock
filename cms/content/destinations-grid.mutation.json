@@ -1,0 +1,161 @@
+{
+  "description": "Destinations Grid section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.destinations-grid",
+  "locales": {
+    "fr": {
+      "__component": "page.destinations-grid",
+      "title": "Explorez toutes nos destinations",
+      "subtitle": "Découvrez les trésors cachés de Madagascar à travers notre réseau étendu de routes",
+      "destinations": [
+        {
+          "city": "Antsirabe",
+          "route": "Antananarivo - Antsirabe",
+          "region": "Vakinankaratra",
+          "description": "Antsirabe, surnommée la \"Vichy malgache\", est une charmante ville thermale située à 170 km au sud d'Antananarivo. Réputée pour ses sources chaudes, ses lacs volcaniques (Andraikiba et Tritriva) et son industrie de pierres semi-précieuses.",
+          "duration": "3-4h",
+          "category": "Cultural",
+          "popularity": 5,
+          "frequency": "Départs toutes les heures",
+          "price": "À partir de 12 000 Ar"
+        },
+        {
+          "city": "Nosy Be",
+          "route": "Antananarivo - Mahajanga - Nosy Be (+ ferry)",
+          "region": "Diana",
+          "description": "Nosy Be est la plus grande île de l'archipel malgache et la destination balnéaire la plus prisée. Ses plantations d'ylang-ylang et de vanille lui valent le surnom d'\"île aux parfums\".",
+          "duration": "16-18h + ferry",
+          "category": "Coastal",
+          "popularity": 5,
+          "frequency": "Départs quotidiens",
+          "price": "À partir de 55 000 Ar"
+        },
+        {
+          "city": "Andasibe (Périnet)",
+          "route": "Antananarivo - Andasibe",
+          "region": "Alaotra-Mangoro",
+          "description": "Le parc national d'Andasibe-Mantadia est l'une des aires protégées les plus visitées de Madagascar. Il abrite le célèbre lémurien Indri-Indri, reconnaissable à son cri puissant.",
+          "duration": "2-3h",
+          "category": "Nature",
+          "popularity": 5,
+          "frequency": "Départs quotidiens",
+          "price": "À partir de 8 000 Ar"
+        },
+        {
+          "city": "Ifaty",
+          "route": "Antananarivo - Fianarantsoa - Toliara - Ifaty",
+          "region": "Atsimo-Andrefana",
+          "description": "Ifaty-Mangily est un village de pêcheurs traditionnel Vezo situé à 27 km au nord de Tuléar. Cette destination balnéaire authentique offre des plages de sable blanc et un lagon protégé.",
+          "duration": "18-20h",
+          "category": "Coastal",
+          "popularity": 4,
+          "frequency": "Départs quotidiens",
+          "price": "À partir de 60 000 Ar"
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.destinations-grid",
+      "title": "Explore all our destinations",
+      "subtitle": "Discover Madagascar's hidden treasures through our extensive route network",
+      "destinations": [
+        {
+          "city": "Antsirabe",
+          "route": "Antananarivo - Antsirabe",
+          "region": "Vakinankaratra",
+          "description": "Antsirabe, nicknamed the \"Malagasy Vichy\", is a charming thermal city located 170 km south of Antananarivo. Renowned for its hot springs, volcanic lakes (Andraikiba and Tritriva) and semi-precious stone industry.",
+          "duration": "3-4h",
+          "category": "Cultural",
+          "popularity": 5,
+          "frequency": "Departures every hour",
+          "price": "From 12,000 Ar"
+        },
+        {
+          "city": "Nosy Be",
+          "route": "Antananarivo - Mahajanga - Nosy Be (+ ferry)",
+          "region": "Diana",
+          "description": "Nosy Be is the largest island in the Malagasy archipelago and the most popular seaside destination. Its ylang-ylang and vanilla plantations earn it the nickname \"perfume island\".",
+          "duration": "16-18h + ferry",
+          "category": "Coastal",
+          "popularity": 5,
+          "frequency": "Daily departures",
+          "price": "From 55,000 Ar"
+        },
+        {
+          "city": "Andasibe (Périnet)",
+          "route": "Antananarivo - Andasibe",
+          "region": "Alaotra-Mangoro",
+          "description": "Andasibe-Mantadia National Park is one of Madagascar's most visited protected areas. It is home to the famous Indri-Indri lemur, recognizable by its powerful cry.",
+          "duration": "2-3h",
+          "category": "Nature",
+          "popularity": 5,
+          "frequency": "Daily departures",
+          "price": "From 8,000 Ar"
+        },
+        {
+          "city": "Ifaty",
+          "route": "Antananarivo - Fianarantsoa - Toliara - Ifaty",
+          "region": "Atsimo-Andrefana",
+          "description": "Ifaty-Mangily is a traditional Vezo fishing village located 27 km north of Tuléar. This authentic seaside destination offers white sand beaches and a protected lagoon.",
+          "duration": "18-20h",
+          "category": "Coastal",
+          "popularity": 4,
+          "frequency": "Daily departures",
+          "price": "From 60,000 Ar"
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.destinations-grid",
+      "title": "Hikaroka ny toerana rehetra azonay idirana",
+      "subtitle": "Hahita ireo rakitra miafina eto Madagasikara amin'ny alalan'ny lalana malalaka",
+      "destinations": [
+        {
+          "city": "Antsirabe",
+          "route": "Antananarivo - Antsirabe",
+          "region": "Vakinankaratra",
+          "description": "Antsirabe, nantsoina hoe \"Vichy malagasy\", dia tanàna mahafinaritra misy loharano mafana any 170 km atsimo Antananarivo. Malaza amin'ny loharano mafana, farihy volkano (Andraikiba sy Tritriva) ary indostrian'ny vato sarobidy.",
+          "duration": "3-4h",
+          "category": "Cultural",
+          "popularity": 5,
+          "frequency": "Fiaingana isaky ny ora",
+          "price": "Manomboka amin'ny 12 000 Ar"
+        },
+        {
+          "city": "Nosy Be",
+          "route": "Antananarivo - Mahajanga - Nosy Be (+ sambo)",
+          "region": "Diana",
+          "description": "Nosy Be no nosy lehibe indrindra eto Madagasikara ary toerana malaza indrindra. Ny fambolena ylang-ylang sy lavanila no nahatonga azy io nantsoina hoe \"nosy fofona\".",
+          "duration": "16-18h + sambo",
+          "category": "Coastal",
+          "popularity": 5,
+          "frequency": "Fiaingana isan'andro",
+          "price": "Manomboka amin'ny 55 000 Ar"
+        },
+        {
+          "city": "Andasibe (Périnet)",
+          "route": "Antananarivo - Andasibe",
+          "region": "Alaotra-Mangoro",
+          "description": "Ny valan-javaboary Andasibe-Mantadia dia iray amin'ireo faritra arovana be mpitsidika indrindra eto Madagasikara. Ahitana ny gidro Indri-Indri malaza, fantatra amin'ny fiantsoana mahery.",
+          "duration": "2-3h",
+          "category": "Nature",
+          "popularity": 5,
+          "frequency": "Fiaingana isan'andro",
+          "price": "Manomboka amin'ny 8 000 Ar"
+        },
+        {
+          "city": "Ifaty",
+          "route": "Antananarivo - Fianarantsoa - Toliara - Ifaty",
+          "region": "Atsimo-Andrefana",
+          "description": "Ifaty-Mangily dia tanàna mpanjono Vezo nentim-paharazana any 27 km avaratr'i Tuléar. Ity toerana amoron-dranomasina marina ity dia manolotra tora-pasika fotsy sy lagoon arovana.",
+          "duration": "18-20h",
+          "category": "Coastal",
+          "popularity": 4,
+          "frequency": "Fiaingana isan'andro",
+          "price": "Manomboka amin'ny 60 000 Ar"
+        }
+      ]
+    }
+  }
+}

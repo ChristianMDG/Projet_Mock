@@ -1,0 +1,64 @@
+{
+  "collectionName": "components_page_why_choose_us",
+  "info": {
+    "displayName": "Pourquoi Nous Choisir",
+    "description": "Section présentant les avantages et caractéristiques uniques du service",
+    "icon": "crown"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Pourquoi choisir Taxibrousse ?",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "Plus de 25 ans d'expérience au service des voyageurs malgaches",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "features": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.feature-item",
+      "required": true,
+      "min": 1,
+      "max": 8
+    },
+    "statistics": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.statistic-item",
+      "required": false,
+      "max": 6
+    },
+    "showStatistics": {
+      "type": "boolean",
+      "default": true,
+      "description": "Display statistics section at the bottom"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "background.default",
+      "description": "Section background color"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg",
+      "description": "Container maximum width"
+    }
+  }
+}

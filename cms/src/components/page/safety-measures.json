@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_page_safety_measures",
+  "info": {
+    "displayName": "Mesures de Sécurité",
+    "description": "Section des mesures de sécurité avec icône, titre et description",
+    "icon": "shield"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Nos mesures de sécurité",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "measures": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.measure-item"
+    }
+  }
+}

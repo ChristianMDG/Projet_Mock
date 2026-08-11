@@ -1,0 +1,290 @@
+{
+  "description": "Help Center section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.help-center-section",
+  "locales": {
+    "fr": {
+      "__component": "page.help-center-section",
+      "title": "Centre d'aide - Trouvez rapidement des réponses",
+      "categories": [
+        {
+          "name": "Réservation et paiement",
+          "description": "Tout ce que vous devez savoir sur la réservation en ligne et les moyens de paiement",
+          "icon": "PaymentRounded",
+          "articles": [
+            {
+              "title": "Comment réserver un billet en ligne ?",
+              "content": "Pour réserver votre billet, rendez-vous sur notre page de réservation, sélectionnez votre ville de départ, votre destination, la date et le nombre de passagers. Choisissez votre classe de confort (Standard, Confort ou VIP), puis procédez au paiement sécurisé. Vous recevrez votre billet par SMS et email dans les 2 minutes.",
+              "url": "/aide/reservation-en-ligne"
+            },
+            {
+              "title": "Quels moyens de paiement acceptez-vous ?",
+              "content": "Nous acceptons MVola, Orange Money, Airtel Money, les cartes bancaires Visa/Mastercard et le paiement en espèces directement à la gare. Les paiements en ligne sont sécurisés via une connexion SSL cryptée.",
+              "url": "/aide/moyens-paiement"
+            },
+            {
+              "title": "Mon paiement a échoué, que faire ?",
+              "content": "Si votre paiement échoue, vérifiez d'abord votre solde. Si le problème persiste, contactez votre opérateur Mobile Money ou votre banque. Aucun montant n'est débité en cas d'échec. Vous pouvez réessayer ou choisir un autre moyen de paiement.",
+              "url": "/aide/paiement-echoue"
+            }
+          ]
+        },
+        {
+          "name": "Bagages et objets perdus",
+          "description": "Informations sur les franchises bagages, objets interdits et procédure en cas de perte",
+          "icon": "LuggageRounded",
+          "articles": [
+            {
+              "title": "Quelle est la franchise bagage autorisée ?",
+              "content": "Classe Standard : 20 kg en soute + 5 kg en cabine. Classe Confort : 25 kg en soute + 7 kg en cabine. Classe VIP : bagages illimités. Les bagages dépassant le poids autorisé sont facturés 1 000 Ar/kg supplémentaire.",
+              "url": "/aide/franchise-bagages"
+            },
+            {
+              "title": "Quels objets sont interdits à bord ?",
+              "content": "Sont interdits : armes, objets tranchants, produits inflammables, explosifs, drogues. Les liquides en cabine sont limités à 100ml par contenant. Les médicaments avec ordonnance sont autorisés.",
+              "url": "/aide/objets-interdits"
+            },
+            {
+              "title": "J'ai perdu un objet dans le taxi-brousse",
+              "content": "Contactez immédiatement notre service client au +261 34 12 345 67 en précisant le numéro de voyage, la date et la description de l'objet. Nous conservons les objets trouvés pendant 30 jours avant de les remettre aux autorités.",
+              "url": "/aide/objets-perdus"
+            }
+          ]
+        },
+        {
+          "name": "Modifications et annulations",
+          "description": "Politique de modification et d'annulation de réservation",
+          "icon": "EditCalendarRounded",
+          "articles": [
+            {
+              "title": "Puis-je modifier ma réservation ?",
+              "content": "Oui, les modifications sont gratuites jusqu'à 24h avant le départ. Connectez-vous à votre compte, allez dans \"Mes réservations\" et cliquez sur \"Modifier\". Les modifications de moins de 24h sont facturées 2 000 Ar.",
+              "url": "/aide/modifier-reservation"
+            },
+            {
+              "title": "Comment annuler ma réservation ?",
+              "content": "Annulation +48h avant départ : remboursement 80%. Entre 24h et 48h : remboursement 50%. Moins de 24h : pas de remboursement sauf assurance annulation. Le remboursement est effectué sous 7 jours ouvrés.",
+              "url": "/aide/annuler-reservation"
+            },
+            {
+              "title": "Qu'est-ce que l'assurance annulation ?",
+              "content": "L'assurance annulation (5% du prix du billet) vous permet d'annuler votre voyage pour motif valable (maladie, urgence familiale, catastrophe naturelle) et d'être remboursé à 100%. À souscrire lors de la réservation.",
+              "url": "/aide/assurance-annulation"
+            }
+          ]
+        },
+        {
+          "name": "Voyage et sécurité",
+          "description": "Conseils pour un voyage sûr et agréable",
+          "icon": "ShieldRounded",
+          "articles": [
+            {
+              "title": "Quelles sont les mesures de sécurité appliquées ?",
+              "content": "Tous nos véhicules subissent un contrôle technique avant chaque départ. Nos chauffeurs sont formés à la sécurité routière et respectent strictement les limitations de vitesse. Les véhicules sont équipés de ceintures de sécurité, extincteurs et trousses de premiers secours.",
+              "url": "/aide/mesures-securite"
+            },
+            {
+              "title": "Que faire en cas d'urgence pendant le trajet ?",
+              "content": "En cas d'urgence, prévenez immédiatement le chauffeur. Composez le 117 (police), 118 (pompiers) ou 124 (SAMU). Notre centre d'assistance 24/7 (+261 34 12 345 67) coordonne les interventions et le rapatriement si nécessaire.",
+              "url": "/aide/urgence-trajet"
+            },
+            {
+              "title": "Les enfants peuvent-ils voyager seuls ?",
+              "content": "Les enfants de 12 à 17 ans peuvent voyager seuls avec une autorisation parentale notariée. Les enfants de moins de 12 ans doivent être accompagnés d'un adulte. Service d'accompagnement disponible sur demande (5 000 Ar).",
+              "url": "/aide/enfants-seuls"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.help-center-section",
+      "title": "Help Center - Find answers quickly",
+      "categories": [
+        {
+          "name": "Booking and payment",
+          "description": "Everything you need to know about online booking and payment methods",
+          "icon": "PaymentRounded",
+          "articles": [
+            {
+              "title": "How to book a ticket online?",
+              "content": "To book your ticket, go to our booking page, select your departure city, destination, date and number of passengers. Choose your comfort class (Standard, Comfort or VIP), then proceed to secure payment. You will receive your ticket by SMS and email within 2 minutes.",
+              "url": "/help/online-booking"
+            },
+            {
+              "title": "What payment methods do you accept?",
+              "content": "We accept MVola, Orange Money, Airtel Money, Visa/Mastercard credit cards and cash payment directly at the station. Online payments are secured via an encrypted SSL connection.",
+              "url": "/help/payment-methods"
+            },
+            {
+              "title": "My payment failed, what should I do?",
+              "content": "If your payment fails, first check your balance. If the problem persists, contact your Mobile Money operator or bank. No amount is charged in case of failure. You can try again or choose another payment method.",
+              "url": "/help/payment-failed"
+            }
+          ]
+        },
+        {
+          "name": "Luggage and lost items",
+          "description": "Information on baggage allowances, prohibited items and lost property procedure",
+          "icon": "LuggageRounded",
+          "articles": [
+            {
+              "title": "What is the allowed baggage allowance?",
+              "content": "Standard Class: 20 kg checked + 5 kg cabin. Comfort Class: 25 kg checked + 7 kg cabin. VIP Class: unlimited baggage. Baggage exceeding the allowed weight is charged 1,000 Ar/kg extra.",
+              "url": "/help/baggage-allowance"
+            },
+            {
+              "title": "What items are prohibited on board?",
+              "content": "Prohibited: weapons, sharp objects, flammable products, explosives, drugs. Liquids in cabin are limited to 100ml per container. Medications with prescription are allowed.",
+              "url": "/help/prohibited-items"
+            },
+            {
+              "title": "I lost an item in the taxi-brousse",
+              "content": "Contact our customer service immediately at +261 34 12 345 67 specifying the trip number, date and description of the item. We keep found items for 30 days before handing them over to authorities.",
+              "url": "/help/lost-items"
+            }
+          ]
+        },
+        {
+          "name": "Changes and cancellations",
+          "description": "Booking modification and cancellation policy",
+          "icon": "EditCalendarRounded",
+          "articles": [
+            {
+              "title": "Can I modify my reservation?",
+              "content": "Yes, modifications are free up to 24h before departure. Log in to your account, go to \"My Reservations\" and click \"Modify\". Modifications less than 24h are charged 2,000 Ar.",
+              "url": "/help/modify-reservation"
+            },
+            {
+              "title": "How to cancel my reservation?",
+              "content": "Cancellation +48h before departure: 80% refund. Between 24h and 48h: 50% refund. Less than 24h: no refund except cancellation insurance. Refund is processed within 7 business days.",
+              "url": "/help/cancel-reservation"
+            },
+            {
+              "title": "What is cancellation insurance?",
+              "content": "Cancellation insurance (5% of ticket price) allows you to cancel your trip for valid reasons (illness, family emergency, natural disaster) and be refunded 100%. Subscribe during booking.",
+              "url": "/help/cancellation-insurance"
+            }
+          ]
+        },
+        {
+          "name": "Travel and safety",
+          "description": "Tips for a safe and pleasant journey",
+          "icon": "ShieldRounded",
+          "articles": [
+            {
+              "title": "What safety measures are applied?",
+              "content": "All our vehicles undergo technical inspection before each departure. Our drivers are trained in road safety and strictly respect speed limits. Vehicles are equipped with seat belts, fire extinguishers and first aid kits.",
+              "url": "/help/safety-measures"
+            },
+            {
+              "title": "What to do in case of emergency during the trip?",
+              "content": "In case of emergency, immediately notify the driver. Dial 117 (police), 118 (fire department) or 124 (SAMU). Our 24/7 assistance center (+261 34 12 345 67) coordinates interventions and repatriation if necessary.",
+              "url": "/help/trip-emergency"
+            },
+            {
+              "title": "Can children travel alone?",
+              "content": "Children aged 12 to 17 can travel alone with notarized parental authorization. Children under 12 must be accompanied by an adult. Escort service available on request (5,000 Ar).",
+              "url": "/help/children-alone"
+            }
+          ]
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.help-center-section",
+      "title": "Ivon-toerana fanampiana - Mahita valiny haingana",
+      "categories": [
+        {
+          "name": "Famandrihana sy fandoavana",
+          "description": "Izay rehetra tokony ho fantatrao momba ny famandrihana an-tserasera sy ny fomba fandoavana",
+          "icon": "PaymentRounded",
+          "articles": [
+            {
+              "title": "Ahoana no fomba famandrihana tapakila an-tserasera?",
+              "content": "Mba hamandrika ny tapakilanao, mandeha any amin'ny pejy famandrihana, safidio ny tanàna fiaingana, ny toerana haleha, ny daty ary ny isan'ny mpandeha. Safidio ny kilasy (Standard, Confort na VIP), dia mandoava am-pahatoky. Hahazo ny tapakila amin'ny SMS sy email ao anatin'ny 2 minitra ianao.",
+              "url": "/fanampiana/famandrihana-an-tserasera"
+            },
+            {
+              "title": "Inona ireo fomba fandoavana ekena?",
+              "content": "Manaiky MVola, Orange Money, Airtel Money, carte bancaire Visa/Mastercard ary fandoavana vola mivantana any amin'ny toeram-piantsonana. Azo antoka ny fandoavana an-tserasera amin'ny alalan'ny fifandraisana SSL voahodinana.",
+              "url": "/fanampiana/fomba-fandoavana"
+            },
+            {
+              "title": "Tsy nahomby ny fandoavako, inona no hatao?",
+              "content": "Raha tsy nahomby ny fandoavana, jereo aloha ny volanao. Raha mbola misy ny olana, mifandraisa amin'ny operateur Mobile Money na amin'ny bankinao. Tsy misy vola alaina raha tsy nahomby. Afaka manandrana indray ianao na misafidy fomba fandoavana hafa.",
+              "url": "/fanampiana/fandoavana-tsy-nahomby"
+            }
+          ]
+        },
+        {
+          "name": "Entana sy zavatra very",
+          "description": "Fampahafantarana momba ny fepetra entana, zavatra voarara ary fomba fanao raha misy very",
+          "icon": "LuggageRounded",
+          "articles": [
+            {
+              "title": "Inona ny fepetra entana azo entina?",
+              "content": "Kilasy Standard: 20 kg voarakitra + 5 kg ao anaty fiara. Kilasy Confort: 25 kg voarakitra + 7 kg ao anaty fiara. Kilasy VIP: entana tsy voafetra. Ny entana mihoatra ny lanja azo dia 1 000 Ar/kg fanampiny.",
+              "url": "/fanampiana/fepetra-entana"
+            },
+            {
+              "title": "Inona ireo zavatra voarara ao anaty fiara?",
+              "content": "Voarara: fitaovam-piadiana, zavatra maranitra, vokatra mora mirehitra, baomba, zava-mahadomelina. Ny ranon-javatra ao anaty fiara dia voafetra amin'ny 100ml isaky ny fitoerana. Ny fanafody misy ordonnance dia azo.",
+              "url": "/fanampiana/zavatra-voarara"
+            },
+            {
+              "title": "Very zavatra tao anaty taxi-brousse aho",
+              "content": "Mifandraisa avy hatrany amin'ny serivisy mpanjifa amin'ny +261 34 12 345 67 ka lazao ny laharana dia, ny daty ary ny famaritana ny zavatra. Mitahiry ny zavatra hita mandritra ny 30 andro izahay alohan'ny hanolorana azy ireo amin'ny manampahefana.",
+              "url": "/fanampiana/zavatra-very"
+            }
+          ]
+        },
+        {
+          "name": "Fanovana sy fanafoana",
+          "description": "Politikan'ny fanovana sy fanafoana famandrihana",
+          "icon": "EditCalendarRounded",
+          "articles": [
+            {
+              "title": "Afaka manova ny famandrihanako ve aho?",
+              "content": "Eny, maimaim-poana ny fanovana hatramin'ny 24 ora mialohan'ny fiaingana. Midira ao amin'ny kaontinao, mandeha any amin'ny \"Ny famandrihanako\" dia tsindrio \"Hanova\". Ny fanovana latsaky ny 24 ora dia 2 000 Ar.",
+              "url": "/fanampiana/manova-famandrihana"
+            },
+            {
+              "title": "Ahoana no fomba fanafoana ny famandrihanako?",
+              "content": "Fanafoana +48 ora mialohan'ny fiaingana: famerenana 80%. Eo anelanelan'ny 24 ora sy 48 ora: famerenana 50%. Latsaky ny 24 ora: tsy misy famerenana afa-tsy raha misy fiantohana fanafoana. Famerenana atao ao anatin'ny 7 andro miasa.",
+              "url": "/fanampiana/manafoana-famandrihana"
+            },
+            {
+              "title": "Inona ny fiantohana fanafoana?",
+              "content": "Ny fiantohana fanafoana (5% ny vidin'ny tapakila) dia ahafahan'anao manafoana ny dianao noho ny antony ara-dalàna (aretina, maika amin'ny fianakaviana, loza voajanahary) ary averina 100%. Soraty mandritra ny famandrihana.",
+              "url": "/fanampiana/fiantohana-fanafoana"
+            }
+          ]
+        },
+        {
+          "name": "Dia sy fiarovana",
+          "description": "Torohevitra ho an'ny dia azo antoka sy mahafinaritra",
+          "icon": "ShieldRounded",
+          "articles": [
+            {
+              "title": "Inona ireo fepetra fiarovana ampiharina?",
+              "content": "Ny fiaranay rehetra dia mahazo fanaraha-maso ara-teknika alohan'ny fiaingana tsirairay. Voaofana momba ny fiarovana eny an-dalana ny mpamilinay ary manaja ny fetra hafainganana. Ny fiara dia misy fehikibo, mpamono afo ary fitaovana fanampiana voalohany.",
+              "url": "/fanampiana/fepetra-fiarovana"
+            },
+            {
+              "title": "Inona no hatao raha misy maika mandritra ny dia?",
+              "content": "Raha misy maika, ampahafantaro avy hatrany ny mpamily. Antsoy ny 117 (polisy), 118 (mpamono afo) na 124 (SAMU). Ny ivon-toerana fanampiana 24/7 (+261 34 12 345 67) dia mandrindra ny fitsabahana sy ny famerenana raha ilaina.",
+              "url": "/fanampiana/maika-dia"
+            },
+            {
+              "title": "Afaka mandeha irery ve ny ankizy?",
+              "content": "Ny ankizy 12 ka hatramin'ny 17 taona dia afaka mandeha irery miaraka amin'ny fahazoan-dàlana notarized avy amin'ny ray aman-dreny. Ny ankizy latsaky ny 12 taona dia tsy maintsy miaraka amin'ny olon-dehibe. Serivisy fiarahana azo atao amin'ny fangatahana (5 000 Ar).",
+              "url": "/fanampiana/ankizy-irery"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

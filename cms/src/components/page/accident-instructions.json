@@ -1,0 +1,47 @@
+{
+  "collectionName": "components_page_accident_instructions",
+  "info": {
+    "displayName": "Accident Instructions",
+    "description": "Instructions à suivre en cas d'accident de véhicule",
+    "icon": "exclamation-triangle"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "emergencyNumber": {
+      "type": "string",
+      "required": true
+    },
+    "instructions": {
+      "type": "component",
+      "repeatable": true,
+      "required": true,
+      "component": "page.accident-instruction-item"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": "#fff3e0"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg"
+    }
+  }
+}

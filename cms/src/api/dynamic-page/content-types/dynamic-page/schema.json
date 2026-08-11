@@ -1,0 +1,146 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dynamic_pages",
+  "info": {
+    "singularName": "dynamic-page",
+    "pluralName": "dynamic-pages",
+    "displayName": "Dynamic Page",
+    "description": "Dynamic pages with reusable components for safety, insurance, and other static content",
+    "icon": "file-alt"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "maxLength": 200,
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "targetField": "title",
+      "required": true
+    },
+    "featuredImage": {
+      "type": "media",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "icon": {
+      "type": "enumeration",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "enum": [
+        "Info",
+        "ContactMail",
+        "Build",
+        "Gavel",
+        "Security",
+        "Description",
+        "LocalOffer",
+        "LocationOn",
+        "Shield",
+        "Help",
+        "Business",
+        "TrendingUp",
+        "Payment",
+        "Route",
+        "Map",
+        "People",
+        "Star",
+        "Verified",
+        "Support",
+        "Event",
+        "Explore",
+        "FormatQuote",
+        "EmojiEvents",
+        "Campaign",
+        "MiscellaneousServices"
+      ],
+      "default": "Info",
+      "required": true
+    },
+    "pageHeader": {
+      "type": "component",
+      "component": "page.page-header",
+      "repeatable": false,
+      "required": true
+    },
+    "sections": {
+      "type": "dynamiczone",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "components": [
+        "page.section-reference",
+        "page.safety-measures",
+        "page.insurance-coverage",
+        "page.safety-tips",
+        "page.emergency-contacts",
+        "page.accident-instructions",
+        "page.travel-destinations",
+        "page.benefits-showcase",
+        "page.trust-indicators",
+        "page.faq-section",
+        "page.about-us-section",
+        "page.popular-routes",
+        "page.current-promotions",
+        "page.news-section",
+        "page.help-center-section",
+        "page.service-types",
+        "page.contact-section",
+        "page.legal-content",
+        "page.destinations-grid",
+        "page.popular-destinations",
+        "page.customer-testimonials",
+        "page.why-choose-us",
+        "page.promotional-content",
+        "page.statistics-section",
+        "page.network-section",
+        "page.mission-section",
+        "page.values-section",
+        "page.payment-section",
+        "page.booking-rules",
+        "page.additional-info",
+        "page.service-categories",
+        "page.loyalty-program",
+        "page.additional-services"
+      ]
+    },
+    "callToAction": {
+      "type": "component",
+      "component": "page.call-to-action",
+      "repeatable": false,
+      "required": false
+    }
+  }
+}

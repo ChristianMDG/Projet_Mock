@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "moto",
+  "info": {
+    "singularName": "moto",
+    "pluralName": "motos",
+    "displayName": "Moto"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "registrationNumber": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 20
+    },
+    "model": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "yearManufactured": {
+      "type": "integer"
+    },
+    "chauffeur": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::chauffeur.chauffeur",
+      "inversedBy": "motos"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "lastMaintenance": {
+      "type": "date"
+    }
+  }
+}

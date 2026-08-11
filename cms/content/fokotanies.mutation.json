@@ -1,0 +1,79 @@
+{
+  "description": "All fokotanies (neighborhoods) in Madagascar",
+  "collection": "api::fokotany.fokotany",
+  "data": [
+    {
+      "commune": "Antananarivo Renivohitra",
+      "fokontany": "Analakely",
+      "ville": "Antananarivo"
+    },
+    {
+      "commune": "Antananarivo Renivohitra",
+      "fokontany": "Isotry",
+      "ville": "Antananarivo"
+    },
+    {
+      "commune": "Antananarivo Renivohitra",
+      "fokontany": "Andohalo",
+      "ville": "Antananarivo"
+    },
+    {
+      "commune": "Antananarivo Renivohitra",
+      "fokontany": "Ambohijatovo",
+      "ville": "Antananarivo"
+    },
+    {
+      "commune": "Antananarivo Renivohitra",
+      "fokontany": "Ampefiloha",
+      "ville": "Antananarivo"
+    },
+    {
+      "commune": "Antananarivo Atsimondrano",
+      "fokontany": "Andoharanofotsy",
+      "ville": "Antananarivo"
+    },
+    {
+      "commune": "Antananarivo Avaradrano",
+      "fokontany": "Ambohimanarina",
+      "ville": "Antananarivo"
+    },
+    {
+      "commune": "Antsirabe I",
+      "fokontany": "Antsirabe Centre",
+      "ville": "ANTSIRABE"
+    },
+    {
+      "commune": "Antsirabe II",
+      "fokontany": "Ambohidranandriana",
+      "ville": "ANTSIRABE"
+    },
+    {
+      "commune": "Fianarantsoa I",
+      "fokontany": "Tanana Ambony",
+      "ville": "FIANARANTSOA"
+    },
+    {
+      "commune": "Fianarantsoa I",
+      "fokontany": "Ankofafa",
+      "ville": "FIANARANTSOA"
+    },
+    { "commune": "Toamasina I", "fokontany": "Anjoma", "ville": "TOAMASINA" },
+    {
+      "commune": "Toamasina I",
+      "fokontany": "Tanambao V",
+      "ville": "TOAMASINA"
+    },
+    { "commune": "Mahajanga I", "fokontany": "Mahabibo", "ville": "MAHAJANGA" },
+    {
+      "commune": "Mahajanga I",
+      "fokontany": "Tsaramandroso Ambany",
+      "ville": "MAHAJANGA"
+    },
+    { "commune": "Toliara I", "fokontany": "Tanambao", "ville": "TOLIARY" },
+    {
+      "commune": "Antsiranana I",
+      "fokontany": "Tanambao Tsena",
+      "ville": "ANTSIRANANA"
+    }
+  ]
+}

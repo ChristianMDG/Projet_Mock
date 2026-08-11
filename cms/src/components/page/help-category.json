@@ -1,0 +1,43 @@
+{
+  "collectionName": "components_page_help_categories",
+  "info": {
+    "displayName": "Catégorie d'Aide",
+    "description": "Catégorie du centre d'aide avec articles",
+    "icon": "folder"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Réservation",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 500,
+      "default": "Tout ce que vous devez savoir sur la réservation de vos voyages",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "icon": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "DirectionsBus",
+      "description": "Material UI icon name"
+    },
+    "articles": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.help-article"
+    }
+  }
+}

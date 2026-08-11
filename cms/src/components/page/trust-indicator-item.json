@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_page_trust_indicator_items",
+  "info": {
+    "displayName": "Trust Indicator Item",
+    "description": "Un indicateur de confiance",
+    "icon": "check-shield"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "string",
+      "required": true,
+      "default": "VerifiedUser"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "link": {
+      "type": "string"
+    },
+    "linkText": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_page_loyalty_benefits",
+  "info": {
+    "displayName": "Loyalty Benefit",
+    "description": "Un avantage du programme de fidélité",
+    "icon": "check"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

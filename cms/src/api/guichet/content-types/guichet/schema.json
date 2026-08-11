@@ -1,0 +1,48 @@
+{
+    "kind": "collectionType",
+    "collectionName": "guichet",
+    "info": {
+        "singularName": "guichet",
+        "pluralName": "guichets",
+        "displayName": "Guichet"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true,
+            "maxLength": 100
+        },
+        "gare": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::gare.gare",
+            "inversedBy": "guichets"
+        },
+        "koperative": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::koperative.koperative",
+            "inversedBy": "guichets"
+        },
+        "phones": {
+            "type": "string"
+        },
+        "isActive": {
+            "type": "boolean",
+            "default": true,
+            "required": true
+        },
+        "openingHours": {
+            "type": "string",
+            "maxLength": 100
+        },
+        "destinations": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "api::gare.gare"
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_page_booking_rules",
+  "info": {
+    "displayName": "Conditions de Réservation",
+    "description": "Section des conditions et règles de réservation",
+    "icon": "clipboard"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Conditions de réservation",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "rules": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.booking-rule-item"
+    }
+  }
+}

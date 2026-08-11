@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_page_service_category_items",
+  "info": {
+    "displayName": "Service Category Item",
+    "description": "Un élément de catégorie de service",
+    "icon": "star"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

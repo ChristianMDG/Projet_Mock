@@ -1,0 +1,34 @@
+{
+  "description": "Banner for ticket office/guichet page",
+  "collection": "api::hero-content.hero-content",
+  "slug": "guichet-banner",
+  "locales": {
+    "fr": {
+      "slug": "guichet-banner",
+      "Title": "Nos Guichets de Vente",
+      "SubTitle": "Achetez vos billets en toute simplicité",
+      "Description": "Points de vente disponibles dans toutes nos gares",
+      "Localization": "Antsirabe, Ambositra, Manakara",
+      "locale": "fr",
+      "publishedAt": "2025-11-29T00:00:00.000Z"
+    },
+    "en": {
+      "slug": "guichet-banner",
+      "Title": "Our Ticket Offices",
+      "SubTitle": "Buy your tickets with ease",
+      "Description": "Sales points available at all our stations",
+      "Localization": "Antsirabe, Ambositra, Manakara",
+      "locale": "en",
+      "publishedAt": "2025-11-29T00:00:00.000Z"
+    },
+    "mg": {
+      "slug": "guichet-banner",
+      "Title": "Ireo Toerana ivarotana Tapakila",
+      "SubTitle": "Vidio mora ny tapakilanareo",
+      "Description": "Toerana ivarotana misy eny amin'ny gara rehetra",
+      "Localization": "Antsirabe, Ambositra, Manakara",
+      "locale": "mg",
+      "publishedAt": "2025-11-29T00:00:00.000Z"
+    }
+  }
+}

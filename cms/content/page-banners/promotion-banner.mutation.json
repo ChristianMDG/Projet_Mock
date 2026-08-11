@@ -1,0 +1,31 @@
+{
+  "description": "Promotional banner for special offers and campaigns",
+  "collection": "api::promotion-banner.promotion-banner",
+  "slug": "promotion-banner",
+  "locales": {
+    "fr": {
+      "slug": "promotion-banner",
+      "Title": "Offres Spéciales de Novembre",
+      "SubTitle": "Découvrez des réductions jusqu'à 30% sur tous vos trajets préférés",
+      "Active": true,
+      "locale": "fr",
+      "publishedAt": "2025-11-30T00:00:00.000Z"
+    },
+    "en": {
+      "slug": "promotion-banner",
+      "Title": "November Special Offers",
+      "SubTitle": "Discover discounts up to 30% on all your favorite routes",
+      "Active": true,
+      "locale": "en",
+      "publishedAt": "2025-11-30T00:00:00.000Z"
+    },
+    "mg": {
+      "slug": "promotion-banner",
+      "Title": "Tolotra manokana ho an'ny volana Novambra",
+      "SubTitle": "Fahitana fihenam-bidy hatramin'ny 30% amin'ny dia rehetra tianao",
+      "Active": true,
+      "locale": "mg",
+      "publishedAt": "2025-11-30T00:00:00.000Z"
+    }
+  }
+}

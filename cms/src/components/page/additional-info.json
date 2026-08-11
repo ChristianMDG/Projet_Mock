@@ -1,0 +1,43 @@
+{
+  "collectionName": "components_page_additional_infos",
+  "info": {
+    "displayName": "Additional Info",
+    "description": "Section d'informations complémentaires avec alerte",
+    "icon": "information"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Informations complémentaires",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "alertType": {
+      "type": "enumeration",
+      "enum": ["info", "success", "warning", "error"],
+      "default": "warning",
+      "required": true
+    },
+    "alertMessage": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.additional-info-item"
+    }
+  }
+}

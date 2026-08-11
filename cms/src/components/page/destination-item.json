@@ -1,0 +1,125 @@
+{
+  "collectionName": "components_page_destination_items",
+  "info": {
+    "displayName": "Élément Destination",
+    "description": "Destination individuelle avec détails",
+    "icon": "globe"
+  },
+  "options": {},
+  "attributes": {
+    "city": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Antsirabe",
+      "description": "Nom de la ville de destination",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "route": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Antananarivo - Antsirabe",
+      "description": "Titre de l'itinéraire à afficher",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "region": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Région du Vakinankaratra",
+      "description": "Région de la destination",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500,
+      "default": "Ville thermale située dans les hautes terres centrales, connue pour ses sources d'eau chaude et son climat frais.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "duration": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "default": "3h de route",
+      "description": "Durée du trajet depuis Ville A -> Ville B",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "attractions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.attraction-item"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "Coastal",
+        "Nature",
+        "Cultural",
+        "Thermal",
+        "Urban",
+        "Adventure"
+      ],
+      "default": "Cultural",
+      "required": true
+    },
+    "popularity": {
+      "type": "integer",
+      "min": 1,
+      "max": 5,
+      "default": 4,
+      "required": true
+    },
+    "frequency": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Départs toutes les jours",
+      "description": "Fréquence des départs vers cette destination",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "price": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "default": "À partir de 25 000 Ar",
+      "description": "Prix affiché pour cette destination (ex: À partir de 25 000 Ar)"
+    }
+  }
+}

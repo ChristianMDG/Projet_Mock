@@ -1,0 +1,60 @@
+{
+  "collectionName": "components_page_payment_sections",
+  "info": {
+    "displayName": "Section Paiement",
+    "description": "Section d'information sur les méthodes de paiement",
+    "icon": "store"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Méthodes de paiement disponibles",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 500,
+      "default": "Découvrez les différentes méthodes de paiement acceptées pour vos réservations.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "buttonText": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Réserver maintenant",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "buttonUrl": {
+      "type": "string",
+      "required": true,
+      "maxLength": 300,
+      "default": "/"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "background.paper",
+      "description": "Background color for the payment section"
+    },
+    "paymentMethods": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::payment-method.payment-method"
+    }
+  }
+}

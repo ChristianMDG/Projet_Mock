@@ -1,0 +1,59 @@
+{
+  "collectionName": "components_page_insurance_types",
+  "info": {
+    "displayName": "Type d'Assurance",
+    "description": "Élément de type d'assurance individuel",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Assurance passager",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500,
+      "default": "Couverture complète en cas d'accident ou de blessure pendant le voyage.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "coverage": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Jusqu'à 5 000 000 Ar",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "included": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "price": {
+      "type": "string",
+      "maxLength": 100,
+      "default": "Inclus",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

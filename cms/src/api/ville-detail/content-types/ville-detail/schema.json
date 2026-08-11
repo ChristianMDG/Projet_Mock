@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ville_details",
+  "info": {
+    "singularName": "ville-detail",
+    "pluralName": "ville-details",
+    "displayName": "Ville Detail"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Superficie": {
+      "type": "decimal"
+    },
+    "Population": {
+      "type": "integer"
+    },
+    "Regions": {
+      "type": "string"
+    },
+    "ImageGalery": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Ville": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::ville.ville",
+      "mappedBy": "detail"
+    }
+  }
+}

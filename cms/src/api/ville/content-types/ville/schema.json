@@ -1,0 +1,70 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ville",
+  "info": {
+    "singularName": "ville",
+    "pluralName": "villes",
+    "displayName": "Ville"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "region": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "province": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "code": {
+      "type": "string",
+      "maxLength": 8
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    },
+    "rn": {
+      "type": "string",
+      "maxLength": 8
+    },
+    "frequence": {
+      "type": "integer",
+      "default": 0
+    },
+    "fokotanies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::fokotany.fokotany",
+      "mappedBy": "ville"
+    },
+    "keywords": {
+      "type": "text"
+    },
+    "gares": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::gare.gare",
+      "mappedBy": "ville"
+    },
+    "hotels": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::hotel.hotel",
+      "mappedBy": "ville"
+    },
+    "detail": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::ville-detail.ville-detail",
+      "inversedBy": "Ville"
+    }
+  }
+}

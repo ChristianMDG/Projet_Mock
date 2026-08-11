@@ -1,0 +1,128 @@
+{
+  "kind": "collectionType",
+  "collectionName": "voyage",
+  "info": {
+    "singularName": "voyage",
+    "pluralName": "voyages",
+    "displayName": "Voyage"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "koperative": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::koperative.koperative",
+      "inversedBy": "voyages"
+    },
+    "route": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::route.route",
+      "inversedBy": "voyages"
+    },
+    "departureGare": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::gare.gare"
+    },
+    "arrivalGare": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::gare.gare"
+    },
+    "crafter": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::crafter.crafter"
+    },
+    "chauffeur": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::chauffeur.chauffeur",
+      "inversedBy": "voyages"
+    },
+    "departureTime": {
+      "type": "datetime",
+      "required": true
+    },
+    "estimatedArrivalTime": {
+      "type": "datetime"
+    },
+    "actualArrivalTime": {
+      "type": "datetime"
+    },
+    "availableSeats": {
+      "type": "integer"
+    },
+    "pricePerSeat": {
+      "type": "decimal",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["SCHEDULED", "ONGOING", "COMPLETED", "CANCELLED", "DELAYED"],
+      "default": "SCHEDULED",
+      "required": true
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1024
+    },
+    "recurrenceType": {
+      "type": "enumeration",
+      "enum": ["ONE_OFF", "DAILY", "WEEKLY", "MONTHLY", "CUSTOM"],
+      "default": "ONE_OFF",
+      "required": true
+    },
+    "customInterval": {
+      "type": "integer"
+    },
+    "weekdays": {
+      "type": "string"
+    },
+    "monthlyDates": {
+      "type": "string"
+    },
+    "recurrenceStartDate": {
+      "type": "date"
+    },
+    "recurrenceEndDate": {
+      "type": "date"
+    },
+    "isTemplate": {
+      "type": "boolean",
+      "default": false
+    },
+    "parentTemplate": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::voyage.voyage",
+      "inversedBy": "generatedInstances"
+    },
+    "generatedInstances": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::voyage.voyage",
+      "mappedBy": "parentTemplate"
+    },
+    "classe": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::classe.classe"
+    },
+    "reservations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::reservation.reservation",
+      "mappedBy": "voyage"
+    },
+    "seats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::seat.seat",
+      "mappedBy": "voyage"
+    }
+  }
+}

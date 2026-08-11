@@ -1,0 +1,54 @@
+{
+  "collectionName": "components_page_loyalty_levels",
+  "info": {
+    "displayName": "Loyalty Level",
+    "description": "Un niveau du programme de fidélité",
+    "icon": "medal"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "trips": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "color": {
+      "type": "enumeration",
+      "enum": [
+        "default",
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "error",
+        "info"
+      ],
+      "default": "default",
+      "required": true
+    },
+    "highlighted": {
+      "type": "boolean",
+      "default": false
+    },
+    "benefits": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.loyalty-benefit"
+    }
+  }
+}

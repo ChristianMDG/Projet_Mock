@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payment_transactions",
+  "info": {
+    "singularName": "payment-transaction",
+    "pluralName": "payment-transactions",
+    "displayName": "Payment Transaction",
+    "description": "Historique des transactions de paiement (lecture seule)"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "transactionReference": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 100
+    },
+    "operatorName": {
+      "type": "enumeration",
+      "enum": ["MVOLA", "ORANGE_MONEY", "AIRTEL_MONEY"],
+      "required": true
+    },
+    "amount": {
+      "type": "decimal",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["INITIATED", "PENDING_OTP", "OTP_VERIFIED", "PROCESSING", "COMPLETED", "FAILED", "TIMEOUT", "CANCELLED"],
+      "required": true
+    },
+    "phoneNumber": {
+      "type": "string",
+      "maxLength": 20
+    },
+    "serverCorrelationId": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "operatorResponse": {
+      "type": "text"
+    },
+    "initiatedAt": {
+      "type": "datetime"
+    },
+    "completedAt": {
+      "type": "datetime"
+    },
+    "otpAttempts": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

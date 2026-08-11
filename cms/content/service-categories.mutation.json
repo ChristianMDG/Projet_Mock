@@ -1,0 +1,191 @@
+{
+  "description": "Service Categories section mutation for page-template dynamic zone",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.service-categories",
+  "locales": {
+    "fr": {
+      "__component": "page.service-categories",
+      "title": "Catégories de services",
+      "categories": [
+        {
+          "title": "Réservation et Paiement",
+          "icon": "BookOnline",
+          "color": "primary",
+          "services": [
+            { "text": "Réservation en ligne 24h/24, 7j/7" },
+            { "text": "Application mobile intuitive" },
+            { "text": "Paiement sécurisé par carte bancaire" },
+            { "text": "Mobile Money (Orange Money, Airtel Money)" },
+            { "text": "Paiement à la gare en espèces" },
+            { "text": "Confirmation instantanée par SMS et email" },
+            { "text": "E-billets avec QR code" }
+          ]
+        },
+        {
+          "title": "Confort à bord",
+          "icon": "AirlineSeatReclineExtra",
+          "color": "secondary",
+          "services": [
+            { "text": "Sièges ergonomiques avec ceintures" },
+            { "text": "Climatisation dans tous les véhicules" },
+            { "text": "Wi-Fi gratuit (sur certains trajets)" },
+            { "text": "Prises électriques pour recharger vos appareils" },
+            { "text": "Musique et divertissements" },
+            { "text": "Coussins et couvertures (trajets longs)" },
+            { "text": "Espace bagages sécurisé" }
+          ]
+        },
+        {
+          "title": "Restauration",
+          "icon": "Restaurant",
+          "color": "success",
+          "services": [
+            { "text": "Collation légère incluse (trajets > 4h)" },
+            { "text": "Repas chauds sur les trajets VIP" },
+            { "text": "Eau minérale gratuite" },
+            { "text": "Arrêts dans des restaurants partenaires" },
+            { "text": "Menus adaptés aux régimes spéciaux" },
+            { "text": "Produits locaux et artisanaux" }
+          ]
+        },
+        {
+          "title": "Sécurité et Assurance",
+          "icon": "Security",
+          "color": "warning",
+          "services": [
+            { "text": "Assurance accident passagers incluse" },
+            { "text": "Chauffeurs professionnels certifiés" },
+            { "text": "Véhicules contrôlés techniquement" },
+            { "text": "Suivi GPS en temps réel" },
+            { "text": "Service client d'urgence 24h/24" },
+            { "text": "Assurance bagages optionnelle" },
+            { "text": "Assistance dépannage" }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "__component": "page.service-categories",
+      "title": "Service Categories",
+      "categories": [
+        {
+          "title": "Booking and Payment",
+          "icon": "BookOnline",
+          "color": "primary",
+          "services": [
+            { "text": "Online booking 24/7" },
+            { "text": "Intuitive mobile app" },
+            { "text": "Secure credit card payment" },
+            { "text": "Mobile Money (Orange Money, Airtel Money)" },
+            { "text": "Cash payment at the station" },
+            { "text": "Instant confirmation by SMS and email" },
+            { "text": "E-tickets with QR code" }
+          ]
+        },
+        {
+          "title": "Onboard Comfort",
+          "icon": "AirlineSeatReclineExtra",
+          "color": "secondary",
+          "services": [
+            { "text": "Ergonomic seats with seatbelts" },
+            { "text": "Air conditioning in all vehicles" },
+            { "text": "Free Wi-Fi (on selected routes)" },
+            { "text": "Power outlets to charge your devices" },
+            { "text": "Music and entertainment" },
+            { "text": "Pillows and blankets (long trips)" },
+            { "text": "Secure luggage space" }
+          ]
+        },
+        {
+          "title": "Catering",
+          "icon": "Restaurant",
+          "color": "success",
+          "services": [
+            { "text": "Light snack included (trips > 4h)" },
+            { "text": "Hot meals on VIP trips" },
+            { "text": "Free mineral water" },
+            { "text": "Stops at partner restaurants" },
+            { "text": "Menus adapted to special diets" },
+            { "text": "Local and artisanal products" }
+          ]
+        },
+        {
+          "title": "Safety and Insurance",
+          "icon": "Security",
+          "color": "warning",
+          "services": [
+            { "text": "Passenger accident insurance included" },
+            { "text": "Certified professional drivers" },
+            { "text": "Technically inspected vehicles" },
+            { "text": "Real-time GPS tracking" },
+            { "text": "24/7 emergency customer service" },
+            { "text": "Optional luggage insurance" },
+            { "text": "Breakdown assistance" }
+          ]
+        }
+      ]
+    },
+    "mg": {
+      "__component": "page.service-categories",
+      "title": "Sokajin'ny tolotra",
+      "categories": [
+        {
+          "title": "Famandrihana sy Fandoavana",
+          "icon": "BookOnline",
+          "color": "primary",
+          "services": [
+            { "text": "Famandrihana an-tserasera 24/24, 7/7" },
+            { "text": "Fampiharana finday mora ampiasaina" },
+            { "text": "Fandoavana azo antoka amin'ny karatra banky" },
+            { "text": "Mobile Money (Orange Money, Airtel Money)" },
+            { "text": "Fandoavana vola mivantana eo amin'ny gara" },
+            { "text": "Fanamafisana avy hatrany amin'ny SMS sy mailaka" },
+            { "text": "E-tapakila miaraka amin'ny QR code" }
+          ]
+        },
+        {
+          "title": "Fahazoana aina ao anaty fiara",
+          "icon": "AirlineSeatReclineExtra",
+          "color": "secondary",
+          "services": [
+            { "text": "Seza ergonomika miaraka amin'ny fehikibo" },
+            { "text": "Climatisation amin'ny fiara rehetra" },
+            { "text": "Wi-Fi maimaim-poana (amin'ny làlana sasany)" },
+            { "text": "Prise elektrika hanafenana ny fitaovanao" },
+            { "text": "Mozika sy fialamboly" },
+            { "text": "Ondana sy bodofotsy (dia lavitra)" },
+            { "text": "Toerana entana azo antoka" }
+          ]
+        },
+        {
+          "title": "Sakafo",
+          "icon": "Restaurant",
+          "color": "success",
+          "services": [
+            { "text": "Sakafo maivana tafiditra (dia > 4h)" },
+            { "text": "Sakafo mafana amin'ny dia VIP" },
+            { "text": "Rano mineraly maimaim-poana" },
+            { "text": "Fijanonana amin'ny trano fisakafoanana mpiara-miasa" },
+            { "text": "Sakafo mifanaraka amin'ny fomba fihinana manokana" },
+            { "text": "Vokatra eo an-toerana sy tanana" }
+          ]
+        },
+        {
+          "title": "Fiarovana sy Fiantohana",
+          "icon": "Security",
+          "color": "warning",
+          "services": [
+            { "text": "Fiantohana lozam-pifamoivoizana tafiditra" },
+            { "text": "Mpamily matihanina voamarina" },
+            { "text": "Fiara voamarina ara-teknika" },
+            { "text": "Fanaraha-maso GPS amin'ny fotoana tena izy" },
+            { "text": "Serivisy mpanjifa maika 24/24" },
+            { "text": "Fiantohana entana safidy" },
+            { "text": "Fanampiana rehefa simba" }
+          ]
+        }
+      ]
+    }
+  }
+}

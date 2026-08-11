@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_page_news_sections",
+  "info": {
+    "displayName": "News Section",
+    "description": "Section d'actualités avec cartes d'articles",
+    "icon": "newspaper"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Actualités",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 500,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "newsItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.news-item"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": "background.default"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg"
+    }
+  }
+}

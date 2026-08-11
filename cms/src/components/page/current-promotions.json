@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_page_current_promotions",
+  "info": {
+    "displayName": "Promotions Actuelles",
+    "description": "Section des promotions actuelles avec cartes",
+    "icon": "priceTag"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Promotions Actuelles",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "promotions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.promotion-item"
+    }
+  }
+}
