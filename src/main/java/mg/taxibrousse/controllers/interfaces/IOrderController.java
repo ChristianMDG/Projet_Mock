@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import mg.taxibrousse.dto.shop.PickupVerificationRequest;
 import java.time.LocalDateTime;
 
 @RestController
@@ -72,4 +72,8 @@ public interface IOrderController {
     @PostMapping("/{id}/payment/fail")
     @PreAuthorize("permitAll()")
     ResponseEntity<Order> failOrder(@PathVariable Long id, @RequestParam(required = false) String reason);
+    
+    @PostMapping("/{id}/pickup")
+    @PreAuthorize("permitAll()")
+    ResponseEntity<Order> confirmPickup(@PathVariable Long id, @Valid @RequestBody PickupVerificationRequest body);
 }

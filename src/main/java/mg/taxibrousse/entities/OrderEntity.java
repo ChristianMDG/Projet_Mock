@@ -80,6 +80,9 @@ public class OrderEntity extends BaseEntity {
     @Column(name = "tracking_number", length = 100)
     private String trackingNumber;
 
+    @Column(name = "pickup_code", length = 6)
+    private String pickupCode;
+
     @Column(length = 100)
     private String carrier;
 

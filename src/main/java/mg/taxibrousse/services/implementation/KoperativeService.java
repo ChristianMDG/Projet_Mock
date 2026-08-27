@@ -38,7 +38,7 @@ public class KoperativeService implements IKoperativeService {
     public Koperative save(Koperative koperative) {
         KoperativeEntity entity;
 
-        if (koperative.getId() == null || koperative.getId() == 0) {
+        if (koperative.getId() == null) {
             // Create new entity
             entity = koperative.toEntity();
         } else {

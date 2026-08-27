@@ -125,16 +125,28 @@ export interface ProductCategoryReorderItem {
 // ---------- Order ----------
 export enum OrderStatusEnum {
   PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  PAYMENT_FAILED = 'PAYMENT_FAILED',
   PROCESSING = 'PROCESSING',
   SHIPPED = 'SHIPPED',
+  READY_IN_STORE = 'READY_IN_STORE',
+  DELIVERY_TO_STATION = 'DELIVERY_TO_STATION',
+  DELIVERY_IN_PROGRESS = 'DELIVERY_IN_PROGRESS',
+  AVAILABLE_AT_COUNTER = 'AVAILABLE_AT_COUNTER',
   DELIVERED = 'DELIVERED',
   CANCELLED = 'CANCELLED',
 }
 
 export const OrderStatusLabels: Record<OrderStatusEnum, string> = {
   [OrderStatusEnum.PENDING]: 'shop_order_status_pending',
+  [OrderStatusEnum.CONFIRMED]: 'shop_order_status_confirmed',
+  [OrderStatusEnum.PAYMENT_FAILED]: 'shop_order_status_payment_failed',
   [OrderStatusEnum.PROCESSING]: 'shop_order_status_processing',
   [OrderStatusEnum.SHIPPED]: 'shop_order_status_shipped',
+  [OrderStatusEnum.READY_IN_STORE]: 'shop_order_status_ready_in_store',
+  [OrderStatusEnum.DELIVERY_TO_STATION]: 'shop_order_status_delivery_to_station',
+  [OrderStatusEnum.DELIVERY_IN_PROGRESS]: 'shop_order_status_delivery_in_progress',
+  [OrderStatusEnum.AVAILABLE_AT_COUNTER]: 'shop_order_status_available_at_counter',
   [OrderStatusEnum.DELIVERED]: 'shop_order_status_delivered',
   [OrderStatusEnum.CANCELLED]: 'shop_order_status_cancelled',
 };
@@ -143,8 +155,14 @@ type ChipColor = 'default' | 'info' | 'primary' | 'success' | 'error' | 'warning
 
 export const OrderStatusChipColors: Record<OrderStatusEnum, ChipColor> = {
   [OrderStatusEnum.PENDING]: 'warning',
+  [OrderStatusEnum.CONFIRMED]: 'info',
+  [OrderStatusEnum.PAYMENT_FAILED]: 'error',
   [OrderStatusEnum.PROCESSING]: 'info',
   [OrderStatusEnum.SHIPPED]: 'primary',
+  [OrderStatusEnum.READY_IN_STORE]: 'info',
+  [OrderStatusEnum.DELIVERY_TO_STATION]: 'primary',
+  [OrderStatusEnum.DELIVERY_IN_PROGRESS]: 'primary',
+  [OrderStatusEnum.AVAILABLE_AT_COUNTER]: 'warning',
   [OrderStatusEnum.DELIVERED]: 'success',
   [OrderStatusEnum.CANCELLED]: 'error',
 };
@@ -153,10 +171,12 @@ export interface OrderItem {
   id: number;
   productId?: number;
   productName: string;
+  productSku?: string;
   variantLabel?: string;
   quantity: number;
   unitPrice: number;
-  subtotal: number;
+  subtotal?: number;
+  lineTotal?: number;
 }
 
 export interface OrderAddress {
@@ -179,11 +199,15 @@ export interface Order {
   status: OrderStatusEnum;
   allowedNextStatuses?: OrderStatusEnum[];
   subtotal: number;
+  shipping?: number;
   deliveryFee?: number;
+  discountAmount?: number;
+  pickupCode?: string;
   discount?: number;
   total: number;
   items: OrderItem[];
-  deliveryAddress?: OrderAddress;
+  deliveryAddress?: string | OrderAddress;
+  billingAddress?: string;
   paymentMethod?: string;
   createdAt: string;
   updatedAt?: string;
@@ -351,3 +375,4 @@ export interface CustomerPattern {
   newCustomers: number;
   returningCustomers: number;
 }
+

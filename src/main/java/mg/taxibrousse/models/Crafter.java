@@ -127,7 +127,7 @@ public class Crafter extends BaseDto<CrafterEntity> {
         if (StringUtils.hasText(raw)) {
             try {
                 return SEAT_CONFIG_MAPPER.readValue(raw, Object.class);
-            } catch (Exception _) {
+            } catch (Exception e) {
                 return raw;
             }
         }

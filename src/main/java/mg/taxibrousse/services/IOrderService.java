@@ -40,5 +40,7 @@ public interface IOrderService {
 
     Order updateStatus(Long orderId, OrderStatusEnum newStatus, String reason, Long adminUserId);
 
+    Order confirmPickup(Long orderId, String code);
+    
     void exportCsv(OrderSearchParams params, Writer writer);
 }

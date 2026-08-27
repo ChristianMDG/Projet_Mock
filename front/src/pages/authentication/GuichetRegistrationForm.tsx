@@ -10,7 +10,6 @@ import BusinessIcon from '@mui/icons-material/Business';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ButtonTx from '@/components/ui/ButtonTx';
-import StyledIcon from '@/components/ui/StyledIcon';
 import { UserOperator } from '@/models/UserOperator';
 import { Koperative } from '@/models/Koperative';
 import KoperativeAutocomplete from '@/components/shared/KoperativeAutocomplete';
@@ -142,7 +141,7 @@ const GuichetRegistrationForm: React.FC<GuichetRegistrationFormProps> = ({ regis
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <StyledIcon icon={SmsIcon} />
+                      <SmsIcon color="action" />
                     </InputAdornment>
                   ),
                 },
@@ -243,7 +242,7 @@ const GuichetRegistrationForm: React.FC<GuichetRegistrationFormProps> = ({ regis
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <StyledIcon icon={AccessTimeIcon} />
+                      <AccessTimeIcon color="action" />
                     </InputAdornment>
                   ),
                 },

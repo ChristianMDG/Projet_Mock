@@ -59,6 +59,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.io.Writer;
 import java.math.BigDecimal;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -70,6 +71,8 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 public class OrderService implements IOrderService {
+
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     private final IOrderRepository orderRepository;
     private final ICartRepository cartRepository;
@@ -109,6 +112,7 @@ public class OrderService implements IOrderService {
 
         OrderEntity order = Optional.ofNullable(request).map(r -> r.toEntity(null)).orElseGet(OrderEntity::new);
         order.setOrderNumber(generateOrderNumber());
+        order.setPickupCode(generatePickupCode());
         order.setUserAccount(cart.getUserAccount());
         order.setStatus(OrderStatusEnum.PENDING);
 
@@ -277,6 +281,7 @@ public class OrderService implements IOrderService {
 
         Order orderModel = Order.builder()
                 .orderNumber(generateOrderNumber())
+                .pickupCode(generatePickupCode())
                 .userAccountId(userAccountId)
                 .customerName(request.getCustomerName())
                 .customerPhone(request.getCustomerPhone())
@@ -397,13 +402,16 @@ public class OrderService implements IOrderService {
         });
     }
 
-
     private String generateOrderNumber() {
         String candidate;
         do {
             candidate = "SO-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         } while (orderRepository.existsByOrderNumber(candidate));
         return candidate;
+    }
+
+    private String generatePickupCode() {
+        return String.format("%06d", SECURE_RANDOM.nextInt(1_000_000));
     }
 
     @Override
@@ -420,7 +428,9 @@ public class OrderService implements IOrderService {
         if (current == newStatus) {
             return Order.fromEntity(order);
         }
-        boolean canTransition = Optional.ofNullable(current).map(c -> c.canTransitionTo(newStatus)).orElse(false);
+        // Admin / guichet peut basculer librement d'un statut à un autre
+        boolean canTransition = Optional.ofNullable(current).map(c -> c.canTransitionTo(newStatus)).orElse(false)
+                || adminUserId != null;
         if (canTransition) {
             if (newStatus == OrderStatusEnum.CANCELLED && current == OrderStatusEnum.PENDING) {
                 releaseReservations(order, "order.updateStatus.cancel:" + order.getOrderNumber());
@@ -439,6 +449,29 @@ public class OrderService implements IOrderService {
             return Order.fromEntity(saved);
         }
         throw new InvalidOrderStatusTransitionException("Invalid order status transition: " + current + " -> " + newStatus);
+    }
+
+    @Override
+    @Transactional
+    public Order confirmPickup(Long orderId, String code) {
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
+        if (order.getStatus() == OrderStatusEnum.DELIVERED) {
+            return Order.fromEntity(order);
+        }
+        String expected = order.getPickupCode();
+        if (expected == null || code == null || !expected.equals(code.trim())) {
+            throw new ShopException("error_invalid_pickup_code", "exception_invalid_pickup_code");
+        }
+        OrderStatusEnum current = order.getStatus();
+        order.setPreviousStatus(current);
+        order.setStatus(OrderStatusEnum.DELIVERED);
+        order.setStatusChangedAt(LocalDateTime.now());
+        order.setStatusChangeReason("Récupéré avec validation du code guichet");
+        OrderEntity saved = orderRepository.save(order);
+        notificationService.notifyStatusChange(saved, current);
+        log.info("Order {} pickup confirmed with code, status -> DELIVERED", saved.getOrderNumber());
+        return Order.fromEntity(saved);
     }
 
     @Override

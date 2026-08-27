@@ -10,7 +10,7 @@ services:
   # ===========================================================================
 
   postgres:
-    image: postgres:18-alpine
+    image: postgres:17-alpine
     container_name: taxibrousse-postgres
     environment:
       TZ: Indian/Antananarivo

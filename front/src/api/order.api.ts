@@ -84,3 +84,8 @@ export const failOrderPayment = async (id: number, reason?: string): Promise<Ord
   });
   return data;
 };
+
+export const confirmOrderPickup = async (orderId: number, code: string): Promise<Order> => {
+  const { data } = await axios.post<Order>(`${API_URL}/${orderId}/pickup`, { code });
+  return data;
+};

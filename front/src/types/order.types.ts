@@ -31,6 +31,7 @@ export interface Order extends Base {
   previousStatus?: OrderStatus;
   statusChangedAt?: string;
   statusChangeReason?: string;
+  pickupCode?: string;
   subtotal: number;
   shipping: number;
   tax?: number;

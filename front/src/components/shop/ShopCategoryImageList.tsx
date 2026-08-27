@@ -2,8 +2,6 @@ import React, { useMemo } from 'react';
 import {
   Box,
   Card,
-  CardContent,
-  CardHeader,
   ImageList,
   ImageListItem,
   ImageListItemBar,
@@ -20,8 +18,6 @@ import {
 } from '@mui/material';
 import DeleteSweep from '@mui/icons-material/DeleteSweep';
 import CheckCircle from '@mui/icons-material/CheckCircle';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import ButtonTx from '@/components/ui/ButtonTx';
 import { useTranslation } from 'react-i18next';
 import { useCategories } from '@/hooks/cms.hooks';
 import type { Category, ProductCategory } from '@/models/Shop';
@@ -116,10 +112,10 @@ export const ShopCategoryImageList: React.FC<ShopCategoryImageListProps> = ({
 
   return (
     hasCategories && (
-      <Box sx={{ width: '100%', ...sx }}>
+      <Box sx={{ width: '100%', my: 2, ...sx }}>
         <ImageList
           cols={cols}
-          gap={8}
+          gap={16}
           sx={{
             m: 0,
             overflow: 'visible',
@@ -285,57 +281,65 @@ export const ShopCategoryImageList: React.FC<ShopCategoryImageListProps> = ({
 
         {/* Subcategories pill filter when a category is selected */}
         {Boolean(activeCategory && activeSubcategories.length > 0) && (
-          <Card sx={{ mt: 2.5, mb: 3 }}>
-            <CardHeader
-              title={
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Icon iconName={activeCategory?.icon || 'Category'} />
-                  <Typography variant="h6" component="span" sx={{ fontWeight: 600 }}>
-                    {activeCategory?.name}
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 500 }}>
-                    • {t(Labels.shop_subcategories)} ({activeSubcategories.length})
-                  </Typography>
-                </Box>
-              }
-              action={
-                selectedSubcategories.length > 0 ? (
-                  <ButtonTx
-                    variant="text"
-                    size="small"
-                    onClick={() => onChange?.({ ...filters!, subcategorySlugs: [] })}
-                    startIcon={<RefreshIcon />}
-                    isProtected={false}
-                  >
-                    {t(Labels.shop_clear_all)}
-                  </ButtonTx>
-                ) : undefined
-              }
-            />
-            <CardContent>
-              <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
-                <Chip
-                  label={t(Labels.shop_all_subcategories)}
-                  color={selectedSubcategories.length === 0 ? 'primary' : 'default'}
-                  variant={selectedSubcategories.length === 0 ? 'filled' : 'outlined'}
-                  onClick={() => onChange?.({ ...filters!, subcategorySlugs: [] })}
-                  clickable
-                />
-                {activeSubcategories.map(sub => {
-                  const isSubSelected = selectedSubcategories.includes(sub.slug);
-                  return (
-                    <Chip
-                      key={sub.slug}
-                      label={sub.name}
-                      color={isSubSelected ? 'primary' : 'default'}
-                      variant={isSubSelected ? 'filled' : 'outlined'}
-                      onClick={() => handleSubcategoryClick(sub)}
-                      clickable
-                    />
-                  );
-                })}
+          <Card sx={{ mt: 2.5, p: 2 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: 1,
+                mb: 1.5,
+              }}
+            >
+              <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                {activeCategory?.icon && (
+                  <Box sx={{ display: 'flex', alignItems: 'center', color: 'primary.main' }}>
+                    <Icon iconName={activeCategory.icon} />
+                  </Box>
+                )}
+                <Typography variant="subtitle2" color="text.primary" sx={{ fontWeight: 700 }}>
+                  {activeCategory?.name}
+                </Typography>
+                <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 500 }}>
+                  • {t(Labels.shop_subcategories)} ({activeSubcategories.length})
+                </Typography>
               </Stack>
-            </CardContent>
+
+              {selectedSubcategories.length > 0 && (
+                <Button
+                  variant="text"
+                  color="primary"
+                  onClick={() => onChange?.({ ...filters!, subcategorySlugs: [] })}
+                  sx={{ textTransform: 'none', fontSize: '0.75rem', p: 0.5, minWidth: 'auto' }}
+                >
+                  {t(Labels.shop_clear_all)}
+                </Button>
+              )}
+            </Box>
+
+            <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
+              <Chip
+                label={t(Labels.shop_all_subcategories)}
+                color={selectedSubcategories.length === 0 ? 'primary' : 'default'}
+                variant={selectedSubcategories.length === 0 ? 'filled' : 'outlined'}
+                onClick={() => onChange?.({ ...filters!, subcategorySlugs: [] })}
+                clickable
+              />
+              {activeSubcategories.map(sub => {
+                const isSubSelected = selectedSubcategories.includes(sub.slug);
+                return (
+                  <Chip
+                    key={sub.slug}
+                    label={sub.name}
+                    color={isSubSelected ? 'primary' : 'default'}
+                    variant={isSubSelected ? 'filled' : 'outlined'}
+                    onClick={() => handleSubcategoryClick(sub)}
+                    clickable
+                  />
+                );
+              })}
+            </Stack>
           </Card>
         )}
       </Box>

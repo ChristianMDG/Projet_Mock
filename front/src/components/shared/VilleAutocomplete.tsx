@@ -17,7 +17,6 @@ import { Ville } from '@/models/Ville';
 import { useVilles } from '@/hooks/ville.hooks';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
-import StyledIcon from '@/components/ui/StyledIcon';
 import type { SvgIconComponent } from '@mui/icons-material';
 
 interface VilleAutocompleteProps<Multiple extends boolean = false> {
@@ -117,8 +116,8 @@ const VilleAutocomplete = <Multiple extends boolean = false>({
       }}
       renderOption={(props, ville) => (
         <MenuItem disabled={ville.id === 0} {...props} key={ville.id}>
-          <ListItemIcon sx={{ minWidth: 36 }}>
-            <StyledIcon icon={LocationCityIcon} />
+          <ListItemIcon>
+            <LocationCityIcon color="action" />
           </ListItemIcon>
           <ListItemText primary={getVilleLabel(ville)} secondary={getVilleDetails(ville)} />
         </MenuItem>
@@ -129,26 +128,26 @@ const VilleAutocomplete = <Multiple extends boolean = false>({
           label={label}
           placeholder={placeholder}
           required={required}
-          error={error || Boolean(queryError)}
+          error={error || !!queryError}
           helperText={queryError ? t(Labels.error_loading_voyages) : helperText}
           slotProps={{
             ...params.slotProps,
             input: {
-              ...params.slotProps?.input,
+              ...params.slotProps.input,
               startAdornment: StartIcon ? (
                 <>
                   <InputAdornment position="start">
-                    <StyledIcon icon={StartIcon} />
+                    <StartIcon color="action" />
                   </InputAdornment>
-                  {params.slotProps?.input?.startAdornment}
+                  {params.slotProps.input.startAdornment}
                 </>
               ) : (
-                params.slotProps?.input?.startAdornment
+                params.slotProps.input.startAdornment
               ),
               endAdornment: (
                 <>
                   {isLoading && <CircularProgress color="inherit" size={20} />}
-                  {params.slotProps?.input?.endAdornment}
+                  {params.slotProps.input.endAdornment}
                 </>
               ),
             },

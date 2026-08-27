@@ -65,6 +65,7 @@ public class Order extends BaseDto<OrderEntity> {
     private BigDecimal shippingWeight;
     private String promotionCode;
     private BigDecimal discountAmount;
+    private String pickupCode;
     private List<OrderItem> items;
 
     /** Transient: payment URL set by initiatePayment for hosted-checkout providers (PayPal, Stripe, OM). Not persisted. */
@@ -104,6 +105,7 @@ public class Order extends BaseDto<OrderEntity> {
         model.setShippingWeight(entity.getShippingWeight());
         model.setPromotionCode(entity.getPromotionCode());
         model.setDiscountAmount(entity.getDiscountAmount());
+        model.setPickupCode(entity.getPickupCode());
         if (entity.getItems() != null) {
             model.setItems(mapEntities(entity.getItems(), OrderItem::fromEntity));
         }
@@ -142,7 +144,8 @@ public class Order extends BaseDto<OrderEntity> {
                 .fokotanyId(Optional.ofNullable(entity.getFokotany()).map(FokotanyEntity::getId).orElse(null))
                 .shippingWeight(entity.getShippingWeight())
                 .promotionCode(entity.getPromotionCode())
-                .discountAmount(entity.getDiscountAmount());
+                .discountAmount(entity.getDiscountAmount())
+                .pickupCode(entity.getPickupCode());
     }
 
     public static Order fromEntityLight(OrderEntity entity) {
@@ -175,6 +178,7 @@ public class Order extends BaseDto<OrderEntity> {
         targetEntity.setShippingWeight(shippingWeight);
         targetEntity.setPromotionCode(promotionCode);
         targetEntity.setDiscountAmount(Optional.ofNullable(discountAmount).orElse(BigDecimal.ZERO));
+        targetEntity.setPickupCode(pickupCode);
         applyRelations(targetEntity);
         return targetEntity;
     }

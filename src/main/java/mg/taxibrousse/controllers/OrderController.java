@@ -13,6 +13,7 @@ import mg.taxibrousse.entities.enums.OrderStatusEnum;
 import mg.taxibrousse.models.Order;
 import mg.taxibrousse.repositories.IUserInfoRepository;
 import mg.taxibrousse.services.IOrderService;
+import mg.taxibrousse.dto.shop.PickupVerificationRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -129,4 +130,9 @@ public class OrderController implements IOrderController {
         }
         return null;
     }
+
+    @Override
+    public ResponseEntity<Order> confirmPickup(Long id, @Valid @RequestBody PickupVerificationRequest body) {
+        return ResponseEntity.ok(orderService.confirmPickup(id, body.getCode()));
+}
 }

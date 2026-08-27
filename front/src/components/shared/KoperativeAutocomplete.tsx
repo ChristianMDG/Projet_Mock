@@ -15,7 +15,6 @@ import BusinessIcon from '@mui/icons-material/Business';
 import { Koperative } from '@/models/Koperative';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
-import StyledIcon from '@/components/ui/StyledIcon';
 
 interface KoperativeAutocompleteProps {
   value: Koperative | null | Koperative[];
@@ -105,8 +104,8 @@ const KoperativeAutocomplete: React.FC<KoperativeAutocompleteProps> = ({
       }}
       renderOption={(props, koperative) => (
         <MenuItem disabled={koperative.id === 0} {...props} key={koperative.id}>
-          <ListItemIcon sx={{ minWidth: 36 }}>
-            <StyledIcon icon={BusinessIcon} />
+          <ListItemIcon>
+            <BusinessIcon color="action" />
           </ListItemIcon>
           <ListItemText primary={getKoperativeLabel(koperative)} />
         </MenuItem>
@@ -117,23 +116,23 @@ const KoperativeAutocomplete: React.FC<KoperativeAutocompleteProps> = ({
           label={label}
           placeholder={placeholder}
           required={required}
-          error={error || Boolean(fetchError)}
+          error={error || !!fetchError}
           helperText={fetchError ? t(Labels.error_loading_voyages) : helperText}
           slotProps={{
             ...params.slotProps,
             input: {
-              ...params.slotProps?.input,
+              ...params.slotProps.input,
               startAdornment: StartIcon ? (
                 <InputAdornment position="start">
-                  <StyledIcon icon={StartIcon} />
+                  <StartIcon color="action" />
                 </InputAdornment>
               ) : (
-                params.slotProps?.input?.startAdornment
+                params.slotProps.input.startAdornment
               ),
               endAdornment: (
                 <>
                   {isLoading && <CircularProgress color="inherit" size={20} />}
-                  {params.slotProps?.input?.endAdornment}
+                  {params.slotProps.input.endAdornment}
                 </>
               ),
             },

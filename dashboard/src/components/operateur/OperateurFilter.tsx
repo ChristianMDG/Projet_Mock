@@ -12,7 +12,6 @@ import {
   Autocomplete,
 } from '@mui/material';
 import { Search, FilterAltOff } from '@mui/icons-material';
-import { StyledIcon } from '@/components/shared';
 import { useOperateurStore } from '@/stores/operateur.store';
 import { useKoperatives } from '@/hooks/koperative.hook';
 import { useGares } from '@/hooks/gare.hook';
@@ -37,7 +36,7 @@ export default function OperateurFilter() {
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <StyledIcon icon={Search} />
+                    <Search />
                   </InputAdornment>
                 ),
               },

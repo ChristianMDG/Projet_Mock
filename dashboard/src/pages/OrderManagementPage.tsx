@@ -56,11 +56,12 @@ export default function OrderManagementPage() {
   const exportOrders = useExportOrders();
 
   const filteredOrders = useMemo(() => {
+    const list = Array.isArray(orders) ? orders : [];
     const needle = search.trim().toLowerCase();
-    if (!needle) return orders;
-    return orders.filter(
+    if (!needle) return list;
+    return list.filter(
       (o) =>
-        o.orderNumber.toLowerCase().includes(needle) ||
+        (o.orderNumber ?? '').toLowerCase().includes(needle) ||
         (o.customerName ?? '').toLowerCase().includes(needle) ||
         (o.customerEmail ?? '').toLowerCase().includes(needle) ||
         (o.customerPhone ?? '').toLowerCase().includes(needle)

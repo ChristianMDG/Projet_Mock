@@ -139,7 +139,7 @@ public class VoyageController implements IVoyageController {
     public ResponseEntity<Page<Voyage>> previousVoyages(Long voyageurId, Pageable pageable) {
         try {
             return ResponseEntity.ok(voyageService.findPreviousVoyages(voyageurId, pageable));
-        } catch (Exception _) {
+        } catch (Exception e) {
             return ResponseEntity.ok(Page.empty(pageable));
         }
     }

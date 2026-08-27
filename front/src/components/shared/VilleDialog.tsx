@@ -17,7 +17,6 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import ButtonTx from '@/components/ui/ButtonTx';
-import StyledIcon from '@/components/ui/StyledIcon';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -107,7 +106,7 @@ const VilleDialog: React.FC<VilleDialogProps> = ({ open, onClose, koperativeId, 
               renderOption={(props, option) => (
                 <Box {...props} component="li" key={option.id}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
-                    <StyledIcon icon={LocationCityIcon} />
+                    <LocationCityIcon color={option.isActive ? 'success' : 'error'} />
                     <Box sx={{ flex: 1 }}>
                       <Typography variant="h6">{option.name}</Typography>
                       <Typography variant="caption" color="text.secondary">
@@ -129,7 +128,7 @@ const VilleDialog: React.FC<VilleDialogProps> = ({ open, onClose, koperativeId, 
                     {...getTagProps({ index })}
                     key={option.id}
                     label={option.name}
-                    icon={<StyledIcon icon={LocationCityIcon} />}
+                    icon={<LocationCityIcon />}
                     color="primary"
                     variant="outlined"
                   />

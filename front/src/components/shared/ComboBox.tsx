@@ -3,7 +3,6 @@ import { Autocomplete, InputAdornment, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import TaxibrousseRedIcon from '@/components/ui/TaxibrousseRedIcon';
-import StyledIcon from '@/components/ui/StyledIcon';
 
 interface ComboBoxProps {
   id?: string;
@@ -33,10 +32,10 @@ export default function ComboBox({ id: providedId }: Readonly<ComboBoxProps>) {
           slotProps={{
             ...params.slotProps,
             input: {
-              ...params.slotProps?.input,
+              ...params.slotProps.input,
               startAdornment: (
                 <InputAdornment position="start">
-                  <StyledIcon icon={TaxibrousseRedIcon} />
+                  <TaxibrousseRedIcon sx={{ width: 16 }} />
                 </InputAdornment>
               ),
             },

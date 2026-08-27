@@ -5,7 +5,6 @@ import PhoneOutlined from '@mui/icons-material/PhoneOutlined';
 import BadgeOutlined from '@mui/icons-material/BadgeOutlined';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
-import StyledIcon from '@/components/ui/StyledIcon';
 import type { UserFormData } from '@/types/user.type';
 
 interface UserDetailsFormProps {
@@ -41,7 +40,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ userForm, setU
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <StyledIcon icon={PersonOutlined} fontSize="small" />
+                    <PersonOutlined fontSize="small" color="action" />
                   </InputAdornment>
                 ),
               },
@@ -62,7 +61,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ userForm, setU
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <StyledIcon icon={PersonOutlined} fontSize="small" />
+                    <PersonOutlined fontSize="small" color="action" />
                   </InputAdornment>
                 ),
               },
@@ -84,7 +83,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ userForm, setU
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <StyledIcon icon={PhoneOutlined} fontSize="small" />
+                    <PhoneOutlined fontSize="small" color="action" />
                   </InputAdornment>
                 ),
               },
@@ -104,7 +103,7 @@ export const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ userForm, setU
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <StyledIcon icon={BadgeOutlined} fontSize="small" />
+                    <BadgeOutlined fontSize="small" color="action" />
                   </InputAdornment>
                 ),
               },

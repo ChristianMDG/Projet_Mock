@@ -49,7 +49,8 @@ export default function OrderDetailDialog({ order, open, onClose }: OrderDetailD
 
   if (!current) return null;
 
-  const transitions = current.allowedNextStatuses ?? [];
+  // Admin / guichet : passage libre vers n'importe quel statut
+  const transitions = Object.values(OrderStatusEnum).filter((s) => s !== current.status);
   const hasTransitions = transitions.length > 0;
 
   const handleUpdate = async () => {
@@ -64,11 +65,17 @@ export default function OrderDetailDialog({ order, open, onClose }: OrderDetailD
   };
 
   const address = current.deliveryAddress;
-  const hasAddress = Boolean(
-    address && (address.fullName || address.addressLine1 || address.ville || address.fokotany)
-  );
+  const addressText =
+    typeof address === 'string'
+      ? address
+      : [address?.fullName, address?.addressLine1, address?.addressLine2, address?.fokotany, address?.ville]
+          .filter(Boolean)
+          .join(', ');
+  const hasAddress = Boolean(addressText);
   const timeline = current.timeline ?? [];
   const hasTimeline = timeline.length > 0;
+  const deliveryFee = current.deliveryFee ?? current.shipping;
+  const discount = current.discount ?? current.discountAmount;
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
@@ -87,6 +94,37 @@ export default function OrderDetailDialog({ order, open, onClose }: OrderDetailD
               {formatDateTime(current.createdAt)}
             </Typography>
           </Stack>
+
+          {current.pickupCode && (
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              flexWrap="wrap"
+              sx={{
+                p: 1.5,
+                borderRadius: 1,
+                bgcolor: 'action.hover',
+                border: '1px dashed',
+                borderColor: 'divider',
+              }}
+            >
+              <Typography variant="subtitle2" sx={{ flexShrink: 0 }}>
+                Code de récupération :
+              </Typography>
+              <Typography
+                variant="h6"
+                fontFamily="monospace"
+                letterSpacing={2}
+                sx={{ fontWeight: 700 }}
+              >
+                {current.pickupCode}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                (à apposer sur le colis / fournir au guichet)
+              </Typography>
+            </Stack>
+          )}
 
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6 }}>
@@ -122,7 +160,7 @@ export default function OrderDetailDialog({ order, open, onClose }: OrderDetailD
                       {item.quantity} × {formatCurrency(item.unitPrice)}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">{formatCurrency(item.subtotal)}</TableCell>
+                  <TableCell align="right">{formatCurrency(item.lineTotal ?? item.subtotal ?? 0)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -139,16 +177,16 @@ export default function OrderDetailDialog({ order, open, onClose }: OrderDetailD
                 <Typography variant="body2">{t(Labels.shop_order_detail_subtotal)}</Typography>
                 <Typography variant="body2">{formatCurrency(current.subtotal)}</Typography>
               </Stack>
-              {current.deliveryFee !== undefined ? (
+              {deliveryFee !== undefined && deliveryFee !== null ? (
                 <Stack direction="row" justifyContent="space-between">
                   <Typography variant="body2">{t(Labels.shop_order_detail_delivery)}</Typography>
-                  <Typography variant="body2">{formatCurrency(current.deliveryFee)}</Typography>
+                  <Typography variant="body2">{formatCurrency(deliveryFee)}</Typography>
                 </Stack>
               ) : null}
-              {current.discount ? (
+              {discount ? (
                 <Stack direction="row" justifyContent="space-between">
                   <Typography variant="body2">{t(Labels.shop_order_detail_discount)}</Typography>
-                  <Typography variant="body2">-{formatCurrency(current.discount)}</Typography>
+                  <Typography variant="body2">-{formatCurrency(discount)}</Typography>
                 </Stack>
               ) : null}
               <Stack direction="row" justifyContent="space-between">
@@ -162,13 +200,7 @@ export default function OrderDetailDialog({ order, open, onClose }: OrderDetailD
             <>
               <Divider />
               <Typography variant="subtitle2">{t(Labels.shop_order_detail_address)}</Typography>
-              <Typography variant="body2">{address?.fullName ?? ''}</Typography>
-              <Typography variant="body2">
-                {address?.addressLine1 ?? ''} {address?.addressLine2 ?? ''}
-              </Typography>
-              <Typography variant="body2">
-                {address?.fokotany ?? ''} {address?.ville ?? ''}
-              </Typography>
+              <Typography variant="body2">{addressText}</Typography>
             </>
           ) : null}
 

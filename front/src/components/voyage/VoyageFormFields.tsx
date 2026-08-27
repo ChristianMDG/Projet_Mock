@@ -37,7 +37,6 @@ import {
   FormWeekdaySelector,
 } from '@/components/inputs';
 import VehicleIcon from '@/components/shared/VehicleIcon';
-import StyledIcon from '@/components/ui/StyledIcon';
 
 interface VoyageFormValues {
   id?: number;
@@ -95,7 +94,7 @@ const VoyageFormFields: React.FC<VoyageFormFieldsProps> = ({
           name="departureGareId"
           label={t(Labels.voyage_departure_gare)}
           required
-          startIcon={<StyledIcon icon={RouteIcon} />}
+          startIcon={<RouteIcon />}
         >
           <MenuItem value="">{t(Labels.voyage_select_placeholder)}</MenuItem>
           {gares.map(gare => (
@@ -106,12 +105,7 @@ const VoyageFormFields: React.FC<VoyageFormFieldsProps> = ({
         </FormSelectField>
       </Grid>
       <Grid size={{ xs: 12, md: 6 }}>
-        <FormSelectField
-          name="arrivalGareId"
-          label={t(Labels.voyage_arrival_gare)}
-          required
-          startIcon={<StyledIcon icon={RouteIcon} />}
-        >
+        <FormSelectField name="arrivalGareId" label={t(Labels.voyage_arrival_gare)} required startIcon={<RouteIcon />}>
           <MenuItem value="">{t(Labels.voyage_select_placeholder)}</MenuItem>
           {gares.map(gare => (
             <MenuItem key={gare.id} value={gare.id}>
@@ -137,7 +131,7 @@ const VoyageFormFields: React.FC<VoyageFormFieldsProps> = ({
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <StyledIcon icon={VehicleIcon} />
+                <VehicleIcon />
               </InputAdornment>
             ),
           }}
@@ -152,7 +146,7 @@ const VoyageFormFields: React.FC<VoyageFormFieldsProps> = ({
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <StyledIcon icon={AttachMoneyIcon} />
+                <AttachMoneyIcon />
               </InputAdornment>
             ),
           }}
@@ -160,12 +154,7 @@ const VoyageFormFields: React.FC<VoyageFormFieldsProps> = ({
       </Grid>
       {/* Vehicle & Driver */}
       <Grid size={{ xs: 12, md: 6 }}>
-        <FormSelectField
-          name="crafterId"
-          label={t(Labels.voyage_select_crafter)}
-          required
-          startIcon={<StyledIcon icon={VehicleIcon} />}
-        >
+        <FormSelectField name="crafterId" label={t(Labels.voyage_select_crafter)} required startIcon={<VehicleIcon />}>
           <MenuItem value="">{t(Labels.voyage_select_placeholder)}</MenuItem>
           {crafters.map(crafter => (
             <MenuItem key={crafter.id} value={crafter.id}>
@@ -179,7 +168,7 @@ const VoyageFormFields: React.FC<VoyageFormFieldsProps> = ({
           name="chauffeurId"
           label={t(Labels.voyage_select_chauffeur)}
           required
-          startIcon={<StyledIcon icon={PersonIcon} />}
+          startIcon={<PersonIcon />}
         >
           <MenuItem value="">{t(Labels.voyage_select_placeholder)}</MenuItem>
           {chauffeurs.map(chauffeur => (
@@ -191,11 +180,7 @@ const VoyageFormFields: React.FC<VoyageFormFieldsProps> = ({
       </Grid>
       {classes.length > 0 && (
         <Grid size={{ xs: 12, md: 6 }}>
-          <FormSelectField
-            name="classeId"
-            label={t(Labels.ui_reservation_classe)}
-            startIcon={<StyledIcon icon={ClassIcon} />}
-          >
+          <FormSelectField name="classeId" label={t(Labels.ui_reservation_classe)} startIcon={<ClassIcon />}>
             <MenuItem value="">{t(Labels.voyage_select_placeholder)}</MenuItem>
             {classes.map(classe => (
               <MenuItem key={classe.id} value={classe.id}>

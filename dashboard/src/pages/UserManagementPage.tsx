@@ -29,7 +29,7 @@ import {
 } from '@mui/icons-material';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { MaterialReactTable, type MRT_ColumnDef } from 'material-react-table';
-import { SectionHeader, StatCard, StyledIcon, mrtTableProps } from '@/components/shared';
+import { SectionHeader, StatCard, mrtTableProps } from '@/components/shared';
 import {
   useUserStatistics,
   useVoyageurs,
@@ -288,7 +288,7 @@ export default function UserManagementPage() {
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <StyledIcon icon={Search} />
+                      <Search />
                     </InputAdornment>
                   ),
                 },

@@ -14,7 +14,6 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOutlined from '@mui/icons-material/LockOutlined';
 import PhoneInput from '@/components/shared/PhoneInput';
-import StyledIcon from '@/components/ui/StyledIcon';
 import type { AuthMode, LoginFormData } from '@/types/auth.types';
 import Labels from '@/labelKeys.json';
 import { useTranslation } from 'react-i18next';
@@ -79,7 +78,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             placeholder="••••••••"
             startAdornment={
               <InputAdornment position="start">
-                <StyledIcon icon={LockOutlined} fontSize="small" />
+                <LockOutlined fontSize="small" color="action" />
               </InputAdornment>
             }
             endAdornment={
