@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Ville } from '@/models/Ville';
 import { createVille, deleteVille, getVilleByKeyword, getVilles, updateVille } from '@/api/ville.api';
+import { getKoperativeVilles } from '@/api/koperative.api';
 
 // Fetch all villes
 export function useVilles() {
@@ -56,35 +57,47 @@ export function useDetectedVille() {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      setIsDetecting(true);
+      const timer = setTimeout(() => {
+        setIsDetecting(true);
 
-      navigator.geolocation.getCurrentPosition(
-        async ({ coords: { latitude, longitude } }) => {
-          try {
-            const res = await fetch(
-              `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
-              { headers: { 'Accept-Language': navigator.language } },
-            );
-            const { address } = await res.json();
-            const cityName = address?.city ?? address?.town ?? address?.village ?? '';
-            console.log('Géolocalisation réussie, adresse:', address, ', ville détectée:', cityName);
+        navigator.geolocation.getCurrentPosition(
+          async ({ coords: { latitude, longitude } }) => {
+            try {
+              const res = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
+                { headers: { 'Accept-Language': navigator.language } },
+              );
+              const { address } = await res.json();
+              const cityName = address?.city ?? address?.town ?? address?.village ?? '';
+              console.warn('Géolocalisation réussie, adresse:', address, ', ville détectée:', cityName);
 
-            if (cityName) {
-              const villes = await getVilleByKeyword(cityName);
-              if (villes.length > 0) setDetectedVille(villes[0]);
+              if (cityName) {
+                const villes = await getVilleByKeyword(cityName);
+                if (villes.length > 0) setDetectedVille(villes[0]);
+              }
+            } catch (error) {
+              console.error('Erreur lors de la géolocalisation:', error);
+              // géolocalisation est optionnelle
+            } finally {
+              setIsDetecting(false);
             }
-          } catch (error) {
-            console.error('Erreur lors de la géolocalisation:', error);
-            // géolocalisation est optionnelle
-          } finally {
-            setIsDetecting(false);
-          }
-        },
-        () => setIsDetecting(false),
-        { timeout: 8000, maximumAge: 300_000 },
-      );
+          },
+          () => setIsDetecting(false),
+          { timeout: 8000, maximumAge: 300_000 },
+        );
+      }, 75000);
+
+      return () => clearTimeout(timer);
     }
   }, []);
 
   return { detectedVille, isDetecting };
+}
+
+export function useVillesByKoperativeId(koperativeId?: number) {
+  return useQuery<Ville[], Error>({
+    queryKey: ['koperative', koperativeId, 'villes'],
+    queryFn: () => getKoperativeVilles(koperativeId!),
+    enabled: Boolean(koperativeId),
+  });
 }

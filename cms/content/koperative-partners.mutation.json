@@ -1,0 +1,86 @@
+{
+    "description": "Partenaires koperativa de livraison du shop AmbondronA – 4 coopératives de transport régionales. Le champ 'routes' est un tableau JSON de routes couvertes.",
+    "collection": "api::koperative-partner.koperative-partner",
+    "data": [
+        {
+            "name": "Koperativa Fitaterana SAVA",
+            "slug": "koperativa-fitaterana-sava",
+            "initials": "KFS",
+            "location": "Antalaha",
+            "routes": ["Tana - Toamasina", "Tana - Sambava", "Tana - Antalaha"],
+            "description": "Coopérative de transport de la région SAVA (nord-est), spécialisée dans le fret de produits artisanaux et épices depuis Antalaha et Sambava vers la capitale.",
+            "isActive": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "location": "Antalaha",
+                    "description": "Transport cooperative from the SAVA region (north-east), specialising in freight of artisanal products and spices from Antalaha and Sambava to the capital."
+                },
+                "mg": {
+                    "location": "Antalaha",
+                    "description": "Koperativa fitaterana avy any amin'ny faritra SAVA (avaratra-atsinanana), mahay amin'ny fitaterana entana asa tanana sy zava-manitra avy any Antalaha sy Sambava mankany an-drenivohitra."
+                }
+            }
+        },
+        {
+            "name": "Trans Betsileo Express",
+            "slug": "trans-betsileo-express",
+            "initials": "TBE",
+            "location": "Fianarantsoa",
+            "routes": ["Tana - Fianarantsoa", "Tana - Ambalavao", "Tana - Ihosy"],
+            "description": "Transport fiable sur les hauts plateaux du sud. Couvre les routes Tana–Fianarantsoa, Ambalavao et Ihosy pour les producteurs betsileo.",
+            "isActive": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "location": "Fianarantsoa",
+                    "description": "Reliable transport across the southern highlands. Covers the Tana–Fianarantsoa, Ambalavao and Ihosy routes for Betsileo producers."
+                },
+                "mg": {
+                    "location": "Fianarantsoa",
+                    "description": "Fitaterana azo itokisana manerana ny Faritra Avo atsimo. Manatona ny lalana Tana–Fianarantsoa, Ambalavao ary Ihosy."
+                }
+            }
+        },
+        {
+            "name": "Koperativa Menabe",
+            "slug": "koperativa-menabe",
+            "initials": "KM",
+            "location": "Morondava",
+            "routes": ["Tana - Morondava", "Tana - Tuléar", "Tana - Miandrivazo"],
+            "description": "Transport régional vers l'ouest et le sud-ouest de Madagascar. Dessert les artisans de Morondava, du Menabe et de la côte Tuléar.",
+            "isActive": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "location": "Morondava",
+                    "description": "Regional transport towards western and south-western Madagascar. Serves craftspeople in Morondava, Menabe and the Tulear coast."
+                },
+                "mg": {
+                    "location": "Morondava",
+                    "description": "Fitaterana isam-paritra mankany andrefana sy atsimo-andrefan'i Madagasikara. Manatona ny mpanao asa tanana any Morondava, Menabe ary morontsiraka Toliara."
+                }
+            }
+        },
+        {
+            "name": "Nord Express Coop",
+            "slug": "nord-express-coop",
+            "initials": "NEC",
+            "location": "Mahajanga",
+            "routes": ["Tana - Mahajanga", "Tana - Nosy Be", "Tana - Ambanja"],
+            "description": "Livraison rapide et régulière vers le nord-ouest (Mahajanga) et le nord (Nosy Be, Ambanja). Partenaire privilégié pour les produits cosmétiques et rhums arrangés.",
+            "isActive": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "location": "Mahajanga",
+                    "description": "Fast and regular delivery to the north-west (Mahajanga) and north (Nosy Be, Ambanja). Preferred partner for cosmetics and arranged rums."
+                },
+                "mg": {
+                    "location": "Mahajanga",
+                    "description": "Fanaterana haingana sy maharitra mankany Avaratra-Andrefana (Mahajanga) sy Avaratra (Nosy Be, Ambanja). Mpiara-miasa tsara amin'ny vokatra hoditra sy rhum arrangé."
+                }
+            }
+        }
+    ]
+}

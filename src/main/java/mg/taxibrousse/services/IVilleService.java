@@ -5,6 +5,7 @@ import mg.taxibrousse.models.Ville;
 import java.util.List;
 
 public interface IVilleService {
+
     void saveAll(List<Ville> villes);
 
     Ville save(Ville ville);
@@ -19,4 +20,3 @@ public interface IVilleService {
 
     List<Ville> findByKeyword(String keyword);
 }
-

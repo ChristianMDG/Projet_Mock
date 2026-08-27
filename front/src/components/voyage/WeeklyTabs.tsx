@@ -2,7 +2,7 @@ import { Badge, Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import { StyledTab } from '@/components/ui';
+import StyledTab from '@/components/ui/StyledTab';
 import { getStyledTabListSx } from '@/utils/tabStyles';
 import { voyageDateUtils } from '@/utils/dayjs';
 import type { VoyageWeeklyResult } from '@/types/type.util';
@@ -50,9 +50,9 @@ export const WeeklyTabs = ({ weeklyResults, selectedTab, language, onTabChange }
                   >
                     <Box sx={{ textAlign: 'left' }}>
                       <Typography
-                        variant="h6"
                         sx={{
                           fontWeight: 'bold',
+                          fontSize: { xs: '0.85rem', sm: '1rem', md: '1.25rem' },
                         }}
                       >
                         {isPast
@@ -61,13 +61,13 @@ export const WeeklyTabs = ({ weeklyResults, selectedTab, language, onTabChange }
                             ? `${item.minPrice.toLocaleString(language)} AR`
                             : '--'}
                       </Typography>
-                      <Typography variant="body2">
+                      <Typography variant="body2" sx={{ fontSize: { xs: '0.65rem', sm: '0.75rem', md: '0.875rem' } }}>
                         {voyageDateUtils.formatWithLocale(item.date, 'ddd DD MMM', language)}
                       </Typography>
                     </Box>
                   </Badge>
                 }
-                sx={{ minWidth: 160, textTransform: 'none' }}
+                sx={{ minWidth: { xs: 120, sm: 130, md: 160 }, textTransform: 'none' }}
               />
             );
           })}

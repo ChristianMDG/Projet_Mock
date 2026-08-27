@@ -5,8 +5,10 @@ import mg.taxibrousse.models.Ville;
 import mg.taxibrousse.params.KoperativeFilter;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IKoperativeService {
+
     void saveAll(List<Koperative> koperatives);
 
     Koperative save(Koperative koperative);
@@ -18,6 +20,8 @@ public interface IKoperativeService {
     Long countKoperatives();
 
     Koperative findById(Long id);
+
+    Optional<Koperative> findBySlug(String slug);
 
     List<Ville> getVilles(Long koperativeId);
 

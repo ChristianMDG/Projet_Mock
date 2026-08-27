@@ -133,7 +133,20 @@
         "page.additional-info",
         "page.service-categories",
         "page.loyalty-program",
-        "page.additional-services"
+        "page.additional-services",
+        "page.featured-products",
+        "page.product-categories",
+        "page.shop-promotions",
+        "page.simple-search",
+        "page.koperative-types-list",
+        "rental.hero-section",
+        "rental.categories-section",
+        "rental.how-it-works",
+        "rental.featured-vehicles",
+        "rental.offers-section",
+        "rental.reassurance-section",
+        "rental.faq-section",
+        "rental.contact-section"
       ]
     },
     "callToAction": {

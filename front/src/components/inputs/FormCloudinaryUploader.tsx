@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Alert, Box, LinearProgress, Typography } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ButtonTx } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
 import { useCloudinaryUpload } from '@/hooks/cloudinary.hook';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
@@ -80,7 +80,7 @@ const FormCloudinaryUploader: React.FC<PhotoUploaderProps> = ({
         if (result) {
           uploadedImages.push({
             url: result.url,
-            publicId: result.public_id || '',
+            publicId: result.public_id ?? '',
             width: result.width,
             height: result.height,
             format: result.format,
@@ -118,8 +118,8 @@ const FormCloudinaryUploader: React.FC<PhotoUploaderProps> = ({
   };
 
   // Labels par défaut
-  const defaultUploadLabel = uploadLabel || t(Labels.koperative_form_logo_upload) || 'Ajouter des photos';
-  const defaultUploadingLabel = uploadingLabel || t(Labels.koperative_form_logo_uploading) || 'Upload en cours...';
+  const defaultUploadLabel = uploadLabel ?? t(Labels.koperative_form_logo_upload) ?? 'Ajouter des photos';
+  const defaultUploadingLabel = uploadingLabel ?? t(Labels.koperative_form_logo_uploading) ?? 'Upload en cours...';
 
   return (
     <Box>
@@ -152,7 +152,7 @@ const FormCloudinaryUploader: React.FC<PhotoUploaderProps> = ({
       {/* Messages d'erreur */}
       {(validationError || uploadError) && (
         <Alert severity="error" sx={{ mb: 2 }} onClose={() => setValidationError(null)}>
-          {validationError || uploadError}
+          {validationError ?? uploadError}
         </Alert>
       )}
 

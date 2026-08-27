@@ -25,17 +25,16 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { ButtonTx, StyledIcon } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import KoperativeAutocomplete from '@/components/shared/KoperativeAutocomplete';
 import ProtectedTx from '@/components/ProtectedTx';
-import {
-  Business,
-  Close as CloseIcon,
-  ContactPage,
-  Person as PersonIcon,
-  PhotoCamera as PhotoCameraIcon,
-  Save as SaveIcon,
-} from '@mui/icons-material';
+import Business from '@mui/icons-material/Business';
+import CloseIcon from '@mui/icons-material/Close';
+import ContactPage from '@mui/icons-material/ContactPage';
+import PersonIcon from '@mui/icons-material/Person';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import SaveIcon from '@mui/icons-material/Save';
 import { useCreateOperator, useUpdateOperator } from '@/hooks/operator.hooks';
 import { useUpdateUserAccount, useUserConnected } from '@/hooks/user.hooks';
 import { useKoperativeGuichets, useKoperatives } from '@/hooks/koperative.hooks';

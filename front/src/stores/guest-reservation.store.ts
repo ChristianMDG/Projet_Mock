@@ -45,6 +45,7 @@ export const useGuestReservationStore = create<GuestReservationStore>()(
         searched: state.searched,
         searchParams: state.searchParams,
       }),
+      skipHydration: true,
     },
   ),
 );

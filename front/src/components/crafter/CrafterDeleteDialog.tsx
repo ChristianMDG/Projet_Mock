@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
-import { ButtonTx } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
 import { Crafter } from '@/types';
 import Labels from '@/labelKeys.json';
 

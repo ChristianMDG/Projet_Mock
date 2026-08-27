@@ -62,6 +62,9 @@ export const useConfirmReservationWithoutVoyageur = () => {
         queryClient.invalidateQueries({ queryKey: ['seat-entities', 'voyage', variables.voyageId, 'available'] });
         queryClient.invalidateQueries({ queryKey: ['seat-entities', 'voyage', variables.voyageId, 'reserved'] });
         queryClient.invalidateQueries({ queryKey: ['seat-entities', 'voyage', variables.voyageId, 'count'] });
+
+        // Invalidate voyage to update available seats
+        queryClient.invalidateQueries({ queryKey: ['voyages'] });
       }
     },
   });

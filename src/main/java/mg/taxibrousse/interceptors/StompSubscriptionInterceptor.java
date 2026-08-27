@@ -34,7 +34,7 @@ public class StompSubscriptionInterceptor implements ChannelInterceptor {
 
             if (destination.startsWith(PAYMENT_TOPIC_PREFIX)) {
                 String transactionReference = destination.substring(PAYMENT_TOPIC_PREFIX.length());
-                
+
                 log.info("New subscription detected for session {} on topic {} - Identified by: {}", accessor.getSessionId(), destination, transactionReference);
                 paymentNotificationService.notifySubscriber(transactionReference, transactionReference);
             }

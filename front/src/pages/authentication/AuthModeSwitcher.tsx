@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import { Person, Login } from '@mui/icons-material';
+import Person from '@mui/icons-material/Person';
+import Login from '@mui/icons-material/Login';
 import type { AuthMode } from '@/types/auth.types';
 import Labels from '@/labelKeys.json';
 import { useTranslation } from 'react-i18next';
@@ -49,7 +50,7 @@ const AuthModeSwitcher: React.FC<{ mode: AuthMode; onModeChange: (mode: AuthMode
         color="primary"
         startIcon={config.icon}
         onClick={() => onModeChange(config.target)}
-        sx={{ mt: 1.5, borderRadius: { xs: 1, sm: 1.5 } }}
+        sx={{ mt: 1.5 }}
       >
         {t(config.btn)}
       </Button>

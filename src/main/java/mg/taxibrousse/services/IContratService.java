@@ -5,6 +5,7 @@ import mg.taxibrousse.models.Contrat;
 import java.util.List;
 
 public interface IContratService {
+
     List<Contrat> getAllContrats();
 
     Contrat getContratById(Long id);

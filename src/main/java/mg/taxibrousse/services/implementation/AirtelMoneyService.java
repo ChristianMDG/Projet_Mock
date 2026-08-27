@@ -28,6 +28,7 @@ import static java.text.MessageFormat.format;
 @Service
 @Slf4j
 public class AirtelMoneyService extends PaymentService implements IAirtelMoneyService {
+
     private final AirtelApiConfig config;
     private final AirtelApiClient apiClient;
     private final ObjectMapper objectMapper;
@@ -35,8 +36,7 @@ public class AirtelMoneyService extends PaymentService implements IAirtelMoneySe
     private volatile AirtelTokenResponse cachedToken;
     private final Object tokenLock = new Object();
 
-    private static final Map<String, String> AIRTEL_ERROR_MESSAGES = Map.ofEntries(
-            Map.entry("DP00800001002", "payment_error_incorrect_pin"),
+    private static final Map<String, String> AIRTEL_ERROR_MESSAGES = Map.ofEntries(Map.entry("DP00800001002", "payment_error_incorrect_pin"),
             Map.entry("DP00800001003", "payment_error_exceeds_limit"),
             Map.entry("DP00800001004", "payment_error_invalid_amount"),
             Map.entry("DP00800001005", "payment_error_no_pin_entered"),
@@ -44,17 +44,10 @@ public class AirtelMoneyService extends PaymentService implements IAirtelMoneySe
             Map.entry("DP00800001008", "payment_error_refused"),
             Map.entry("DP00800001010", "payment_error_not_permitted"),
             Map.entry("DP00800001024", "payment_error_timeout"),
-            Map.entry("DP00800001025", "payment_error_transaction_not_found")
-    );
+            Map.entry("DP00800001025", "payment_error_transaction_not_found"));
 
-    public AirtelMoneyService(
-            AirtelApiConfig config,
-            AirtelApiClient apiClient,
-            ObjectMapper objectMapper,
-            IReservationService reservationService,
-            IPaymentTransactionService paymentTransactionService,
-            IPaymentTransactionRepository paymentTransactionRepository,
-            IFacturationService facturationService,
+    public AirtelMoneyService(AirtelApiConfig config, AirtelApiClient apiClient, ObjectMapper objectMapper, IReservationService reservationService,
+            IPaymentTransactionService paymentTransactionService, IPaymentTransactionRepository paymentTransactionRepository, IFacturationService facturationService,
             IPaymentNotificationService paymentNotificationService) {
 
         super(reservationService, paymentTransactionService, paymentTransactionRepository, facturationService, paymentNotificationService);
@@ -68,8 +61,7 @@ public class AirtelMoneyService extends PaymentService implements IAirtelMoneySe
     public PaymentTransaction initPayment(PaymentRequest request) throws IOException, InterruptedException {
         validatePaymentRequest(request);
 
-        var facturationId = facturationService.getOrCreateFacturation(request.getReservationId());
-        var transaction = createTransaction(facturationId, request);
+        var transaction = bootstrapTransaction(request);
         var transactionId = transaction.getId();
 
         try {
@@ -142,24 +134,11 @@ public class AirtelMoneyService extends PaymentService implements IAirtelMoneySe
         var phone = PaymentRequest.hasValidPhoneNumber(request) ? request.getPhoneNumber() : "";
         String msisdn = phone.startsWith("0") ? phone.substring(1) : phone;
 
-        var subscriber = AirtelSubscriber.builder()
-            .country("MG")
-            .currency("MGA")
-            .msisdn(msisdn)
-            .build();
+        var subscriber = AirtelSubscriber.builder().country("MG").currency("MGA").msisdn(msisdn).build();
 
-        var transaction = AirtelTransactionRequest.builder()
-            .amount(request.getAmount())
-            .country("MG")
-            .currency("MGA")
-            .id(reference)
-            .build();
+        var transaction = AirtelTransactionRequest.builder().amount(request.getAmount()).country("MG").currency("MGA").id(reference).build();
 
-        return AirtelPaymentRequest.builder()
-            .reference(reference)
-            .subscriber(subscriber)
-            .transaction(transaction)
-            .build();
+        return AirtelPaymentRequest.builder().reference(reference).subscriber(subscriber).transaction(transaction).build();
     }
 
     @Transactional
@@ -171,23 +150,24 @@ public class AirtelMoneyService extends PaymentService implements IAirtelMoneySe
     }
 
     private PaymentTransactionStatusEnum mapAirtelStatus(String status) {
-        if (status == null) return PaymentTransactionStatusEnum.FAILED;
+        if (status == null)
+            return PaymentTransactionStatusEnum.FAILED;
         return switch (status.toUpperCase()) {
             // Callback status_code: TS = Transaction Successful
             case "TS" -> PaymentTransactionStatusEnum.COMPLETED;
             // response_code from status enquiry
-            case "DP00800001001" -> PaymentTransactionStatusEnum.COMPLETED;     // Success
-            case "DP00800001000",                                               // Ambiguous
-                 "DP00800001006" -> PaymentTransactionStatusEnum.PROCESSING;    // In process
-            case "DP00800001008" -> PaymentTransactionStatusEnum.CANCELLED;     // Refused
-            case "DP00800001002",                                               // Incorrect Pin
-                 "DP00800001003",                                               // Exceeds limit
-                 "DP00800001004",                                               // Invalid Amount
-                 "DP00800001005",                                               // User didn't enter pin
-                 "DP00800001007",                                               // Not enough balance
-                 "DP00800001010",                                               // Not permitted to Payee
-                 "DP00800001024",                                               // Timed Out
-                 "DP00800001025" -> PaymentTransactionStatusEnum.FAILED;        // Transaction Not Found
+            case "DP00800001001" -> PaymentTransactionStatusEnum.COMPLETED; // Success
+            case "DP00800001000", // Ambiguous
+                    "DP00800001006" -> PaymentTransactionStatusEnum.PROCESSING; // In process
+            case "DP00800001008" -> PaymentTransactionStatusEnum.CANCELLED; // Refused
+            case "DP00800001002", // Incorrect Pin
+                    "DP00800001003", // Exceeds limit
+                    "DP00800001004", // Invalid Amount
+                    "DP00800001005", // User didn't enter pin
+                    "DP00800001007", // Not enough balance
+                    "DP00800001010", // Not permitted to Payee
+                    "DP00800001024", // Timed Out
+                    "DP00800001025" -> PaymentTransactionStatusEnum.FAILED; // Transaction Not Found
             default -> PaymentTransactionStatusEnum.FAILED;
         };
     }
@@ -207,5 +187,12 @@ public class AirtelMoneyService extends PaymentService implements IAirtelMoneySe
             return AIRTEL_ERROR_MESSAGES.getOrDefault(responseCode.toUpperCase(), responseCode);
         }
         return "payment_error_unknown";
+    }
+
+    // Visible for testing
+    public void clearCache() {
+        synchronized (tokenLock) {
+            this.cachedToken = null;
+        }
     }
 }

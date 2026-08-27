@@ -10,7 +10,12 @@ export interface Guichet extends Base {
   koperative: Koperative;
   operateurs?: UserOperator[];
   phones?: string;
+  smsPhone?: string;
+  numeroMvola?: string;
+  numeroAirtelMoney?: string;
+  numeroOrangeMoney?: string;
   isActive: boolean;
+  paymentAutomatique?: boolean;
   openingHours?: string;
   photo?: Cloudinary;
   destinations?: Gare[];

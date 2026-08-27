@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Box, Button, Menu, MenuItem } from '@mui/material';
+import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 import ReactCountryFlag from 'react-country-flag';
 import { useLocation, useNavigate, matchPath, generatePath } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -53,9 +53,19 @@ const LanguageSelector: React.FC = () => {
 
   return (
     <Box>
-      <Button onClick={e => setAnchorEl(e.currentTarget)} size="small" sx={{ fontWeight: 600, p: 0.5, minWidth: 28 }}>
+      <IconButton
+        onClick={e => setAnchorEl(e.currentTarget)}
+        size="large"
+        sx={{
+          width: 48,
+          height: 48,
+          fontSize: '1.1rem',
+          fontWeight: 600,
+          color: 'inherit',
+        }}
+      >
         {mounted ? currentLang.toUpperCase() : DEFAULT_LANGUAGE.toUpperCase()}
-      </Button>
+      </IconButton>
 
       <Menu
         anchorEl={anchorEl}

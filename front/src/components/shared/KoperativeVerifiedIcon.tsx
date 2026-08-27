@@ -1,4 +1,4 @@
-import { SvgIconComponent } from '@mui/icons-material';
+import type { SvgIconComponent } from '@mui/icons-material';
 import VerifiedRoundedIcon from '@mui/icons-material/VerifiedRounded';
 import { Box, Tooltip } from '@mui/material';
 import React from 'react';

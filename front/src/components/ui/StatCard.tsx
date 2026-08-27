@@ -27,7 +27,7 @@ const StatCard: React.FC<StatCardProps> = ({ iconName, value, label }) => {
         <Icon iconName={iconName} size="large" sx={{ width: 32, height: 32, mx: 'auto', mb: 1 }} />
         <Typography
           variant="h3"
-          color="primary.main"
+          color="primary"
           gutterBottom
           sx={{
             fontWeight: 700,

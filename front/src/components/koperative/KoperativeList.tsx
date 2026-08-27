@@ -1,24 +1,15 @@
 import React from 'react';
-import {
-  Box,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Paper,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, List, ListItem, ListItemButton, ListItemText, Paper, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import EditIcon from '@mui/icons-material/Edit';
-import InfoIcon from '@mui/icons-material/Info';
-import { KoperativeVerifiedIcon } from '@/components/shared';
-import { IconButtonTx } from '@/components/ui';
+import KoperativeVerifiedIcon from '@/components/shared/KoperativeVerifiedIcon';
+import IconButtonTx from '@/components/ui/IconButtonTx';
 import { Koperative, Ville } from '@/types';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 import { generateRoute } from '@/constants/routes';
+import { AuthorityEnum } from '@/models/enums';
 import Labels from '@/labelKeys.json';
 
 interface KoperativeListProps {
@@ -40,10 +31,18 @@ export const KoperativeList: React.FC<KoperativeListProps> = ({
 }) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
-  const handleInfo = (e: React.MouseEvent, koperativeId: number) => {
-    e.stopPropagation();
-    navigate(generateRoute.cooperativeInfo(koperativeId, i18n.language));
+  const handleKoperativeClick = (koperative: Koperative) => {
+    if (koperative.slug) {
+      const isAdminOrOperator = user?.admin ?? user?.authorities?.some(a => a.name === AuthorityEnum.OPERATOR);
+      const route = isAdminOrOperator
+        ? generateRoute.koperativeDetail(koperative.slug, i18n.language)
+        : generateRoute.cooperativeInfo(koperative.slug, i18n.language);
+
+      navigate(route);
+      onSelect?.(koperative);
+    }
   };
 
   const formatVilles = (villes?: Ville[]): string => {
@@ -82,29 +81,15 @@ export const KoperativeList: React.FC<KoperativeListProps> = ({
           <React.Fragment key={k.id}>
             <ListItem
               secondaryAction={
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                  {/* Info Button */}
-                  {k.id && (
-                    <IconButton
-                      edge="end"
-                      aria-label="info"
-                      title={t(Labels.koperative_info_button)}
-                      onClick={e => handleInfo(e, k.id!)}
-                    >
-                      <InfoIcon />
-                    </IconButton>
-                  )}
-                  {/* Edit Button */}
-                  {showEditButton && (
-                    <IconButtonTx edge="end" aria-label="edit" onClick={() => onEdit?.(k)}>
-                      <EditIcon />
-                    </IconButtonTx>
-                  )}
-                </Box>
+                showEditButton && (
+                  <IconButtonTx edge="end" aria-label="edit" onClick={() => onEdit?.(k)}>
+                    <EditIcon />
+                  </IconButtonTx>
+                )
               }
               disablePadding
             >
-              <ListItemButton selected={selectedId === k.id?.toString()} onClick={() => onSelect?.(k)}>
+              <ListItemButton selected={selectedId === k.id?.toString()} onClick={() => handleKoperativeClick(k)}>
                 <Grid container sx={{ width: 1, display: 'flex', alignItems: 'center' }} spacing={2}>
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>

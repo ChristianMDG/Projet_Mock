@@ -14,18 +14,29 @@ import java.util.stream.Collectors;
 public class WebSocketSessionService implements IWebSocketSessionService {
 
     private final Map<String, String> sessionUserMap = new ConcurrentHashMap<>();
+    private final Map<String, String> sessionIdentifierMap = new ConcurrentHashMap<>();
+    private final Map<String, Boolean> sessionGuichetMap = new ConcurrentHashMap<>();
 
     @Override
     public void registerSession(String sessionId, String username) {
+        registerSession(sessionId, username, sessionId, false);
+    }
+
+    @Override
+    public void registerSession(String sessionId, String username, String uniqueIdentifier, boolean isGuichet) {
         sessionUserMap.put(sessionId, username);
-        log.info("WebSocket session registered: {} for user: {}", sessionId, username);
+        sessionIdentifierMap.put(sessionId, uniqueIdentifier);
+        sessionGuichetMap.put(sessionId, isGuichet);
+        log.info("WebSocket session registered: {} for user: {} with identifier: {} (isGuichet: {})", sessionId, username, uniqueIdentifier, isGuichet);
     }
 
     @Override
     public void unregisterSession(String sessionId) {
         String username = sessionUserMap.remove(sessionId);
+        String identifier = sessionIdentifierMap.remove(sessionId);
+        Boolean isGuichet = sessionGuichetMap.remove(sessionId);
         if (username != null) {
-            log.info("WebSocket session unregistered: {} for user: {}", sessionId, username);
+            log.info("WebSocket session unregistered: {} for user: {} with identifier: {} (isGuichet: {})", sessionId, username, identifier, isGuichet);
         }
     }
 
@@ -41,11 +52,28 @@ public class WebSocketSessionService implements IWebSocketSessionService {
 
     @Override
     public int getActiveUserCount() {
-        return (int) sessionUserMap.values().stream().distinct().count();
+        // Count unique identifiers instead of usernames to handle multiple anonymous users
+        return (int) sessionIdentifierMap.values().stream().distinct().count();
+    }
+
+    @Override
+    public int getActiveSessionCount() {
+        // Count total active sessions
+        return sessionUserMap.size();
     }
 
     @Override
     public Set<String> getActiveUsernames() {
         return sessionUserMap.values().stream().collect(Collectors.toSet());
+    }
+
+    @Override
+    public int getActiveGuichetUserCount() {
+        return (int) sessionIdentifierMap.entrySet().stream().filter(entry -> Boolean.TRUE.equals(sessionGuichetMap.get(entry.getKey()))).map(Map.Entry::getValue).distinct().count();
+    }
+
+    @Override
+    public Set<String> getActiveGuichetUsernames() {
+        return sessionUserMap.entrySet().stream().filter(entry -> Boolean.TRUE.equals(sessionGuichetMap.get(entry.getKey()))).map(Map.Entry::getValue).collect(Collectors.toSet());
     }
 }

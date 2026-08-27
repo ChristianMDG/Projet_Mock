@@ -11,6 +11,7 @@ import mg.taxibrousse.entities.enums.MessageType;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SendMessageRequest {
+
     private String roomId;
     private String content;
     private MessageType type = MessageType.TEXT;

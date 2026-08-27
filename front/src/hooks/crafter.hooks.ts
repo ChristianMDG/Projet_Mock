@@ -24,6 +24,7 @@ export const crafterKeys = {
   details: () => [...crafterKeys.all, 'detail'] as const,
   detail: (id: number) => [...crafterKeys.details(), id] as const,
   byKoperative: (koperativeId: number) => [...crafterKeys.all, 'koperative', koperativeId] as const,
+
   active: () => [...crafterKeys.all, 'active'] as const,
   inactive: () => [...crafterKeys.all, 'inactive'] as const,
   seatConfig: (id: number) => [...crafterKeys.all, 'seat-config', id] as const,

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AirtelTokenResponse {
+
     @JsonProperty("access_token")
     private String accessToken;
 
@@ -25,11 +26,7 @@ public class AirtelTokenResponse {
      * Automatically calculates expiration time with 30-second buffer.
      */
     @JsonCreator
-    public AirtelTokenResponse(
-            @JsonProperty("access_token") String accessToken,
-            @JsonProperty("token_type") String tokenType,
-            @JsonProperty("expires_in") int expiresIn
-    ) {
+    public AirtelTokenResponse(@JsonProperty("access_token") String accessToken, @JsonProperty("token_type") String tokenType, @JsonProperty("expires_in") int expiresIn) {
         this.accessToken = accessToken;
         this.tokenType = tokenType == null ? "Bearer " : tokenType;
         this.expiresIn = expiresIn <= 0 ? 180 : expiresIn;

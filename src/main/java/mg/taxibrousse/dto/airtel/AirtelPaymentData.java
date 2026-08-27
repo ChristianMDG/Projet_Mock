@@ -7,12 +7,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AirtelPaymentData {
+
     @JsonProperty("transaction")
     private Transaction transaction;
 
     @Getter
     @Setter
     public static class Transaction {
+
         private String id;
         private String message;
         private String status;

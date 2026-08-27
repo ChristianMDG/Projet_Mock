@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AirtelTransactionRequest {
+
     private BigDecimal amount;
     private String country;
     private String currency;

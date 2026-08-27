@@ -6,5 +6,6 @@ export { default as StatCard } from './StatCard';
 export { default as StyledIcon } from './StyledIcon';
 export { default as StyledTab } from './StyledTab';
 export { default as TaxibrousseRedIcon } from './TaxibrousseRedIcon';
+export { default as ScrollableRow } from './ScrollableRow';
 
 export { HeroSectionContainer, HeroBackgroundContainer, HeroContentPanel } from './HeroSection';

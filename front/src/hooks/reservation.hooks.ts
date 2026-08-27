@@ -53,6 +53,26 @@ export const useReservationById = (reservationId: number) => {
   });
 };
 
+const invalidateReservationCache = async (queryClient: QueryClient, data?: Partial<Reservation> | null) => {
+  await queryClient.invalidateQueries({ queryKey: reservationKeys.all });
+
+  if (data?.id) {
+    await queryClient.invalidateQueries({ queryKey: reservationKeys.detail(data.id) });
+  }
+
+  if (data?.voyage?.id) {
+    await queryClient.invalidateQueries({ queryKey: reservationKeys.byVoyage(data.voyage.id) });
+    await queryClient.invalidateQueries({ queryKey: SEAT_ENTITY_KEYS.byVoyage(data.voyage.id) });
+    await queryClient.invalidateQueries({ queryKey: SEAT_ENTITY_KEYS.available(data.voyage.id) });
+    await queryClient.invalidateQueries({ queryKey: SEAT_ENTITY_KEYS.reserved(data.voyage.id) });
+    await queryClient.invalidateQueries({ queryKey: SEAT_ENTITY_KEYS.count(data.voyage.id) });
+    await queryClient.invalidateQueries({ queryKey: ['voyages', 'detail', data.voyage.id] });
+    await queryClient.invalidateQueries({ queryKey: ['voyages'] });
+  }
+
+  await queryClient.invalidateQueries({ queryKey: SEAT_ENTITY_KEYS.all });
+};
+
 export const useCreateReservation = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
@@ -65,10 +85,7 @@ export const useCreateReservation = () => {
       return createReservation(reservation);
     },
     onSuccess: async data => {
-      await queryClient.invalidateQueries({ queryKey: reservationKeys.all });
-      if (data.voyage?.id) {
-        await queryClient.invalidateQueries({ queryKey: reservationKeys.byVoyage(data.voyage.id) });
-      }
+      await invalidateReservationCache(queryClient, data);
     },
   });
 };
@@ -79,13 +96,7 @@ export const useUpdateReservation = () => {
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: Partial<Reservation> }) => updateReservation(id, data),
     onSuccess: async data => {
-      await queryClient.invalidateQueries({ queryKey: reservationKeys.all });
-      if (data.id) {
-        await queryClient.invalidateQueries({ queryKey: reservationKeys.detail(data.id) });
-      }
-      if (data.voyage?.id) {
-        await queryClient.invalidateQueries({ queryKey: reservationKeys.byVoyage(data.voyage.id) });
-      }
+      await invalidateReservationCache(queryClient, data);
     },
   });
 };
@@ -96,27 +107,9 @@ export const useDeleteReservation = () => {
   return useMutation({
     mutationFn: deleteReservation,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: reservationKeys.all });
+      await invalidateReservationCache(queryClient);
     },
   });
-};
-
-const invalidateReservationCache = async (queryClient: QueryClient, data: Reservation) => {
-  await queryClient.invalidateQueries({ queryKey: reservationKeys.all });
-
-  if (data.id) {
-    await queryClient.invalidateQueries({ queryKey: reservationKeys.detail(data.id) });
-  }
-
-  if (data.voyage?.id) {
-    await queryClient.invalidateQueries({ queryKey: reservationKeys.byVoyage(data.voyage.id) });
-    await queryClient.invalidateQueries({ queryKey: SEAT_ENTITY_KEYS.byVoyage(data.voyage.id) });
-    await queryClient.invalidateQueries({ queryKey: SEAT_ENTITY_KEYS.available(data.voyage.id) });
-    await queryClient.invalidateQueries({ queryKey: SEAT_ENTITY_KEYS.reserved(data.voyage.id) });
-    await queryClient.invalidateQueries({ queryKey: SEAT_ENTITY_KEYS.count(data.voyage.id) });
-  }
-
-  await queryClient.invalidateQueries({ queryKey: SEAT_ENTITY_KEYS.all });
 };
 
 export const useCancelReservation = () => {
@@ -154,22 +147,10 @@ export const useProcessPayment = () => {
     onSuccess: async (data, variables) => {
       // Invalidate payment-specific queries
       await queryClient.invalidateQueries({ queryKey: reservationKeys.payments() });
-      await queryClient.invalidateQueries({ queryKey: reservationKeys.payment(variables.reservationId) });
+      await queryClient.invalidateQueries({ queryKey: reservationKeys.payment(variables.payableId) });
 
-      // Invalidate and refetch reservations
-      await queryClient.invalidateQueries({ queryKey: reservationKeys.all });
-
-      if (data.reservation?.voyage?.id) {
-        await queryClient.invalidateQueries({
-          queryKey: reservationKeys.byVoyage(data.reservation.voyage.id),
-        });
-      }
-
-      if (data.reservation?.id) {
-        await queryClient.invalidateQueries({
-          queryKey: reservationKeys.detail(data.reservation.id),
-        });
-      }
+      // Invalidate and refetch reservations, seats, and voyages
+      await invalidateReservationCache(queryClient, data.reservation);
     },
     onError: (error: Error) => {
       console.error('Payment processing failed:', error.message);
@@ -182,14 +163,7 @@ export const useReservationSuccess = () => {
   const queryClient = useQueryClient();
 
   const handleReservationSuccess = async (reservation: Reservation) => {
-    if (reservation.voyage?.id) {
-      await queryClient.invalidateQueries({
-        queryKey: reservationKeys.byVoyage(reservation.voyage.id),
-      });
-    }
-
-    await queryClient.invalidateQueries({ queryKey: reservationKeys.all });
-
+    await invalidateReservationCache(queryClient, reservation);
     return reservation;
   };
 
@@ -205,12 +179,14 @@ export const useReservationsByVoyageurId = (voyageurId: number) => {
   });
 };
 
-// Hook for guest reservations (by phone number)
+// Hook for guest reservations (by phone number and/or ID number)
 export const useGuestReservations = (phoneNumber?: string, idNumber?: string) => {
   return useQuery<Reservation[]>({
     queryKey: reservationKeys.guest(phoneNumber, idNumber),
     queryFn: () => getGuestReservations(phoneNumber, idNumber),
     enabled: Boolean(phoneNumber) || Boolean(idNumber),
+    retry: 2,
+    retryDelay: 1000,
   });
 };
 

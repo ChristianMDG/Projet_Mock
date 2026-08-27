@@ -3,8 +3,10 @@ package mg.taxibrousse.models;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
+import mg.taxibrousse.entities.VoyageEntity;
 import mg.taxibrousse.entities.enums.RecurrenceTypeEnum;
 import mg.taxibrousse.entities.enums.VoyageStatusEnum;
+import mg.taxibrousse.entities.enums.VoyageTypeEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -30,8 +32,13 @@ public class VoyageScheduler {
     private LocalDateTime estimatedArrivalTime;
     private Integer availableSeats;
     private BigDecimal pricePerSeat;
+    private BigDecimal priceKoperative;
     private VoyageStatusEnum status;
+    @Builder.Default
+    private VoyageTypeEnum typeVoyage = VoyageTypeEnum.NATIONAL;
     private String description;
+    @Builder.Default
+    private Double pourcentageMinimumAvance = VoyageEntity.DEFAULT_POURCENTAGE_MINIMUM_AVANCE;
 
     // Recurrence settings
     @Builder.Default
@@ -118,8 +125,11 @@ public class VoyageScheduler {
         voyage.setEstimatedArrivalTime(estimatedArrivalTime);
         voyage.setAvailableSeats(availableSeats);
         voyage.setPricePerSeat(pricePerSeat);
+        voyage.setPriceKoperative(priceKoperative);
         voyage.setStatus(status);
+        voyage.setTypeVoyage(typeVoyage);
         voyage.setDescription(description);
+        voyage.setPourcentageMinimumAvance(pourcentageMinimumAvance);
         voyage.setRecurrenceType(recurrenceType);
         voyage.setIsTemplate(false);
         return voyage;

@@ -45,7 +45,7 @@ export const cancelReservationByOperator = async (id: number) => {
 
 export const processPayment = async (paymentData: PaymentRequest) => {
   try {
-    const { data } = await axios.post<PaymentResponse>(`${API_URL}/${paymentData.reservationId}/payment`, paymentData);
+    const { data } = await axios.post<PaymentResponse>(`${API_URL}/${paymentData.payableId}/payment`, paymentData);
     return data;
   } catch (error: unknown) {
     const axiosError = error as AxiosError<{ message?: string }>;

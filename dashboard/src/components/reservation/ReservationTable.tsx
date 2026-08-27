@@ -1,13 +1,14 @@
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Typography, Select, MenuItem } from '@mui/material';
-import { MaterialReactTable, type MRT_ColumnDef } from 'material-react-table';
+import { Box, Typography, Select, MenuItem, Chip, alpha } from '@mui/material';
+import { MaterialReactTable, type MRT_ColumnDef, type MRT_PaginationState } from 'material-react-table';
 import type { Reservation, ReservationStatusEnum } from '@/types/reservation.types';
 import { ReservationStatusLabels, PaymentStatusLabels } from '@/types/reservation.types';
 import { useUpdateReservationStatus, useCancelReservation, useConfirmReservation } from '@/hooks/reservation.hook';
 import { resStatusColors, payStatusColors } from '@/utils/statusColors';
 import ReservationActions from './ReservationActions';
 import { mrtTableProps } from '@/components/shared';
+import { formatDateCustom, formatCurrency } from '@/utils/format';
 import Labels from '@/labelKeys.json';
 
 interface ReservationTableProps {
@@ -15,18 +16,26 @@ interface ReservationTableProps {
   loading?: boolean;
   onViewReservation?: (reservation: Reservation) => void;
   title?: string;
+  pagination: MRT_PaginationState;
+  onPaginationChange: (updater: MRT_PaginationState | ((old: MRT_PaginationState) => MRT_PaginationState)) => void;
+  rowCount?: number;
 }
 
-const formatDate = (dateStr?: string) => {
-  if (dateStr) {
-    return new Date(dateStr).toLocaleDateString('fr-FR', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-  }
-  return '-';
-};
+const formatDateTime = (dateStr?: string) => formatDateCustom(dateStr, 'DD MMM YYYY HH:mm');
+
+interface SeatsCellProps {
+  readonly reservation: Reservation;
+}
+
+function SeatsCell({ reservation }: SeatsCellProps) {
+  const seatCount = reservation.seatCount ?? reservation.seats?.length ?? 0;
+
+  return (
+    <Box component="span" sx={{ display: 'block', textAlign: 'center' }}>
+      {seatCount}
+    </Box>
+  );
+}
 
 function getColumns(
   t: (key: string) => string,
@@ -41,9 +50,22 @@ function getColumns(
     {
       header: t(Labels.reservation_col_ref),
       accessorKey: 'bookingReference',
-      size: 120,
+      size: 140,
       Cell: ({ cell }) => (
-        <Box component="span" sx={{ fontFamily: 'monospace' }}>
+        <Box
+          component="span"
+          sx={(theme) => ({
+            fontFamily: 'monospace',
+            fontWeight: 600,
+            fontSize: '0.78rem',
+            px: 1,
+            py: 0.25,
+            borderRadius: 1,
+            bgcolor: alpha(theme.palette.primary.main, 0.06),
+            color: 'primary.main',
+            letterSpacing: '0.02em',
+          })}
+        >
           {cell.getValue<string>()}
         </Box>
       ),
@@ -61,11 +83,19 @@ function getColumns(
       size: 140,
     },
     {
+      header: t(Labels.reservation_col_koperative),
+      accessorFn: (row) => row.voyage?.koperative?.name ?? '-',
+      id: 'koperative',
+      size: 150,
+    },
+    {
       header: t(Labels.reservation_col_route),
       accessorFn: (row) => {
         const v = row.voyage;
-        if (v?.departureCity || v?.arrivalCity) {
-          return `${v?.departureCity ?? '?'} → ${v?.arrivalCity ?? '?'}`;
+        const dep = v?.departureGare?.ville?.name ?? v?.departureCity;
+        const arr = v?.arrivalGare?.ville?.name ?? v?.arrivalCity;
+        if (dep || arr) {
+          return `${dep ?? '?'} → ${arr ?? '?'}`;
         }
         return '-';
       },
@@ -75,25 +105,34 @@ function getColumns(
     {
       header: t(Labels.reservation_col_date),
       accessorKey: 'bookingDate',
-      size: 130,
-      Cell: ({ cell }) => formatDate(cell.getValue<string>()),
+      size: 160,
+      Cell: ({ cell }) => formatDateTime(cell.getValue<string>()),
+    },
+    {
+      header: t(Labels.reservation_departure_date),
+      accessorFn: (row) => row.voyage?.departureTime,
+      id: 'departureTime',
+      size: 160,
+      Cell: ({ cell }) => {
+        const val = cell.getValue<string>();
+        return val ? formatDateTime(val) : '-';
+      },
     },
     {
       header: t(Labels.reservation_col_seats),
-      accessorFn: (row) => row.seats?.length ?? 0,
+      accessorFn: (row) => row.seatCount ?? row.seats?.length ?? 0,
       id: 'seats',
       size: 90,
-      Cell: ({ cell }) => (
-        <Box component="span" sx={{ display: 'block', textAlign: 'center' }}>
-          {cell.getValue<number>()}
-        </Box>
-      ),
+      Cell: ({ row }) => <SeatsCell reservation={row.original} />,
     },
     {
       header: t(Labels.reservation_col_amount),
       accessorKey: 'totalAmount',
       size: 130,
-      Cell: ({ cell }) => (cell.getValue<number>() ? `${cell.getValue<number>().toLocaleString('fr-FR')} Ar` : '-'),
+      Cell: ({ cell }) => {
+        const value = cell.getValue<number>();
+        return value ? formatCurrency(value) : '-';
+      },
     },
     {
       header: t(Labels.reservation_col_status),
@@ -133,9 +172,17 @@ function getColumns(
       Cell: ({ cell }) => {
         const value = cell.getValue<string>();
         return value ? (
-          <Box component="span" sx={{ color: payStatusColors[value], fontWeight: 500 }}>
-            {t(PaymentStatusLabels[value as keyof typeof PaymentStatusLabels])}
-          </Box>
+          <Chip
+            label={t(PaymentStatusLabels[value as keyof typeof PaymentStatusLabels])}
+            size="small"
+            variant="outlined"
+            sx={{
+              color: payStatusColors[value],
+              borderColor: payStatusColors[value],
+              fontWeight: 500,
+              fontSize: '0.72rem',
+            }}
+          />
         ) : (
           '-'
         );
@@ -144,7 +191,7 @@ function getColumns(
     {
       header: t(Labels.common_actions),
       id: 'actions',
-      size: 140,
+      size: 160,
       grow: false,
       enableColumnFilter: false,
       enableSorting: false,
@@ -165,7 +212,15 @@ function getColumns(
   ];
 }
 
-export default function ReservationTable({ data, loading = false, onViewReservation, title }: ReservationTableProps) {
+export default function ReservationTable({
+  data,
+  loading = false,
+  onViewReservation,
+  title,
+  pagination,
+  onPaginationChange,
+  rowCount,
+}: Readonly<ReservationTableProps>) {
   const { t } = useTranslation();
   const updateStatusMutation = useUpdateReservationStatus();
   const cancelMutation = useCancelReservation();
@@ -214,6 +269,13 @@ export default function ReservationTable({ data, loading = false, onViewReservat
         {...mrtTableProps}
         columns={columns}
         data={data}
+        manualPagination
+        rowCount={rowCount ?? 0}
+        onPaginationChange={onPaginationChange}
+        enablePagination
+        muiPaginationProps={{
+          showRowsPerPage: false,
+        }}
         renderTopToolbarCustomActions={() =>
           title ? (
             <Typography variant="subtitle1" sx={{ fontWeight: 600, alignSelf: 'center', pl: 1 }}>
@@ -221,8 +283,11 @@ export default function ReservationTable({ data, loading = false, onViewReservat
             </Typography>
           ) : null
         }
-        state={{ isLoading: loading }}
-        initialState={{ pagination: { pageIndex: 0, pageSize: 15 }, density: 'compact' }}
+        state={{
+          isLoading: loading,
+          pagination,
+        }}
+        initialState={{ density: 'compact' }}
         muiToolbarAlertBannerProps={loading ? { color: 'info', children: t(Labels.common_loading) } : undefined}
         renderEmptyRowsFallback={() => (
           <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 120 }}>

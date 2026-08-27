@@ -44,7 +44,9 @@
       },
       "multiple": false,
       "required": false,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
     },
     "Active": {
       "type": "boolean",
@@ -55,6 +57,49 @@
       },
       "default": true,
       "required": true
+    },
+    "ctaText": {
+      "type": "string",
+      "maxLength": 80,
+      "required": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "ctaLink": {
+      "type": "string",
+      "maxLength": 255,
+      "required": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "startDate": {
+      "type": "datetime",
+      "required": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "endDate": {
+      "type": "datetime",
+      "required": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "campaign": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::promotional-campaign.promotional-campaign"
     }
   }
 }

@@ -29,14 +29,6 @@ public interface IVoyageService extends IBaseService {
 
     List<Voyage> generateRecurringInstances(Voyage template, int maxInstances);
 
-    boolean isResourceAvailable(
-            Long crafterId,
-            Long chauffeurId,
-            LocalDateTime departureTime,
-            LocalDateTime estimatedArrivalTime,
-            Long excludeVoyageId
-    );
-
     List<Voyage> findVoyagesByDateRange(LocalDate startDate, LocalDate endDate);
 
     List<Voyage> findAvailableVoyages(Long departureGareId, Long arrivalGareId, LocalDateTime departureDate);
@@ -64,48 +56,6 @@ public interface IVoyageService extends IBaseService {
     List<Voyage> findFilteredVoyages(VoyageFilter filter);
 
     /**
-     * Process all active templates and generate new instances
-     *
-     * @return number of instances generated
-     */
-    int processActiveTemplates();
-
-    /**
-     * Batch generate instances for multiple templates
-     *
-     * @param templateIds list of template IDs
-     * @param maxInstancesPerTemplate maximum instances per template
-     * @return total instances generated
-     */
-    int batchGenerateInstances(List<Long> templateIds, int maxInstancesPerTemplate);
-
-    /**
-     * Find instances generated from a specific template
-     *
-     * @param templateId the template ID
-     * @return list of generated voyage instances
-     */
-    List<Voyage> findInstancesByTemplate(Long templateId);
-
-    /**
-     * Update template and regenerate future instances
-     *
-     * @param templateId the template ID
-     * @param updatedTemplate the updated template data
-     * @return updated template and new instances
-     */
-    List<Voyage> updateTemplateAndRegenerate(Long templateId, Voyage updatedTemplate);
-
-    /**
-     * Cancel future instances from a template
-     *
-     * @param templateId the template ID
-     * @param fromDate cancel instances from this date onwards
-     * @return number of cancelled instances
-     */
-    int cancelFutureInstances(Long templateId, LocalDate fromDate);
-
-    /**
      * Find voyage by reservation ID
      *
      * @param reservationId the reservation ID
@@ -113,18 +63,13 @@ public interface IVoyageService extends IBaseService {
      */
     Voyage findVoyageByReservationId(Long reservationId);
 
-    List<Voyage> findPreviousVoyages(Long voyageurId);
+    Page<Voyage> findPreviousVoyages(Long voyageurId, Pageable pageable);
 
     VoyageWeeklyResponse getWeeklyResults(VoyageFilter filter);
 
-    VoyageMonthlyResponse getMonthlyResults(
-            Long departureVilleId,
-            Long arrivalVilleId,
-            String month,
-            Long koperativeId,
-            Integer passengers,
-            String language
-    );
+    VoyageMonthlyResponse getMonthlyResults(Long departureVilleId, Long arrivalVilleId, String month, Long koperativeId, Integer passengers, String language);
 
     List<VoyageClasses> findGroupedFilteredVoyages(VoyageFilter filter);
+
+    List<VoyageClasses> findGroupedFilteredVoyagesByKoperative(VoyageFilter filter);
 }

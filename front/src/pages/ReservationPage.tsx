@@ -9,7 +9,6 @@ import {
   CardContent,
   CardHeader,
   Chip,
-  Container,
   Dialog,
   DialogActions,
   DialogContent,
@@ -27,18 +26,16 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import {
-  Add as AddIcon,
-  AirlineSeatReclineNormal as SeatIcon,
-  Cancel as CancelIcon,
-  Delete as DeleteIcon,
-  Edit as EditIcon,
-  EventSeat as ReservationIcon,
-  Payment as PaymentIcon,
-  Person as PersonIcon,
-  RestoreFromTrash as RestoreIcon,
-  Search as SearchIcon,
-} from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
+import SeatIcon from '@mui/icons-material/AirlineSeatReclineNormal';
+import CancelIcon from '@mui/icons-material/Cancel';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import ReservationIcon from '@mui/icons-material/EventSeat';
+import PaymentIcon from '@mui/icons-material/Payment';
+import PersonIcon from '@mui/icons-material/Person';
+import RestoreIcon from '@mui/icons-material/RestoreFromTrash';
+import SearchIcon from '@mui/icons-material/Search';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -48,9 +45,8 @@ import { useFilteredVoyages } from '@/hooks/voyage.hooks';
 import { useKoperatives } from '@/hooks/koperative.hooks';
 import type { Reservation, Voyage } from '@/types';
 import { ReservationStatusEnum } from '@/models/enums';
-import { IconButtonTx, StyledIcon } from '@/components/ui';
-import { Section } from '@/components/section';
-import { SECTION_TYPES } from '@/constants';
+import IconButtonTx from '@/components/ui/IconButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import ProtectedTx from '@/components/ProtectedTx';
 import { VoyageFilter } from '@/types/models';
 import dayjs from '@/utils/dayjs';
@@ -58,7 +54,7 @@ import { KrafterViewer } from '@/components/KrafterViewer';
 import Labels from '@/labelKeys.json';
 import { ROUTES, generateRoute } from '@/constants/routes';
 import SEO from '@/components/shared/SEO';
-import { VehicleIcon as VoyageIcon } from '@/components/shared';
+import VoyageIcon from '@/components/shared/VehicleIcon';
 
 interface ReservationManagementState {
   selectedVoyage: Voyage | null;
@@ -332,25 +328,18 @@ const ReservationPage: React.FC = () => {
 
   if (reservationsError) {
     return (
-      <Container
+      <Box
         sx={{
-          p: 3,
           maxWidth: 'lg',
         }}
       >
         <Alert severity="error">{t(Labels.ui_error_general)}</Alert>
-      </Container>
+      </Box>
     );
   }
 
   return (
-    <Container
-      sx={{
-        p: 0,
-        pt: 2,
-        maxWidth: 'xl',
-      }}
-    >
+    <>
       <SEO title={t(Labels.reservation_management_title)} />
       {/* Header */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
@@ -396,6 +385,7 @@ const ReservationPage: React.FC = () => {
                     {...params}
                     label={t(Labels.voyage_select)}
                     placeholder={t(Labels.voyage_select_placeholder)}
+                    margin="dense"
                   />
                 )}
               />
@@ -436,7 +426,7 @@ const ReservationPage: React.FC = () => {
                         textAlign: 'center',
                       }}
                     >
-                      <Typography variant="h4" color="success.main">
+                      <Typography variant="h4" color="success">
                         {reservationStats.confirmed}
                       </Typography>
                       <Typography variant="caption">{t(Labels.reservation_confirmed)}</Typography>
@@ -448,7 +438,7 @@ const ReservationPage: React.FC = () => {
                         textAlign: 'center',
                       }}
                     >
-                      <Typography variant="h4" color="warning.main">
+                      <Typography variant="h4" color="warning">
                         {reservationStats.pending}
                       </Typography>
                       <Typography variant="caption">{t(Labels.reservation_pending)}</Typography>
@@ -460,7 +450,7 @@ const ReservationPage: React.FC = () => {
                         textAlign: 'center',
                       }}
                     >
-                      <Typography variant="h4" color="error.main">
+                      <Typography variant="h4" color="error">
                         {reservationStats.cancelled}
                       </Typography>
                       <Typography variant="caption">{t(Labels.reservation_cancelled)}</Typography>
@@ -472,7 +462,7 @@ const ReservationPage: React.FC = () => {
                         textAlign: 'center',
                       }}
                     >
-                      <Typography variant="h4" color="primary.main">
+                      <Typography variant="h4" color="primary">
                         {reservationStats.total}
                       </Typography>
                       <Typography variant="caption">{t(Labels.reservation_total)}</Typography>
@@ -505,7 +495,7 @@ const ReservationPage: React.FC = () => {
                       input: {
                         startAdornment: (
                           <InputAdornment position="start">
-                            <SearchIcon />
+                            <StyledIcon icon={SearchIcon} />
                           </InputAdornment>
                         ),
                       },
@@ -518,7 +508,7 @@ const ReservationPage: React.FC = () => {
                     value={state.statusFilter}
                     onChange={(_, value) => handlers.handleStatusFilterChange(value ?? 'all')}
                     renderInput={params => (
-                      <TextField {...params} label={t(Labels.status_filter)} sx={{ minWidth: 150 }} />
+                      <TextField {...params} label={t(Labels.status_filter)} sx={{ minWidth: 150 }} margin="dense" />
                     )}
                   />
                 </Box>
@@ -777,29 +767,7 @@ const ReservationPage: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* Help Center section for reservation guidance */}
-      <Box sx={{ mt: 6 }}>
-        <Section
-          section={{
-            id: 1,
-            __component: 'page.section-reference',
-            sectionTitle: '',
-            sectionType: SECTION_TYPES.HELP_CENTER_SECTION,
-          }}
-        />
-      </Box>
-      {/* Safety Measures section for trust indicators */}
-      <Box sx={{ mt: 4 }}>
-        <Section
-          section={{
-            id: 2,
-            __component: 'page.section-reference',
-            sectionTitle: '',
-            sectionType: SECTION_TYPES.SAFETY_MEASURES,
-          }}
-        />
-      </Box>
-    </Container>
+    </>
   );
 };
 

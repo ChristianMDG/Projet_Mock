@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Alert, Box, Card, CardContent, Chip, Container, Divider, Stack, Typography } from '@mui/material';
+import { Alert, Box, Card, CardContent, Chip, Divider, Stack, Typography } from '@mui/material';
 import BusinessRoundedIcon from '@mui/icons-material/BusinessRounded';
 import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
 import EventSeatRoundedIcon from '@mui/icons-material/EventSeatRounded';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/AuthContext';
 import { useFilteredVoyages } from '@/hooks/voyage.hooks';
-import { SeatBooking } from '@/components/seat';
+import { SeatBooking } from '@/components/seats';
 import { AuthorityEnum, VoyageStatusEnum } from '@/models/enums';
 import { Voyage } from '@/models/Voyage';
 import Labels from '@/labelKeys.json';
@@ -124,25 +124,18 @@ const OperatorBookingPage: React.FC = () => {
 
   if (!isOperator) {
     return (
-      <Container
+      <Box
         sx={{
-          pt: 4,
           maxWidth: 'md',
         }}
       >
         <Alert severity="warning">{t(Labels.operator_confirm_warning)}</Alert>
-      </Container>
+      </Box>
     );
   }
 
   return (
-    <Container
-      sx={{
-        pt: 3,
-        pb: 4,
-        maxWidth: 'lg',
-      }}
-    >
+    <>
       <SEO title={t(Labels.operator_booking_title)} />
       <Typography
         variant="h5"
@@ -201,7 +194,7 @@ const OperatorBookingPage: React.FC = () => {
           </Stack>
         </>
       )}
-    </Container>
+    </>
   );
 };
 

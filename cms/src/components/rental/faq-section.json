@@ -1,0 +1,51 @@
+{
+  "collectionName": "components_rental_faq_sections",
+  "info": {
+    "displayName": "Rental FAQ Section",
+    "description": "FAQ section specific to rental — booking process, payment, insurance, breakdown assistance",
+    "icon": "question"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Foire Aux Questions",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "Tout ce que vous devez savoir avant de louer",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "faqs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "rental.faq-item",
+      "required": true,
+      "min": 1,
+      "max": 20
+    },
+    "backgroundColor": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "background.default",
+      "description": "Section background color (e.g. background.default, background.paper)"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "md"
+    }
+  }
+}

@@ -6,7 +6,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import mg.taxibrousse.entities.SeatEntity;
 import mg.taxibrousse.entities.enums.SeatStatusEnum;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static java.util.Optional.ofNullable;
@@ -93,8 +94,18 @@ public class Seat extends BaseDto<SeatEntity> {
      * Check if the seat is blocked or damaged
      */
     public boolean isUnavailable() {
-        return ofNullable(seatStatus)
-                .map(status -> "BLOCKED".equals(status) || "DAMAGED".equals(status))
-                .orElse(false);
+        return ofNullable(seatStatus).map(status -> "BLOCKED".equals(status) || "DAMAGED".equals(status)).orElse(false);
+    }
+
+    @Override
+    @JsonProperty
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    @Override
+    @JsonProperty
+    public LocalDateTime getUpdatedAt() {
+        return this.updatedAt;
     }
 }

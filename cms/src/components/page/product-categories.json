@@ -1,0 +1,85 @@
+{
+    "collectionName": "components_page_product_categories",
+    "info": {
+        "displayName": "Product Categories",
+        "description": "Section displaying shop product categories",
+        "icon": "layer-group"
+    },
+    "options": {},
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true,
+            "maxLength": 200,
+            "default": "Catégories de produits",
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "subtitle": {
+            "type": "string",
+            "maxLength": 300,
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "ctaText": {
+            "type": "string",
+            "maxLength": 80,
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "ctaLink": {
+            "type": "string",
+            "maxLength": 255,
+            "required": false
+        },
+        "layout": {
+            "type": "enumeration",
+            "enum": [
+                "grid",
+                "carousel",
+                "list",
+                "showcase"
+            ],
+            "default": "grid",
+            "required": true
+        },
+        "maxItems": {
+            "type": "integer",
+            "default": 12,
+            "min": 1,
+            "max": 24
+        },
+        "backgroundColor": {
+            "type": "string",
+            "maxLength": 50,
+            "default": "background.default"
+        },
+        "containerMaxWidth": {
+            "type": "enumeration",
+            "enum": [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl"
+            ],
+            "default": "lg"
+        },
+        "categories": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::product-category.product-category"
+        }
+    }
+}

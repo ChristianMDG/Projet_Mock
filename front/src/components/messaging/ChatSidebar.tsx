@@ -12,10 +12,16 @@ import {
   TextField,
   InputAdornment,
 } from '@mui/material';
-import { Search as SearchIcon, Add as AddIcon, Support as SupportIcon } from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
+import SupportIcon from '@mui/icons-material/Support';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import FacebookIcon from '@mui/icons-material/Facebook';
 import { useMessagingInterface } from '@/hooks/messaging.hook';
 import ChatRoomListSkeleton from '@/skeleton/ChatRoomListSkeleton';
 import { ChatRoomItem } from './ChatRoomItem';
+import { useTranslation } from 'react-i18next';
+import Labels from '@/labelKeys.json';
 
 interface ChatSidebarProps {
   onRoomSelect: (roomId: string) => void;
@@ -24,6 +30,7 @@ interface ChatSidebarProps {
 
 export const ChatSidebar: React.FC<ChatSidebarProps> = ({ onRoomSelect, selectedRoomId }) => {
   const [searchQuery, setSearchQuery] = React.useState('');
+  const { t } = useTranslation();
 
   const { rooms, isLoadingRooms, createSupportRoom, isCreatingRoom } = useMessagingInterface();
 
@@ -63,7 +70,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ onRoomSelect, selected
             mb: 2,
           }}
         >
-          <Typography variant="h6">Messages</Typography>
+          <Typography variant="h6">{t(Labels.chat_messages)}</Typography>
           <IconButton onClick={handleCreateSupportRoom} disabled={isCreatingRoom} size="small" color="primary">
             <AddIcon />
           </IconButton>
@@ -73,7 +80,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ onRoomSelect, selected
         <TextField
           fullWidth
           size="small"
-          placeholder="Search conversations..."
+          placeholder={t(Labels.chat_search_placeholder)}
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
           slotProps={{
@@ -96,8 +103,39 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ onRoomSelect, selected
               <SupportIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Contact Support" secondary="Get help from our team" />
+          <ListItemText primary={t(Labels.chat_contact_support)} secondary={t(Labels.chat_contact_support_secondary)} />
         </ListItemButton>
+
+        <ListItemButton
+          component="a"
+          href="https://wa.me/261374107562"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={{ borderRadius: 1, mb: 1 }}
+        >
+          <ListItemAvatar>
+            <Avatar sx={{ backgroundColor: '#25D366' }}>
+              <WhatsAppIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={t(Labels.chat_whatsapp)} secondary={t(Labels.chat_whatsapp_secondary)} />
+        </ListItemButton>
+
+        <ListItemButton
+          component="a"
+          href="https://m.me/61570079625295"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={{ borderRadius: 1, mb: 1 }}
+        >
+          <ListItemAvatar>
+            <Avatar sx={{ backgroundColor: '#0084FF' }}>
+              <FacebookIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={t(Labels.chat_messenger)} secondary={t(Labels.chat_messenger_secondary)} />
+        </ListItemButton>
+
         <Divider />
       </Box>
 
@@ -120,11 +158,11 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ onRoomSelect, selected
               ) : (
                 <Box sx={{ p: 3, textAlign: 'center' }}>
                   <Typography variant="body2" color="text.secondary">
-                    {searchQuery ? 'No conversations found' : 'No conversations yet'}
+                    {searchQuery ? t(Labels.chat_no_conversations_found) : t(Labels.chat_no_conversations_yet)}
                   </Typography>
                   {!searchQuery && (
                     <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                      Start a conversation by contacting support
+                      {t(Labels.chat_start_conversation)}
                     </Typography>
                   )}
                 </Box>

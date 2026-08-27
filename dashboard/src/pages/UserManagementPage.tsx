@@ -14,41 +14,49 @@ import {
   Tooltip,
   Paper,
   Alert,
+  Skeleton,
 } from '@mui/material';
-import { People, Search, Wifi, CheckCircle, Cancel, Refresh, ToggleOn, ToggleOff } from '@mui/icons-material';
+import {
+  People,
+  Search,
+  Wifi,
+  CheckCircle,
+  Cancel,
+  Refresh,
+  ToggleOn,
+  ToggleOff,
+  ShowChart,
+} from '@mui/icons-material';
+import { LineChart } from '@mui/x-charts/LineChart';
 import { MaterialReactTable, type MRT_ColumnDef } from 'material-react-table';
-import { SectionHeader, StatCard, mrtTableProps } from '@/components/shared';
-import { useUserStatistics, useVoyageurs, useToggleVoyageurStatus } from '@/hooks/user-statistics.hook';
+import { SectionHeader, StatCard, StyledIcon, mrtTableProps } from '@/components/shared';
+import {
+  useUserStatistics,
+  useVoyageurs,
+  useToggleVoyageurStatus,
+  useDailyConnections,
+} from '@/hooks/user-statistics.hook';
 import type { Voyageur } from '@/types/voyageur.types';
 import { paletteTokens } from '@/themes/appTheme';
+import { formatDateCustom } from '@/utils/format';
 import Labels from '@/labelKeys.json';
 
-const formatDateTime = (dateStr?: string) => {
-  if (dateStr) {
-    return new Date(dateStr).toLocaleDateString('fr-FR', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  }
-  return '-';
-};
+const formatDateTime = (dateStr?: string) => formatDateCustom(dateStr, 'DD MMM YYYY HH:mm');
 
 export default function UserManagementPage() {
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<boolean | undefined>(undefined);
-  const [page] = useState(0);
-  const [pageSize] = useState(20);
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
+  const [period, setPeriod] = useState(7);
 
   const { data: stats, isLoading: statsLoading, refetch: refetchStats } = useUserStatistics();
+  const { data: dailyData, isLoading: dailyLoading } = useDailyConnections(period);
   const {
     data: voyageursData,
     isLoading: voyageursLoading,
     error: voyageursError,
-  } = useVoyageurs(page, pageSize, search, statusFilter);
+  } = useVoyageurs(pagination.pageIndex, pagination.pageSize, search, statusFilter);
   const toggleStatus = useToggleVoyageurStatus();
 
   const handleToggleStatus = useCallback(
@@ -193,6 +201,60 @@ export default function UserManagementPage() {
         ))}
       </Grid>
 
+      {/* Daily Connections Chart */}
+      <Card sx={{ mb: 3, borderRadius: 2.5 }}>
+        <CardContent sx={{ p: 2.5 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+            <SectionHeader
+              icon={<ShowChart fontSize="small" />}
+              title={t(Labels.user_daily_connections_title)}
+              subtitle={t(Labels.user_daily_connections_subtitle)}
+              size="small"
+            />
+            <Stack direction="row" spacing={1}>
+              <Chip
+                label={t(Labels.user_daily_period_7)}
+                size="small"
+                variant={period === 7 ? 'filled' : 'outlined'}
+                color={period === 7 ? 'primary' : 'default'}
+                onClick={() => setPeriod(7)}
+                sx={{ cursor: 'pointer' }}
+              />
+              <Chip
+                label={t(Labels.user_daily_period_30)}
+                size="small"
+                variant={period === 30 ? 'filled' : 'outlined'}
+                color={period === 30 ? 'primary' : 'default'}
+                onClick={() => setPeriod(30)}
+                sx={{ cursor: 'pointer' }}
+              />
+            </Stack>
+          </Box>
+          {dailyLoading ? (
+            <Skeleton variant="rounded" height={240} />
+          ) : (
+            <LineChart
+              xAxis={[{ scaleType: 'point', data: (dailyData ?? []).map((d) => d.date.slice(5)) }]}
+              series={[
+                {
+                  data: (dailyData ?? []).map((d) => d.uniqueSenderIds),
+                  label: t(Labels.user_daily_unique_senders),
+                  color: paletteTokens.teal,
+                  area: true,
+                },
+                {
+                  data: (dailyData ?? []).map((d) => d.totalConnections),
+                  label: t(Labels.user_daily_total_connections),
+                  color: paletteTokens.indigo,
+                },
+              ]}
+              height={260}
+              sx={{ '.MuiAreaElement-root': { opacity: 0.15 } }}
+            />
+          )}
+        </CardContent>
+      </Card>
+
       {/* Connected Users Panel */}
       {stats && stats.connectedWebSocketUsers > 0 && (
         <Card sx={{ mb: 3, borderRadius: 2.5 }}>
@@ -214,47 +276,51 @@ export default function UserManagementPage() {
 
       {/* Filters and Search */}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 2 }}>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ alignItems: 'center' }}>
-          <TextField
-            placeholder={t(Labels.user_search_placeholder)}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            size="small"
-            fullWidth
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          <Stack direction="row" spacing={1}>
-            <Chip
-              label={t(Labels.user_filter_all)}
-              variant={statusFilter === undefined ? 'filled' : 'outlined'}
-              color={statusFilter === undefined ? 'primary' : 'default'}
-              onClick={() => setStatusFilter(undefined)}
-              sx={{ cursor: 'pointer' }}
+        <Grid container spacing={2} sx={{ alignItems: 'center' }}>
+          <Grid size={{ xs: 12, sm: 'grow' }}>
+            <TextField
+              placeholder={t(Labels.user_search_placeholder)}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              size="small"
+              fullWidth
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <StyledIcon icon={Search} />
+                    </InputAdornment>
+                  ),
+                },
+              }}
             />
-            <Chip
-              label={t(Labels.user_active)}
-              variant={statusFilter === true ? 'filled' : 'outlined'}
-              color={statusFilter === true ? 'success' : 'default'}
-              onClick={() => setStatusFilter(true)}
-              sx={{ cursor: 'pointer' }}
-            />
-            <Chip
-              label={t(Labels.user_inactive)}
-              variant={statusFilter === false ? 'filled' : 'outlined'}
-              color={statusFilter === false ? 'default' : 'default'}
-              onClick={() => setStatusFilter(false)}
-              sx={{ cursor: 'pointer' }}
-            />
-          </Stack>
-        </Stack>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 'auto' }}>
+            <Stack direction="row" spacing={1}>
+              <Chip
+                label={t(Labels.user_filter_all)}
+                variant={statusFilter === undefined ? 'filled' : 'outlined'}
+                color={statusFilter === undefined ? 'primary' : 'default'}
+                onClick={() => setStatusFilter(undefined)}
+                sx={{ cursor: 'pointer' }}
+              />
+              <Chip
+                label={t(Labels.user_active)}
+                variant={statusFilter === true ? 'filled' : 'outlined'}
+                color={statusFilter === true ? 'success' : 'default'}
+                onClick={() => setStatusFilter(true)}
+                sx={{ cursor: 'pointer' }}
+              />
+              <Chip
+                label={t(Labels.user_inactive)}
+                variant={statusFilter === false ? 'filled' : 'outlined'}
+                color={statusFilter === false ? 'default' : 'default'}
+                onClick={() => setStatusFilter(false)}
+                sx={{ cursor: 'pointer' }}
+              />
+            </Stack>
+          </Grid>
+        </Grid>
       </Paper>
 
       {voyageursError && (
@@ -269,8 +335,9 @@ export default function UserManagementPage() {
           {...mrtTableProps}
           columns={columns}
           data={voyageursData?.content ?? []}
-          state={{ isLoading: voyageursLoading }}
-          initialState={{ pagination: { pageIndex: page, pageSize }, density: 'compact' }}
+          state={{ isLoading: voyageursLoading, pagination }}
+          initialState={{ density: 'compact' }}
+          onPaginationChange={setPagination}
           rowCount={voyageursData?.totalElements ?? 0}
           manualPagination
           renderTopToolbarCustomActions={() => (

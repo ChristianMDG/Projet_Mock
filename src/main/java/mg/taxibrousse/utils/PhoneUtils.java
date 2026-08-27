@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
 public class PhoneUtils {
 
     // Pattern for normalized phone format (034000000)
-    // Supports 032, 033, 034, 035, 038, 039
-    private static final Pattern MADA_PHONE_PATTERN = Pattern.compile("^0(32|33|34|35|38|39)\\d{7}$");
+    // Supports 032, 033, 034, 037, 038
+    private static final Pattern MADA_PHONE_PATTERN = Pattern.compile("^0(32|33|34|37|38)\\d{7}$");
 
     private PhoneUtils() {
         throw new IllegalStateException("Utility class");
@@ -82,9 +82,9 @@ public class PhoneUtils {
             // substring(1) gives 340000000
             String withoutLeadingZero = normalized.substring(1);
             String operator = withoutLeadingZero.substring(0, 2); // 34
-            String part1 = withoutLeadingZero.substring(2, 5);    // 000
-            String part2 = withoutLeadingZero.substring(5);       // 0000
-    
+            String part1 = withoutLeadingZero.substring(2, 5); // 000
+            String part2 = withoutLeadingZero.substring(5); // 0000
+
             return String.format("+261 %s %s %s", operator, part1, part2);
         }
 
@@ -106,13 +106,13 @@ public class PhoneUtils {
         String prefix = normalized.substring(0, 3);
 
         switch (prefix) {
-            case "034", "035":
+            case "034", "038" :
                 return "TELMA";
-            case "032", "033":
+            case "033" :
                 return "AIRTEL";
-            case "038", "039":
+            case "032", "037" :
                 return "ORANGE";
-            default:
+            default :
                 return "Unknown";
         }
     }

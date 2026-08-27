@@ -16,6 +16,10 @@ export { useSeatSelectionStore } from './seat-selection.store';
 export { usePaymentStore } from './payment.store';
 export { usePaymentSuccessStore } from './payment-success.store';
 
+// Shop (E-commerce)
+export { useCartStore } from './cart.store';
+export { useCheckoutStore } from './checkout.store';
+
 // Forms
 export { default as useGareFormStore } from './gare-form.store';
 export { default as useGuichetFormStore } from './guichet-form.store';

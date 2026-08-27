@@ -2,8 +2,11 @@ package mg.taxibrousse.controllers;
 
 import lombok.RequiredArgsConstructor;
 import mg.taxibrousse.controllers.interfaces.IOperatorController;
+import mg.taxibrousse.dto.OperateurSearchRequest;
 import mg.taxibrousse.entities.UserOperatorEntity;
 import mg.taxibrousse.models.UserOperator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import mg.taxibrousse.repositories.IGareRepository;
 import mg.taxibrousse.repositories.IKoperativeRepository;
 import mg.taxibrousse.repositories.IOperatorRepository;
@@ -26,15 +29,22 @@ public class OperatorController implements IOperatorController {
     private final IKoperativeRepository koperativeRepository;
 
     @Override
-    public ResponseEntity<List<UserOperator>> getOperators(
-            String search, Long koperativeId, Boolean isActive, Long gareId) {
+    public ResponseEntity<List<UserOperator>> getOperators(String search, Long koperativeId, Boolean isActive, Long gareId) {
         return ResponseEntity.ok(operatorService.searchOperators(search, koperativeId, isActive, gareId));
+    }
+
+    @Override
+    public ResponseEntity<Page<UserOperator>> searchOperators(OperateurSearchRequest request) {
+        var pageable = PageRequest.of(request.getPage(), request.getSize());
+        Page<UserOperator> operators = operatorService.findAllPageable(request, pageable);
+        return ResponseEntity.ok(operators);
     }
 
     @Override
     public ResponseEntity<UserOperator> getOperatorById(Long id) {
         UserOperator operator = operatorService.findById(id);
-        if (operator == null) return ResponseEntity.notFound().build();
+        if (operator == null)
+            return ResponseEntity.notFound().build();
         return ResponseEntity.ok(operator);
     }
 
@@ -42,10 +52,12 @@ public class OperatorController implements IOperatorController {
     @Transactional
     public ResponseEntity<UserOperator> assignGare(Long id, Map<String, Long> body) {
         Long gareId = body.get("gareId");
-        if (gareId == null) return ResponseEntity.badRequest().build();
+        if (gareId == null)
+            return ResponseEntity.badRequest().build();
 
         UserOperatorEntity operator = operatorRepository.findById(id).orElse(null);
-        if (operator == null) return ResponseEntity.notFound().build();
+        if (operator == null)
+            return ResponseEntity.notFound().build();
 
         operator.setDepartureGare(gareRepository.getReferenceById(gareId));
 
@@ -63,10 +75,12 @@ public class OperatorController implements IOperatorController {
     @Transactional
     public ResponseEntity<UserOperator> assignKoperatives(Long id, Map<String, List<Long>> body) {
         List<Long> koperativeIds = body.get("koperativeIds");
-        if (koperativeIds == null) return ResponseEntity.badRequest().build();
+        if (koperativeIds == null)
+            return ResponseEntity.badRequest().build();
 
         UserOperatorEntity operator = operatorRepository.findById(id).orElse(null);
-        if (operator == null) return ResponseEntity.notFound().build();
+        if (operator == null)
+            return ResponseEntity.notFound().build();
 
         operator.setAssignedKoperatives(new HashSet<>(koperativeRepository.findAllById(koperativeIds)));
         operatorRepository.save(operator);

@@ -22,23 +22,23 @@ import {
   Typography,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { ButtonTx, StyledIcon } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import ProtectedTx from '@/components/ProtectedTx';
-import {
-  Business as BusinessIcon,
-  Close as CloseIcon,
-  ContactPage as ContactPageIcon,
-  PhotoCamera as PhotoCameraIcon,
-  Save as SaveIcon,
-  SportsMotorsports as ChauffeurIcon,
-} from '@mui/icons-material';
+import BusinessIcon from '@mui/icons-material/Business';
+import CloseIcon from '@mui/icons-material/Close';
+import ContactPageIcon from '@mui/icons-material/ContactPage';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import SaveIcon from '@mui/icons-material/Save';
+import ChauffeurIcon from '@mui/icons-material/SportsMotorsports';
 import { useCreateChauffeur, useUpdateChauffeur } from '@/hooks/chauffeur.hooks';
 import { useCloudinaryUpload } from '@/hooks/cloudinary.hook';
 import { Chauffeur } from '@/types';
-import { CinTypeEnum } from '@/models/enums';
+import { AuthorityEnum, CinTypeEnum } from '@/models/enums';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/context/AuthContext';
 import Labels from '@/labelKeys.json';
-import { PhoneInput } from '@/components/shared';
+import PhoneInput from '@/components/shared/PhoneInput';
 import dayjs, { Dayjs } from 'dayjs';
 
 const getIdTypeLabel = (type: CinTypeEnum, t: (key: string) => string): string => {
@@ -62,6 +62,7 @@ interface ChauffeurFormProps {
   koperativeId: number;
   initialData?: Partial<Chauffeur>;
   mode: 'create' | 'edit';
+  onCreated?: (chauffeur: Chauffeur) => void;
 }
 
 const getInitialFormData = (initialData?: Partial<Chauffeur>, koperativeId?: number) => ({
@@ -81,8 +82,9 @@ const getInitialFormData = (initialData?: Partial<Chauffeur>, koperativeId?: num
   koperativeId: initialData?.koperativeId ?? koperativeId ?? undefined,
 });
 
-const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperativeId, initialData, mode }) => {
+const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperativeId, initialData, mode, onCreated }) => {
   const { t } = useTranslation();
+  const { user } = useAuth();
   const [form, setForm] = useState(() => getInitialFormData(initialData, koperativeId));
   const [error, setError] = useState<string | null>(null);
   const [photoUploading, setPhotoUploading] = useState(false);
@@ -99,7 +101,7 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
   const isCreateMode = useMemo(() => mode === 'create', [mode]);
   const isEditMode = useMemo(() => mode === 'edit', [mode]);
   const loading = useMemo(
-    () => createChauffeur.isPending || updateChauffeur.isPending,
+    () => (createChauffeur.isPending ?? false) || (updateChauffeur.isPending ?? false),
     [createChauffeur.isPending, updateChauffeur.isPending],
   );
 
@@ -182,7 +184,8 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
         id: initialData?.id,
       };
       if (isCreateMode) {
-        await createChauffeur.mutateAsync(chauffeurData);
+        const created = await createChauffeur.mutateAsync(chauffeurData);
+        onCreated?.(created);
       } else if (isEdit && initialData?.id) {
         await updateChauffeur.mutateAsync({
           id: initialData.id,
@@ -203,6 +206,7 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
     createChauffeur,
     updateChauffeur,
     onClose,
+    onCreated,
     t,
     loading,
   ]);
@@ -218,6 +222,9 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
   }, [form]);
 
   const isEditing = Boolean(initialData?.id);
+  const isReadOnly = !user?.authorities?.some(role =>
+    [AuthorityEnum.ADMIN, AuthorityEnum.OPERATOR].includes(role.name as AuthorityEnum),
+  );
 
   return (
     <SwipeableDrawer
@@ -276,10 +283,11 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
                     onChange={handleInputChange('idNumber')}
                     disabled={loading}
                     placeholder={t(Labels.chauffeur_form_idnumber_placeholder)}
+                    slotProps={{ input: { readOnly: isReadOnly } }}
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  <FormControl fullWidth disabled={loading}>
+                  <FormControl fullWidth disabled={loading || isReadOnly}>
                     <InputLabel>{t(Labels.chauffeur_form_idtype_label)}</InputLabel>
                     <Select
                       value={form.idType ?? CinTypeEnum.NATIONAL_ID}
@@ -303,6 +311,7 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
                     onChange={handleInputChange('firstName')}
                     disabled={loading}
                     required
+                    slotProps={{ input: { readOnly: isReadOnly } }}
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -314,6 +323,7 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
                     onChange={handleInputChange('lastName')}
                     disabled={loading}
                     required
+                    slotProps={{ input: { readOnly: isReadOnly } }}
                   />
                 </Grid>
                 <Grid size={{ xs: 12, md: 6 }}>
@@ -325,20 +335,23 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
                     onChange={handleInputChange('email')}
                     disabled={loading}
                     placeholder={t(Labels.chauffeur_form_email_placeholder)}
+                    slotProps={{ input: { readOnly: isReadOnly } }}
                   />
                 </Grid>
-                <Grid size={{ xs: 12, md: 6 }}>
-                  <PhoneInput
-                    fullWidth
-                    label={t(Labels.chauffeur_form_phone_label)}
-                    value={form.phone ?? ''}
-                    onChange={value => setForm(prev => ({ ...prev, phone: value }))}
-                    disabled={loading}
-                    required
-                    storageFormat={true}
-                    showOperator={true}
-                  />
-                </Grid>
+                <ProtectedTx allowedRoles={[AuthorityEnum.ADMIN, AuthorityEnum.OPERATOR]}>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <PhoneInput
+                      fullWidth
+                      label={t(Labels.chauffeur_form_phone_label)}
+                      value={form.phone ?? ''}
+                      onChange={value => setForm(prev => ({ ...prev, phone: value }))}
+                      disabled={loading}
+                      required
+                      storageFormat={true}
+                      showOperator={true}
+                    />
+                  </Grid>
+                </ProtectedTx>
                 <Grid size={12}>
                   <TextField
                     fullWidth
@@ -349,6 +362,7 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
                     placeholder={t(Labels.chauffeur_form_address_placeholder)}
                     multiline
                     rows={2}
+                    slotProps={{ input: { readOnly: isReadOnly } }}
                   />
                 </Grid>
                 <Grid size={12}>
@@ -366,7 +380,7 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
                         variant="outlined"
                         component="label"
                         startIcon={photoUploading ? <CircularProgress size={20} /> : <PhotoCameraIcon />}
-                        disabled={loading || photoUploading}
+                        disabled={(loading ?? false) || (photoUploading ?? false) || (isReadOnly ?? false)}
                         size="small"
                       >
                         {photoUploading
@@ -413,6 +427,7 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
                     onChange={handleInputChange('licenseNumber')}
                     disabled={loading}
                     required
+                    slotProps={{ input: { readOnly: isReadOnly } }}
                   />
                 </Grid>
                 <Grid size={{ xs: 12, md: 6 }}>
@@ -423,6 +438,7 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
                     value={form.licenseAuthority ?? ''}
                     onChange={handleInputChange('licenseAuthority')}
                     disabled={loading}
+                    slotProps={{ input: { readOnly: isReadOnly } }}
                   />
                 </Grid>
                 <Grid size={{ xs: 12, md: 6 }}>
@@ -430,7 +446,7 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
                     label={t(Labels.chauffeur_form_license_expiry_label)}
                     value={form.licenseExpiry}
                     onChange={handleLicenseExpiryChange}
-                    disabled={loading}
+                    disabled={loading || isReadOnly}
                     timezone="Indian/Antananarivo"
                     slotProps={{
                       textField: {
@@ -458,7 +474,7 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
                             <Switch
                               checked={form.isAvailable ?? true}
                               onChange={handleSwitchChange('isAvailable')}
-                              disabled={loading}
+                              disabled={loading || isReadOnly}
                             />
                           }
                           label={
@@ -481,7 +497,7 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
                             <Switch
                               checked={form.isActive ?? true}
                               onChange={handleSwitchChange('isActive')}
-                              disabled={loading}
+                              disabled={loading || isReadOnly}
                             />
                           }
                           label={
@@ -531,7 +547,7 @@ const ChauffeurForm: React.FC<ChauffeurFormProps> = ({ open, onClose, koperative
                 <ButtonTx
                   onClick={handleSubmit}
                   variant="contained"
-                  disabled={loading || !isFormValid}
+                  disabled={(loading ?? false) || !(isFormValid ?? false) || (isReadOnly ?? false)}
                   startIcon={loading ? <CircularProgress size={20} /> : <SaveIcon />}
                   sx={{ flex: 1 }}
                 >

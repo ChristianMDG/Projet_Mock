@@ -45,6 +45,11 @@ public class KoperativeController implements IKoperativeController {
     }
 
     @Override
+    public ResponseEntity<Koperative> getKoperativeBySlug(String slug) {
+        return koperativeService.findBySlug(slug).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @Override
     public ResponseEntity<Koperative> updateKoperative(Long id, Koperative koperative) {
         koperative.setId(id);
         return ResponseEntity.ok(koperativeService.save(koperative));

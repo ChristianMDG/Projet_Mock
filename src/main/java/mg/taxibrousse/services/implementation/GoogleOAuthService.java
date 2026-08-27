@@ -47,12 +47,7 @@ public class GoogleOAuthService implements IGoogleOAuthService {
     @Override
     public GoogleOAuthUser verifyGoogleToken(String idToken) {
         try {
-            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
-                    new NetHttpTransport(),
-                    GsonFactory.getDefaultInstance()
-            )
-                    .setAudience(Collections.singletonList(googleClientId))
-                    .build();
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), GsonFactory.getDefaultInstance()).setAudience(Collections.singletonList(googleClientId)).build();
 
             GoogleIdToken token = verifier.verify(idToken);
             if (token != null) {
@@ -105,17 +100,8 @@ public class GoogleOAuthService implements IGoogleOAuthService {
 
     @Override
     public String getGoogleAuthorizationUrl() {
-        return String.format(
-                "https://accounts.google.com/o/oauth2/v2/auth?" +
-                        "client_id=%s&" +
-                        "redirect_uri=%s&" +
-                        "response_type=code&" +
-                        "scope=openid email profile&" +
-                        "access_type=offline&" +
-                        "prompt=consent",
-                googleClientId,
-                redirectUri
-        );
+        return String.format("https://accounts.google.com/o/oauth2/v2/auth?" + "client_id=%s&" + "redirect_uri=%s&" + "response_type=code&" + "scope=openid email profile&" + "access_type=offline&"
+                + "prompt=consent", googleClientId, redirectUri);
     }
 
     private VoyageurEntity createNewGoogleUser(GoogleOAuthUser googleUser) {
@@ -148,9 +134,7 @@ public class GoogleOAuthService implements IGoogleOAuthService {
         user.setIdNumber("GOOGLE_" + googleUser.getSub());
 
         // Assign USER authority
-        var userAuthority = authorityRepository.findByNameIn(
-                Collections.singletonList(AuthorityEnum.USER.getName())
-        );
+        var userAuthority = authorityRepository.findByNameIn(Collections.singletonList(AuthorityEnum.USER.getName()));
         user.setAuthorities(new HashSet<>(userAuthority));
 
         // Save user
@@ -161,18 +145,9 @@ public class GoogleOAuthService implements IGoogleOAuthService {
         var now = Instant.now();
         var expiry = 7889152L; // ~3 months (same as UserController)
 
-        var scope = user.getAuthorities()
-                .stream()
-                .map(auth -> auth.getName())
-                .collect(Collectors.joining(" "));
+        var scope = user.getAuthorities().stream().map(auth -> auth.getName()).collect(Collectors.joining(" "));
 
-        var claims = JwtClaimsSet.builder()
-                .issuer("self")
-                .issuedAt(now)
-                .expiresAt(now.plusSeconds(expiry))
-                .subject(user.getUsername())
-                .claim("scope", scope)
-                .build();
+        var claims = JwtClaimsSet.builder().issuer("self").issuedAt(now).expiresAt(now.plusSeconds(expiry)).subject(user.getUsername()).claim("scope", scope).build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Container, Typography, Card, CardMedia, CardContent, Button, Stack, Grid } from '@mui/material';
-import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { optimizeCloudinaryUrl } from '@/utils/cloudinaryUtils';
 import type { TravelDestinations as TravelDestinationsType } from '@/api/dynamic-page.api';
 
 interface TravelDestinationsProps {
@@ -37,10 +38,10 @@ const TravelDestinations: React.FC<TravelDestinationsProps> = ({ section }) => {
   };
 
   return (
-    <Box sx={{ py: 6, bgcolor: section.backgroundColor || '#f5f5f5' }}>
+    <Box sx={{ py: 6, bgcolor: section.backgroundColor ?? '#f5f5f5' }}>
       <Container
         sx={{
-          maxWidth: section.containerMaxWidth || 'xl',
+          maxWidth: section.containerMaxWidth ?? 'xl',
         }}
       >
         <Box sx={{ mb: 4 }}>
@@ -76,8 +77,13 @@ const TravelDestinations: React.FC<TravelDestinationsProps> = ({ section }) => {
               >
                 <CardMedia
                   component="img"
-                  image={destination.image.url}
+                  image={optimizeCloudinaryUrl(destination.image.url, {
+                    width: 800,
+                    height: getCardHeight(destination.gridSize),
+                  })}
                   alt={`${destination.city}, ${destination.country}`}
+                  width="800"
+                  height={getCardHeight(destination.gridSize)}
                   sx={{
                     height: '100%',
                     width: '100%',

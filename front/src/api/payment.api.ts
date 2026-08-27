@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import { InitiatePaymentRequest, PaymentRequest, PaymentResponse } from '@/models/Payment';
 import { PaymentTransaction } from '@/models/PaymentTransaction';
 import { MobileMoneyOperatorEnum } from '@/models/enums';
+import { TarifMobileMoney } from '@/models/TarifMobileMoney';
 
 const API_URL = '/payments';
 const RESERVATION_API_URL = '/reservations';
@@ -20,7 +21,8 @@ export interface PaymentOperator {
 export const initiateMVolaPayment = async (request: InitiatePaymentRequest): Promise<PaymentTransaction> => {
   try {
     const { data } = await axios.post<PaymentTransaction>(`${API_URL}/mvola/initiate`, {
-      reservationId: request.reservationId,
+      payableId: request.payableId,
+      payableType: request.payableType,
       amount: request.amount,
       phoneNumber: request.phoneNumber,
       paymentMethod: request.operatorName,
@@ -65,7 +67,8 @@ export const checkMVolaPaymentStatus = async (transactionReference: string): Pro
 export const initiateOrangePayment = async (request: InitiatePaymentRequest): Promise<PaymentTransaction> => {
   try {
     const { data } = await axios.post<PaymentTransaction>(`${API_URL}/orangemoney/initiate`, {
-      reservationId: request.reservationId,
+      payableId: request.payableId,
+      payableType: request.payableType,
       amount: request.amount,
       paymentMethod: request.operatorName,
       operatorName: request.operatorName,
@@ -84,7 +87,8 @@ export const initiateOrangePayment = async (request: InitiatePaymentRequest): Pr
 export const initiateAirtelPayment = async (request: InitiatePaymentRequest): Promise<PaymentTransaction> => {
   try {
     const { data } = await axios.post<PaymentTransaction>(`${API_URL}/airtelmoney/initiate`, {
-      reservationId: request.reservationId,
+      payableId: request.payableId,
+      payableType: request.payableType,
       amount: request.amount,
       phoneNumber: request.phoneNumber,
       paymentMethod: request.operatorName,
@@ -138,10 +142,7 @@ export const initiatePaymentAuto = async (request: InitiatePaymentRequest): Prom
 
 export const processReservationPayment = async (request: PaymentRequest): Promise<PaymentResponse> => {
   try {
-    const { data } = await axios.post<PaymentResponse>(
-      `${RESERVATION_API_URL}/${request.reservationId}/payment`,
-      request,
-    );
+    const { data } = await axios.post<PaymentResponse>(`${RESERVATION_API_URL}/${request.payableId}/payment`, request);
     return data;
   } catch (error: unknown) {
     const axiosError = error as AxiosError<{ message?: string }>;
@@ -177,6 +178,24 @@ export const getSupportedOperators = async (): Promise<{ operators: PaymentOpera
   return data;
 };
 
+export const calculateMobileMoneyFee = async (operatorName: string, amount: number): Promise<TarifMobileMoney> => {
+  try {
+    const { data } = await axios.get<TarifMobileMoney>(`/tarif-mobile-money/calculate`, {
+      params: { operatorName, amount },
+    });
+    return data;
+  } catch (error) {
+    console.error('Error calculating mobile money fee:', error);
+    return {
+      minAmount: 0,
+      maxAmount: 0,
+      fraisRetrait: 0,
+      fraisTransfert: 0,
+      operatorName,
+    };
+  }
+};
+
 export default {
   initiateMVolaPayment,
   initiateOrangePayment,
@@ -190,4 +209,5 @@ export default {
   getOrangeMoneyTransactionStatus,
   checkOrangeMoneyPaymentStatus,
   getSupportedOperators,
+  calculateMobileMoneyFee,
 };

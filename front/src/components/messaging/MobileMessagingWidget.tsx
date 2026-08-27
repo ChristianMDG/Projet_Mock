@@ -1,6 +1,7 @@
 import React from 'react';
 import { Drawer, useTheme, Fab, Badge, Tooltip } from '@mui/material';
-import { Chat as ChatIcon, Close as CloseIcon } from '@mui/icons-material';
+import ChatIcon from '@mui/icons-material/Chat';
+import CloseIcon from '@mui/icons-material/Close';
 import { ChatSidebar } from './ChatSidebar';
 import { ChatRoom } from './ChatRoom';
 

@@ -204,6 +204,8 @@ export interface UserOperator extends UserInfo {
   koperative?: Koperative;
   guichets?: Guichet[];
   withKoperative?: boolean;
+  departureGare?: Gare;
+  assignedKoperatives?: Koperative[];
 }
 
 export interface Voyageur extends UserOperator {
@@ -271,7 +273,9 @@ export interface Guichet extends Base {
   koperative: Koperative;
   operateurs?: UserOperator[];
   phones?: string;
+  smsPhone?: string;
   isActive: boolean;
+  paymentAutomatique?: boolean;
   openingHours?: string;
   photo?: Cloudinary;
   destinations?: Gare[];
@@ -406,6 +410,7 @@ export interface Reservation extends Base {
   voyageur: Voyageur;
   classe?: Classe;
   seats?: Seat[];
+  seatCount?: number;
   bookingReference: string;
   status: ReservationStatusEnum;
   bookingDate: string;
@@ -430,6 +435,21 @@ export interface Facturation extends Base {
   paymentStatus: PaymentStatusEnum;
   paymentDate?: string;
   dueDate?: string;
+  advanceAmount?: number;
+  commission?: number;
+  commissionSeats?: number;
+  commissionFee?: number;
+  fraisTransaction?: number;
+  fraisRetrait?: number;
+  fraisTransfert?: number;
+  fraisTotal?: number;
+}
+
+export interface Commission extends Base {
+  minAmount: number;
+  maxAmount: number;
+  frais: number;
+  koperativeId?: number;
 }
 
 export interface PaymentTransaction extends Base {
@@ -444,6 +464,12 @@ export interface PaymentTransaction extends Base {
   initiatedAt?: string;
   completedAt?: string;
   otpAttempts?: number;
+  fraisRetrait?: number;
+  fraisTransfert?: number;
+  fraisTotal?: number;
+  fraisTransaction?: number;
+  commissionSeats?: number;
+  commissionFee?: number;
 }
 
 export interface PaymentRequest {

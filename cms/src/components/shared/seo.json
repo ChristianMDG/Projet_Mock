@@ -1,0 +1,63 @@
+{
+    "collectionName": "components_shared_seo",
+    "info": {
+        "displayName": "SEO",
+        "description": "Search engine optimization metadata",
+        "icon": "search"
+    },
+    "options": {},
+    "attributes": {
+        "metaTitle": {
+            "type": "string",
+            "required": false,
+            "maxLength": 160,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "metaDescription": {
+            "type": "text",
+            "required": false,
+            "maxLength": 320,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "metaKeywords": {
+            "type": "string",
+            "required": false,
+            "maxLength": 255,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "metaImage": {
+            "type": "media",
+            "multiple": false,
+            "required": false,
+            "allowedTypes": [
+                "images"
+            ],
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "canonicalURL": {
+            "type": "string",
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        }
+    }
+}

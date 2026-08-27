@@ -6,7 +6,7 @@ Simple setup instructions for deploying Taxibrousse on a Contabo Linux server.
 
 - Fresh Ubuntu/Debian server
 - Root access or sudo privileges  
-- Domain names pointed to server IP: `taxibrousse.mg`, `cms.taxibrousse.mg`, and `dashboard.taxibrousse.mg`
+- Domain names pointed to server IP: `taxibrousse.mg`, `cms.taxibrousse.mg`, `dashboard.taxibrousse.mg`, and `location.taxibrousse.mg`
 
 ## 1. Install Docker & Docker Compose
 
@@ -216,6 +216,7 @@ Add these DNS records in your domain registrar:
 | A | www.taxibrousse.mg | YOUR_SERVER_IP | 3600 |
 | A | dashboard.taxibrousse.mg | YOUR_SERVER_IP | 3600 |
 | A | admin.taxibrousse.mg | YOUR_SERVER_IP | 3600 |
+| A | location.taxibrousse.mg | YOUR_SERVER_IP | 3600 |
 
 ### Verify DNS Setup:
 
@@ -225,12 +226,14 @@ nslookup taxibrousse.mg
 nslookup cms.taxibrousse.mg
 nslookup dashboard.taxibrousse.mg
 nslookup admin.taxibrousse.mg
+nslookup location.taxibrousse.mg
 
 # Alternative check
 dig +short taxibrousse.mg
 dig +short cms.taxibrousse.mg
 dig +short dashboard.taxibrousse.mg
 dig +short admin.taxibrousse.mg
+dig +short location.taxibrousse.mg
 ```
 
 **Wait 15-60 minutes for DNS propagation before proceeding to SSL setup.**
@@ -271,11 +274,11 @@ curl -I http://admin.taxibrousse.mg
 sudo apt install certbot python3-certbot-nginx -y
 
 # FIRST: Ensure your application is running and serving HTTP content
-# THEN: Get certificates for all domains including dashboard
-sudo certbot --nginx -d taxibrousse.mg -d www.taxibrousse.mg -d cms.taxibrousse.mg -d dashboard.taxibrousse.mg -d admin.taxibrousse.mg --email olivier.fnz@gmail.com --agree-tos --non-interactive
+# THEN: Get certificates for all domains including dashboard and location
+sudo certbot --nginx -d taxibrousse.mg -d www.taxibrousse.mg -d cms.taxibrousse.mg -d dashboard.taxibrousse.mg -d admin.taxibrousse.mg -d location.taxibrousse.mg --email olivier.fnz@gmail.com --agree-tos --non-interactive
 
 # If you get DNS errors, troubleshoot:
-sudo certbot --nginx -d taxibrousse.mg -d www.taxibrousse.mg -d cms.taxibrousse.mg -d dashboard.taxibrousse.mg -d admin.taxibrousse.mg --email olivier.fnz@gmail.com --agree-tos --dry-run -v
+sudo certbot --nginx -d taxibrousse.mg -d www.taxibrousse.mg -d cms.taxibrousse.mg -d dashboard.taxibrousse.mg -d admin.taxibrousse.mg -d location.taxibrousse.mg --email olivier.fnz@gmail.com --agree-tos --dry-run -v
 
 # Verify auto-renewal setup
 sudo certbot renew --dry-run
@@ -303,38 +306,30 @@ sudo docker-compose restart nginx
 
 ## 8.1. Configure Nginx Proxy Settings
 
-After SSL certificates are installed, update the nginx configuration to properly proxy requests to the Docker applications:
+After SSL certificates are installed, create and configure the taxibrousse site configuration at `/etc/nginx/sites-available/taxibrousse` to properly proxy requests to the Docker applications:
 
 ```bash
-# Edit the nginx default site configuration
-sudo nano /etc/nginx/sites-available/default
+# Create or edit the taxibrousse site configuration
+sudo nano /etc/nginx/sites-available/taxibrousse
+# (or copy system-nginx.conf from the repository: sudo cp /opt/taxibrousse/nginx/system-nginx.conf /etc/nginx/sites-available/taxibrousse)
+
+# Enable the taxibrousse site configuration by creating a symlink in sites-enabled
+sudo ln -sf /etc/nginx/sites-available/taxibrousse /etc/nginx/sites-enabled/
+
+# Remove or disable the default site configuration to prevent conflicts
+sudo rm -f /etc/nginx/sites-enabled/default
 ```
 
-**Important**: Replace the entire default nginx configuration with the following complete setup:
+**Important**: Save the following setup into `/etc/nginx/sites-available/taxibrousse`:
 
 ```nginx
-##
-# You should look at the following URL's in order to grasp a solid understanding
-# of Nginx configuration files in order to fully unleash the power of Nginx.
-# https://www.nginx.com/resources/wiki/start/
-# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
-# https://wiki.debian.org/Nginx/DirectoryStructure
-#
-# In most cases, administrators will remove this file from sites-enabled/ and
-# leave it as reference inside of sites-available where it will continue to be
-# updated by the nginx packaging team.
-#
-# This file will automatically load configuration files provided by other
-# applications, such as Drupal or Wordpress. These applications will be made
-# available underneath a path with that package name, such as /drupal8.
-#
-# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
-##
+# System nginx configuration - to be placed in /etc/nginx/sites-available/taxibrousse
+# This proxies internet traffic to the Docker nginx container
 
 # Default server configuration
 server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+        listen 80;
+        listen [::]:80;
 
         root /var/www/html;
         index index.html index.htm index.nginx-debian.html;
@@ -349,6 +344,28 @@ server {
 server {
         server_name taxibrousse.mg www.taxibrousse.mg;
 
+        # Custom 502 Bad Gateway
+        error_page 502 /502.html;
+        location = /502.html {
+            return 200 '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mise en route</title><style>body{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background-color:#f6f6f7;color:#011638;display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;margin:0;text-align:center;padding:20px;box-sizing:border-box}.card{background:#fff;border:1px solid rgba(1,22,56,.12);border-radius:16px;padding:40px 30px;max-width:450px;box-shadow:0 8px 32px 0 rgba(1,22,56,.06);display:flex;flex-direction:column;align-items:center}.spinner{width:50px;height:50px;border:3px solid rgba(1,22,56,.1);border-radius:50%;border-top-color:#011638;animation:spin 1s cubic-bezier(.5,.1,.4,.9) infinite;margin-bottom:24px}@keyframes spin{to{transform:rotate(360deg)}}h1{font-size:22px;font-weight:600;margin:0 0 12px 0;color:#011638;letter-spacing:-.01em}p{font-size:14px;color:#6c757d;line-height:1.6;margin:0}.footer{margin-top:30px;font-size:11px;color:rgba(1,22,56,.3)}</style></head><body><div class="card"><div class="spinner"></div><h1>Mise en route de l&rsquo;application</h1><p>Le service red&eacute;marre ou est en cours de maintenance. Cette page s&rsquo;actualisera automatiquement d&egrave;s que l&rsquo;application sera disponible.</p><div class="footer">Taxibrousse &copy; 2026</div></div><script>setTimeout(function(){window.location.reload()},4000);</script></body></html>';
+            add_header Content-Type text/html;
+            internal;
+        }
+
+        # WebSocket proxy
+        location /ws {
+                proxy_pass http://127.0.0.1:8080;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_read_timeout 86400;
+                proxy_send_timeout 86400;
+        }
+
         # Proxy to Docker frontend application
         location / {
                 proxy_pass http://127.0.0.1:8080;
@@ -360,7 +377,6 @@ server {
                 proxy_set_header X-Forwarded-Port $server_port;
         }
 
-        listen [::]:443 ssl ipv6only=on; # managed by Certbot
         listen 443 ssl; # managed by Certbot
         ssl_certificate /etc/letsencrypt/live/taxibrousse.mg/fullchain.pem; # managed by Certbot
         ssl_certificate_key /etc/letsencrypt/live/taxibrousse.mg/privkey.pem; # managed by Certbot
@@ -372,6 +388,14 @@ server {
 server {
         server_name cms.taxibrousse.mg;
 
+        # Custom 502 Bad Gateway
+        error_page 502 /502.html;
+        location = /502.html {
+            return 200 '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mise en route</title><style>body{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background-color:#f6f6f7;color:#011638;display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;margin:0;text-align:center;padding:20px;box-sizing:border-box}.card{background:#fff;border:1px solid rgba(1,22,56,.12);border-radius:16px;padding:40px 30px;max-width:450px;box-shadow:0 8px 32px 0 rgba(1,22,56,.06);display:flex;flex-direction:column;align-items:center}.spinner{width:50px;height:50px;border:3px solid rgba(1,22,56,.1);border-radius:50%;border-top-color:#011638;animation:spin 1s cubic-bezier(.5,.1,.4,.9) infinite;margin-bottom:24px}@keyframes spin{to{transform:rotate(360deg)}}h1{font-size:22px;font-weight:600;margin:0 0 12px 0;color:#011638;letter-spacing:-.01em}p{font-size:14px;color:#6c757d;line-height:1.6;margin:0}.footer{margin-top:30px;font-size:11px;color:rgba(1,22,56,.3)}</style></head><body><div class="card"><div class="spinner"></div><h1>Mise en route de l&rsquo;application</h1><p>Le service red&eacute;marre ou est en cours de maintenance. Cette page s&rsquo;actualisera automatiquement d&egrave;s que l&rsquo;application sera disponible.</p><div class="footer">Taxibrousse &copy; 2026</div></div><script>setTimeout(function(){window.location.reload()},4000);</script></body></html>';
+            add_header Content-Type text/html;
+            internal;
+        }
+
         # Redirect root to admin panel
         location = / {
                 return 301 https://$host/admin;
@@ -379,7 +403,7 @@ server {
 
         # Proxy to Docker CMS application
         location / {
-                proxy_pass http://127.0.0.1:8080;
+                proxy_pass http://127.0.0.1:1337;
                 proxy_set_header Host $host;
                 proxy_set_header X-Real-IP $remote_addr;
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -388,7 +412,6 @@ server {
                 proxy_set_header X-Forwarded-Port $server_port;
         }
 
-        listen [::]:443 ssl; # managed by Certbot
         listen 443 ssl; # managed by Certbot
         ssl_certificate /etc/letsencrypt/live/taxibrousse.mg/fullchain.pem; # managed by Certbot
         ssl_certificate_key /etc/letsencrypt/live/taxibrousse.mg/privkey.pem; # managed by Certbot
@@ -399,6 +422,14 @@ server {
 # Dashboard subdomain server block
 server {
         server_name dashboard.taxibrousse.mg;
+
+        # Custom 502 Bad Gateway
+        error_page 502 /502.html;
+        location = /502.html {
+            return 200 '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mise en route</title><style>body{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background-color:#f6f6f7;color:#011638;display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;margin:0;text-align:center;padding:20px;box-sizing:border-box}.card{background:#fff;border:1px solid rgba(1,22,56,.12);border-radius:16px;padding:40px 30px;max-width:450px;box-shadow:0 8px 32px 0 rgba(1,22,56,.06);display:flex;flex-direction:column;align-items:center}.spinner{width:50px;height:50px;border:3px solid rgba(1,22,56,.1);border-radius:50%;border-top-color:#011638;animation:spin 1s cubic-bezier(.5,.1,.4,.9) infinite;margin-bottom:24px}@keyframes spin{to{transform:rotate(360deg)}}h1{font-size:22px;font-weight:600;margin:0 0 12px 0;color:#011638;letter-spacing:-.01em}p{font-size:14px;color:#6c757d;line-height:1.6;margin:0}.footer{margin-top:30px;font-size:11px;color:rgba(1,22,56,.3)}</style></head><body><div class="card"><div class="spinner"></div><h1>Mise en route de l&rsquo;application</h1><p>Le service red&eacute;marre ou est en cours de maintenance. Cette page s&rsquo;actualisera automatiquement d&egrave;s que l&rsquo;application sera disponible.</p><div class="footer">Taxibrousse &copy; 2026</div></div><script>setTimeout(function(){window.location.reload()},4000);</script></body></html>';
+            add_header Content-Type text/html;
+            internal;
+        }
 
         # Health check endpoint
         location /health {
@@ -423,7 +454,6 @@ server {
                 proxy_send_timeout 86400;
         }
 
-        listen [::]:443 ssl; # managed by Certbot
         listen 443 ssl; # managed by Certbot
         ssl_certificate /etc/letsencrypt/live/taxibrousse.mg/fullchain.pem; # managed by Certbot
         ssl_certificate_key /etc/letsencrypt/live/taxibrousse.mg/privkey.pem; # managed by Certbot
@@ -431,9 +461,17 @@ server {
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
 
-# Admin subdomain server block (Spring Boot Admin)
+# Location subdomain server block
 server {
-        server_name admin.taxibrousse.mg;
+        server_name location.taxibrousse.mg;
+
+        # Custom 502 Bad Gateway
+        error_page 502 /502.html;
+        location = /502.html {
+            return 200 '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mise en route</title><style>body{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background-color:#f6f6f7;color:#011638;display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;margin:0;text-align:center;padding:20px;box-sizing:border-box}.card{background:#fff;border:1px solid rgba(1,22,56,.12);border-radius:16px;padding:40px 30px;max-width:450px;box-shadow:0 8px 32px 0 rgba(1,22,56,.06);display:flex;flex-direction:column;align-items:center}.spinner{width:50px;height:50px;border:3px solid rgba(1,22,56,.1);border-radius:50%;border-top-color:#011638;animation:spin 1s cubic-bezier(.5,.1,.4,.9) infinite;margin-bottom:24px}@keyframes spin{to{transform:rotate(360deg)}}h1{font-size:22px;font-weight:600;margin:0 0 12px 0;color:#011638;letter-spacing:-.01em}p{font-size:14px;color:#6c757d;line-height:1.6;margin:0}.footer{margin-top:30px;font-size:11px;color:rgba(1,22,56,.3)}</style></head><body><div class="card"><div class="spinner"></div><h1>Mise en route de l&rsquo;application</h1><p>Le service red&eacute;marre ou est en cours de maintenance. Cette page s&rsquo;actualisera automatiquement d&egrave;s que l&rsquo;application sera disponible.</p><div class="footer">Taxibrousse &copy; 2026</div></div><script>setTimeout(function(){window.location.reload()},4000);</script></body></html>';
+            add_header Content-Type text/html;
+            internal;
+        }
 
         # Health check endpoint
         location /health {
@@ -442,19 +480,65 @@ server {
                 access_log off;
         }
 
-        # All admin traffic through Docker nginx
+        # All location traffic through Docker nginx
         location / {
                 proxy_pass http://127.0.0.1:8080;
                 proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
                 proxy_set_header Host $host;
                 proxy_set_header X-Real-IP $remote_addr;
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header X-Forwarded-Proto $scheme;
                 proxy_set_header X-Forwarded-Host $host;
                 proxy_set_header X-Forwarded-Port $server_port;
+                proxy_read_timeout 86400;
+                proxy_send_timeout 86400;
         }
 
-        listen [::]:443 ssl; # managed by Certbot
+        listen 443 ssl; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/taxibrousse.mg/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/taxibrousse.mg/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+# Admin / Grafana subdomain server block
+server {
+        server_name admin.taxibrousse.mg;
+
+        # Custom 502 Bad Gateway
+        error_page 502 /502.html;
+        location = /502.html {
+            return 200 '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mise en route</title><style>body{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background-color:#f6f6f7;color:#011638;display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;margin:0;text-align:center;padding:20px;box-sizing:border-box}.card{background:#fff;border:1px solid rgba(1,22,56,.12);border-radius:16px;padding:40px 30px;max-width:450px;box-shadow:0 8px 32px 0 rgba(1,22,56,.06);display:flex;flex-direction:column;align-items:center}.spinner{width:50px;height:50px;border:3px solid rgba(1,22,56,.1);border-radius:50%;border-top-color:#011638;animation:spin 1s cubic-bezier(.5,.1,.4,.9) infinite;margin-bottom:24px}@keyframes spin{to{transform:rotate(360deg)}}h1{font-size:22px;font-weight:600;margin:0 0 12px 0;color:#011638;letter-spacing:-.01em}p{font-size:14px;color:#6c757d;line-height:1.6;margin:0}.footer{margin-top:30px;font-size:11px;color:rgba(1,22,56,.3)}</style></head><body><div class="card"><div class="spinner"></div><h1>Mise en route de l&rsquo;application</h1><p>Le service red&eacute;marre ou est en cours de maintenance. Cette page s&rsquo;actualisera automatiquement d&egrave;s que l&rsquo;application sera disponible.</p><div class="footer">Taxibrousse &copy; 2026</div></div><script>setTimeout(function(){window.location.reload()},4000);</script></body></html>';
+            add_header Content-Type text/html;
+            internal;
+        }
+
+        # Health check endpoint
+        location /health {
+                return 200 "healthy";
+                add_header Content-Type text/plain;
+                access_log off;
+        }
+
+        # All admin/Grafana traffic directly to Grafana port
+        location / {
+                proxy_pass http://127.0.0.1:3030;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_set_header X-Forwarded-Host $host;
+                proxy_set_header X-Forwarded-Port $server_port;
+                proxy_read_timeout 86400;
+                proxy_send_timeout 86400;
+        }
+
+
         listen 443 ssl; # managed by Certbot
         ssl_certificate /etc/letsencrypt/live/taxibrousse.mg/fullchain.pem; # managed by Certbot
         ssl_certificate_key /etc/letsencrypt/live/taxibrousse.mg/privkey.pem; # managed by Certbot
@@ -464,7 +548,15 @@ server {
 
 # HTTP redirect server blocks
 server {
+    if ($host = taxibrousse.mg) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
     if ($host = dashboard.taxibrousse.mg) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    if ($host = admin.taxibrousse.mg) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
@@ -476,19 +568,17 @@ server {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
-    if ($host = taxibrousse.mg) {
+    if ($host = location.taxibrousse.mg) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
-    if ($host = admin.taxibrousse.mg) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
 
     listen 80;
     listen [::]:80;
-    server_name taxibrousse.mg cms.taxibrousse.mg www.taxibrousse.mg dashboard.taxibrousse.mg admin.taxibrousse.mg;
+    server_name taxibrousse.mg cms.taxibrousse.mg www.taxibrousse.mg dashboard.taxibrousse.mg admin.taxibrousse.mg location.taxibrousse.mg;
     return 404; # managed by Certbot
 }
+```
 ```
 
 ```bash
@@ -503,13 +593,16 @@ curl -I https://taxibrousse.mg
 curl -I https://cms.taxibrousse.mg
 curl -I https://dashboard.taxibrousse.mg
 curl -I https://admin.taxibrousse.mg
+curl -I https://location.taxibrousse.mg
 ```
 
 **Important Notes**:
 - **Main application** (`taxibrousse.mg`, `www.taxibrousse.mg`) → Proxied to `http://127.0.0.1:8080` (Docker nginx → Spring Boot app)
 - **CMS application** (`cms.taxibrousse.mg`) → Proxied to `http://127.0.0.1:8080` (Docker nginx → Strapi CMS)
 - **Dashboard application** (`dashboard.taxibrousse.mg`) → Proxied to `http://127.0.0.1:8080` (Docker nginx → Dashboard app)
-- **Admin application** (`admin.taxibrousse.mg`) → Proxied to `http://127.0.0.1:8080` (Docker nginx → Spring Boot Admin)
+- **Admin application** (`admin.taxibrousse.mg`) → Proxied to `http://127.0.0.1:3030` (Grafana Monitoring)
+
+- **Location application** (`location.taxibrousse.mg`) → Proxied to `http://127.0.0.1:8080` (Docker nginx → Location app)
 - **SSL certificates** are automatically managed by Certbot for all domains
 - **HTTP to HTTPS redirect** is enforced for all domains
 
@@ -597,7 +690,7 @@ docker-compose restart
 
 ## Troubleshooting
 
-- **Port conflicts**: Check if ports 80, 443, 8080, 1337 are free
+- **Port conflicts**: Check if ports 80, 443, 1337, 3000, 3001, 3002 are free
 - **Memory issues**: Monitor with `docker stats`
 - **SSL issues**: Check certbot logs in `/var/log/letsencrypt/`
 - **GitHub runner issues**: Check service status `sudo systemctl status actions.runner.YOUR_REPO.service`

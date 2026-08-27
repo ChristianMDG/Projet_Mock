@@ -2,10 +2,11 @@ import React from 'react';
 import { alpha, Avatar, Box, Chip, ChipProps, Stack, Theme, Typography } from '@mui/material';
 
 import { PaymentStatusEnum, PaymentStatusLabels, ReservationStatusEnum, ReservationStatusLabels } from '@/models/enums';
-import { TaxibrousseRedIcon } from '../../ui';
+import TaxibrousseRedIcon from '@/components/ui/TaxibrousseRedIcon';
 import { Reservation } from '@/types';
 import dayjs from '@/utils/dayjs';
 import KoperativeVerifiedIcon from '@/components/shared/KoperativeVerifiedIcon';
+import VoyageTypeChip from '@/components/voyage/VoyageTypeChip';
 
 interface ReservationHeaderProps {
   reservation: Reservation;
@@ -110,6 +111,7 @@ export const ReservationHeader: React.FC<ReservationHeaderProps> = ({
             color={getPaymentChipColor(paymentStatus)}
           />
         )}
+        {voyage?.typeVoyage && <VoyageTypeChip type={voyage.typeVoyage} size="small" />}
         <Typography variant="body1" color="text.primary">
           {dayjs(voyage!.departureTime).locale(language).format('ddd DD MMM YYYY')}
         </Typography>

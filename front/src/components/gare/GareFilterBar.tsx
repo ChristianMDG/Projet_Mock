@@ -10,16 +10,16 @@ import {
   InputLabel,
   FormControl,
   IconButton,
+  SelectChangeEvent,
 } from '@mui/material';
-import {
-  Add as AddIcon,
-  Clear as ClearIcon,
-  Search as SearchIcon,
-  DepartureBoard as DepartureBoardIcon,
-} from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
+import ClearIcon from '@mui/icons-material/Clear';
+import SearchIcon from '@mui/icons-material/Search';
+import DepartureBoardIcon from '@mui/icons-material/DepartureBoard';
 import VilleAutocomplete from '@/components/shared/VilleAutocomplete';
-import { ButtonTx } from '@/components/ui';
-import { ProtectedTx } from '@/components';
+import ButtonTx from '@/components/ui/ButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
+import ProtectedTx from '@/components/ProtectedTx';
 import { Ville } from '@/types';
 import { GareFilter } from '@/types/type.util';
 import { useTranslation } from 'react-i18next';
@@ -44,7 +44,7 @@ const GareFilterBar: React.FC<SimpleGareFilterBarProps> = ({ filter, onFilterCha
     onFilterChange({ ville: value });
   };
 
-  const handleStatusChange = (event: any) => {
+  const handleStatusChange = (event: SelectChangeEvent) => {
     const value = event.target.value;
     if (value === 'all') {
       onFilterChange({ isClosed: undefined });
@@ -81,7 +81,7 @@ const GareFilterBar: React.FC<SimpleGareFilterBarProps> = ({ filter, onFilterCha
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon color="action" />
+                    <StyledIcon icon={SearchIcon} />
                   </InputAdornment>
                 ),
                 endAdornment:

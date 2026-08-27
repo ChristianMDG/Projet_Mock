@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mg.taxibrousse.entities.AuthorityEntity;
 import mg.taxibrousse.repositories.IAuthorityRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,25 +13,30 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthorityService {
 
-    private final IAuthorityRepository IAuthorityRepository;
+    private final IAuthorityRepository authorityRepository;
 
+    @Transactional(readOnly = true)
     public List<AuthorityEntity> findAll() {
-        return IAuthorityRepository.findAll();
+        return authorityRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Optional<AuthorityEntity> findById(Long id) {
-        return IAuthorityRepository.findById(id);
+        return authorityRepository.findById(id);
     }
 
+    @Transactional(readOnly = true)
     public AuthorityEntity findByName(String name) {
-        return IAuthorityRepository.findByName(name);
+        return authorityRepository.findByName(name);
     }
 
+    @Transactional
     public AuthorityEntity save(AuthorityEntity authority) {
-        return IAuthorityRepository.save(authority);
+        return authorityRepository.save(authority);
     }
 
+    @Transactional
     public void deleteById(Long id) {
-        IAuthorityRepository.deleteById(id);
+        authorityRepository.deleteById(id);
     }
 }

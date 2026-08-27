@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface IChauffeurRepository extends JpaRepository<ChauffeurEntity, Long> {
+
     List<ChauffeurEntity> findByIsAvailable(Boolean isAvailable);
 
     @Query("SELECT DISTINCT c FROM Chauffeur c JOIN c.contrats ct WHERE ct.koperative.id = :koperativeId")

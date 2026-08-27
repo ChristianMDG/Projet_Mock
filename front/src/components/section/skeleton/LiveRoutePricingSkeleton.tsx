@@ -12,41 +12,6 @@ const LiveRoutePricingSkeleton: React.FC = () => (
         height: 48,
       }}
     />
-
-    {/* Filters Skeleton - matching RouteFilters */}
-    <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: { xs: 2, sm: 1 } }}>
-      <Skeleton
-        variant="text"
-        sx={{
-          width: 220,
-          height: 24,
-        }}
-      />
-      <Skeleton
-        variant="text"
-        sx={{
-          width: 100,
-          height: 32,
-        }}
-      />
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Skeleton
-          variant="text"
-          sx={{
-            width: 120,
-            height: 24,
-          }}
-        />
-        <Skeleton
-          variant="text"
-          sx={{
-            width: 100,
-            height: 32,
-          }}
-        />
-      </Box>
-    </Box>
-
     {/* List items - matching RouteItem Card/Grid structure */}
     <Stack spacing={0}>
       {[1, 2, 3, 4, 5].map(index => (

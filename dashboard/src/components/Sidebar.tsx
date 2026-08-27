@@ -31,17 +31,28 @@ import {
   People,
   ManageAccounts,
   Category,
+  AccountTree,
+  Inventory,
+  Inventory2,
+  ReceiptLong,
+  LocalOffer,
+  TrendingUp,
+  LocalShipping,
+  Facebook,
+  Percent,
+  AccountBalance,
 } from '@mui/icons-material';
 
 import { useAuthStore } from '@/stores/auth.store';
 import { useMessagingStore } from '@/stores/messaging.store';
+import { useReservationStore } from '@/stores/reservation.store';
 import Labels from '@/labelKeys.json';
 
 export const SIDEBAR_WIDTH = 280;
 
 interface SidebarProps {
-  open: boolean;
-  onClose: () => void;
+  readonly open: boolean;
+  readonly onClose: () => void;
 }
 
 export default function Sidebar({ open, onClose }: SidebarProps) {
@@ -65,7 +76,10 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
     navigate('/login');
   };
 
-  const handleNavClick = () => {
+  const handleNavClick = (path: string) => {
+    if (path === '/reservation') {
+      useReservationStore.getState().resetFilters();
+    }
     if (isMobile) {
       onClose();
     }
@@ -87,6 +101,17 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
     { text: t(Labels.sidebar_users), path: '/users', icon: <People /> },
     { text: t(Labels.sidebar_operateur), path: '/operateur', icon: <ManageAccounts /> },
     { text: t(Labels.sidebar_classes), path: '/classes', icon: <Category /> },
+    { text: t(Labels.sidebar_commissions), path: '/commissions', icon: <Percent /> },
+    { text: t(Labels.sidebar_finance), path: '/finance', icon: <AccountBalance /> },
+    { text: t(Labels.sidebar_facebook), path: '/facebook', icon: <Facebook /> },
+    { text: t(Labels.sidebar_products), path: '/shop/products', icon: <Inventory /> },
+    { text: t(Labels.sidebar_categories), path: '/shop/categories', icon: <Category /> },
+    { text: t(Labels.sidebar_subcategories), path: '/shop/subcategories', icon: <AccountTree /> },
+    { text: t(Labels.sidebar_orders), path: '/shop/orders', icon: <ReceiptLong /> },
+    { text: t(Labels.sidebar_inventory), path: '/shop/inventory', icon: <Inventory2 /> },
+    { text: t(Labels.sidebar_promotions), path: '/shop/promotions', icon: <LocalOffer /> },
+    { text: t(Labels.sidebar_shop_analytics), path: '/shop/analytics', icon: <TrendingUp /> },
+    { text: t(Labels.sidebar_delivery), path: '/shop/delivery', icon: <LocalShipping /> },
   ];
 
   return (
@@ -121,7 +146,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                   component={Link}
                   to={item.path}
                   selected={isActive(item.path)}
-                  onClick={handleNavClick}
+                  onClick={() => handleNavClick(item.path)}
                   sx={{ borderRadius: 1 }}
                 >
                   <ListItemIcon sx={{ minWidth: 40 }}>{item.icon}</ListItemIcon>

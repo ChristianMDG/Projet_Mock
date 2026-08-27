@@ -22,10 +22,11 @@ import Labels from '@/labelKeys.json';
 import { useTranslation } from 'react-i18next';
 import { useGuestReservations } from '@/hooks/reservation.hooks';
 import { getPaymentChipColor, getStatusChipColor } from '@/utils/reservation.utils';
-import { ReservationContent, ReservationHeader } from '@/components/account/reservation';
+import { ReservationContent } from '@/components/account/reservation/ReservationContent';
+import { ReservationHeader } from '@/components/account/reservation/ReservationHeader';
 import { AccountReservationListSkeleton } from '@/skeleton';
 
-import { StyledIcon } from '..';
+import StyledIcon from '@/components/ui/StyledIcon';
 
 export function GuestReservationList() {
   const theme = useTheme();
@@ -75,7 +76,7 @@ export function GuestReservationList() {
                   input: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <StyledIcon icon={PhoneIcon} />
+                        <PhoneIcon color="action" />
                       </InputAdornment>
                     ),
                   },
@@ -94,7 +95,7 @@ export function GuestReservationList() {
                   input: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <StyledIcon icon={BadgeIcon} />
+                        <BadgeIcon color="action" />
                       </InputAdornment>
                     ),
                   },
@@ -117,8 +118,6 @@ export function GuestReservationList() {
           </Grid>
         </Box>
 
-        {searched && isLoading && <AccountReservationListSkeleton count={3} />}
-
         {searched && error && (
           <Alert severity="error" sx={{ mt: 2 }}>
             {t(Labels.error_loading_reservations)}
@@ -134,6 +133,9 @@ export function GuestReservationList() {
           </Alert>
         )}
       </Paper>
+
+      {searched && isLoading && <AccountReservationListSkeleton count={3} />}
+
       {searched && !isLoading && !!reservations?.length && (
         <Box sx={{ mt: 2 }}>
           {reservations.map(reservation => {

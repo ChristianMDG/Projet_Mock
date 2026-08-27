@@ -5,6 +5,7 @@ import { queryClient } from '@/utils/queryClient';
 import { logout as logoutAPI } from '@/api/user.api';
 import { customStorage } from '@/utils/customStorage';
 import dayjs from '@/utils/dayjs';
+import { AuthorityEnum } from '@/models/enums';
 
 const TOKEN_STORAGE_KEY = 'txbr_auth_token';
 const USER_STORAGE_KEY = 'txbr_auth_user';
@@ -35,6 +36,10 @@ const storeUser = (user: UserOperator | null): void => {
   }
 };
 
+const computeIsGuichetAndInactive = (user: UserOperator | null): boolean => {
+  return Boolean(user?.authorities?.some(role => role.name === AuthorityEnum.GUICHET)) && user?.isActive === false;
+};
+
 interface AuthStoreState extends AuthContext {
   isHydrated: boolean;
   hydrate: () => void;
@@ -46,6 +51,7 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
   isAuthenticated: false,
   isLoading: false,
   isHydrated: false,
+  isGuichetAndInactive: false,
 
   hydrate: () => {
     if (get().isHydrated) return;
@@ -58,6 +64,7 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
       token: storedToken,
       isAuthenticated: !!storedToken,
       isHydrated: true,
+      isGuichetAndInactive: computeIsGuichetAndInactive(storedUser),
     });
   },
 
@@ -71,6 +78,7 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
       user: user ?? null,
       isAuthenticated: true,
       isLoading: false,
+      isGuichetAndInactive: computeIsGuichetAndInactive(user ?? null),
     });
   },
 
@@ -84,6 +92,7 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
       token: null,
       isAuthenticated: false,
       isLoading: false,
+      isGuichetAndInactive: false,
     });
     if (typeof window !== 'undefined') {
       window.location.reload();
@@ -92,14 +101,6 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
 
   setUser: (user: UserOperator) => {
     storeUser(user);
-    set({ user });
+    set({ user, isGuichetAndInactive: computeIsGuichetAndInactive(user) });
   },
 }));
-
-// Defer hydration to avoid "Cannot access before initialization" errors in minified builds
-if (typeof window !== 'undefined') {
-  // Use queueMicrotask to ensure the store is fully initialized before hydrating
-  queueMicrotask(() => {
-    useAuthStore.getState().hydrate();
-  });
-}

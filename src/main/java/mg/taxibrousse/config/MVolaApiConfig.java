@@ -9,6 +9,7 @@ import java.util.Base64;
 @Getter
 @Configuration
 public class MVolaApiConfig {
+
     @Value("${mvola.client-id}")
     private String clientId;
 

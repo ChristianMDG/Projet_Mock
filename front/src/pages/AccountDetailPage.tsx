@@ -7,12 +7,13 @@ import Grid from '@mui/material/Grid';
 import BusinessIcon from '@mui/icons-material/Business';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Book as BookIcon, Loyalty } from '@mui/icons-material';
+import BookIcon from '@mui/icons-material/Book';
+import Loyalty from '@mui/icons-material/Loyalty';
 
 import Labels from '@/labelKeys.json';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { StyledTab } from '@/components/ui';
+import StyledTab from '@/components/ui/StyledTab';
 import { getStyledTabListSx } from '@/utils/tabStyles';
 import { useAuth } from '@/context/AuthContext';
 import AccountReservationList from '@/components/account/AccountReservationList';
@@ -22,10 +23,10 @@ import AccountLoyaltyPoints from '@/components/account/AccountLoyaltyPoints';
 import UserForm from '@/components/forms/UserForm';
 import { convertPhoneToDisplay } from '@/utils/phoneUtils';
 import PromotionBanner from '@/components/banner/PromotionBanner';
-import { Section } from '@/components/section';
+import Section from '@/components/section/Section';
 import { ROUTES, SECTION_TYPES } from '@/constants';
 import SEO from '@/components/shared/SEO';
-import { ProtectedTx } from '@/components';
+import ProtectedTx from '@/components/ProtectedTx';
 
 const TabLoadingFallback = () => (
   <Box
@@ -162,7 +163,9 @@ const AccountDetailPage = () => {
 
           {/* Favorite Koperatives Tab */}
           <TabPanel value="koperatives" sx={{ p: 0, py: 2, '& .MuiBox-root': { px: 0 } }}>
-            <Suspense fallback={<TabLoadingFallback />}>{user && <AccountFavoritesKoperativeList />}</Suspense>
+            <Suspense fallback={<TabLoadingFallback />}>
+              {user && <AccountFavoritesKoperativeList voyageurId={user?.id} />}
+            </Suspense>
           </TabPanel>
 
           {/* Update Account Tab */}

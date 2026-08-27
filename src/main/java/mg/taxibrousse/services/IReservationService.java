@@ -30,12 +30,14 @@ public interface IReservationService extends IBaseService {
 
     List<Reservation> findByVoyageurId(Long voyageurId);
 
-    Page<Reservation> findAllPageable(String status, String phoneNumber, String bookingReference, Pageable pageable);
+    Page<Reservation> findAllPageable(String status, String phoneNumber, String bookingReference, String paymentStatus, Pageable pageable);
 
     Reservation confirmReservation(Long id);
 
     List<Reservation> findByPhoneNumberOrIdNumber(String phoneNumber, String idNumber);
 
     Reservation confirmReservationWithoutVoyageur(ReservationWithoutVoyageurRequest request);
+
     Reservation attachVoyageur(Long reservationId, Long voyageurId);
+
 }

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
-import { LocalOffer, Star, Timer } from '@mui/icons-material';
+import LocalOffer from '@mui/icons-material/LocalOffer';
+import Star from '@mui/icons-material/Star';
+import Timer from '@mui/icons-material/Timer';
 import { useTranslation } from 'react-i18next';
 import { usePromotionBanner } from '@/hooks/cms.hooks';
 import Labels from '@/labelKeys.json';

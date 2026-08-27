@@ -16,6 +16,7 @@ interface FormTextFieldProps {
   placeholder?: string;
   variant?: 'outlined' | 'filled' | 'standard';
   slotProps?: TextFieldProps['slotProps'];
+  inputRef?: React.Ref<HTMLInputElement>;
 }
 
 function FormTextField({
@@ -33,12 +34,14 @@ function FormTextField({
   placeholder,
   variant = 'outlined',
   slotProps,
+  inputRef,
 }: FormTextFieldProps) {
   const [field, meta] = useField(name);
 
   return (
     <TextField
       {...field}
+      inputRef={inputRef}
       fullWidth={fullWidth}
       label={label}
       placeholder={placeholder}
@@ -50,6 +53,7 @@ function FormTextField({
       helperText={meta.touched && meta.error ? meta.error : helperText}
       required={required}
       disabled={disabled}
+      margin="dense"
       slotProps={{
         ...(inputProps && { htmlInput: inputProps }),
         ...(InputProps && { input: InputProps }),

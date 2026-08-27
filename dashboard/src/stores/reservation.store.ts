@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import type { ReservationFilters, ReservationSortConfig, Reservation } from '@/types/reservation.types';
+import type { ReservationSortConfig, Reservation } from '@/types/reservation.types';
+import { ReservationStatusEnum, PaymentStatusEnum, type ReservationFilters } from '@/types/reservation.types';
 
 interface ReservationState {
   // Filters
@@ -21,8 +22,8 @@ interface ReservationState {
 }
 
 const defaultFilters: ReservationFilters = {
-  status: '',
-  paymentStatus: '',
+  status: ReservationStatusEnum.CONFIRMED,
+  paymentStatus: PaymentStatusEnum.PAID,
   searchQuery: '',
   phoneNumber: '',
   dateFrom: '',

@@ -1,0 +1,53 @@
+{
+  "collectionName": "components_rental_step_items",
+  "info": {
+    "displayName": "Step Item",
+    "description": "A single step in the rental process (number, title, description)",
+    "icon": "layer"
+  },
+  "options": {},
+  "attributes": {
+    "stepNumber": {
+      "type": "integer",
+      "required": true,
+      "min": 1,
+      "default": 1,
+      "description": "Step order number displayed to the user"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Choisissez votre véhicule",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 300,
+      "default": "Parcourez notre catalogue et sélectionnez le véhicule adapté à vos besoins.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "icon": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "default": "Search",
+      "description": "Material UI icon name (e.g. Search, CreditCard, DirectionsCar, CheckCircle)"
+    },
+    "color": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "primary.main",
+      "description": "Icon/step accent color (e.g. primary.main, secondary.main)"
+    }
+  }
+}

@@ -16,10 +16,12 @@ import type {
 } from '@/types/auth.types';
 import { AuthenticationError } from '@/api/interceptor.api';
 import { useNavigate } from 'react-router-dom';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useAuthStore } from '@/stores/auth.store';
 import { ROUTES } from '@/constants/routes';
 import dayjs from '@/utils/dayjs';
+import { trackEvent } from '@/hooks/google-analytics.hook';
+import { UserOperator } from '@/types';
 
 const WELCOME_DURATION_MS = 13 * 60 * 1000;
 
@@ -110,7 +112,7 @@ export function parseAuthError(error: unknown): string {
 
 export const useAuthForm = (options: UseAuthFormOptions = {}) => {
   const { t, i18n } = useTranslation();
-  const { showSocialLogin = true, onSuccess, redirectTo, initialMode = 'login', prefillPhone = '' } = options;
+  const { showSocialLogin = false, onSuccess, redirectTo, initialMode = 'login', prefillPhone = '' } = options;
   const defaultRedirectTo = ROUTES.home[i18n.language];
   const finalRedirectTo = redirectTo ?? defaultRedirectTo;
   const navigate = useNavigate();
@@ -131,10 +133,16 @@ export const useAuthForm = (options: UseAuthFormOptions = {}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isGuichet, setIsGuichet] = useState(false);
+  const [registeredUser, setRegisteredUser] = useState<UserOperator | null>(null);
+  const [showGuichetForm, setShowGuichetForm] = useState(false);
   const loginMutation = useLogin();
   const registerMutation = useRegister();
   const forgotPasswordMutation = useForgotPassword();
-  const mutations = [loginMutation, registerMutation, forgotPasswordMutation];
+  const mutations = useMemo(
+    () => [loginMutation, registerMutation, forgotPasswordMutation],
+    [loginMutation, registerMutation, forgotPasswordMutation],
+  );
   const loading = isSubmitting || mutations.some(m => m.isPending);
 
   const getTranslatedError = useCallback(
@@ -156,10 +164,16 @@ export const useAuthForm = (options: UseAuthFormOptions = {}) => {
     setMode(initialMode);
   }, [initialMode]);
 
+  const resetLogin = loginMutation.reset;
+  const resetRegister = registerMutation.reset;
+  const resetForgot = forgotPasswordMutation.reset;
+
   useEffect(() => {
     setErrorMessage(null);
-    mutations.forEach(m => m.reset());
-  }, [mode]);
+    resetLogin();
+    resetRegister();
+    resetForgot();
+  }, [mode, resetLogin, resetRegister, resetForgot]);
 
   useEffect(() => {
     if (loginMutation.isSuccess && loginMutation.data) {
@@ -262,8 +276,10 @@ export const useAuthForm = (options: UseAuthFormOptions = {}) => {
 
   const clearError = useCallback(() => {
     setErrorMessage(null);
-    mutations.forEach(m => m.reset());
-  }, [mutations]);
+    resetLogin();
+    resetRegister();
+    resetForgot();
+  }, [resetLogin, resetRegister, resetForgot]);
 
   const handleSubmit = useCallback(
     async (event: React.FormEvent) => {
@@ -277,8 +293,10 @@ export const useAuthForm = (options: UseAuthFormOptions = {}) => {
           if (normalizedPhone) {
             if (mode === 'login') {
               await loginMutation.mutateAsync({ ...form, phone: normalizedPhone });
+              trackEvent('login_success', 'Auth');
             } else if (mode === 'register') {
-              await registerMutation.mutateAsync({
+              trackEvent('register_success', 'Auth');
+              const userData: UserOperator = {
                 lastName: form.lastName ?? '',
                 firstName: form.firstName ?? '',
                 email: form.email,
@@ -287,12 +305,21 @@ export const useAuthForm = (options: UseAuthFormOptions = {}) => {
                 password: form.password,
                 idNumber: form.idNumber ?? '',
                 isActive: true,
-              });
-              setSuccessMessage(t(Labels.authform_register_success));
-              setMode('login');
-              setForm(prev => ({ ...prev, password: '' }));
+              };
+
+              if (isGuichet) {
+                // Defer account creation: store the user state and transition to Guichet Form
+                setRegisteredUser(userData);
+                setShowGuichetForm(true);
+              } else {
+                await registerMutation.mutateAsync(userData);
+                setSuccessMessage(t(Labels.authform_register_success));
+                setMode('login');
+                setForm(prev => ({ ...prev, password: '' }));
+              }
             } else if (mode === 'forgot') {
               await forgotPasswordMutation.mutateAsync(normalizedPhone);
+              trackEvent('forgot_password_submitted', 'Auth');
               navigate(ROUTES.resetPassword[i18n.language], { state: { phone: normalizedPhone } });
             }
           } else {
@@ -309,6 +336,7 @@ export const useAuthForm = (options: UseAuthFormOptions = {}) => {
     [
       form,
       mode,
+      isGuichet,
       validateForm,
       loginMutation,
       registerMutation,
@@ -318,6 +346,7 @@ export const useAuthForm = (options: UseAuthFormOptions = {}) => {
       clearError,
       getTranslatedError,
       navigate,
+      i18n.language,
     ],
   );
 
@@ -377,5 +406,10 @@ export const useAuthForm = (options: UseAuthFormOptions = {}) => {
     setLoading: () => {},
     setError: setErrorMessage,
     setShowPassword: setShowPassword,
+    isGuichet,
+    setIsGuichet,
+    registeredUser,
+    showGuichetForm,
+    setShowGuichetForm,
   };
 };

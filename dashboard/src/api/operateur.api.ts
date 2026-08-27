@@ -1,62 +1,38 @@
 import api from './axios';
-import type { Koperative } from '@/types/koperative.types';
-import type { Gare } from '@/models';
+import type { UserOperator, OperateurFilters } from '@/types/operateur.types';
 
-const BASE = '/operators';
+const API_URL = '/operators';
 
-export interface OperateurGuichet {
-  id: number;
-  name?: string;
-  gare?: { id: number; name: string };
+export interface PageResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
 }
 
-export interface UserOperator {
-  id: number;
-  firstName?: string;
-  lastName?: string;
-  phone?: string;
-  email?: string;
-  username?: string;
-  isActive?: boolean;
-  koperative?: Koperative;
-  guichets?: OperateurGuichet[];
-  assignedKoperatives?: Koperative[];
-  departureGare?: Gare;
-}
-
-export interface OperatorFilters {
-  search?: string;
-  koperativeId?: number;
-  isActive?: boolean;
-  gareId?: number;
-}
-
-export const getOperators = async (filters?: OperatorFilters): Promise<UserOperator[]> => {
-  const { data } = await api.get<UserOperator[]>(BASE, { params: filters });
-  return data;
-};
-
-export const getOperatorById = async (id: number): Promise<UserOperator> => {
-  const { data } = await api.get<UserOperator>(`${BASE}/${id}`);
-  return data;
-};
-
-export const assignGareToOperator = async (
-  operatorId: number,
-  gareId: number,
-  koperativeId?: number
-): Promise<UserOperator> => {
-  const { data } = await api.put<UserOperator>(`${BASE}/${operatorId}/assign-gare`, {
-    gareId,
-    ...(koperativeId ? { koperativeId } : {}),
+export const searchOperateurs = async (
+  filters: OperateurFilters,
+  page = 0,
+  size = 15
+): Promise<PageResponse<UserOperator>> => {
+  const { data } = await api.post<PageResponse<UserOperator>>(`${API_URL}/search`, {
+    search: filters.search || undefined,
+    isActive: filters.isActive,
+    koperativeId: filters.koperativeId,
+    gareId: filters.gareId,
+    page,
+    size,
   });
   return data;
 };
 
-export const assignKoperativesToOperator = async (
-  operatorId: number,
-  koperativeIds: number[]
-): Promise<UserOperator> => {
-  const { data } = await api.put<UserOperator>(`${BASE}/${operatorId}/assign-koperatives`, { koperativeIds });
+export const getOperateurById = async (id: number): Promise<UserOperator> => {
+  const { data } = await api.get<UserOperator>(`${API_URL}/${id}`);
+  return data;
+};
+
+export const updateOperateur = async (id: number, operator: UserOperator): Promise<string> => {
+  const { data } = await api.put<string>(`/users/operators/${id}`, operator);
   return data;
 };

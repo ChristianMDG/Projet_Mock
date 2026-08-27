@@ -7,9 +7,14 @@ import mg.taxibrousse.models.PaymentTransaction;
 import java.util.List;
 
 public interface IPaymentTransactionService extends IBaseService {
+
     PaymentTransaction create(PaymentTransactionRequest request);
+
     PaymentTransaction updateStatus(Long id, PaymentTransactionStatusEnum status);
+
     PaymentTransaction findById(Long id);
+
     PaymentTransaction findByReference(String reference);
+
     List<PaymentTransaction> findByFacturationId(Long facturationId);
 }

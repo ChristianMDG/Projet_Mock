@@ -59,6 +59,12 @@ export const SECTION_TYPES = {
   SERVICE_CATEGORIES: 'page.service-categories',
   LOYALTY_PROGRAM: 'page.loyalty-program',
   ADDITIONAL_SERVICES: 'page.additional-services',
+
+  // Search Sections
+  SIMPLE_SEARCH: 'page.simple-search',
+
+  // Koperative Types List
+  KOPERATIVE_TYPES_LIST: 'page.koperative-types-list',
 } as const;
 
 /**
@@ -137,6 +143,7 @@ export const HOME_PAGE_SECTIONS = [
   SECTION_TYPES.SERVICE_TYPES, // Service information
   SECTION_TYPES.CURRENT_PROMOTIONS, // Conversion driver
   SECTION_TYPES.SAFETY_MEASURES, // Trust & security
+  SECTION_TYPES.KOPERATIVE_TYPES_LIST, // Transport types selection
 ] as const;
 
 /**
@@ -148,3 +155,33 @@ export const HOME_PAGE_ESSENTIAL_SECTIONS = [
   SECTION_TYPES.STATISTICS_SECTION, // Trust indicators
   SECTION_TYPES.SAFETY_MEASURES, // Security reassurance
 ] as const;
+
+/**
+ * Sections for KoperativePage
+ */
+export const KOPERATIVE_PAGE_SECTIONS = [SECTION_TYPES.STATISTICS_SECTION, SECTION_TYPES.NETWORK_SECTION] as const;
+
+/**
+ * Sections for GarePage
+ */
+export const GARE_PAGE_SECTIONS = [SECTION_TYPES.ABOUT_US_SECTION, SECTION_TYPES.NETWORK_SECTION] as const;
+
+/**
+ * Sections for AccountDetailPage
+ */
+export const ACCOUNT_PAGE_SECTIONS = [SECTION_TYPES.FAQ_SECTION, SECTION_TYPES.HELP_CENTER_SECTION] as const;
+
+/**
+ * Sections for ReservationPage
+ */
+export const RESERVATION_PAGE_SECTIONS = [SECTION_TYPES.HELP_CENTER_SECTION, SECTION_TYPES.SAFETY_MEASURES] as const;
+
+/**
+ * Sections for PaymentPage
+ */
+export const PAYMENT_PAGE_SECTIONS = [SECTION_TYPES.SAFETY_MEASURES] as const;
+
+/**
+ * Sections for OperatorPage
+ */
+export const OPERATOR_PAGE_SECTIONS = [SECTION_TYPES.NETWORK_SECTION, SECTION_TYPES.HELP_CENTER_SECTION] as const;

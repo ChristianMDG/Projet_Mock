@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Card, CardContent, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
-import { Search as SearchIcon } from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { Voyageur } from '@/models/Voyageur';
@@ -71,6 +71,7 @@ export const UserSearchForm: React.FC<UserSearchFormProps> = ({
           onChange={e => setSearchValue(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleSearch()}
           placeholder={t(Labels.enter_phone_or_id)}
+          margin="dense"
           slotProps={{
             input: {
               endAdornment: (

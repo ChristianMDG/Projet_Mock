@@ -13,9 +13,9 @@ const PaymentCard: React.FC<PaymentCardProps> = ({ logoUrl, logoAlt }) => {
         src={logoUrl}
         alt={logoAlt}
         sx={{
-          width: 65,
-          height: 65,
-          boxShadow: 1,
+          width: { xs: 45, xm: 55, sm: 65 },
+          height: { xs: 45, xm: 55, sm: 65 },
+          boxShadow: { xs: 0, xm: 1 },
           bgcolor: 'grey.100',
         }}
       />

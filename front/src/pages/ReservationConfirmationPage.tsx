@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Alert, Box, Button, Card, CardActions, CardContent, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/constants';
 import { Reservation } from '@/types';
-import { ReservationContent, ReservationHeader } from '@/components/account/reservation';
+import { ReservationContent } from '@/components/account/reservation/ReservationContent';
+import { ReservationHeader } from '@/components/account/reservation/ReservationHeader';
 import { getPaymentChipColor, getStatusChipColor } from '@/utils/reservation.utils';
 import Labels from '@/labelKeys.json';
 import SEO from '@/components/shared/SEO';
+import { trackEvent } from '@/hooks/google-analytics.hook';
 
 const ReservationConfirmationPage: React.FC = () => {
   const location = useLocation();
@@ -19,7 +21,14 @@ const ReservationConfirmationPage: React.FC = () => {
 
   const [skipped, setSkipped] = useState(false);
 
+  useEffect(() => {
+    if (reservation) {
+      trackEvent('booking_completed', 'Booking', `Booking Confirmed: ${reservation.bookingReference}`);
+    }
+  }, [reservation]);
+
   const handleCreateAccount = () => {
+    trackEvent('create_account_from_confirmation_clicked', 'Account', 'Create Account');
     if (reservation?.voyageur?.phone) {
       navigate(ROUTES.login[i18n.language], {
         state: {
@@ -82,7 +91,14 @@ const ReservationConfirmationPage: React.FC = () => {
               <Button fullWidth variant="contained" onClick={handleCreateAccount}>
                 {t(Labels.authform_create_account)}
               </Button>
-              <Button fullWidth variant="text" onClick={() => setSkipped(true)}>
+              <Button
+                fullWidth
+                variant="text"
+                onClick={() => {
+                  trackEvent('skip_account_creation_clicked', 'Account', 'Skip Account Creation');
+                  setSkipped(true);
+                }}
+              >
                 {t(Labels.reservation_skip_account_creation)}
               </Button>
             </CardActions>

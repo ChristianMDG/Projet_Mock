@@ -10,20 +10,15 @@ import java.util.Optional;
 
 @Repository
 public interface IUserOperatorRepository extends JpaRepository<UserOperatorEntity, Long> {
+
     void deleteUserDetailsByUsername(String username);
 
     boolean existsByUsername(String username);
 
     Optional<UserOperatorEntity> findByUsername(String username);
 
-    @Query(
-        "SELECT DISTINCT u FROM UserOperator u " +
-        "LEFT JOIN FETCH u.koperative k " +
-        "LEFT JOIN FETCH u.guichets g " +
-        "LEFT JOIN FETCH g.gare ga " +
-        "LEFT JOIN FETCH ga.ville v " +
-        "WHERE u.username = :username"
-    )
+    @Query("SELECT DISTINCT u FROM UserOperator u " + "LEFT JOIN FETCH u.koperative k " + "LEFT JOIN FETCH u.guichets g " + "LEFT JOIN FETCH g.gare ga " + "LEFT JOIN FETCH ga.ville v "
+            + "WHERE u.username = :username")
     Optional<UserOperatorEntity> findByUsernameWithGuichets(@Param("username") String username);
 
     boolean existsByUsernameAndIdNot(String username, Long id);

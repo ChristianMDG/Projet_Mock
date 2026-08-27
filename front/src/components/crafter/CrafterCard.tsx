@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box, Card, CardActionArea, CardContent, Chip, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { Delete as DeleteIcon } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import { ButtonTx } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
 import { Crafter } from '@/types';
 import Labels from '@/labelKeys.json';
 import CrafterPng from '@/assets/Crafter.png';

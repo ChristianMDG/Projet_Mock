@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import { PhoneInput } from '@/components/shared';
+import PhoneInput from '@/components/shared/PhoneInput';
 import type { LoginFormData } from '@/types/auth.types';
 import Labels from '@/labelKeys.json';
 import { useTranslation } from 'react-i18next';
@@ -39,11 +39,6 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
           autoComplete="tel"
           error={!!validationErrors.phone}
           helperText={validationErrors.phone}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              borderRadius: { xs: 1, sm: 1.5 },
-            },
-          }}
         />
       </Grid>
     </Grid>

@@ -1,129 +1,105 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  Alert,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  IconButton,
-  InputAdornment,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { Visibility, VisibilityOff, ArrowBack } from '@mui/icons-material';
+import { Alert, Box, Button, IconButton, InputAdornment, Stack } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useResetPassword, parseAuthError } from '@/hooks/auth.hooks';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { ROUTES } from '@/constants/routes';
-import SEO from '@/components/shared/SEO';
-
-type LabelKey = keyof typeof Labels;
+import { AuthLayout } from '@/pages/authentication';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import FormTextField from '@/components/inputs/FormTextField';
 
 export default function ResetPasswordPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const phone = (state as { phone?: string })?.phone ?? '';
+  const hasPhone = phone.length > 0;
 
-  const [form, setForm] = useState({ otp: '', newPassword: '', confirmPassword: '' });
-  const [errorKeys, setErrorKeys] = useState<Partial<Record<string, LabelKey>>>({});
   const [showPassword, setShowPassword] = useState(false);
 
   const { mutate, isPending, error, isSuccess } = useResetPassword();
 
-  const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm(prev => ({ ...prev, [field]: e.target.value }));
-    if (errorKeys[field]) setErrorKeys(prev => ({ ...prev, [field]: undefined }));
+  const validationSchema = Yup.object({
+    otp: Yup.string().required(t(Labels.authform_otp_required)),
+    newPassword: Yup.string()
+      .min(6, t(Labels.authform_password_min_length))
+      .required(t(Labels.authform_password_required)),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('newPassword')], t(Labels.authform_password_mismatch))
+      .required(t(Labels.authform_password_required)),
+  });
+
+  const initialValues = {
+    otp: '',
+    newPassword: '',
+    confirmPassword: '',
   };
 
-  const validate = () => {
-    const errs: Partial<Record<string, LabelKey>> = {};
-    if (!form.otp.trim()) errs.otp = 'authform_otp_required';
-    if (form.newPassword.length < 6) errs.newPassword = 'authform_password_min_length';
-    if (form.newPassword !== form.confirmPassword) errs.confirmPassword = 'authform_password_mismatch';
-    return errs;
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length) return setErrorKeys(errs);
+  const handleSubmit = (values: typeof initialValues) => {
     mutate(
-      { phone, otp: form.otp, newPassword: form.newPassword },
+      { phone, otp: values.otp, newPassword: values.newPassword },
       {
         onSuccess: () =>
-          setTimeout(() => navigate(ROUTES.login[i18n.language], { state: { resetSuccess: true } }), 2000),
+          setTimeout(
+            () => navigate(ROUTES.login[i18n.language as keyof typeof ROUTES.login], { state: { resetSuccess: true } }),
+            2000,
+          ),
       },
     );
   };
 
   const apiError = error ? t(parseAuthError(error) as keyof typeof Labels) : null;
+  const hasApiError = Boolean(apiError);
+  const navigateState = hasPhone ? undefined : { mode: 'forgot' as const };
 
   return (
-    <Container
-      sx={{
-        paddingTop: 3,
-        maxWidth: 'xs',
-      }}
+    <AuthLayout
+      seoTitle={t(Labels.authform_reset_password_title)}
+      title={t(Labels.authform_reset_password_title)}
+      subtitle={t(Labels.authform_reset_subtitle)}
     >
-      <SEO title={t(Labels.authform_reset_password_title)} />
-      <Card>
-        <CardContent>
-          <Box
-            sx={{
-              textAlign: 'center',
-              mb: 3,
-            }}
-          >
-            <Typography variant="h4" color="primary" gutterBottom>
-              {t(Labels.authform_reset_password_title)}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {t(Labels.authform_reset_subtitle)}
-            </Typography>
-          </Box>
+      {hasPhone ? (
+        <>
+          {isSuccess && (
+            <Alert severity="success" sx={{ mb: 2, borderRadius: 2 }}>
+              {t(Labels.authform_reset_success)}
+            </Alert>
+          )}
+          {hasApiError && (
+            <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>
+              {apiError}
+            </Alert>
+          )}
 
-          {phone ? (
-            <>
-              {isSuccess && (
-                <Alert severity="success" sx={{ mb: 2 }}>
-                  {t(Labels.authform_reset_success)}
-                </Alert>
-              )}
-              {apiError && (
-                <Alert severity="error" sx={{ mb: 2 }}>
-                  {apiError}
-                </Alert>
-              )}
-
-              <Box component="form" onSubmit={handleSubmit}>
-                <Stack spacing={2}>
-                  <TextField
-                    fullWidth
+          <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+            {() => (
+              <Form>
+                <Stack spacing={2.5}>
+                  <FormTextField
                     name="otp"
                     label={t(Labels.authform_otp_label)}
                     placeholder="123456"
-                    value={form.otp}
-                    onChange={handleChange('otp')}
-                    error={!!errorKeys.otp}
-                    helperText={errorKeys.otp ? t(Labels[errorKeys.otp]) : t(Labels.authform_otp_description)}
                     disabled={isPending}
+                    helperText={t(Labels.authform_otp_description)}
+                    slotProps={{
+                      input: {
+                        sx: { borderRadius: 2 },
+                      },
+                    }}
                   />
-                  <TextField
-                    fullWidth
+                  <FormTextField
                     name="newPassword"
                     label={t(Labels.authform_new_password)}
                     type={showPassword ? 'text' : 'password'}
-                    value={form.newPassword}
-                    onChange={handleChange('newPassword')}
-                    error={!!errorKeys.newPassword}
-                    helperText={errorKeys.newPassword ? t(Labels[errorKeys.newPassword]) : undefined}
                     disabled={isPending}
                     slotProps={{
                       input: {
+                        sx: { borderRadius: 2 },
                         endAdornment: (
                           <InputAdornment position="end">
                             <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" size="small">
@@ -134,16 +110,16 @@ export default function ResetPasswordPage() {
                       },
                     }}
                   />
-                  <TextField
-                    fullWidth
+                  <FormTextField
                     name="confirmPassword"
                     label={t(Labels.authform_confirm_password)}
                     type={showPassword ? 'text' : 'password'}
-                    value={form.confirmPassword}
-                    onChange={handleChange('confirmPassword')}
-                    error={!!errorKeys.confirmPassword}
-                    helperText={errorKeys.confirmPassword ? t(Labels[errorKeys.confirmPassword]) : undefined}
                     disabled={isPending}
+                    slotProps={{
+                      input: {
+                        sx: { borderRadius: 2 },
+                      },
+                    }}
                   />
                   <Button
                     type="submit"
@@ -151,33 +127,53 @@ export default function ResetPasswordPage() {
                     variant="contained"
                     size="large"
                     disabled={isPending}
-                    sx={{ py: 1.5, fontWeight: 600 }}
+                    sx={{
+                      py: 1.8,
+                      fontWeight: 600,
+                      borderRadius: 2,
+                      textTransform: 'none',
+                      fontSize: '1rem',
+                      boxShadow: 'none',
+                      '&:hover': {
+                        boxShadow: 'none',
+                      },
+                    }}
                   >
                     {isPending ? t(Labels.authform_loading) : t(Labels.authform_confirm_reset)}
                   </Button>
                 </Stack>
-              </Box>
-            </>
-          ) : (
-            <Alert severity="error">{t(Labels.error_phone_required)}</Alert>
-          )}
+              </Form>
+            )}
+          </Formik>
+        </>
+      ) : (
+        <Alert severity="error" sx={{ borderRadius: 2 }}>
+          {t(Labels.error_phone_required)}
+        </Alert>
+      )}
 
-          <Box
-            sx={{
-              textAlign: 'center',
-              mt: 3,
-            }}
-          >
-            <Button
-              startIcon={<ArrowBack />}
-              onClick={() => navigate(ROUTES.login[i18n.language], { state: phone ? undefined : { mode: 'forgot' } })}
-              color="primary"
-            >
-              {t(Labels.authform_back_to)} {t(Labels.authform_login)}
-            </Button>
-          </Box>
-        </CardContent>
-      </Card>
-    </Container>
+      <Box
+        sx={{
+          textAlign: 'center',
+          mt: 4,
+        }}
+      >
+        <Button
+          startIcon={<ArrowBack />}
+          onClick={() => navigate(ROUTES.login[i18n.language as keyof typeof ROUTES.login], { state: navigateState })}
+          color="primary"
+          sx={{
+            fontWeight: 600,
+            textTransform: 'none',
+            '&:hover': {
+              bgcolor: 'transparent',
+              textDecoration: 'underline',
+            },
+          }}
+        >
+          {t(Labels.authform_back_to)} {t(Labels.authform_login)}
+        </Button>
+      </Box>
+    </AuthLayout>
   );
 }

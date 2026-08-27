@@ -21,7 +21,7 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
       - ./backups:/backups
     networks:
       - taxibrousse
@@ -66,167 +66,6 @@ services:
           memory: 256M
           cpus: '0.25'
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.19.11
-    container_name: taxibrousse-elasticsearch
-    environment:
-      - TZ=Indian/Antananarivo
-      - discovery.type=single-node
-      - cluster.name=taxibrousse
-      - node.name=taxibrousse-node-1
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
-      - xpack.security.enabled=true
-      - xpack.security.transport.ssl.enabled=false
-      - xpack.security.enrollment.enabled=false
-      - xpack.ml.enabled=false
-      - xpack.license.self_generated.type=basic
-      - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD}
-    ports:
-      - "127.0.0.1:9200:9200"
-      - "127.0.0.1:9300:9300"
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-    networks:
-      - taxibrousse
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD-SHELL", "curl -s http://localhost:9200 | grep -q 'cluster_name'" ]
-      interval: 30s
-      timeout: 15s
-      retries: 15
-      start_period: 180s
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-          cpus: '1.0'
-        reservations:
-          memory: 1G
-          cpus: '0.5'
-
-  # ===========================================================================
-  # TIER 1 - Infrastructure Services (depend on Tier 0)
-  # ===========================================================================
-
-  elasticsearch-setup:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.19.11
-    container_name: taxibrousse-elasticsearch-setup
-    environment:
-      ELASTIC_PASSWORD: ${ELASTICSEARCH_PASSWORD}
-      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD}
-    entrypoint: >
-      /bin/bash -c '
-        echo "Waiting for Elasticsearch to be ready...";
-        until curl -s -u elastic:$$ELASTIC_PASSWORD http://elasticsearch:9200 | grep -q "cluster_name"; do
-          sleep 5;
-        done;
-        echo "Activating basic license...";
-        curl -s -X POST "http://elasticsearch:9200/_license/start_basic?acknowledge=true" \
-          -u elastic:$$ELASTIC_PASSWORD \
-          -H "Content-Type: application/json";
-        echo "";
-        echo "Setting kibana_system password...";
-        curl -s -X POST "http://elasticsearch:9200/_security/user/kibana_system/_password" \
-          -u elastic:$$ELASTIC_PASSWORD \
-          -H "Content-Type: application/json" \
-          -d "{\"password\":\"$$KIBANA_SYSTEM_PASSWORD\"}";
-        echo "";
-        echo "Elasticsearch setup complete!";
-      '
-    networks:
-      - taxibrousse
-    restart: "no"
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    labels:
-      - "com.docker.compose.oneoff=true"
-
-  logstash:
-    image: docker.elastic.co/logstash/logstash:8.19.11
-    container_name: taxibrousse-logstash
-    environment:
-      - TZ=Indian/Antananarivo
-      - "LS_JAVA_OPTS=-Xms512m -Xmx512m"
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD}
-      - XPACK_MONITORING_ENABLED=false
-    ports:
-      - "127.0.0.1:5044:5044"
-      - "127.0.0.1:9600:9600"
-      - "127.0.0.1:5000:5000/tcp"
-      - "127.0.0.1:5000:5000/udp"
-    volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
-      - logstash_data:/usr/share/logstash/data
-    networks:
-      - taxibrousse
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9600" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 60s
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-          cpus: '0.75'
-        reservations:
-          memory: 512M
-          cpus: '0.25'
-
-  # ===========================================================================
-  # TIER 2 - ELK Visualization (depends on Tier 1)
-  # ===========================================================================
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.19.11
-    container_name: taxibrousse-kibana
-    environment:
-      - TZ=Indian/Antananarivo
-      - KIBANA_SYSTEM_PASSWORD=${KIBANA_SYSTEM_PASSWORD}
-      - KIBANA_ENCRYPTION_KEY=${KIBANA_ENCRYPTION_KEY}
-      - KIBANA_PUBLIC_URL=https://admin.taxibrousse.mg
-    ports:
-      - "127.0.0.1:5601:5601"
-    volumes:
-      - kibana_data:/usr/share/kibana/data
-      - kibana_logs:/usr/share/kibana/logs
-      - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
-    networks:
-      - taxibrousse
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-      elasticsearch-setup:
-        condition: service_completed_successfully
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:5601/api/status" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 60s
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-          cpus: '0.5'
-        reservations:
-          memory: 512M
-          cpus: '0.25'
-
   # ===========================================================================
   # TIER 3 - Application Services (depend on Tier 0 + Tier 1)
   # ===========================================================================
@@ -249,6 +88,8 @@ services:
       # OAuth2 Configuration
       FACEBOOK_CLIENT_ID: ${FACEBOOK_CLIENT_ID}
       FACEBOOK_CLIENT_SECRET: ${FACEBOOK_CLIENT_SECRET}
+      FACEBOOK_PAGE_ACCESS_TOKEN: ${FACEBOOK_PAGE_ACCESS_TOKEN}
+      FACEBOOK_PAGE_ID: ${FACEBOOK_PAGE_ID}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
 
@@ -292,6 +133,10 @@ services:
       ORANGEMONEY_CLIENT_SECRET: ${ORANGEMONEY_CLIENT_SECRET}
       ORANGEMONEY_MERCHANT_KEY: ${ORANGEMONEY_MERCHANT_KEY}
 
+      # Orange SMS Configuration
+      ORANGE_SENDER_ADDRESS: ${ORANGE_SENDER_ADDRESS}
+      ORANGE_SMS_TOKEN: ${ORANGE_SMS_TOKEN}
+
       # JVM Production Settings
       JAVA_OPTS: "-Xmx1536m -Xms768m -XX:+UseG1GC -XX:+UseStringDeduplication -XX:MaxGCPauseMillis=200 -Djava.security.egd=file:/dev/./urandom -Duser.timezone=Indian/Antananarivo -server"
       JVM_ARGS: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
@@ -314,15 +159,10 @@ services:
       # Server Configuration
       PORT: 8080
 
-      # Logstash Configuration
-      LOGSTASH_HOST: logstash
-      LOGSTASH_PORT: 5000
     depends_on:
       postgres:
         condition: service_healthy
       redis:
-        condition: service_healthy
-      logstash:
         condition: service_healthy
     volumes:
       - api_logs:/taxibrousse/logs
@@ -367,16 +207,10 @@ services:
       CLOUDINARY_NAME: ${CLOUDINARY_NAME}
       CLOUDINARY_KEY: ${CLOUDINARY_KEY}
       CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
-      # Logstash Configuration
-      LOGSTASH_HOST: logstash
-      LOGSTASH_PORT: 5000
-      ENABLE_LOGSTASH: "true"
     ports:
       - "127.0.0.1:1337:1337"
     depends_on:
       postgres:
-        condition: service_healthy
-      logstash:
         condition: service_healthy
     networks:
       - taxibrousse
@@ -421,6 +255,7 @@ services:
       VITE_CMS_API_KEY: ${VITE_CMS_API_KEY}
       VITE_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       VITE_FACEBOOK_APP_ID: ${FACEBOOK_CLIENT_ID}
+      VITE_GA_MEASUREMENT_ID: ${GA_MEASUREMENT_ID}
     ports:
       - "127.0.0.1:3000:3000"
     depends_on:
@@ -477,11 +312,54 @@ services:
         max-file: "3"
         labels: "service=taxibrousse-dashboard"
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://127.0.0.1:3001/health.json" ]
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:3001/health" ]
       interval: 20s
       timeout: 10s
       retries: 5
       start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  location:
+    image: ${LOCATION_IMAGE:-ghcr.io/ofanomezantsoa/taxibrousse-location:latest}
+    container_name: taxibrousse-location
+    environment:
+      TZ: Indian/Antananarivo
+      NODE_ENV: production
+      VITE_API_URL: ${VITE_API_URL}
+      VITE_CMS_API_URL: ${VITE_CMS_API_URL}
+      VITE_CMS_API_KEY: ${VITE_CMS_API_KEY}
+      VITE_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      VITE_FACEBOOK_APP_ID: ${FACEBOOK_CLIENT_ID}
+      VITE_GA_MEASUREMENT_ID: ${GA_MEASUREMENT_ID}
+    ports:
+      - "127.0.0.1:3002:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+      cms:
+        condition: service_healthy
+    networks:
+      - taxibrousse
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=taxibrousse-location"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:3000/health" ]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
     deploy:
       resources:
         limits:
@@ -502,6 +380,7 @@ services:
       TZ: Indian/Antananarivo
     volumes:
       - ./nginx/taxibrousse.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/502.html:/usr/share/nginx/html/502.html:ro
       - /opt/taxibrousse/certbot/conf:/etc/letsencrypt:ro
       - /opt/taxibrousse/certbot/www:/var/www/certbot:ro
     ports:
@@ -515,6 +394,8 @@ services:
       cms:
         condition: service_healthy
       dashboard:
+        condition: service_healthy
+      location:
         condition: service_healthy
     networks:
       - taxibrousse
@@ -537,51 +418,41 @@ services:
     restart: unless-stopped
 
   # ===========================================================================
-  # TIER 6 - Monitoring (depends on all application services)
+  # TIER 6 - Monitoring (Prometheus + Loki + Promtail + Grafana)
   # ===========================================================================
 
-  metricbeat:
-    image: docker.elastic.co/beats/metricbeat:8.19.11
-    container_name: taxibrousse-metricbeat
-    hostname: taxibrousse-server
-    user: root
+  prometheus:
+    image: prom/prometheus:v3.4.2
+    container_name: taxibrousse-prometheus
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD}
-      - POSTGRES_USER=${DATABASE_USERNAME}
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
-      - ENVIRONMENT=production
-      - NGINX_ENABLED=true
+      TZ: Indian/Antananarivo
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=15d
+      - --web.enable-lifecycle
+    ports:
+      - "127.0.0.1:9090:9090"
     volumes:
-      - ./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
-      - /proc:/hostfs/proc:ro
-      - /:/hostfs:ro
-      - metricbeat_data:/usr/share/metricbeat/data
-    networks:
-      - taxibrousse
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
     depends_on:
-      elasticsearch:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
       api:
         condition: service_healthy
-      front:
-        condition: service_healthy
-      cms:
-        condition: service_healthy
+    networks:
+      - taxibrousse
     restart: unless-stopped
-    command: metricbeat -e -strict.perms=false
     healthcheck:
-      test: [ "CMD-SHELL", "pgrep -f 'metricbeat -e' || exit 1" ]
-      interval: 30s
-      timeout: 10s
+      test: [ "CMD-SHELL", "wget -qO- http://localhost:9090/-/ready || exit 1" ]
+      interval: 15s
+      timeout: 5s
       retries: 5
-      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=taxibrousse-prometheus"
     deploy:
       resources:
         limits:
@@ -589,7 +460,118 @@ services:
           cpus: '0.5'
         reservations:
           memory: 256M
+          cpus: '0.25'
+
+  loki:
+    image: grafana/loki:3.5.0
+    container_name: taxibrousse-loki
+    environment:
+      TZ: Indian/Antananarivo
+    command: -config.file=/etc/loki/loki-config.yml
+    ports:
+      - "127.0.0.1:3100:3100"
+    volumes:
+      - ./monitoring/loki/loki-config.yml:/etc/loki/loki-config.yml:ro
+      - loki_data:/loki
+    networks:
+      - taxibrousse
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=taxibrousse-loki"
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -qO- http://localhost:3100/ready || exit 1" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  promtail:
+    image: grafana/promtail:3.5.0
+    container_name: taxibrousse-promtail
+    environment:
+      TZ: Indian/Antananarivo
+    command: -config.file=/etc/promtail/promtail-config.yml
+    volumes:
+      - ./monitoring/promtail/promtail-config.yml:/etc/promtail/promtail-config.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - api_logs:/var/log/taxibrousse-api:ro
+    depends_on:
+      loki:
+        condition: service_healthy
+    networks:
+      - taxibrousse
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=taxibrousse-promtail"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
+        reservations:
+          memory: 128M
           cpus: '0.1'
+
+  grafana:
+    image: grafana/grafana:11.6.0
+    container_name: taxibrousse-grafana
+    environment:
+      TZ: Indian/Antananarivo
+      GF_SERVER_DOMAIN: admin.taxibrousse.mg
+      GF_SERVER_ROOT_URL: "https://admin.taxibrousse.mg/"
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+    ports:
+      - "127.0.0.1:3030:3000"
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/etc/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      loki:
+        condition: service_healthy
+      prometheus:
+        condition: service_healthy
+    networks:
+      - taxibrousse
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=taxibrousse-grafana"
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 384M
+          cpus: '0.5'
+        reservations:
+          memory: 128M
+          cpus: '0.1'
+
 
 networks:
   taxibrousse:
@@ -601,17 +583,14 @@ volumes:
     driver: local
   redis_data:
     driver: local
-  elasticsearch_data:
-    driver: local
-  logstash_data:
-    driver: local
-  kibana_data:
-    driver: local
   cms_uploads:
     driver: local
   api_logs:
     driver: local
-  metricbeat_data:
+  loki_data:
     driver: local
-  kibana_logs:
+  grafana_data:
     driver: local
+  prometheus_data:
+    driver: local
+

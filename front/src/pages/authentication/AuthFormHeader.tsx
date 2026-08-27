@@ -35,7 +35,17 @@ const AuthFormHeader: React.FC<AuthFormHeaderProps> = ({ mode }) => {
         mb: 3,
       }}
     >
-      <Typography variant="h4" component="h1" color="primary" gutterBottom>
+      <Typography
+        variant="h4"
+        component="h1"
+        color="primary"
+        gutterBottom
+        sx={{
+          fontWeight: 700,
+          letterSpacing: '-0.02em',
+          lineHeight: 1.2,
+        }}
+      >
         {getMainTitle()}
       </Typography>
       <Typography variant="body2" color="text.secondary">

@@ -28,8 +28,12 @@ public class Reservation extends BaseDto<ReservationEntity> {
     private String status;
     private LocalDateTime bookingDate;
     private BigDecimal totalAmount;
+    private Integer seatCount;
     private String notes;
     private Facturation facturation;
+    private BigDecimal discountAmount;
+    private Boolean isDiscounted;
+    private Boolean isProfitAccumulated;
 
     @lombok.Builder.Default
     private List<Seat> seats = new ArrayList<>();
@@ -45,7 +49,11 @@ public class Reservation extends BaseDto<ReservationEntity> {
         model.status = ofNullable(entity.getStatus()).map(Enum::name).orElse(null);
         model.bookingDate = entity.getBookingDate();
         model.totalAmount = entity.getTotalAmount();
+        model.seatCount = entity.getSeatCount();
         model.notes = entity.getNotes();
+        model.discountAmount = entity.getDiscountAmount();
+        model.isDiscounted = entity.getIsDiscounted();
+        model.isProfitAccumulated = entity.getIsProfitAccumulated();
 
         model.classe = Classe.fromEntity(entity.getClasse());
         model.voyageur = Voyageur.fromEntity(entity.getVoyageur(), false);
@@ -67,7 +75,11 @@ public class Reservation extends BaseDto<ReservationEntity> {
                 .status(ofNullable(entity.getStatus()).map(Enum::name).orElse(null))
                 .bookingDate(entity.getBookingDate())
                 .totalAmount(entity.getTotalAmount())
-                .notes(entity.getNotes());
+                .seatCount(entity.getSeatCount())
+                .notes(entity.getNotes())
+                .discountAmount(entity.getDiscountAmount())
+                .isDiscounted(entity.getIsDiscounted())
+                .isProfitAccumulated(entity.getIsProfitAccumulated());
     }
 
     public static Reservation fromEntityLight(ReservationEntity entity) {
@@ -81,16 +93,18 @@ public class Reservation extends BaseDto<ReservationEntity> {
         entity.setNotes(notes);
         entity.setBookingDate(bookingDate);
         entity.setTotalAmount(totalAmount);
+        entity.setSeatCount(seatCount);
         entity.setBookingReference(bookingReference);
+        entity.setDiscountAmount(discountAmount);
+        entity.setIsDiscounted(isDiscounted);
+        entity.setIsProfitAccumulated(isProfitAccumulated);
 
         entity.setVoyage(ofNullable(voyage).map(Voyage::toEntity).orElse(null));
         entity.setVoyageur(ofNullable(voyageur).map(Voyageur::toEntity).orElse(null));
         entity.setClasse(ofNullable(classe).map(Classe::toEntity).orElse(null));
-        entity.setStatus(
-            ofNullable(status).map(ReservationStatusEnum::valueOf).orElse(ReservationStatusEnum.PENDING_PAYMENT)
-        );
+        entity.setStatus(ofNullable(status).map(ReservationStatusEnum::valueOf).orElse(ReservationStatusEnum.PENDING_PAYMENT));
         entity.setFacturation(ofNullable(facturation).map(Facturation::toEntity).orElse(null));
-        if (entity.getFacturation() != null) 
+        if (entity.getFacturation() != null)
             entity.getFacturation().setReservation(entity);
 
         return entity;

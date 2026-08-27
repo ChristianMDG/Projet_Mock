@@ -46,10 +46,7 @@ public class SeatController {
     }
 
     @GetMapping("/voyage/{voyageId}/reservation/{reservationId}")
-    public List<Seat> getSeatsByVoyageAndReservation(
-        @PathVariable Long voyageId,
-        @PathVariable Long reservationId
-    ) {
+    public List<Seat> getSeatsByVoyageAndReservation(@PathVariable Long voyageId, @PathVariable Long reservationId) {
         return seatService.findByVoyageIdAndReservationId(voyageId, reservationId);
     }
 
@@ -125,11 +122,7 @@ public class SeatController {
     }
 
     @PutMapping("/voyage/{voyageId}/bulk-status")
-    public ResponseEntity<List<Seat>> updateMultipleSeatsStatus(
-        @PathVariable Long voyageId,
-        @RequestParam List<Integer> seatNumbers,
-        @RequestParam SeatStatusEnum status
-    ) {
+    public ResponseEntity<List<Seat>> updateMultipleSeatsStatus(@PathVariable Long voyageId, @RequestParam List<Integer> seatNumbers, @RequestParam SeatStatusEnum status) {
         List<Seat> updatedSeats = seatService.updateMultipleSeatsStatus(voyageId, seatNumbers, status);
         return ResponseEntity.ok(updatedSeats);
     }
@@ -141,10 +134,7 @@ public class SeatController {
     }
 
     @PutMapping("/voyage/{voyageId}/reservation/{reservationId}/release")
-    public ResponseEntity<List<Seat>> releaseSeatsByReservation(
-        @PathVariable Long voyageId, 
-        @PathVariable Long reservationId
-    ) {
+    public ResponseEntity<List<Seat>> releaseSeatsByReservation(@PathVariable Long voyageId, @PathVariable Long reservationId) {
         List<Seat> releasedSeats = seatService.releaseSeatsByReservation(voyageId, reservationId);
         return ResponseEntity.ok(releasedSeats);
     }

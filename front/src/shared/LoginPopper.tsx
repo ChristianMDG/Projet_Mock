@@ -1,95 +1,57 @@
-import * as React from 'react';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import PersonIcon from '@mui/icons-material/PersonRounded';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { useAuth } from '@/context/AuthContext';
-import { IconButton } from '@mui/material';
+import { Button, SxProps, Theme, useMediaQuery, useTheme, alpha } from '@mui/material';
 import { ROUTES } from '@/constants/routes';
 
-export function LoginPopper() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+interface LoginPopperProps {
+  sx?: SxProps<Theme>;
+}
+
+export function LoginPopper({ sx }: LoginPopperProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   if (isAuthenticated) return null;
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
-  const handleMenuClose = () => setAnchorEl(null);
-
   const handleLogin = () => {
-    handleMenuClose();
     navigate(ROUTES.login[i18n.language], { state: { mode: 'login' } });
   };
 
-  const handleRegister = () => {
-    handleMenuClose();
-    navigate(ROUTES.login[i18n.language], { state: { mode: 'register' } });
-  };
-
   return (
-    <Box
+    <Button
+      id="login-popper-button"
+      color="primary"
+      size={isMobile ? 'small' : 'medium'}
+      aria-label={t(Labels.login_connect)}
+      onClick={handleLogin}
       sx={{
-        display: 'flex',
-        alignItems: 'center',
+        borderRadius: '24px',
+        textTransform: 'none',
+        px: { xs: 1, sm: 1.5 },
+        py: 0.25,
+        marginLeft: 1.5,
+        fontWeight: 600,
+        fontSize: '0.85rem',
+        backgroundColor: alpha(theme.palette.primary.light, 0.04),
+        backdropFilter: 'blur(8px)',
+        border: `2px solid ${alpha(theme.palette.primary.light, 0.2)}`,
+        color: 'primary.main',
+        '&:hover': {
+          backgroundColor: alpha(theme.palette.primary.light, 0.08),
+          borderColor: alpha(theme.palette.primary.light, 0.4),
+        },
+        ...sx,
       }}
+      startIcon={<PersonIcon />}
+      disableElevation
     >
-      <IconButton
-        id="login-popper-button"
-        aria-controls={open ? 'login-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open}
-        onClick={handleMenuOpen}
-        sx={{ color: 'primary.main' }}
-      >
-        <PersonIcon sx={{ fontSize: 26 }} />
-      </IconButton>
-      <Menu
-        id="login-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleMenuClose}
-        sx={theme => ({
-          mt: theme.spacing(1),
-          '& .MuiPaper-root': {
-            minWidth: 180,
-            boxShadow: theme.shadows[8],
-            borderRadius: theme.spacing(1),
-            mt: theme.spacing(0.5),
-          },
-        })}
-        transformOrigin={{ horizontal: 'center', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
-      >
-        <MenuItem
-          onClick={handleLogin}
-          sx={{
-            gap: 1,
-            '&:hover': {
-              backgroundColor: 'action.hover',
-            },
-          }}
-        >
-          <PersonIcon /> {t(Labels.login_connect)}
-        </MenuItem>
-        <MenuItem
-          onClick={handleRegister}
-          sx={{
-            gap: 1,
-            '&:hover': {
-              backgroundColor: 'action.hover',
-            },
-          }}
-        >
-          <PersonAddIcon /> {t(Labels.login_create_account)}
-        </MenuItem>
-      </Menu>
-    </Box>
+      {t(Labels.login_connect)}
+    </Button>
   );
 }

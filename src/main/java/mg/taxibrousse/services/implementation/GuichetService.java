@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class GuichetService implements IGuichetService {
@@ -76,23 +77,18 @@ public class GuichetService implements IGuichetService {
     @Transactional
     @CacheEvict(value = "guichets", allEntries = true)
     public Guichet updateGuichetDestinations(Long guichetId, List<Gare> destinations) {
-        GuichetEntity entity = guichetRepository.findById(guichetId).orElseThrow(
-            () -> new RuntimeException("Guichet not found with id: " + guichetId)
-        );
-        
+        GuichetEntity entity = guichetRepository.findById(guichetId).orElseThrow(() -> new RuntimeException("Guichet not found with id: " + guichetId));
+
         // Load GareEntity objects from database by IDs
         if (destinations != null && !destinations.isEmpty()) {
-            List<Long> gareIds = destinations.stream()
-                .map(Gare::getId)
-                .filter(id -> id != null)
-                .toList();
-            
+            List<Long> gareIds = destinations.stream().map(Gare::getId).filter(Objects::nonNull).toList();
+
             List<GareEntity> gareEntities = gareRepository.findAllById(gareIds);
             entity.setDestinations(gareEntities);
         } else {
             entity.setDestinations(Collections.emptyList());
         }
-        
+
         GuichetEntity saved = guichetRepository.save(entity);
         return Guichet.fromEntity(saved, true, true);
     }
@@ -106,8 +102,6 @@ public class GuichetService implements IGuichetService {
         }
 
         var operateurs = entity.getOperateurs().stream().map(UserOperator::fromEntityLight).toList();
-        return Guichet.toBuilder(entity)
-                .operateurs(operateurs)
-                .build();
+        return Guichet.toBuilder(entity).operateurs(operateurs).build();
     }
 }

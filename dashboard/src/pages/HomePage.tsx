@@ -20,8 +20,11 @@ import { BarChart } from '@mui/x-charts/BarChart';
 
 import { SectionHeader, StatCard } from '@/components/shared';
 import { useDashboardStats } from '@/hooks/dashboard.hook';
+import { useReservationStore } from '@/stores/reservation.store';
 import { ReservationStatusLabels } from '@/types/reservation.types';
 import { VoyageStatusLabels } from '@/types/voyage.types';
+import { useBatchStatus, usePauseBatch, usePlayBatch, useRunBatchNow } from '@/hooks/batch.hook';
+import { PlayArrow, Pause, PlayCircleFilled } from '@mui/icons-material';
 import type { ReservationStatusEnum } from '@/types/reservation.types';
 import type { VoyageStatusEnum } from '@/types/voyage.types';
 import { formatCurrency } from '@/utils/format';
@@ -32,6 +35,11 @@ import Labels from '@/labelKeys.json';
 export default function HomePage() {
   const { t } = useTranslation();
   const { data: stats, isLoading } = useDashboardStats();
+
+  const { data: batchStatus, isLoading: isLoadingBatch } = useBatchStatus();
+  const { mutate: pauseBatch } = usePauseBatch();
+  const { mutate: playBatch } = usePlayBatch();
+  const { mutate: runBatchNow, isPending: isRunningBatch } = useRunBatchNow();
 
   const resPieData = useMemo(
     () =>
@@ -122,14 +130,14 @@ export default function HomePage() {
       title: t(Labels.sidebar_voyages),
       description: t(Labels.home_action_voyages),
       icon: <DirectionsBus />,
-      path: '/voyage',
+      path: '/voyages',
       color: paletteTokens.indigo,
     },
     {
       title: t(Labels.sidebar_routes),
       description: t(Labels.home_action_routes),
       icon: <AltRoute />,
-      path: '/route',
+      path: '/routes',
       color: paletteTokens.info,
     },
     {
@@ -292,6 +300,11 @@ export default function HomePage() {
                     component={Link}
                     to={action.path}
                     variant="outlined"
+                    onClick={() => {
+                      if (action.path === '/reservation') {
+                        useReservationStore.getState().resetFilters();
+                      }
+                    }}
                     sx={{
                       justifyContent: 'flex-start',
                       gap: 1.5,
@@ -356,6 +369,74 @@ export default function HomePage() {
                       </Box>
                     ))}
               </Stack>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/* Admin Operations */}
+      <Grid container spacing={3} sx={{ mt: 0 }}>
+        <Grid size={{ xs: 12 }}>
+          <Card sx={{ borderRadius: 2.5, bgcolor: alpha(paletteTokens.indigo, 0.05) }}>
+            <CardContent sx={{ p: 3 }}>
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: 600, mb: 2, fontSize: '1rem', display: 'flex', alignItems: 'center', gap: 1 }}
+              >
+                <CheckCircle fontSize="small" color="primary" />
+                {t(Labels.home_batch_title)}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                {t(Labels.home_batch_desc)}
+              </Typography>
+
+              {isLoadingBatch ? (
+                <Skeleton variant="rectangular" height={50} width={300} />
+              ) : (
+                <Stack direction="row" spacing={2} alignItems="center">
+                  {batchStatus?.enabled ? (
+                    <Button
+                      variant="contained"
+                      color="warning"
+                      startIcon={<Pause />}
+                      onClick={() => pauseBatch()}
+                      sx={{ textTransform: 'none', borderRadius: 2 }}
+                    >
+                      {t(Labels.home_batch_pause)}
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="success"
+                      startIcon={<PlayArrow />}
+                      onClick={() => playBatch()}
+                      sx={{ textTransform: 'none', borderRadius: 2 }}
+                    >
+                      {t(Labels.home_batch_start)}
+                    </Button>
+                  )}
+
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    startIcon={<PlayCircleFilled />}
+                    onClick={() => runBatchNow()}
+                    disabled={isRunningBatch}
+                    sx={{ textTransform: 'none', borderRadius: 2 }}
+                  >
+                    {t(Labels.home_batch_run_now)}
+                  </Button>
+
+                  <Chip
+                    label={
+                      batchStatus?.enabled ? t(Labels.home_batch_status_active) : t(Labels.home_batch_status_paused)
+                    }
+                    color={batchStatus?.enabled ? 'success' : 'warning'}
+                    size="small"
+                    sx={{ fontWeight: 'bold' }}
+                  />
+                </Stack>
+              )}
             </CardContent>
           </Card>
         </Grid>

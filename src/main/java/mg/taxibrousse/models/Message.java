@@ -1,5 +1,7 @@
 package mg.taxibrousse.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +19,20 @@ import static java.util.Optional.ofNullable;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 public class Message extends BaseDto<MessageEntity> {
+
+    @Override
+    @JsonProperty("createdAt")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    public LocalDateTime getCreatedAt() {
+        return super.getCreatedAt();
+    }
+
+    @Override
+    @JsonProperty("updatedAt")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    public LocalDateTime getUpdatedAt() {
+        return super.getUpdatedAt();
+    }
 
     private String messageId;
     private String roomId;
@@ -50,7 +66,6 @@ public class Message extends BaseDto<MessageEntity> {
         model.deliveredAt = entity.getDeliveredAt();
         model.readAt = entity.getReadAt();
         model.replyToMessageId = entity.getReplyToMessageId();
-        
 
         return model;
     }

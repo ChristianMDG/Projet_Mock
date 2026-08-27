@@ -1,18 +1,17 @@
 import React from 'react';
 import { Avatar, Box, Card, CardActionArea, CardContent, IconButton, Typography } from '@mui/material';
-import {
-  Business as BusinessIcon,
-  Edit as EditIcon,
-  Info as InfoIcon,
-  LocationCity as LocationCityIcon,
-} from '@mui/icons-material';
-import { KoperativeVerifiedIcon } from '@/components/shared';
+import BusinessIcon from '@mui/icons-material/Business';
+import EditIcon from '@mui/icons-material/Edit';
+import InfoIcon from '@mui/icons-material/Info';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import KoperativeVerifiedIcon from '@/components/shared/KoperativeVerifiedIcon';
 import { Koperative, Ville } from '@/types';
-import { IconButtonTx } from '../ui';
+import IconButtonTx from '@/components/ui/IconButtonTx';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { generateRoute } from '@/constants/routes';
 import Labels from '@/labelKeys.json';
+import { trackEvent } from '@/hooks/google-analytics.hook';
 
 interface KoperativeCardProps {
   koperative: Koperative;
@@ -39,8 +38,9 @@ export const KoperativeCard: React.FC<KoperativeCardProps> = ({ koperative, onSe
 
   const handleInfo = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (koperative.id) {
-      navigate(generateRoute.cooperativeInfo(koperative.id, i18n.language));
+    if (koperative.slug) {
+      trackEvent('view_koperative', 'Koperative', `View Koperative: ${koperative.name}`);
+      navigate(generateRoute.cooperativeInfo(koperative.slug, i18n.language));
     }
   };
 

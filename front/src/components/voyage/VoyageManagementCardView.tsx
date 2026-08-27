@@ -16,17 +16,16 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import {
-  Delete as DeleteIcon,
-  Edit as EditIcon,
-  EventSeat as SeatIcon,
-  MoreVert as MoreVertIcon,
-  Person as PersonIcon,
-  Room as LocationIcon,
-  Schedule as ScheduleIcon,
-  Visibility as ViewIcon,
-} from '@mui/icons-material';
-import { KoperativeVerifiedIcon, VehicleIcon } from '@/components/shared';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import SeatIcon from '@mui/icons-material/EventSeat';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import PersonIcon from '@mui/icons-material/Person';
+import LocationIcon from '@mui/icons-material/Room';
+import ScheduleIcon from '@mui/icons-material/Schedule';
+import ViewIcon from '@mui/icons-material/Visibility';
+import KoperativeVerifiedIcon from '@/components/shared/KoperativeVerifiedIcon';
+import VehicleIcon from '@/components/shared/VehicleIcon';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import dayjs from 'dayjs';

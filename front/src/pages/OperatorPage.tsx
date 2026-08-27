@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   Chip,
-  Container,
   Divider,
   Fab,
   FormControl,
@@ -22,7 +21,9 @@ import {
   Typography,
   Avatar,
 } from '@mui/material';
-import { ButtonTx, IconButtonTx, StyledIcon } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
+import IconButtonTx from '@/components/ui/IconButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import AddIcon from '@mui/icons-material/AddRounded';
 import BusinessIcon from '@mui/icons-material/BusinessRounded';
 import EditIcon from '@mui/icons-material/EditRounded';
@@ -40,14 +41,15 @@ import { useAuth } from '@/context/AuthContext';
 import Labels from '@/labelKeys.json';
 import { Koperative } from '@/models/Koperative';
 import { Gare } from '@/models/Gare';
-import { Section } from '@/components/section';
-import { SECTION_TYPES } from '@/constants';
+
 import { OperatorFormDrawer } from '@/pages/koperativeDetail/OperatorFormDrawer';
 import { formatPhoneForDisplay } from '@/utils/phoneUtils';
 import ProtectedTx from '@/components/ProtectedTx';
+import { AuthorityEnum } from '@/models/enums';
 import KoperativeAutocomplete from '@/components/shared/KoperativeAutocomplete';
 import GareAutocomplete from '@/components/shared/GareAutocomplete';
-import { HydrationSafe, VehicleIcon } from '@/components/shared';
+import HydrationSafe from '@/components/shared/HydrationSafe';
+import VehicleIcon from '@/components/shared/VehicleIcon';
 import OperatorListSkeleton from '@/skeleton/OperatorListSkeleton';
 import SEO from '@/components/shared/SEO';
 import DepartureBoardIcon from '@mui/icons-material/DepartureBoard';
@@ -60,7 +62,7 @@ interface GroupedOperators {
 }
 
 const addOperatorToStationGroup = (operator: UserOperator, groups: GroupedOperators): void => {
-  for (const guichet of operator.guichets || []) {
+  for (const guichet of operator.guichets ?? []) {
     if (guichet.gare) {
       const gareKey = `gare-${guichet.gare.id}`;
       if (!groups[gareKey]) {
@@ -96,6 +98,7 @@ export const OperatorPage: React.FC = () => {
   // Hooks
   const { t } = useTranslation();
   const { user } = useAuth();
+  const isAdminOrOperator = user?.admin ?? user?.authorities?.some(a => a.name === AuthorityEnum.OPERATOR);
   // Check if the logged-in user has a koperative
   const userKoperativeId = user?.koperative?.id;
 
@@ -165,13 +168,7 @@ export const OperatorPage: React.FC = () => {
   }
 
   return (
-    <Container
-      sx={{
-        p: 0,
-        pt: 2,
-        maxWidth: 'lg',
-      }}
-    >
+    <>
       <SEO title={t(Labels.operator_management_title)} />
       <Card sx={{ mb: 3 }}>
         <CardContent>
@@ -385,7 +382,7 @@ export const OperatorPage: React.FC = () => {
                                       </Typography>
                                     </Box>
                                   )} */}
-                                  {operator.phone && (
+                                  {operator.phone && isAdminOrOperator && (
                                     <Box
                                       sx={{
                                         display: 'flex',
@@ -499,7 +496,7 @@ export const OperatorPage: React.FC = () => {
           color="primary"
           aria-label="add"
           onClick={handleAddOperator}
-          sx={{ position: 'fixed', bottom: 16, right: 16, display: { xs: 'flex', sm: 'none' } }}
+          sx={{ position: 'fixed', bottom: 16, right: 88, display: { xs: 'flex', sm: 'none' } }}
         >
           <AddIcon />
         </Fab>
@@ -511,26 +508,6 @@ export const OperatorPage: React.FC = () => {
           initialData={selectedOperator ?? undefined}
         />
       </ProtectedTx>
-      <Grid size={12} sx={{ mt: 4 }}>
-        <Section
-          section={{
-            id: 1,
-            __component: 'page.section-reference',
-            sectionTitle: '',
-            sectionType: SECTION_TYPES.NETWORK_SECTION,
-          }}
-        />
-      </Grid>
-      <Grid size={12} sx={{ mt: 2 }}>
-        <Section
-          section={{
-            id: 2,
-            __component: 'page.section-reference',
-            sectionTitle: '',
-            sectionType: SECTION_TYPES.HELP_CENTER_SECTION,
-          }}
-        />
-      </Grid>
-    </Container>
+    </>
   );
 };

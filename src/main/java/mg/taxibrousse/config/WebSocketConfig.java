@@ -3,7 +3,6 @@ package mg.taxibrousse.config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mg.taxibrousse.interceptors.StompSubscriptionInterceptor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -29,14 +28,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws")
-                .setAllowedOriginPatterns("*")
-                .withSockJS()
-                .setSessionCookieNeeded(false);
-        
-        registry.addEndpoint("/ws-native")
-                .setAllowedOriginPatterns("*");
-        
+        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS().setSessionCookieNeeded(false);
+
+        registry.addEndpoint("/ws-native").setAllowedOriginPatterns("*");
+
         log.info("STOMP endpoints registered: /ws (with SockJS), /ws-native (native)");
     }
 

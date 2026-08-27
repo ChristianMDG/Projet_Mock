@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class VoyageWeeklyResponse {
+
     private Long resultId;
     private LocalDate weekStartDate;
     private LocalDate weekEndDate;

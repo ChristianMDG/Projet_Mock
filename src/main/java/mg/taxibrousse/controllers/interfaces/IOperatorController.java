@@ -1,6 +1,8 @@
 package mg.taxibrousse.controllers.interfaces;
 
+import mg.taxibrousse.dto.OperateurSearchRequest;
 import mg.taxibrousse.models.UserOperator;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +17,11 @@ import java.util.Map;
 public interface IOperatorController {
 
     @GetMapping
-    ResponseEntity<List<UserOperator>> getOperators(
-        @RequestParam(required = false) String search,
-        @RequestParam(required = false) Long koperativeId,
-        @RequestParam(required = false) Boolean isActive,
-        @RequestParam(required = false) Long gareId
-    );
+    ResponseEntity<List<UserOperator>> getOperators(@RequestParam(required = false) String search, @RequestParam(required = false) Long koperativeId, @RequestParam(required = false) Boolean isActive,
+            @RequestParam(required = false) Long gareId);
+
+    @PostMapping("/search")
+    ResponseEntity<Page<UserOperator>> searchOperators(@RequestBody OperateurSearchRequest request);
 
     @GetMapping("/{id}")
     ResponseEntity<UserOperator> getOperatorById(@PathVariable Long id);

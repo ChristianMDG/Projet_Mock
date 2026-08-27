@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { ButtonTx } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
 import AddIcon from '@mui/icons-material/Add';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Labels from '@/labelKeys.json';

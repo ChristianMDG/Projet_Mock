@@ -1,5 +1,6 @@
 package mg.taxibrousse.models;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import mg.taxibrousse.entities.KoperativeEntity;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.util.StringUtils;
 
 @Setter
 @Getter
@@ -17,11 +19,14 @@ import java.util.Objects;
 @SuperBuilder(toBuilder = true)
 public class Crafter extends BaseDto<CrafterEntity> {
 
+    private static final ObjectMapper SEAT_CONFIG_MAPPER = new ObjectMapper();
+
     private String registrationNumber;
     private String model;
     private Integer kilometrage;
     private Integer seatCapacity;
     private String configName;
+    private Object seatConfig;
     private Koperative koperative;
     private Chauffeur chauffeur;
     private Boolean isActive;
@@ -44,6 +49,7 @@ public class Crafter extends BaseDto<CrafterEntity> {
         model.setKilometrage(entity.getKilometrage());
         model.setSeatCapacity(entity.getSeatCapacity());
         model.setConfigName(entity.getConfigName());
+        model.setSeatConfig(deserializeSeatConfig(entity.getSeatConfig()));
         model.setIsActive(entity.getIsActive());
         model.setDateVisite(entity.getDateVisite());
 
@@ -96,6 +102,7 @@ public class Crafter extends BaseDto<CrafterEntity> {
         entity.setKilometrage(kilometrage);
         entity.setSeatCapacity(seatCapacity);
         entity.setConfigName(configName);
+        entity.setSeatConfig(serializeSeatConfig(seatConfig));
         entity.setIsActive(isActive);
         entity.setDateVisite(dateVisite);
 
@@ -114,5 +121,30 @@ public class Crafter extends BaseDto<CrafterEntity> {
         }
 
         return entity;
+    }
+
+    private static Object deserializeSeatConfig(String raw) {
+        if (StringUtils.hasText(raw)) {
+            try {
+                return SEAT_CONFIG_MAPPER.readValue(raw, Object.class);
+            } catch (Exception _) {
+                return raw;
+            }
+        }
+        return null;
+    }
+
+    private static String serializeSeatConfig(Object value) {
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof String s) {
+            return s;
+        }
+        try {
+            return SEAT_CONFIG_MAPPER.writeValueAsString(value);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid seatConfig payload", e);
+        }
     }
 }

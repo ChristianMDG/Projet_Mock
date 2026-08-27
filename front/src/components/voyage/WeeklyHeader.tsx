@@ -1,5 +1,5 @@
 import { Box, Grid, Link, Typography } from '@mui/material';
-import { EditOutlined } from '@mui/icons-material';
+import EditOutlined from '@mui/icons-material/EditOutlined';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import Labels from '@/labelKeys.json';
 

@@ -27,13 +27,19 @@ public class FacturationEntity extends BaseEntity {
     private BigDecimal amount;
 
     @Column(precision = 10, scale = 2)
-    private BigDecimal taxAmount;
+    private BigDecimal taxAmount = BigDecimal.ZERO;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal totalAmount;
 
     @Column(precision = 10, scale = 2)
     private BigDecimal remainingAmount;
+
+    @Column(name = "advance_amount", precision = 10, scale = 2)
+    private BigDecimal advanceAmount = BigDecimal.ZERO;
+
+    @Column(name = "commission", precision = 10, scale = 2)
+    private BigDecimal commission;
 
     @Column(length = 50)
     private String paymentMethodIdentifier;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert, Box, Card, CardContent, CircularProgress, Grid, Stack, Typography } from '@mui/material';
-import { IconButtonTx, StyledIcon } from '@/components/ui';
+import IconButtonTx from '@/components/ui/IconButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import EditIcon from '@mui/icons-material/EditRounded';
 import DeleteIcon from '@mui/icons-material/DeleteRounded';
@@ -50,7 +51,7 @@ const RouteList: React.FC<RouteListProps> = ({ gareId, onEditRoute, onDeleteRout
                       </Typography>
                     </Box>
                     {route.fraisKoperative != null && route.fraisKoperative > 0 && (
-                      <Typography variant="h6" color="primary.main" sx={{ fontWeight: 'bold', ml: 1 }}>
+                      <Typography variant="h6" color="primary" sx={{ fontWeight: 'bold', ml: 1 }}>
                         {formatFrais(route.fraisKoperative)}
                       </Typography>
                     )}

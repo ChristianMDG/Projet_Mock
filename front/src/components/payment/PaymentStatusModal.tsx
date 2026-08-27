@@ -11,7 +11,12 @@ import {
   Stack,
   Chip,
 } from '@mui/material';
-import { CheckCircle, Error as ErrorIcon, HourglassEmpty, Refresh, Wifi, WifiOff } from '@mui/icons-material';
+import CheckCircle from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import HourglassEmpty from '@mui/icons-material/HourglassEmpty';
+import Refresh from '@mui/icons-material/Refresh';
+import Wifi from '@mui/icons-material/Wifi';
+import WifiOff from '@mui/icons-material/WifiOff';
 import { useTranslation } from 'react-i18next';
 import { PaymentTransactionStatusEnum } from '@/models/enums';
 import { usePaymentStatus, usePaymentWebSocket } from '@/hooks/payment.hooks';
@@ -42,15 +47,15 @@ const PaymentStatusModal: React.FC<PaymentStatusModalProps> = ({
     transactionReference,
     enabled: open && !!transactionReference,
     onSuccess: notification => {
-      console.log('[Payment Modal] Payment completed via WebSocket:', notification);
+      console.warn('[Payment Modal] Payment completed via WebSocket:', notification);
       onSuccess();
     },
     onFailure: notification => {
-      console.log('[Payment Modal] Payment failed via WebSocket:', notification);
+      console.warn('[Payment Modal] Payment failed via WebSocket:', notification);
       onFailure();
     },
     onTimeout: notification => {
-      console.log('[Payment Modal] Payment timeout via WebSocket:', notification);
+      console.warn('[Payment Modal] Payment timeout via WebSocket:', notification);
       onTimeout();
     },
   });

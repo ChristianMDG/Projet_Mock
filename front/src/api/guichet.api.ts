@@ -1,4 +1,5 @@
 import axios from './axios';
+import { isAxiosError } from 'axios';
 import { Guichet } from '@/models/Guichet';
 import { Gare } from '@/models/Gare';
 
@@ -23,8 +24,8 @@ export const getGuichetByGareAndKoperative = async (gareId: number, koperativeId
   try {
     const { data } = await axios.get<Guichet>(`${API_URL}/gare/${gareId}/koperative/${koperativeId}`);
     return data;
-  } catch (error: any) {
-    if (error.response?.status === 404) {
+  } catch (error: unknown) {
+    if (isAxiosError(error) && error.response?.status === 404) {
       return null;
     }
     throw error;

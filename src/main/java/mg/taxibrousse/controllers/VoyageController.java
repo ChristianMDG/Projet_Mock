@@ -1,6 +1,8 @@
 package mg.taxibrousse.controllers;
 
 import lombok.RequiredArgsConstructor;
+import mg.taxibrousse.controllers.interfaces.IVoyageController;
+import mg.taxibrousse.dto.VoyageAvailabilityRequest;
 import mg.taxibrousse.dto.VoyageClasses;
 import mg.taxibrousse.dto.VoyageMonthlyResponse;
 import mg.taxibrousse.dto.VoyageWeeklyResponse;
@@ -10,121 +12,95 @@ import mg.taxibrousse.params.VoyageFilter;
 import mg.taxibrousse.services.IVoyageService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/voyages")
 @RequiredArgsConstructor
-public class VoyageController {
+public class VoyageController implements IVoyageController {
 
     private final IVoyageService voyageService;
 
-    @GetMapping
+    @Override
     @Transactional(readOnly = true)
-    public Page<Voyage> listVoyages(@PageableDefault(size = 20) Pageable pageable) {
-        return voyageService.findAllVoyages(pageable);
+    public ResponseEntity<Page<Voyage>> listVoyages(Pageable pageable) {
+        return ResponseEntity.ok(voyageService.findAllVoyages(pageable));
     }
 
-    @GetMapping("/koperative/{koperativeId}")
+    @Override
     @Transactional(readOnly = true)
-    public List<Voyage> listVoyagesByKoperative(@PathVariable Long koperativeId) {
-        return voyageService.findVoyagesByKoperativeId(koperativeId);
+    public ResponseEntity<List<Voyage>> listVoyagesByKoperative(Long koperativeId) {
+        return ResponseEntity.ok(voyageService.findVoyagesByKoperativeId(koperativeId));
     }
 
-    @PostMapping
-    public Voyage createVoyage(@RequestBody Voyage voyage) {
-        return voyageService.save(voyage);
+    @Override
+    public ResponseEntity<Voyage> createVoyage(Voyage voyage) {
+        return ResponseEntity.ok(voyageService.save(voyage));
     }
 
-    @PutMapping("/{id}")
-    public Voyage updateVoyage(@PathVariable Long id, @RequestBody Voyage voyage) {
+    @Override
+    public ResponseEntity<Voyage> updateVoyage(Long id, Voyage voyage) {
         voyage.setId(id);
-        return voyageService.save(voyage);
+        return ResponseEntity.ok(voyageService.save(voyage));
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteVoyage(@PathVariable Long id) {
+    @Override
+    public ResponseEntity<Void> deleteVoyage(Long id) {
         voyageService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/schedule")
-    public ResponseEntity<List<Voyage>> scheduleVoyage(@RequestBody VoyageScheduler request) {
+    @Override
+    public ResponseEntity<List<Voyage>> scheduleVoyage(VoyageScheduler request) {
         List<Voyage> voyages = voyageService.scheduleVoyage(request);
         return ResponseEntity.ok(voyages);
     }
 
-    @GetMapping("/{id}/details")
+    @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<Voyage> getVoyageDetails(@PathVariable Long id) {
+    public ResponseEntity<Voyage> getVoyageDetails(Long id) {
         Voyage voyage = voyageService.findVoyageById(id);
         return voyage != null ? ResponseEntity.ok(voyage) : ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/available")
+    @Override
     @Transactional(readOnly = true)
-    public List<Voyage> findAvailableVoyages(
-            @RequestParam Long departureGareId,
-            @RequestParam Long arrivalGareId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate
-    ) {
-        LocalDateTime departureDateTime = departureDate.atStartOfDay();
-        return voyageService.findAvailableVoyages(departureGareId, arrivalGareId, departureDateTime);
+    public ResponseEntity<List<Voyage>> findAvailableVoyages(VoyageAvailabilityRequest request) {
+        LocalDateTime departureDateTime = request.getDepartureDate().atStartOfDay();
+        return ResponseEntity.ok(voyageService.findAvailableVoyages(request.getDepartureGareId(), request.getArrivalGareId(), departureDateTime));
     }
 
-    @GetMapping("/date-range")
+    @Override
     @Transactional(readOnly = true)
-    public List<Voyage> findVoyagesByDateRange(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
-    ) {
-        return voyageService.findVoyagesByDateRange(startDate, endDate);
+    public ResponseEntity<List<Voyage>> findVoyagesByDateRange(LocalDate startDate, LocalDate endDate) {
+        return ResponseEntity.ok(voyageService.findVoyagesByDateRange(startDate, endDate));
     }
 
-    @GetMapping("/filtered")
+    @Override
     @Transactional(readOnly = true)
-    public List<Voyage> findFilteredVoyages(@ModelAttribute VoyageFilter filter) {
-        return voyageService.findFilteredVoyages(filter);
+    public ResponseEntity<List<Voyage>> findFilteredVoyages(VoyageFilter filter) {
+        return ResponseEntity.ok(voyageService.findFilteredVoyages(filter));
     }
 
-    @GetMapping("/filtered/grouped")
+    @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<List<VoyageClasses>> findGroupedFilteredVoyages(@ModelAttribute VoyageFilter filter) {
+    public ResponseEntity<List<VoyageClasses>> findGroupedFilteredVoyages(VoyageFilter filter) {
         return ResponseEntity.ok(voyageService.findGroupedFilteredVoyages(filter));
     }
 
-    @GetMapping("/resource-availability")
+    @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<Boolean> checkResourceAvailability(
-            @RequestParam(required = false) Long crafterId,
-            @RequestParam(required = false) Long chauffeurId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departureTime,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime estimatedArrivalTime,
-            @RequestParam(required = false) Long excludeVoyageId
-    ) {
-        boolean available = voyageService.isResourceAvailable(
-                crafterId,
-                chauffeurId,
-                departureTime,
-                estimatedArrivalTime,
-                excludeVoyageId
-        );
-        return ResponseEntity.ok(available);
+    public ResponseEntity<List<VoyageClasses>> findGroupedFilteredVoyagesByKoperative(VoyageFilter filter) {
+        return ResponseEntity.ok(voyageService.findGroupedFilteredVoyagesByKoperative(filter));
     }
 
-    @PostMapping("/{templateId}/generate-instances")
-    public ResponseEntity<List<Voyage>> generateRecurringInstances(
-            @PathVariable Long templateId,
-            @RequestParam(defaultValue = "100") int maxInstances
-    ) {
+    @Override
+    public ResponseEntity<List<Voyage>> generateRecurringInstances(Long templateId, int maxInstances) {
         Voyage template = voyageService.findVoyageById(templateId);
         if (template == null || !Boolean.TRUE.equals(template.getIsTemplate())) {
             return ResponseEntity.badRequest().build();
@@ -140,10 +116,10 @@ public class VoyageController {
      * @param gareId the ID of the gare
      * @return list of voyages
      */
-    @GetMapping("/scheduled/gare/{gareId}")
+    @Override
     @Transactional(readOnly = true)
-    public List<Voyage> getScheduledVoyagesByGare(@PathVariable Long gareId) {
-        return voyageService.findScheduledVoyagesByGare(gareId);
+    public ResponseEntity<List<Voyage>> getScheduledVoyagesByGare(Long gareId) {
+        return ResponseEntity.ok(voyageService.findScheduledVoyagesByGare(gareId));
     }
 
     /**
@@ -152,104 +128,38 @@ public class VoyageController {
      * @param gareIds list of gare IDs
      * @return list of voyages
      */
-    @GetMapping("/scheduled/gares")
+    @Override
     @Transactional(readOnly = true)
-    public List<Voyage> getScheduledVoyagesByGares(@RequestParam List<Long> gareIds) {
-        return voyageService.findScheduledVoyagesByGares(gareIds);
+    public ResponseEntity<List<Voyage>> getScheduledVoyagesByGares(List<Long> gareIds) {
+        return ResponseEntity.ok(voyageService.findScheduledVoyagesByGares(gareIds));
     }
 
-    // Enhanced Scheduler Endpoints
-    /**
-     * Process all active templates and generate instances
-     */
-    @PostMapping("/scheduler/process-templates")
-    public ResponseEntity<Integer> processActiveTemplates() {
-        int generated = voyageService.processActiveTemplates();
-        return ResponseEntity.ok(generated);
-    }
-
-    /**
-     * Batch generate instances for specific templates
-     */
-    @PostMapping("/scheduler/batch-generate")
-    public ResponseEntity<Integer> batchGenerateInstances(
-            @RequestBody List<Long> templateIds,
-            @RequestParam(defaultValue = "50") int maxInstancesPerTemplate
-    ) {
-        int generated = voyageService.batchGenerateInstances(templateIds, maxInstancesPerTemplate);
-        return ResponseEntity.ok(generated);
-    }
-
-    /**
-     * Get instances generated from a template
-     */
-    @GetMapping("/scheduler/template/{templateId}/instances")
+    @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<List<Voyage>> getInstancesByTemplate(@PathVariable Long templateId) {
-        List<Voyage> instances = voyageService.findInstancesByTemplate(templateId);
-        return ResponseEntity.ok(instances);
-    }
-
-    /**
-     * Update template and regenerate future instances
-     */
-    @PutMapping("/scheduler/template/{templateId}/update-and-regenerate")
-    public ResponseEntity<List<Voyage>> updateTemplateAndRegenerate(
-            @PathVariable Long templateId,
-            @RequestBody Voyage updatedTemplate
-    ) {
-        List<Voyage> result = voyageService.updateTemplateAndRegenerate(templateId, updatedTemplate);
-        return ResponseEntity.ok(result);
-    }
-
-    /**
-     * Cancel future instances from a template
-     */
-    @PostMapping("/scheduler/template/{templateId}/cancel-future")
-    public ResponseEntity<Integer> cancelFutureInstances(
-            @PathVariable Long templateId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate
-    ) {
-        int cancelled = voyageService.cancelFutureInstances(templateId, fromDate);
-        return ResponseEntity.ok(cancelled);
-    }
-
-    @GetMapping("/previous/{voyageurId}")
-    @Transactional
-    public ResponseEntity<List<Voyage>> previousVoyages(@PathVariable Long voyageurId) {
+    public ResponseEntity<Page<Voyage>> previousVoyages(Long voyageurId, Pageable pageable) {
         try {
-            List<Voyage> voyages = voyageService.findPreviousVoyages(voyageurId);
-            return ResponseEntity.ok(voyages);
-        } catch (Exception e) {
-            // Return empty list instead of error for non-existent voyageur
-            return ResponseEntity.ok(Collections.emptyList());
+            return ResponseEntity.ok(voyageService.findPreviousVoyages(voyageurId, pageable));
+        } catch (Exception _) {
+            return ResponseEntity.ok(Page.empty(pageable));
         }
     }
 
-    @GetMapping("/by-reservation/{reservationId}")
+    @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<Voyage> getVoyageByReservationId(@PathVariable Long reservationId) {
+    public ResponseEntity<Voyage> getVoyageByReservationId(Long reservationId) {
         Voyage voyage = voyageService.findVoyageByReservationId(reservationId);
         return voyage != null ? ResponseEntity.ok(voyage) : ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/weekly-results")
+    @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<VoyageWeeklyResponse> getWeeklyResults(@ModelAttribute VoyageFilter filter) {
+    public ResponseEntity<VoyageWeeklyResponse> getWeeklyResults(VoyageFilter filter) {
         return ResponseEntity.ok(voyageService.getWeeklyResults(filter));
     }
 
-    @GetMapping("/monthly-results")
+    @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<VoyageMonthlyResponse> getMonthlyResults(
-            @RequestParam Long departureVilleId,
-            @RequestParam Long arrivalVilleId,
-            @RequestParam String month,
-            @RequestParam(required = false) Long koperativeId,
-            @RequestParam(required = false) Integer passengers,
-            @RequestParam(required = false) String language
-    ) {
-        return ResponseEntity.ok(voyageService.getMonthlyResults(
-                departureVilleId, arrivalVilleId, month, koperativeId, passengers, language));
+    public ResponseEntity<VoyageMonthlyResponse> getMonthlyResults(Long departureVilleId, Long arrivalVilleId, String month, Long koperativeId, Integer passengers, String language) {
+        return ResponseEntity.ok(voyageService.getMonthlyResults(departureVilleId, arrivalVilleId, month, koperativeId, passengers, language));
     }
 }

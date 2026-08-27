@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 import mg.taxibrousse.entities.VoyageEntity;
 import mg.taxibrousse.entities.enums.RecurrenceTypeEnum;
 import mg.taxibrousse.entities.enums.VoyageStatusEnum;
+import mg.taxibrousse.entities.enums.VoyageTypeEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -33,8 +34,11 @@ public class Voyage extends BaseDto<VoyageEntity> {
     protected LocalDateTime actualArrivalTime;
     protected Integer availableSeats;
     protected BigDecimal pricePerSeat;
+    protected BigDecimal priceKoperative;
     protected VoyageStatusEnum status;
+    protected VoyageTypeEnum typeVoyage;
     protected String description;
+    protected Double pourcentageMinimumAvance;
 
     // Recurrence fields
     protected RecurrenceTypeEnum recurrenceType;
@@ -51,8 +55,7 @@ public class Voyage extends BaseDto<VoyageEntity> {
         if (entity == null) {
             return null;
         }
-        return toBuilder(entity)
-                .koperative(Koperative.fromEntity(entity.getKoperative(), false))
+        return toBuilder(entity).koperative(Koperative.fromEntity(entity.getKoperative(), false))
                 .classe(Classe.fromEntity(entity.getClasse()))
                 .route(Route.fromEntity(entity.getRoute()))
                 .departureGare(Gare.fromEntity(entity.getDepartureGare(), false))
@@ -75,8 +78,11 @@ public class Voyage extends BaseDto<VoyageEntity> {
                 .actualArrivalTime(entity.getActualArrivalTime())
                 .availableSeats(entity.getAvailableSeats())
                 .pricePerSeat(entity.getPricePerSeat())
+                .priceKoperative(entity.getPriceKoperative())
                 .status(entity.getStatus())
+                .typeVoyage(entity.getTypeVoyage())
                 .description(entity.getDescription())
+                .pourcentageMinimumAvance(entity.getPourcentageMinimumAvance())
                 .recurrenceType(entity.getRecurrenceType())
                 .customInterval(entity.getCustomInterval())
                 .weekdays(entity.getWeekdays())
@@ -91,9 +97,37 @@ public class Voyage extends BaseDto<VoyageEntity> {
     }
 
     public static Voyage fromEntityLightWithKoperative(VoyageEntity entity) {
-        return toBuilder(entity)
-                .koperative(Koperative.fromEntity(entity.getKoperative(), false))
+        return toBuilder(entity).koperative(Koperative.fromEntity(entity.getKoperative(), false)).build();
+    }
+
+    /**
+     * Search-page projection: koperative (id, name, phone, logoUrl, status),
+     * departureGare and arrivalGare (id, name only — no nested ville).
+     */
+    public static Voyage fromEntityForSearch(VoyageEntity entity) {
+        return toBuilder(entity).koperative(Koperative.fromEntityForSearch(entity.getKoperative()))
+                .departureGare(Gare.fromEntityLight(entity.getDepartureGare()))
+                .arrivalGare(Gare.fromEntityLight(entity.getArrivalGare()))
                 .build();
+    }
+
+    public static Voyage fromEntityForGrouped(VoyageEntity entity) {
+        return toBuilder(entity).koperative(Koperative.fromEntityForSearch(entity.getKoperative()))
+                .departureGare(Gare.fromEntity(entity.getDepartureGare(), false))
+                .arrivalGare(Gare.fromEntity(entity.getArrivalGare(), false))
+                .classe(Classe.fromEntityLight(entity.getClasse()))
+                .crafter(Crafter.fromEntityLight(entity.getCrafter()))
+                .chauffeur(Chauffeur.fromEntityWithUser(entity.getChauffeur()))
+                .build();
+    }
+
+    public String getKoperativeDepartureDateKey() {
+        // Group by koperativeId, departureGareId, arrivalGareId, and departureTime to the minute
+        String formattedDepartureTime = departureTime != null ? departureTime.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")) : "null";
+        return "%s-%s-%s-%s".formatted(koperative != null ? koperative.getId() : "null",
+                departureGare != null ? departureGare.getId() : "null",
+                arrivalGare != null ? arrivalGare.getId() : "null",
+                formattedDepartureTime);
     }
 
     @Override
@@ -106,14 +140,19 @@ public class Voyage extends BaseDto<VoyageEntity> {
         Optional.ofNullable(arrivalGare).ifPresent(g -> target.setArrivalGare(g.toEntity()));
         Optional.ofNullable(crafter).ifPresent(c -> target.setCrafter(c.toEntity()));
         Optional.ofNullable(chauffeur).ifPresent(c -> target.setChauffeur(c.toEntity()));
-        Optional.ofNullable(classe).ifPresent(cl -> target.setClasse(cl.toEntity()));
+        if (classe != null) {
+            target.setClasse(classe.getId() != 0 ? classe.toEntity() : null);
+        }
         target.setDepartureTime(departureTime);
         target.setEstimatedArrivalTime(estimatedArrivalTime);
         target.setActualArrivalTime(actualArrivalTime);
         target.setAvailableSeats(availableSeats);
         target.setPricePerSeat(pricePerSeat);
+        target.setPriceKoperative(priceKoperative);
         Optional.ofNullable(status).ifPresent(target::setStatus);
+        Optional.ofNullable(typeVoyage).ifPresent(target::setTypeVoyage);
         target.setDescription(description);
+        target.setPourcentageMinimumAvance(getPourcentageMinimumAvance());
 
         // Map recurrence fields
         Optional.ofNullable(recurrenceType).ifPresent(target::setRecurrenceType);
@@ -122,7 +161,7 @@ public class Voyage extends BaseDto<VoyageEntity> {
         target.setMonthlyDates(monthlyDates);
         target.setRecurrenceStartDate(recurrenceStartDate);
         target.setRecurrenceEndDate(recurrenceEndDate);
-        target.setIsTemplate(isTemplate);
+        Optional.ofNullable(isTemplate).ifPresent(target::setIsTemplate);
         target.setParentTemplate(parentTemplate != null ? parentTemplate.toEntity() : null);
         // generatedInstances not set here to avoid recursion
 

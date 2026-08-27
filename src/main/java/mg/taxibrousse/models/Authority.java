@@ -42,11 +42,7 @@ public class Authority extends BaseDto<AuthorityEntity> implements GrantedAuthor
      * @return A new AuthorityBuilder with primitive fields set
      */
     public static AuthorityBuilder<?, ?> toBuilder(AuthorityEntity entity) {
-        return Authority.builder()
-                .id(entity.getId())
-                .createdAt(entity.getCreatedAt())
-                .updatedAt(entity.getUpdatedAt())
-                .name(entity.getName());
+        return Authority.builder().id(entity.getId()).createdAt(entity.getCreatedAt()).updatedAt(entity.getUpdatedAt()).name(entity.getName());
     }
 
     public static Authority fromEntityLight(AuthorityEntity entity) {

@@ -9,11 +9,11 @@ import lombok.*;
  * <p>
  * Possible status values:
  * <ul>
- *   <li>INITIATED - waiting for user entry</li>
- *   <li>PENDING - user has clicked "Confirmer", transaction in progress</li>
- *   <li>EXPIRED - user clicked "Confirmer" too late (after token validity)</li>
- *   <li>SUCCESS - payment is done</li>
- *   <li>FAILED - payment has failed</li>
+ * <li>INITIATED - waiting for user entry</li>
+ * <li>PENDING - user has clicked "Confirmer", transaction in progress</li>
+ * <li>EXPIRED - user clicked "Confirmer" too late (after token validity)</li>
+ * <li>SUCCESS - payment is done</li>
+ * <li>FAILED - payment has failed</li>
  * </ul>
  * </p>
  */
@@ -55,7 +55,8 @@ public class OrangeMoneyStatusResponse {
      * Check if payment is still pending.
      */
     public boolean isPending() {
-        if (status == null) return false;
+        if (status == null)
+            return false;
         String upperStatus = status.toUpperCase();
         return upperStatus.equals("INITIATED") || upperStatus.equals("PENDING");
     }

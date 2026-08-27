@@ -8,6 +8,7 @@ import mg.taxibrousse.services.IFacebookOAuthService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -34,9 +35,7 @@ public class FacebookAuthController {
     @GetMapping("/login")
     public ResponseEntity<Void> facebookLogin() {
         String authorizationUrl = facebookOAuthService.getFacebookAuthorizationUrl();
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create(authorizationUrl))
-                .build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizationUrl)).build();
     }
 
     /**
@@ -44,30 +43,21 @@ public class FacebookAuthController {
      * This endpoint receives the authorization code from Facebook
      */
     @GetMapping("/callback")
-    public ResponseEntity<Void> facebookCallback(
-            @RequestParam(required = false) String code,
-            @RequestParam(required = false) String error,
-            @RequestParam(required = false, name = "error_description") String errorDescription
-    ) {
+    public ResponseEntity<Void> facebookCallback(@RequestParam(required = false) String code, @RequestParam(required = false) String error,
+            @RequestParam(required = false, name = "error_description") String errorDescription) {
         if (error != null) {
             log.error("Facebook OAuth error: {} - {}", error, errorDescription);
-            return ResponseEntity.status(HttpStatus.FOUND)
-                    .location(URI.create(frontendUrl + "/login?error=" + error))
-                    .build();
+            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(frontendUrl + "/login?error=" + error)).build();
         }
 
-        if (code == null || code.isEmpty()) {
-            log.error("No authorization code received from Facebook");
-            return ResponseEntity.status(HttpStatus.FOUND)
-                    .location(URI.create(frontendUrl + "/login?error=no_code"))
-                    .build();
+        if (StringUtils.hasText(code)) {
+            // Redirect to frontend with code
+            // Frontend will exchange code for access token
+            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(frontendUrl + "/auth/facebook/callback?code=" + code)).build();
         }
 
-        // Redirect to frontend with code
-        // Frontend will exchange code for access token
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create(frontendUrl + "/auth/facebook/callback?code=" + code))
-                .build();
+        log.error("No authorization code received from Facebook");
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(frontendUrl + "/login?error=no_code")).build();
     }
 
     /**
@@ -78,33 +68,33 @@ public class FacebookAuthController {
     public ResponseEntity<UserToken> verifyFacebookToken(@RequestBody Map<String, String> request) {
         String accessToken = request.get("accessToken");
 
-        if (accessToken == null || accessToken.isEmpty()) {
-            log.warn("No access token provided in request");
-            return ResponseEntity.badRequest().build();
+        if (StringUtils.hasText(accessToken)) {
+            try {
+                // Verify Facebook token
+                FacebookOAuthUser facebookUser = facebookOAuthService.verifyFacebookToken(accessToken);
+
+                if (facebookUser == null) {
+                    log.warn("Invalid Facebook token or user data");
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                }
+
+                // Authenticate user (login only, no registration)
+                UserToken userToken = facebookOAuthService.authenticateFacebookUser(facebookUser);
+
+                if (userToken == null) {
+                    log.warn("User not found in database for Facebook user: {}", facebookUser.getEmail());
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                }
+
+                return ResponseEntity.ok(userToken);
+            } catch (Exception e) {
+                log.error("Error verifying Facebook token", e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         }
 
-        try {
-            // Verify Facebook token
-            FacebookOAuthUser facebookUser = facebookOAuthService.verifyFacebookToken(accessToken);
-
-            if (facebookUser == null) {
-                log.warn("Invalid Facebook token or user data");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
-
-            // Authenticate user (login only, no registration)
-            UserToken userToken = facebookOAuthService.authenticateFacebookUser(facebookUser);
-
-            if (userToken == null) {
-                log.warn("User not found in database for Facebook user: {}", facebookUser.getEmail());
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-
-            return ResponseEntity.ok(userToken);
-        } catch (Exception e) {
-            log.error("Error verifying Facebook token", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        log.warn("No access token provided in request");
+        return ResponseEntity.badRequest().build();
     }
 
     /**
@@ -113,9 +103,6 @@ public class FacebookAuthController {
     @GetMapping("/auth-url")
     public ResponseEntity<Map<String, String>> getAuthUrl() {
         String authUrl = facebookOAuthService.getFacebookAuthorizationUrl();
-        return ResponseEntity.ok(Map.of(
-                "authUrl", authUrl,
-                "clientId", facebookClientId
-        ));
+        return ResponseEntity.ok(Map.of("authUrl", authUrl, "clientId", facebookClientId));
     }
 }

@@ -7,6 +7,8 @@ import mg.taxibrousse.models.Classe;
 import mg.taxibrousse.repositories.IClasseRepository;
 import mg.taxibrousse.repositories.IKoperativeRepository;
 import mg.taxibrousse.services.IClasseService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,25 +23,23 @@ public class ClasseService implements IClasseService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "classes", key = "'all'")
     public List<Classe> findAll() {
-        return classeRepository.findAll().stream()
-                .map(Classe::fromEntity)
-                .toList();
+        return classeRepository.findAll().stream().map(Classe::fromEntity).toList();
     }
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "classes", key = "'koperative-' + #koperativeId")
     public List<Classe> findByKoperativeId(Long koperativeId) {
-        return classeRepository.findByKoperativeId(koperativeId).stream()
-                .map(Classe::fromEntity)
-                .toList();
+        return classeRepository.findByKoperativeId(koperativeId).stream().map(Classe::fromEntity).toList();
     }
 
     @Override
     @Transactional
+    @CacheEvict(value = "classes", allEntries = true)
     public Classe create(Classe classe) {
-        var koperative = koperativeRepository.findById(classe.getKoperativeId())
-                .orElseThrow(() -> new EntityNotFoundException("Koperative not found: " + classe.getKoperativeId()));
+        var koperative = koperativeRepository.findById(classe.getKoperativeId()).orElseThrow(() -> new EntityNotFoundException("Koperative not found: " + classe.getKoperativeId()));
         var entity = new ClasseEntity();
         entity.setName(classe.getName());
         entity.setDescription(classe.getDescription());
@@ -49,14 +49,13 @@ public class ClasseService implements IClasseService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "classes", allEntries = true)
     public Classe update(Long id, Classe classe) {
-        var entity = classeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Classe not found: " + id));
+        var entity = classeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Classe not found: " + id));
         entity.setName(classe.getName());
         entity.setDescription(classe.getDescription());
         if (classe.getKoperativeId() != null) {
-            var koperative = koperativeRepository.findById(classe.getKoperativeId())
-                    .orElseThrow(() -> new EntityNotFoundException("Koperative not found: " + classe.getKoperativeId()));
+            var koperative = koperativeRepository.findById(classe.getKoperativeId()).orElseThrow(() -> new EntityNotFoundException("Koperative not found: " + classe.getKoperativeId()));
             entity.setKoperative(koperative);
         }
         return Classe.fromEntity(classeRepository.save(entity));
@@ -64,6 +63,7 @@ public class ClasseService implements IClasseService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "classes", allEntries = true)
     public void delete(Long id) {
         classeRepository.deleteById(id);
     }

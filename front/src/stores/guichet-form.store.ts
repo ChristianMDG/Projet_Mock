@@ -21,6 +21,7 @@ const getInitialFormData = (initialData?: Partial<Guichet>, koperativeId?: numbe
     ...initialData,
     koperative: { id: koperativeId } as Koperative,
     isActive: initialData?.isActive ?? true,
+    paymentAutomatique: initialData?.paymentAutomatique ?? false,
   };
 };
 

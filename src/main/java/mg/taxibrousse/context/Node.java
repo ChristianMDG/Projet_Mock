@@ -1,3 +1,4 @@
 package mg.taxibrousse.context;
 
-public class Node {}
+public class Node {
+}

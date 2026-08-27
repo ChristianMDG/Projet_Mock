@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentResponse {
+
     private boolean success;
     private Reservation reservation;
     private BigDecimal remainingAmount;

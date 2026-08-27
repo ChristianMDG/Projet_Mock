@@ -1,6 +1,6 @@
 import ShortUniqueId from 'short-unique-id';
 import { customStorage } from './customStorage';
-import { useAuthStore } from '@/stores';
+import { useAuthStore } from '@/stores/auth.store';
 import dayjs from '@/utils/dayjs';
 
 const NAVIGATOR_ROOM_KEY = 'navigator_room';

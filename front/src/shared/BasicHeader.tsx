@@ -6,13 +6,13 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
+
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import MenusDrawer from './MenusDrawer';
-import { LanguageSelector } from '@/components/shared';
+import LanguageSelector from '@/components/shared/LanguageSelector';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { useNavigate, Link, useLocation, matchPath } from 'react-router-dom';
@@ -25,35 +25,33 @@ import taxibrousseLight from '@/assets/taxibrousse-light.svg';
 import taxibrousseDark from '@/assets/taxibrousse-dark.svg';
 import taxibroussePng from '@/assets/taxibrousse.png';
 import { HideOnMobile, HideOnScroll } from './ResponsiveComponents';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { LoginPopper } from './LoginPopper';
-import {
-  AccountCircle,
-  AirportShuttle,
-  AttachMoney,
-  Business,
-  Domain,
-  EventSeat,
-  Home,
-  Info,
-  LocalOffer,
-  LocationOn,
-  Logout,
-  People,
-  Schedule,
-  Security,
-} from '@mui/icons-material';
-import { AuthorityEnum } from '@/models/enums';
-import { VehicleIcon } from '@/components/shared';
-import { StyledIcon } from '@/components/ui';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import AirportShuttle from '@mui/icons-material/AirportShuttle';
+import Brightness4 from '@mui/icons-material/Brightness4';
+import Brightness7 from '@mui/icons-material/Brightness7';
+import Business from '@mui/icons-material/Business';
+import Domain from '@mui/icons-material/Domain';
+import EventSeat from '@mui/icons-material/EventSeat';
+import Home from '@mui/icons-material/Home';
+import Info from '@mui/icons-material/Info';
+import Logout from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
+import StorefrontOutlined from '@mui/icons-material/StorefrontOutlined';
+import VehicleIcon from '@/components/shared/VehicleIcon';
+import StyledIcon from '@/components/ui/StyledIcon';
+import { CartIconButton } from '@/components/shop';
 import { customStorage } from '@/utils/customStorage';
+import { AuthorityEnum } from '@/models/enums';
+import ProtectedTx from '@/components/ProtectedTx';
+import { hasAdministrativeRole } from '@/utils/auth.utils';
 
 interface TabConfig {
   label: string;
   path: string;
   hide?: boolean;
   icon?: React.ReactNode;
+  category?: string;
 }
 
 const BasicHeader = () => {
@@ -72,6 +70,8 @@ const BasicHeader = () => {
     noSsr: true,
   });
 
+  const isAdminOrOperator = user?.admin ?? user?.authorities?.some(a => a.name === AuthorityEnum.OPERATOR);
+  const isAuthorizedForVoyage = hasAdministrativeRole(user);
   const prefersDark = useMediaQuery('(prefers-color-scheme: light )', {
     defaultMatches: false,
     noSsr: true,
@@ -139,110 +139,88 @@ const BasicHeader = () => {
     document.cookie = `mui-mode=${newMode}; path=/; max-age=31536000`;
   };
 
-  const koperativesMatch = matchPath(ROUTES.koperativeDetail[i18n.language], location.pathname);
-  const schedulerId = koperativesMatch?.params?.id ?? user?.koperative?.id;
-  const isOperator = user?.authorities?.some(a => a.name === AuthorityEnum.OPERATOR) ?? false;
+  const koperativeId = user?.koperative?.id;
+  const koperativeName = user?.koperative?.name;
+  const koperativeSlug = user?.koperative?.slug;
 
   const tabConfig: TabConfig[] = useMemo(
     () => [
       {
-        label: user?.koperative?.name ?? 'TAXIBROUSSE',
-        path: user?.koperative?.id
-          ? generateRoute.koperativeDetail(user.koperative.id, i18n.language)
+        label: koperativeName ?? 'TAXIBROUSSE',
+        path: koperativeSlug
+          ? generateRoute.koperativeDetail(koperativeSlug, i18n.language)
           : ROUTES.home[i18n.language],
-        hide: !user?.koperative?.id,
+        hide: !koperativeId,
         icon: <StyledIcon icon={Domain} variant="primary" />,
+        category: 'booking',
       },
       {
         label: t(LabelKeys.nav_home),
         path: ROUTES.home[i18n.language],
-        hide: !!user?.koperative?.id,
+        hide: !!koperativeId,
         icon: <StyledIcon icon={Home} variant="primary" />,
+        category: 'main',
       },
       {
         label: t(LabelKeys.nav_cooperatives),
         path: ROUTES.koperativesList[i18n.language],
-        hide: !!user?.koperative?.id,
+        hide: !!koperativeId,
         icon: <StyledIcon icon={Business} />,
+        category: 'main',
       },
       {
         label: t(LabelKeys.nav_cooperative_info),
-        path: user?.koperative?.id
-          ? generateRoute.cooperativeInfo(user.koperative.id, i18n.language)
+        path: koperativeSlug
+          ? generateRoute.cooperativeInfo(koperativeSlug, i18n.language)
           : ROUTES.home[i18n.language],
-        hide: !user?.koperative?.id,
+        hide: !koperativeId,
         icon: <StyledIcon icon={Info} />,
+        category: 'cooperative',
       },
       {
         label: t(LabelKeys.nav_stations),
         path: ROUTES.garesList[i18n.language],
         icon: <StyledIcon icon={AirportShuttle} />,
+        category: 'main',
       },
       {
         label: t(LabelKeys.menu_voyages),
         path: ROUTES.voyagesList[i18n.language],
         icon: <StyledIcon icon={VehicleIcon} />,
+        hide: !isAuthorizedForVoyage,
+        category: 'cooperative',
       },
       {
-        label: t(LabelKeys.operator_list_title),
-        path: ROUTES.operators[i18n.language],
-        icon: <StyledIcon icon={People} />,
+        label: t(LabelKeys.shop_nav_label),
+        path: ROUTES.shop[i18n.language],
+        icon: <StyledIcon icon={StorefrontOutlined} />,
+        category: 'booking',
       },
       {
         label: t(LabelKeys.operator_booking_title),
         path: ROUTES.operatorBooking[i18n.language],
-        hide: !isOperator,
         icon: <StyledIcon icon={EventSeat} />,
+        hide: !isAdminOrOperator,
+        category: 'booking',
       },
-      // Admin Tabs
-      {
-        label: t(LabelKeys.nav_booking_rates),
-        path: ROUTES.bookingRates[i18n.language],
-        hide: !user?.isAdmin,
-        icon: <StyledIcon icon={AttachMoney} />,
-      },
-      {
-        label: t(LabelKeys.nav_destinations),
-        path: ROUTES.destinations[i18n.language],
-        hide: !user?.isAdmin,
-        icon: <StyledIcon icon={LocationOn} />,
-      },
-      {
-        label: t(LabelKeys.nav_safety_insurance),
-        path: ROUTES.safetyInsurance[i18n.language],
-        hide: !user?.isAdmin,
-        icon: <StyledIcon icon={Security} />,
-      },
-      {
-        label: t(LabelKeys.nav_promotions),
-        path: ROUTES.promotions[i18n.language],
-        hide: !user?.isAdmin,
-        icon: <StyledIcon icon={LocalOffer} />,
-      },
-      {
-        label: t(LabelKeys.voyage_scheduler_title),
-        path: schedulerId ? generateRoute.voyageScheduler(schedulerId, i18n.language) : '',
-        hide: !schedulerId,
-        icon: <StyledIcon icon={Schedule} />,
-      },
-      // Default fallback Tab
       {
         label: t(LabelKeys.nav_page_infos),
         path: matchPath(ROUTES.dynamicPage[i18n.language], location.pathname)
           ? location.pathname
           : ROUTES.pageInformations[i18n.language],
         icon: <StyledIcon icon={Info} />,
+        category: 'booking',
       },
     ],
     [
-      user?.koperative?.id,
-      user?.koperative?.name,
-      user?.isAdmin,
-      koperativesMatch,
       t,
+      koperativeId,
+      koperativeName,
+      koperativeSlug,
       i18n.language,
-      schedulerId,
       location.pathname,
+      isAdminOrOperator,
+      isAuthorizedForVoyage,
     ],
   );
 
@@ -250,7 +228,12 @@ const BasicHeader = () => {
 
   const value = React.useMemo(() => {
     const foundTab = tabConfig.find(tab => matchPath({ path: tab.path, end: true }, location.pathname));
-    return foundTab ? foundTab.path : ROUTES.home[i18n.language];
+    if (foundTab && !foundTab.hide) {
+      return foundTab.path;
+    }
+    const homePath = ROUTES.home[i18n.language];
+    const homeTab = tabConfig.find(tab => tab.path === homePath);
+    return homeTab && !homeTab.hide ? homePath : false;
   }, [tabConfig, location.pathname, i18n.language]);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
@@ -288,6 +271,8 @@ const BasicHeader = () => {
                 src={effectiveMode === 'dark' ? taxibrousseDark : taxibrousseLight}
                 alt="Taxibrousse"
                 className="header-logo"
+                width={160}
+                height={23}
                 onError={e => {
                   (e.currentTarget as HTMLImageElement).src = taxibroussePng;
                 }}
@@ -300,31 +285,35 @@ const BasicHeader = () => {
               sx={{
                 flexDirection: 'row',
                 flexGrow: 1,
-                gap: { xs: 1, md: 2 },
                 display: 'flex',
                 justifyContent: 'flex-end',
                 alignItems: 'center',
               }}
             >
               <IconButton
-                sx={{ ml: 1 }}
+                sx={{ ml: 1, display: { xs: 'none', sm: 'inline-flex' } }}
                 onClick={() => handleModeChange(effectiveMode === 'dark' ? 'light' : 'dark')}
                 color="inherit"
                 aria-label="Toggle Theme"
+                size="large"
               >
-                {effectiveMode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                {effectiveMode === 'dark' ? <Brightness7 /> : <Brightness4 />}
               </IconButton>
-              <LanguageSelector />
+              <ProtectedTx allowedRoles={[AuthorityEnum.ADMIN]}>
+                <CartIconButton />
+              </ProtectedTx>
+              <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                <LanguageSelector />
+              </Box>
               {isAuthenticated && user ? (
                 <Box
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    ml: 2,
                   }}
                 >
                   <Tooltip title={`${user.firstName} ${user.lastName}`}>
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <IconButton onClick={handleOpenUserMenu} size="large" sx={{ p: 1 }}>
                       <Avatar
                         sx={{ bgcolor: 'secondary.main', color: 'primary.main', width: 32, height: 32 }}
                         alt={user.firstName}

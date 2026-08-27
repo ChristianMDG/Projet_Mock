@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FacebookOAuthUser {
+
     private String id;
     private String email;
     private String name;

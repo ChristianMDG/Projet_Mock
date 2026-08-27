@@ -26,6 +26,17 @@
         }
       }
     },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 50,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
     "description": {
       "type": "text",
       "required": true,
@@ -43,6 +54,40 @@
       "allowedTypes": [
         "images"
       ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "operator": {
+      "type": "enumeration",
+      "enum": [
+        "MVola",
+        "Airtel",
+        "Orange"
+      ],
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "phonePrefix": {
+      "type": "string",
+      "required": true,
+      "maxLength": 10,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "paymentMethodEnum": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
       "pluginOptions": {
         "i18n": {
           "localized": false

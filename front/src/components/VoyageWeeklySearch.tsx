@@ -1,4 +1,4 @@
-import { Alert, Box, Typography } from '@mui/material';
+import { Alert, Box } from '@mui/material';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useVoyageWeeklyLogic } from '@/hooks/voyage-weekly.hooks';
@@ -7,15 +7,14 @@ import Labels from '@/labelKeys.json';
 import { WeeklyHeader } from './voyage/WeeklyHeader';
 import { WeeklyTabs } from './voyage/WeeklyTabs';
 import { KoperativeFilter } from './voyage/KoperativeFilter';
-import { VoyageResults } from './voyage/VoyageResults';
-import { KoperativeWeeklyGrid } from './voyage/KoperativeWeeklyGrid';
+import { VoyageWeeklyResults } from './voyage/VoyageWeeklyResults';
 import { VoyageItemSkeleton } from '@/skeleton/VoyageItemSkeleton';
 import VoyageWeeklyResultsSkeleton from '@/skeleton/VoyageWeeklyResultsSkeleton';
 import { voyageDateUtils } from '@/utils/dayjs';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
-import VoyageMonthlyCalendar from '@/components/voyage/VoyageMonthlyCalendar';
 import { useVoyageSearchStore } from '@/stores/voyage-search.store';
+import { useSeatSelectionStore } from '@/stores/seat-selection.store';
 
 const VoyageWeeklySearch = ({ onEditSearch }: { onEditSearch?: () => void }) => {
   const {
@@ -29,6 +28,8 @@ const VoyageWeeklySearch = ({ onEditSearch }: { onEditSearch?: () => void }) => 
     handleTabChange,
     handleKoperativeChange,
     setKoperativeId,
+    departureTimeGroup,
+    setDepartureTimeGroup,
   } = useVoyageWeeklyLogic();
 
   const fromVille = useVoyageSearchStore(state => state.fromVille);
@@ -36,6 +37,7 @@ const VoyageWeeklySearch = ({ onEditSearch }: { onEditSearch?: () => void }) => 
   const passengers = useVoyageSearchStore(state => state.passengers);
   const setDepartureDate = useVoyageSearchStore(state => state.setDepartureDate);
   const setSearchParams = useVoyageSearchStore(state => state.setSearchParams);
+  const setExpandedVoyage = useSeatSelectionStore(state => state.setExpandedVoyage);
 
   const { t, i18n } = useTranslation();
 
@@ -47,14 +49,16 @@ const VoyageWeeklySearch = ({ onEditSearch }: { onEditSearch?: () => void }) => 
       koperativeId: koperativeId ?? undefined,
       language: i18n.language,
       passengers,
+      departureTimeGroup: departureTimeGroup ?? undefined,
     }),
-    [fromVille?.id, toVille?.id, departureDate, koperativeId, i18n.language, passengers],
+    [fromVille?.id, toVille?.id, departureDate, koperativeId, i18n.language, passengers, departureTimeGroup],
   );
 
-  const { data: voyageClasses = [] } = useGroupedVoyages(groupedFilter);
+  const { data: voyageClasses = [], isLoading: voyagesLoading } = useGroupedVoyages(groupedFilter);
 
   const handleKoperativeGridClick = (koperativeIdClicked: number) => {
     setKoperativeId(koperativeIdClicked);
+    setDepartureTimeGroup(null);
 
     const firstAvailableDay = weeklyQuery.data?.weeklyResults?.find(
       day => day.hasVoyages && day.koperatives?.some(k => k.id === koperativeIdClicked),
@@ -62,6 +66,18 @@ const VoyageWeeklySearch = ({ onEditSearch }: { onEditSearch?: () => void }) => 
     if (firstAvailableDay) {
       setDepartureDate(dayjs(firstAvailableDay.date));
       setSearchParams({ hasSearched: true });
+    }
+  };
+
+  const handleKoperativeFilterChange = (koperativeIdClicked: number | null) => {
+    handleKoperativeChange(koperativeIdClicked);
+
+    if (koperativeIdClicked) {
+      const correspondingClass = voyageClasses?.find(vc => vc.koperative?.id === koperativeIdClicked);
+      const firstVoyage = correspondingClass?.voyages?.[0];
+      if (firstVoyage?.id) {
+        setExpandedVoyage(firstVoyage.id, firstVoyage.classe?.name ?? '');
+      }
     }
   };
 
@@ -84,7 +100,10 @@ const VoyageWeeklySearch = ({ onEditSearch }: { onEditSearch?: () => void }) => 
     );
   }
 
-  const hasNoResultsForSelectedDate = !Boolean(voyageClasses?.length) && weeklyQuery?.data?.weeklyResults;
+  const selectedDayResult = weeklyQuery.data?.weeklyResults?.find(day => day.resultId === selectedTab);
+  const availableTimeGroups = selectedDayResult?.availableTimeGroups ?? [];
+  const hasVoyagesOnSelectedDate = selectedDayResult?.hasVoyages ?? false;
+
   const hasWeeklySummaries = Boolean(weeklyQuery.data?.koperativeSummaries?.length);
   const formattedDate = voyageDateUtils.formatWithLocale(departureDate, 'dddd D MMMM', i18n.language);
 
@@ -110,40 +129,27 @@ const VoyageWeeklySearch = ({ onEditSearch }: { onEditSearch?: () => void }) => 
         <KoperativeFilter
           availableKoperatives={availableKoperatives}
           selectedKoperativeId={koperativeId}
-          onKoperativeChange={handleKoperativeChange}
+          onKoperativeChange={handleKoperativeFilterChange}
           t={t}
         />
       </Box>
 
-      {hasNoResultsForSelectedDate && hasWeeklySummaries ? (
-        <KoperativeWeeklyGrid
-          summaries={weeklyQuery.data!.koperativeSummaries ?? []}
-          onKoperativeClick={handleKoperativeGridClick}
-          selectedDate={formattedDate}
-        />
-      ) : voyageClasses?.length ? (
-        <VoyageResults voyageClasses={voyageClasses} language={i18n.language} selectedDate={formattedDate} />
-      ) : (
-        <Box sx={{ mt: 2, width: '100%' }}>
-          <Alert severity="info">
-            <Typography variant="body2">
-              {t(Labels.voyage_search_no_results, { date: formattedDate })} —{' '}
-              {t(Labels.voyage_no_results_check_calendar)}
-            </Typography>
-          </Alert>
-          {fromVille?.id && toVille?.id && (
-            <Box sx={{ mt: 2, width: '100%' }}>
-              <VoyageMonthlyCalendar
-                departureVilleId={fromVille.id}
-                arrivalVilleId={toVille.id}
-                koperativeId={koperativeId ?? undefined}
-                passengers={passengers}
-                onDaySelect={handleMonthlyDaySelect}
-              />
-            </Box>
-          )}
-        </Box>
-      )}
+      <VoyageWeeklyResults
+        loading={voyagesLoading}
+        hasWeeklySummaries={hasWeeklySummaries}
+        koperativeSummaries={weeklyQuery.data?.koperativeSummaries ?? []}
+        voyageClasses={voyageClasses}
+        formattedDate={formattedDate}
+        language={i18n.language}
+        koperativeId={koperativeId}
+        passengers={passengers}
+        fromVille={fromVille}
+        toVille={toVille}
+        onKoperativeClick={handleKoperativeGridClick}
+        onDaySelect={handleMonthlyDaySelect}
+        availableTimeGroups={availableTimeGroups}
+        hasVoyagesOnSelectedDate={hasVoyagesOnSelectedDate}
+      />
     </Box>
   ) : (
     <></>

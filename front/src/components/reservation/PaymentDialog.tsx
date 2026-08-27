@@ -23,7 +23,9 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { CheckCircle, Close, Payment } from '@mui/icons-material';
+import CheckCircle from '@mui/icons-material/CheckCircle';
+import Close from '@mui/icons-material/Close';
+import Payment from '@mui/icons-material/Payment';
 import { useSeatsByVoyageAndReservation } from '@/hooks/seat.hooks';
 import { Form, Formik, FormikProps } from 'formik';
 import * as Yup from 'yup';
@@ -276,7 +278,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
                     <Typography variant="body2" color="text.secondary">
                       {t(Labels.paid_amount)}:
                     </Typography>
-                    <Typography variant="h4" color="success.main">
+                    <Typography variant="h4" color="success">
                       {paymentData.paid.toLocaleString()} Ar
                     </Typography>
                   </Box>
@@ -332,6 +334,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
                     label={t(Labels.payment_amount)}
                     name="amount"
                     type="number"
+                    placeholder="10000"
                     value={values.amount}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -352,7 +355,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
                 </>
               ) : (
                 <Box sx={{ textAlign: 'center', py: 2 }}>
-                  <Typography variant="h6" color="success.main" sx={{ mb: 1 }}>
+                  <Typography variant="h6" color="success" sx={{ mb: 1 }}>
                     {t(Labels.payment_completed_successfully)}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">

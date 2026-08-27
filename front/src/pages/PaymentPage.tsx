@@ -1,12 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { Alert, Box, Button, Card, CardContent, Stack, Typography } from '@mui/material';
 import { Form, Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowBack, Phone, PhoneAndroidOutlined } from '@mui/icons-material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PhoneIcon from '@mui/icons-material/Phone';
+import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 
 import { MobileMoneyOperatorEnum, PaymentTransactionStatusEnum, SeatStatusEnum } from '@/models/enums';
 import { useCurrencyFormatter } from '@/utils/currency.utils';
+import { calculateDefaultAdvanceAmount } from '@/utils/reservation.utils';
 import { useTranslation } from 'react-i18next';
 import { useReservationPayment, usePaymentWebSocket } from '@/hooks/payment.hooks';
 import { usePaymentStore } from '@/stores/payment.store';
@@ -19,13 +22,16 @@ import Labels from '@/labelKeys.json';
 import FormTextField from '@/components/inputs/FormTextField';
 import { ROUTES, generateRoute } from '@/constants/routes';
 
-import { SelectedSeats } from '@/components/forms';
+import { SelectedSeats } from '@/components/forms/SelectedSeats';
 import { Seat } from '@/models/Seat';
 import { SeatConfig } from '@/types/type.props';
-import { Section } from '@/components/section';
+import Section from '@/components/section/Section';
 import { SECTION_TYPES } from '@/constants';
 import SEO from '@/components/shared/SEO';
-import { StyledIcon } from '@/components';
+import StyledIcon from '@/components/ui/StyledIcon';
+import { trackEvent } from '@/hooks/google-analytics.hook';
+
+const COMMISSION_RATE = 0.05;
 
 interface PaymentFormData {
   paymentMethodId: string;
@@ -48,6 +54,7 @@ const PaymentPage: React.FC = () => {
     transactionReference,
     showPaymentStatus,
     paymentStatus: currentStatus,
+    isPartial,
     setPaymentMethodId,
     setPhoneNumber,
     setPaymentLoading,
@@ -55,16 +62,33 @@ const PaymentPage: React.FC = () => {
     setTransactionReference,
     setShowPaymentStatus,
     setPaymentStatus: setCurrentStatus,
+    setIsPartial,
+    advanceAmount,
+    setAdvanceAmount,
   } = usePaymentStore();
 
   const { selectedSeats } = useSeatSelectionStore();
   const reservationPaymentMutation = useReservationPayment();
 
   const [isClient, setIsClient] = useState(false);
+  const phoneInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    const isMobileMoney = [
+      MobileMoneyOperatorEnum.MVOLA,
+      MobileMoneyOperatorEnum.AIRTEL,
+      MobileMoneyOperatorEnum.ORANGE,
+    ].includes(paymentMethodId.toUpperCase() as MobileMoneyOperatorEnum);
+    if (isMobileMoney) {
+      setTimeout(() => {
+        phoneInputRef.current?.focus();
+      }, 100);
+    }
+  }, [paymentMethodId]);
 
   useEffect(() => {
     if (showPaymentStatus) {
@@ -78,7 +102,7 @@ const PaymentPage: React.FC = () => {
   // WebSocket integration for real-time payment updates
   const { isConnected: wsConnected, lastNotification } = usePaymentWebSocket({
     transactionReference,
-    enabled: !!transactionReference && showPaymentStatus,
+    enabled: Boolean(transactionReference) && showPaymentStatus,
     onSuccess: notification => setCurrentStatus(notification.status),
     onFailure: notification => setCurrentStatus(notification.status),
     onTimeout: notification => setCurrentStatus(notification.status),
@@ -86,18 +110,48 @@ const PaymentPage: React.FC = () => {
 
   const { data: voyage, isPending: voyageLoading } = useVoyage(voyageId);
 
-  const voyageSelectedSeats: SeatConfig[] = selectedSeats[voyageId] ?? [];
+  const voyageSelectedSeats: SeatConfig[] = useMemo(() => selectedSeats[voyageId] ?? [], [selectedSeats, voyageId]);
 
   const paymentSummary = useMemo(() => {
-    if (voyage && voyageSelectedSeats.length)
+    if (voyage && voyageSelectedSeats.length) {
+      const originalAmount = voyageSelectedSeats.length * voyage.pricePerSeat;
+
       return {
         selectedSeats: voyageSelectedSeats.map((seat: SeatConfig) => seat.position),
-        totalAmount: voyageSelectedSeats.length * voyage.pricePerSeat,
+        originalAmount,
+        totalAmount: originalAmount,
         departure: voyage.departureGare?.name ?? 'N/A',
         arrival: voyage.arrivalGare?.name ?? 'N/A',
         koperativeName: voyage.koperative?.name ?? 'N/A',
       } as const;
+    }
   }, [voyage, voyageSelectedSeats]);
+
+  const { amountToPay, reservationTotalAmount } = useMemo(() => {
+    if (paymentSummary && voyage) {
+      if (isPartial) {
+        const seatTotal = paymentSummary.totalAmount;
+        const currentAdvance =
+          advanceAmount ??
+          calculateDefaultAdvanceAmount(
+            seatTotal,
+            voyage.pricePerSeat,
+            voyageSelectedSeats.length,
+            voyage.pourcentageMinimumAvance,
+          );
+        const fee = seatTotal * COMMISSION_RATE;
+        return {
+          amountToPay: currentAdvance + fee,
+          reservationTotalAmount: seatTotal,
+        };
+      }
+      return {
+        amountToPay: paymentSummary.totalAmount,
+        reservationTotalAmount: paymentSummary.totalAmount,
+      };
+    }
+    return { amountToPay: 0, reservationTotalAmount: 0 };
+  }, [paymentSummary, isPartial, advanceAmount, voyage, voyageSelectedSeats]);
 
   const seats: Seat[] = useMemo(
     () =>
@@ -122,13 +176,27 @@ const PaymentPage: React.FC = () => {
 
     try {
       if (voyage && paymentSummary) {
+        trackEvent(
+          'payment_initiated',
+          'Payment',
+          `${mobileMoneyOperator} — ${paymentSummary.departure} → ${paymentSummary.arrival}`,
+          amountToPay,
+        );
+        trackEvent('payment_validated', 'Payment', isPartial ? 'Advance' : '100% Full', amountToPay);
         await reservationPaymentMutation.mutateAsync({
           voyage,
-          totalAmount: paymentSummary.totalAmount,
+          reservationTotalAmount,
+          totalAmount: amountToPay,
           phoneNumber,
           paymentMethodId,
           mobileMoneyOperator,
           seatPositions: voyageSelectedSeats.map((s: SeatConfig) => s.position),
+          isPartial,
+          advanceAmount: isPartial
+            ? (advanceAmount ??
+              calculateDefaultAdvanceAmount(reservationTotalAmount, voyage.pricePerSeat, voyageSelectedSeats.length))
+            : undefined,
+          commission: isPartial ? reservationTotalAmount * COMMISSION_RATE : undefined,
         });
       } else {
         throw new Error(t(Labels.error_loading_voyages));
@@ -182,11 +250,20 @@ const PaymentPage: React.FC = () => {
     return (
       <Box sx={{ minHeight: '100vh', maxWidth: 600, mx: 'auto' }}>
         <SEO title={t(Labels.button_pay)} />
-        <Button startIcon={<ArrowBack />} onClick={() => navigate(-1)} sx={{ mb: 1, fontWeight: 500 }}>
-          {t(Labels.button_back)}
-        </Button>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+          <Button startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)} sx={{ fontWeight: 500 }}>
+            {t(Labels.button_back)}
+          </Button>
+        </Box>
         <Box id="selected-seats">
-          <SelectedSeats voyage={voyage} selectedSeats={seats} />
+          <SelectedSeats
+            voyage={voyage}
+            selectedSeats={seats}
+            isPartial={isPartial}
+            onPartialChange={setIsPartial}
+            advanceAmount={advanceAmount ?? undefined}
+            onAdvanceAmountChange={setAdvanceAmount}
+          />
         </Box>
         <Card>
           <CardContent>
@@ -213,11 +290,16 @@ const PaymentPage: React.FC = () => {
                       setFieldValue('paymentMethodId', method);
                       setFieldValue('mobileMoneyOperator', method.toUpperCase());
                       setPaymentMethodId(method);
+                      trackEvent('payment_method_selected', 'Payment', method.toUpperCase());
                     };
 
                     const isSubmitDisabled = () => {
-                      if (isSubmitting || paymentLoading) return true;
-                      return [MVOLA, AIRTEL].includes(values.mobileMoneyOperator) && !values.phoneNumber;
+                      if (isSubmitting || paymentLoading) {
+                        return true;
+                      }
+                      const isOperatorMobileMoney = [MVOLA, AIRTEL].includes(values.mobileMoneyOperator);
+                      const hasPhone = Boolean(values.phoneNumber);
+                      return isOperatorMobileMoney && hasPhone === false;
                     };
 
                     const phonePlaceholder = (() => {
@@ -239,13 +321,14 @@ const PaymentPage: React.FC = () => {
                           {[MVOLA, AIRTEL].includes(values.mobileMoneyOperator) && (
                             <>
                               <FormTextField
+                                inputRef={phoneInputRef}
                                 name="phoneNumber"
                                 label={t(Labels.payment_phone_number)}
                                 placeholder={phonePlaceholder}
                                 helperText={t(Labels.payment_phone_helper_text)}
                                 slotProps={{
                                   input: {
-                                    startAdornment: <Phone sx={{ mr: 1, color: 'text.secondary' }} />,
+                                    startAdornment: <PhoneIcon sx={{ mr: 1, color: 'text.secondary' }} />,
                                   },
                                 }}
                               />
@@ -265,11 +348,20 @@ const PaymentPage: React.FC = () => {
                               fullWidth
                               disabled={isSubmitDisabled()}
                               sx={{ py: 1.5 }}
-                              startIcon={<StyledIcon icon={PhoneAndroidOutlined} />}
+                              startIcon={<StyledIcon icon={PhoneAndroidOutlinedIcon} />}
                             >
-                              {isSubmitting || paymentLoading
-                                ? t(Labels.processing)
-                                : `${t(Labels.button_pay)} ${formatAriary(paymentSummary.totalAmount)}`}
+                              {isSubmitting || paymentLoading ? (
+                                t(Labels.processing)
+                              ) : (
+                                <Stack
+                                  direction="row"
+                                  spacing={1}
+                                  sx={{ alignItems: 'center', justifyContent: 'center' }}
+                                >
+                                  <span>{t(Labels.button_pay)}</span>
+                                  <span style={{ fontWeight: 800 }}>{formatAriary(amountToPay)}</span>
+                                </Stack>
+                              )}
                             </Button>
                           )}
                         </Stack>

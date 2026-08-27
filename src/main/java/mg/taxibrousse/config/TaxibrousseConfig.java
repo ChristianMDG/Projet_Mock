@@ -37,7 +37,6 @@ import java.net.http.HttpClient;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -70,17 +69,11 @@ public class TaxibrousseConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtTokenBlacklistFilter jwtTokenBlacklistFilter,
-            AuthenticationEntryPoint authEntryPoint) throws Exception {
-        return http
-                .cors(withDefaults())
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtTokenBlacklistFilter jwtTokenBlacklistFilter, AuthenticationEntryPoint authEntryPoint) throws Exception {
+        return http.cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(basic -> basic.authenticationEntryPoint(authEntryPoint))
-                .oauth2ResourceServer(oauth2 -> oauth2
-                    .jwt(jwt -> jwt
-                        .decoder(jwtDecoder())
-                        .jwtAuthenticationConverter(jwtAuthenticationConverter()))
-                    .authenticationEntryPoint(authEntryPoint))
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder()).jwtAuthenticationConverter(jwtAuthenticationConverter())).authenticationEntryPoint(authEntryPoint))
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .addFilterBefore(jwtTokenBlacklistFilter, UsernamePasswordAuthenticationFilter.class)
@@ -123,9 +116,7 @@ public class TaxibrousseConfig {
 
     @Bean
     public HttpClient httpClient() {
-        return HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(30))
-                .build();
+        return HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(30)).build();
     }
 
     @Bean
@@ -142,17 +133,16 @@ public class TaxibrousseConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        List<String> origins = Arrays.asList(allowedOrigins.split(","));
-        config.setAllowedOriginPatterns(origins);  // Use patterns instead of origins for credentials support
+        List<String> origins = List.of(allowedOrigins.split(","));
+        config.setAllowedOriginPatterns(origins); // Use patterns instead of origins for credentials support
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("X-App-Version", "Authorization"));
         config.setAllowCredentials(true);
-        config.setMaxAge(3600L);  // Cache preflight requests for 1 hour
-        
+        config.setMaxAge(3600L); // Cache preflight requests for 1 hour
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
     }
 }
-

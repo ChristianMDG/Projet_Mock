@@ -13,8 +13,10 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
-import { Add as AddIcon, Delete as DeleteIcon, Map as MapIcon } from '@mui/icons-material';
-import { StyledIcon } from '@/components/ui';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import MapIcon from '@mui/icons-material/Map';
+import StyledIcon from '@/components/ui/StyledIcon';
 import { useGuichetDestinations, useUpdateGuichetDestinations } from '@/hooks/guichet.hooks';
 import { useKoperativeGuichets } from '@/hooks/koperative.hooks';
 import { Gare } from '@/types';
@@ -22,7 +24,7 @@ import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import Grid from '@mui/material/Grid';
 import ProtectedTx from '@/components/ProtectedTx';
-import { GareAutocomplete } from '@/components/shared';
+import GareAutocomplete from '@/components/shared/GareAutocomplete';
 
 interface GuichetDestinationsProps {
   guichetId: number;

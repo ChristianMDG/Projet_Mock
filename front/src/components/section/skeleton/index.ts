@@ -34,3 +34,5 @@ export { default as ServiceCategoriesSkeleton } from './ServiceCategoriesSkeleto
 export { default as LoyaltyProgramSkeleton } from './LoyaltyProgramSkeleton';
 export { default as AdditionalServicesSkeleton } from './AdditionalServicesSkeleton';
 export { default as LiveRoutePricingSkeleton } from './LiveRoutePricingSkeleton';
+export { default as SimpleSearchSkeleton } from './SimpleSearchSkeleton';
+export { default as KoperativeTypesListSkeleton } from './KoperativeTypesListSkeleton';

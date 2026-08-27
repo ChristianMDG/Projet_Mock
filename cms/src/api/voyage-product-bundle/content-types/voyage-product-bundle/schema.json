@@ -1,0 +1,137 @@
+{
+    "kind": "collectionType",
+    "collectionName": "voyage_product_bundles",
+    "info": {
+        "singularName": "voyage-product-bundle",
+        "pluralName": "voyage-product-bundles",
+        "displayName": "Voyage Product Bundle",
+        "description": "Curated product bundle associated to a taxi-brousse voyage route"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "pluginOptions": {
+        "i18n": {
+            "localized": true
+        }
+    },
+    "attributes": {
+        "routeSlug": {
+            "type": "uid",
+            "targetField": "routeName",
+            "required": true,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "routeName": {
+            "type": "string",
+            "required": true,
+            "maxLength": 180,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "departureCity": {
+            "type": "string",
+            "required": false,
+            "maxLength": 120,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "arrivalCity": {
+            "type": "string",
+            "required": false,
+            "maxLength": 120,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "description": {
+            "type": "text",
+            "required": false,
+            "maxLength": 500,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "priceFrom": {
+            "type": "decimal",
+            "required": false,
+            "min": 0,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "priceTo": {
+            "type": "decimal",
+            "required": false,
+            "min": 0,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "pricePerKm": {
+            "type": "decimal",
+            "required": false,
+            "min": 0,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "distance": {
+            "type": "string",
+            "required": false,
+            "maxLength": 40,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "coverImage": {
+            "type": "media",
+            "multiple": false,
+            "required": false,
+            "allowedTypes": [
+                "images"
+            ],
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "products": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "api::product.product"
+        },
+        "isActive": {
+            "type": "boolean",
+            "default": true,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        }
+    }
+}

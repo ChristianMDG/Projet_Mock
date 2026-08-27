@@ -32,8 +32,7 @@ public class AppVersionHeaderFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String version = appVersionService.getVersion();
         if (version != null) {
             response.setHeader(VERSION_HEADER, version);
@@ -41,6 +40,3 @@ public class AppVersionHeaderFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
-
-
-

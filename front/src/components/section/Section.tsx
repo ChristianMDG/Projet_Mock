@@ -1,7 +1,7 @@
 import React from 'react';
 import { type SxProps, type Theme } from '@mui/material';
 import type { DynamicPageSection } from '@/api/dynamic-page.api';
-import { useSectionContext } from '@/context/SectionProvider';
+import { useSectionByComponent } from '@/hooks/dynamic-page.hooks';
 import MissingContent from '@/components/shared/MissingContent';
 import { SECTION_TYPES } from '@/constants/section.types';
 import SafetyMeasures from './SafetyMeasures';
@@ -36,6 +36,8 @@ import AdditionalInfo from './AdditionalInfo';
 import ServiceCategories from './ServiceCategories';
 import LoyaltyProgram from './LoyaltyProgram';
 import AdditionalServices from './AdditionalServices';
+import SimpleSearch from './SimpleSearch';
+import KoperativeTypesList from './KoperativeTypesList';
 import {
   SafetyMeasuresSkeleton,
   InsuranceCoverageSkeleton,
@@ -70,6 +72,8 @@ import {
   ServiceCategoriesSkeleton,
   LoyaltyProgramSkeleton,
   AdditionalServicesSkeleton,
+  SimpleSearchSkeleton,
+  KoperativeTypesListSkeleton,
 } from './skeleton';
 
 interface SectionProps {
@@ -118,6 +122,8 @@ const SECTION_COMPONENTS: Record<string, SectionComponent> = {
   [SECTION_TYPES.SERVICE_CATEGORIES]: ServiceCategories as SectionComponent,
   [SECTION_TYPES.LOYALTY_PROGRAM]: LoyaltyProgram as SectionComponent,
   [SECTION_TYPES.ADDITIONAL_SERVICES]: AdditionalServices as SectionComponent,
+  [SECTION_TYPES.SIMPLE_SEARCH]: SimpleSearch as SectionComponent,
+  [SECTION_TYPES.KOPERATIVE_TYPES_LIST]: KoperativeTypesList as SectionComponent,
 };
 
 const SECTION_SKELETONS: Record<string, SkeletonComponent> = {
@@ -153,36 +159,36 @@ const SECTION_SKELETONS: Record<string, SkeletonComponent> = {
   [SECTION_TYPES.SERVICE_CATEGORIES]: ServiceCategoriesSkeleton,
   [SECTION_TYPES.LOYALTY_PROGRAM]: LoyaltyProgramSkeleton,
   [SECTION_TYPES.ADDITIONAL_SERVICES]: AdditionalServicesSkeleton,
+  [SECTION_TYPES.SIMPLE_SEARCH]: SimpleSearchSkeleton,
+  [SECTION_TYPES.KOPERATIVE_TYPES_LIST]: KoperativeTypesListSkeleton,
+};
+
+const SectionReferenceResolver: React.FC<{ sectionType: string; sx?: SxProps<Theme> }> = ({ sectionType, sx }) => {
+  const { data, isLoading } = useSectionByComponent(sectionType);
+
+  if (isLoading) {
+    const SkeletonFallback = SECTION_SKELETONS[sectionType] ?? DynamicPageCardSkeleton;
+    return <SkeletonFallback />;
+  }
+
+  const cachedSection = data?.data;
+  if (cachedSection) {
+    const Component = SECTION_COMPONENTS[sectionType];
+    if (Component) {
+      return <Component section={cachedSection} sx={sx} />;
+    }
+  }
+
+  return <MissingContent componentName={sectionType} />;
 };
 
 const Section: React.FC<SectionProps> = ({ section, sx, hide }) => {
-  const { getSectionByType, isLoading } = useSectionContext();
-
   if (hide) {
     return <></>;
   }
 
-  if (isLoading) {
-    const SkeletonComponent =
-      SECTION_SKELETONS[section.__component === 'page.section-reference' ? section.sectionType : section.__component];
-
-    if (SkeletonComponent) {
-      return <SkeletonComponent />;
-    }
-
-    return <DynamicPageCardSkeleton />;
-  }
-
   if (section.__component === 'page.section-reference') {
-    const cachedSection = getSectionByType(section.sectionType);
-    if (cachedSection) {
-      const Component = SECTION_COMPONENTS[section.sectionType];
-      if (Component) {
-        return <Component section={cachedSection} sx={sx} />;
-      }
-      return <MissingContent componentName={section.sectionType} />;
-    }
-    return <MissingContent componentName={section.sectionType} />;
+    return <SectionReferenceResolver sectionType={section.sectionType} sx={sx} />;
   }
 
   const Component = SECTION_COMPONENTS[section.__component];

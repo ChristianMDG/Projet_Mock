@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_page_koperative_types_lists",
+  "info": {
+    "displayName": "Koperative Types List",
+    "description": "Displays a static list of Koperative types (Taximoto, Taxi, etc) with a redirection to search",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Nos moyens de transport",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 255,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "backgroundColor": {
+      "type": "string"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "default": "lg"
+    }
+  }
+}

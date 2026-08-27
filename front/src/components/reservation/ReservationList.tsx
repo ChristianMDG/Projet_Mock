@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { Alert, alpha, Card, CardContent, Chip, IconButton, Stack, Tooltip, Typography, useTheme } from '@mui/material';
-import { Cancel, Payment, Person, Visibility } from '@mui/icons-material';
-import { StyledIcon } from '@/components/ui';
+import Cancel from '@mui/icons-material/Cancel';
+import Payment from '@mui/icons-material/Payment';
+import Person from '@mui/icons-material/Person';
+import Visibility from '@mui/icons-material/Visibility';
+import StyledIcon from '@/components/ui/StyledIcon';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { reservationKeys, useProcessPayment, useReservationsNotCanceledByVoyageId } from '@/hooks/reservation.hooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { PaymentMethodEnum, PaymentStatusEnum, ReservationStatusEnum, ReservationStatusLabels } from '@/models/enums';
 import { Reservation } from '@/models/Reservation';
+import { PayableType } from '@/models/Payment';
 import { PaymentDialog } from './PaymentDialog';
 import { CancelReservationDialog } from './CancelReservationDialog';
 import { Voyage } from '@/types';
@@ -45,7 +49,8 @@ const ReservationList: React.FC<{ voyageId?: number }> = ({ voyageId }) => {
     if (reservationState.selectedReservation?.id) {
       const response = await processPaymentMutation.mutateAsync({
         amount,
-        reservationId: reservationState.selectedReservation.id,
+        payableId: reservationState.selectedReservation.id,
+        payableType: PayableType.RESERVATION,
         paymentMethod,
       });
 

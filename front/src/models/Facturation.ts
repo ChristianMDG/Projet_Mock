@@ -14,4 +14,6 @@ export interface Facturation extends Base {
   paymentStatus: PaymentStatusEnum;
   paymentDate?: string;
   dueDate?: string;
+  advanceAmount?: number;
+  commission?: number;
 }

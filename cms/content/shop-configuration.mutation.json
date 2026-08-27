@@ -1,0 +1,35 @@
+{
+    "description": "Global shop configuration singleton – defaults inferred from frontend Product model (currency MGA) and app defaults. Single-type: only one record persists.",
+    "collection": "api::shop-configuration.shop-configuration",
+    "data": [
+        {
+            "currency": "MGA",
+            "taxRate": 0,
+            "shippingFlatRate": 0,
+            "freeShippingThreshold": 0,
+            "lowStockThreshold": 10,
+            "enableWishlist": true,
+            "enableReviews": true,
+            "enableGuestCheckout": true,
+            "supportEmail": "support@taxibrousse.mg",
+            "supportPhone": "+261 20 22 000 00",
+            "bannerText": "Livraison via le réseau taxi-brousse partout à Madagascar",
+            "termsUrl": "/cgv",
+            "returnPolicyUrl": "/politique-retour",
+            "isActive": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "bannerText": "Delivery via the taxi-brousse network across Madagascar",
+                    "termsUrl": "/terms",
+                    "returnPolicyUrl": "/return-policy"
+                },
+                "mg": {
+                    "bannerText": "Fanaterana amin'ny alalan'ny tambajotra taxi-brousse manerana an'i Madagasikara",
+                    "termsUrl": "/fepetra",
+                    "returnPolicyUrl": "/politika-famerenana"
+                }
+            }
+        }
+    ]
+}

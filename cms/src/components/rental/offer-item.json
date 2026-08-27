@@ -1,0 +1,122 @@
+{
+  "collectionName": "components_rental_offer_items",
+  "info": {
+    "displayName": "Offer Item",
+    "description": "A single promotional rental offer card (badge, title, description, CTA)",
+    "icon": "priceTag"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 150,
+      "default": "Offre Week-end",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 100,
+      "default": "-20% ce week-end",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500,
+      "default": "Profitez de 20% de réduction sur toutes les locations du vendredi au dimanche.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "discount": {
+      "type": "integer",
+      "min": 0,
+      "max": 100,
+      "default": 20,
+      "description": "Discount percentage (0–100)"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "imageUrl": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "https://images.unsplash.com/photo-1549317661-bd32c8ce0729?w=400&h=300&fit=crop",
+      "description": "Alternative image URL if no upload"
+    },
+    "ctaLabel": {
+      "type": "string",
+      "maxLength": 100,
+      "default": "En profiter",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "ctaUrl": {
+      "type": "string",
+      "maxLength": 255,
+      "default": "/voitures",
+      "description": "Link target for the CTA button"
+    },
+    "validUntil": {
+      "type": "datetime",
+      "required": false,
+      "description": "Offer valid until this date/time",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "isLimited": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a limited-time offer"
+    },
+    "remaining": {
+      "type": "integer",
+      "min": 0,
+      "default": 100,
+      "description": "Number of uses remaining for limited offers"
+    },
+    "progress": {
+      "type": "integer",
+      "min": 0,
+      "max": 100,
+      "default": 65,
+      "description": "Progress percentage for limited offers (used in progress bar)"
+    },
+    "gridSize": {
+      "type": "enumeration",
+      "enum": ["small", "large"],
+      "default": "small",
+      "description": "Card grid size (small: md=4, large: md=8)"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0,
+      "description": "Display order (0 = first)"
+    }
+  }
+}

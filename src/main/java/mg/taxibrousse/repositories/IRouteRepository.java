@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,9 +99,7 @@ public interface IRouteRepository extends JpaRepository<RouteEntity, Long> {
             WHERE dg.id = :departureGareId
             AND ag.id = :arrivalGareId
             """)
-    Optional<RouteEntity> findByDepartureAndArrivalGareIdWithGares(
-            @Param("departureGareId") Long departureGareId,
-            @Param("arrivalGareId") Long arrivalGareId);
+    Optional<RouteEntity> findByDepartureAndArrivalGareIdWithGares(@Param("departureGareId") Long departureGareId, @Param("arrivalGareId") Long arrivalGareId);
 
     @Query("""
             SELECT r
@@ -111,4 +110,29 @@ public interface IRouteRepository extends JpaRepository<RouteEntity, Long> {
             ORDER BY r.name
             """)
     List<RouteEntity> findByDepartureGareVilleId(@Param("villeId") Long villeId);
+
+    @Query("""
+            SELECT r
+            FROM Route r
+            INNER JOIN FETCH r.departureGare dg
+            INNER JOIN FETCH r.arrivalGare ag
+            INNER JOIN FETCH ag.ville v
+            WHERE dg.ville.id = :villeId
+            AND UPPER(ag.ville.name) IN :majorCities
+            ORDER BY r.name
+            """)
+    List<RouteEntity> findByDepartureGareVilleIdAndArrivalGareVilleIn(@Param("villeId") Long villeId, @Param("majorCities") List<String> majorCities);
+
+    /**
+     * Returns the average distanceKm of all active routes arriving at the given ville.
+     * Used by the delivery fee calculator to price shipping based on route distance.
+     */
+    @Query("""
+            SELECT AVG(r.distanceKm)
+            FROM Route r
+            WHERE r.arrivalGare.ville.id = :villeId
+            AND r.isActive = true
+            AND r.distanceKm IS NOT NULL
+            """)
+    Optional<BigDecimal> findAverageDistanceKmByArrivalVilleId(@Param("villeId") Long villeId);
 }

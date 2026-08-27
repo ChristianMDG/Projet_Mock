@@ -10,14 +10,19 @@ import mg.taxibrousse.dto.VoyageClasses;
 import mg.taxibrousse.dto.VoyageMonthlyResponse;
 import mg.taxibrousse.dto.VoyageWeeklyResponse;
 import mg.taxibrousse.dto.VoyageWeeklyResult;
+import mg.taxibrousse.entities.BaseEntity;
 import mg.taxibrousse.entities.VoyageEntity;
 import mg.taxibrousse.entities.enums.RecurrenceTypeEnum;
 import mg.taxibrousse.entities.enums.VoyageStatusEnum;
+import mg.taxibrousse.entities.enums.DepartureTimeGroupEnum;
 import mg.taxibrousse.models.Koperative;
 import mg.taxibrousse.models.Voyage;
 import mg.taxibrousse.models.VoyageScheduler;
+import mg.taxibrousse.models.Commission;
 import mg.taxibrousse.params.VoyageFilter;
+import mg.taxibrousse.repositories.IRouteRepository;
 import mg.taxibrousse.repositories.IVoyageRepository;
+import mg.taxibrousse.services.ICommissionService;
 import mg.taxibrousse.services.IVoyageService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -38,6 +43,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,13 +52,15 @@ import java.util.stream.Collectors;
 public class VoyageService implements IVoyageService {
 
     private final IVoyageRepository voyageRepository;
+    private final IRouteRepository routeRepository;
     private final ObjectMapper objectMapper;
+    private final ICommissionService commissionService;
 
     @Override
     @Transactional
-    @CacheEvict(value = "voyages", key = "#voyage.id", condition = "#voyage.id != null")
+    @CacheEvict(value = {"voyages", "seats"}, allEntries = true)
     public Voyage save(Voyage voyage) {
-        return Voyage.fromEntity(voyageRepository.save(voyage.toEntity()));
+        return saveVoyageEntity(voyage.toEntity());
     }
 
     @Override
@@ -69,21 +77,21 @@ public class VoyageService implements IVoyageService {
     }
 
     @Override
-    @CacheEvict(value = "voyages", key = "#id")
+    @CacheEvict(value = {"voyages", "routes"}, allEntries = true)
     public void deleteById(Long id) {
         voyageRepository.deleteById(id);
     }
 
     @Override
+    @Cacheable(value = "voyages", key = "'koperative-' + #koperativeId")
     public List<Voyage> findVoyagesByKoperativeId(Long koperativeId) {
         return convertToVoyages(voyageRepository.findByKoperativeId(koperativeId));
     }
 
     @Override
     @Transactional
+    @CacheEvict(value = {"voyages", "routes"}, allEntries = true)
     public List<Voyage> scheduleVoyage(VoyageScheduler request) {
-        validateResourceAvailability(request);
-
         List<Voyage> voyages = new ArrayList<>();
         if (request.getRecurrenceType() == RecurrenceTypeEnum.ONE_OFF) {
             voyages.add(saveVoyageEntity(request.toVoyage().toEntity()));
@@ -96,23 +104,33 @@ public class VoyageService implements IVoyageService {
         return voyages;
     }
 
-    private void validateResourceAvailability(VoyageScheduler request) {
-        boolean hasCrafter = request.getCrafterId() != null;
-        boolean hasChauffeur = request.getChauffeurId() != null;
-        boolean resourcesUnavailable = !isResourceAvailable(
-                request.getCrafterId(),
-                request.getChauffeurId(),
-                request.getDepartureTime(),
-                request.getEstimatedArrivalTime(),
-                null
-        );
-        if (hasCrafter && hasChauffeur && resourcesUnavailable) {
-            throw new IllegalArgumentException("Resources are not available for the specified time");
+    private Voyage saveVoyageEntity(VoyageEntity entity) {
+        if (entity.getPriceKoperative() != null && entity.getKoperative() != null) {
+            BigDecimal commissionAmount = commissionService.findByKoperativeIdAndAmount(entity.getKoperative().getId(), entity.getPriceKoperative()).map(Commission::getFrais).orElse(BigDecimal.ZERO);
+            entity.setPricePerSeat(entity.getPriceKoperative().add(commissionAmount));
         }
+        VoyageEntity saved = voyageRepository.save(entity);
+        syncRouteMinPrice(saved);
+        return Voyage.fromEntity(saved);
     }
 
-    private Voyage saveVoyageEntity(VoyageEntity entity) {
-        return Voyage.fromEntity(voyageRepository.save(entity));
+    /** Propagate the cheapest voyage pricePerSeat to its Route.fraisTaxibrousse. */
+    private void syncRouteMinPrice(VoyageEntity voyage) {
+        Long routeId = Optional.ofNullable(voyage.getRoute()).map(BaseEntity::getId).orElse(null);
+        if (routeId == null) {
+            return;
+        }
+        BigDecimal minPrice = voyageRepository.findMinPricePerSeatByRouteId(routeId);
+        if (minPrice == null) {
+            return;
+        }
+        routeRepository.findById(routeId).ifPresent(route -> {
+            BigDecimal current = route.getFraisTaxibrousse();
+            if (minPrice.equals(current))
+                return;
+            route.setFraisTaxibrousse(minPrice);
+            routeRepository.save(route);
+        });
     }
 
     private List<Voyage> convertToVoyages(List<VoyageEntity> entities) {
@@ -121,66 +139,29 @@ public class VoyageService implements IVoyageService {
 
     @Override
     public List<Voyage> generateRecurringInstances(Voyage template, int maxInstances) {
-        if (!hasValidRecurrenceDates(template)) {
+        if (template.getRecurrenceStartDate() == null || template.getRecurrenceEndDate() == null) {
             return List.of();
+        }
+        if (template.getRecurrenceStartDate().isAfter(template.getRecurrenceEndDate())) {
+            throw new IllegalArgumentException("Start date must be before or equal to end date");
         }
 
         List<Voyage> instances = new ArrayList<>();
-        LocalDateTime currentDateTime = template.getDepartureTime();
-        LocalDateTime endDateTime = template.getRecurrenceEndDate().atTime(23, 59);
-        int count = 0;
+        LocalDateTime current = template.getRecurrenceStartDate().atTime(template.getDepartureTime().toLocalTime());
+        LocalDateTime end = template.getRecurrenceEndDate().atTime(23, 59);
 
-        while (currentDateTime.isBefore(endDateTime) && count < maxInstances) {
-            Voyage instance = createInstanceFromTemplate(template, currentDateTime);
-
-            if (isInstanceResourceAvailable(instance)) {
-                instances.add(saveVoyageEntity(instance.toEntity()));
-                count++;
-            }
-
-            currentDateTime = getNextOccurrence(currentDateTime, template);
+        while (current.isBefore(end) && instances.size() < maxInstances) {
+            Voyage instance = createInstanceFromTemplate(template, current);
+            instances.add(saveVoyageEntity(instance.toEntity()));
+            current = getNextOccurrence(current, template);
         }
+
+        log.info("Generated {} instances from {} to {}", instances.size(), template.getRecurrenceStartDate(), template.getRecurrenceEndDate());
         return instances;
     }
 
-    private boolean hasValidRecurrenceDates(Voyage template) {
-        return template.getRecurrenceStartDate() != null && template.getRecurrenceEndDate() != null;
-    }
-
-    private boolean isInstanceResourceAvailable(Voyage instance) {
-        Long crafterId = instance.getCrafter() != null ? instance.getCrafter().getId() : null;
-        Long chauffeurId = instance.getChauffeur() != null ? instance.getChauffeur().getId() : null;
-
-        return isResourceAvailable(
-                crafterId,
-                chauffeurId,
-                instance.getDepartureTime(),
-                instance.getEstimatedArrivalTime(),
-                null
-        );
-    }
-
     @Override
-    public boolean isResourceAvailable(
-            Long crafterId,
-            Long chauffeurId,
-            LocalDateTime departureTime,
-            LocalDateTime estimatedArrivalTime,
-            Long excludeVoyageId
-    ) {
-        if (crafterId == null && chauffeurId == null) {
-            return true;
-        }
-        return !voyageRepository.isResourceConflicting(
-                crafterId,
-                chauffeurId,
-                departureTime,
-                estimatedArrivalTime,
-                excludeVoyageId
-        );
-    }
-
-    @Override
+    @Transactional(readOnly = true)
     public List<Voyage> findVoyagesByDateRange(LocalDate startDate, LocalDate endDate) {
         var startDateTime = startDate.atStartOfDay();
         var endDateTime = endDate.atTime(LocalTime.MAX);
@@ -188,11 +169,13 @@ public class VoyageService implements IVoyageService {
     }
 
     @Override
+    @Cacheable(value = "voyages", key = "'available:' + #departureGareId + ':' + #arrivalGareId + ':' + #departureDate", unless = "#result == null or #result.isEmpty()")
     public List<Voyage> findAvailableVoyages(Long departureGareId, Long arrivalGareId, LocalDateTime departureDate) {
         return convertToVoyages(voyageRepository.findAvailableVoyages(departureGareId, arrivalGareId, departureDate));
     }
 
     @Override
+    @Cacheable(value = "voyages", key = "'gare:' + #gareId")
     public List<Voyage> findScheduledVoyagesByGare(Long gareId) {
         return convertToVoyages(voyageRepository.findByGareIdAndStatus(gareId, VoyageStatusEnum.SCHEDULED));
     }
@@ -204,56 +187,85 @@ public class VoyageService implements IVoyageService {
 
     @Override
     public List<Voyage> findFilteredVoyages(VoyageFilter filter) {
-        List<VoyageEntity> entities = voyageRepository.findFilteredVoyages(
-                filter.getKoperativeId(),
+        List<VoyageEntity> entities = voyageRepository.findFilteredVoyages(filter.getKoperativeId(),
                 filter.getDepartureVilleId(),
                 filter.getArrivalVilleId(),
                 filter.getDepartureGareId(),
-                filter.getArrivalGareId()
-        );
+                filter.getArrivalGareId());
 
         return convertToVoyages(applyClientSideFilters(entities, filter));
     }
 
     private List<VoyageEntity> applyClientSideFilters(List<VoyageEntity> entities, VoyageFilter filter) {
-        return entities
-                .stream()
-                .filter(entity -> isDateMatch(entity, filter.getDepartureDate()))
-                .filter(entity -> isStatusMatch(entity, filter.getStatus()))
-                .filter(entity -> isPassengerMatch(entity, filter.getPassengers()))
-                .toList();
+        Predicate<VoyageEntity> predicate = dateMatcher(filter).and(statusMatcher(filter)).and(passengersMatcher(filter)).and(departureTimeGroupMatcher(filter));
+        return entities.stream().filter(predicate).toList();
     }
 
-    private boolean isDateMatch(VoyageEntity entity, LocalDate filterDate) {
-        if (filterDate == null) {
-            return true;
+    private Predicate<VoyageEntity> departureTimeGroupMatcher(VoyageFilter filter) {
+        DepartureTimeGroupEnum group = filter.getDepartureTimeGroup();
+        if (group == null) {
+            return entity -> true;
         }
-        return (entity.getDepartureTime() != null && entity.getDepartureTime().toLocalDate().equals(filterDate));
+        return entity -> group == getDepartureTimeGroup(entity.getDepartureTime().toLocalTime());
     }
 
-    private boolean isStatusMatch(VoyageEntity entity, VoyageStatusEnum status) {
-        if (status == null) {
-            return true;
+    private DepartureTimeGroupEnum getDepartureTimeGroup(LocalTime time) {
+        if (isBetween(time, LocalTime.of(5, 0), LocalTime.of(12, 0))) {
+            return DepartureTimeGroupEnum.MORNING;
         }
-        return entity.getStatus() == status;
+        if (isBetween(time, LocalTime.of(12, 0), LocalTime.of(18, 0))) {
+            return DepartureTimeGroupEnum.AFTERNOON;
+        }
+        return DepartureTimeGroupEnum.NIGHT;
     }
 
-    private boolean isPassengerMatch(VoyageEntity entity, Integer passengers) {
-        if (passengers == null || passengers <= 0) {
-            return true;
+    private boolean isBetween(LocalTime time, LocalTime start, LocalTime end) {
+        return (time.equals(start) || time.isAfter(start)) && time.isBefore(end);
+    }
+
+    private Predicate<VoyageEntity> dateMatcher(VoyageFilter filter) {
+        LocalDate from = filter.getDepartureFrom();
+        LocalDate to = filter.getDepartureTo();
+        LocalDate exact = filter.getDepartureDate();
+        LocalDateTime now = LocalDateTime.now();
+
+        if (Objects.isNull(from) && Objects.isNull(to) && Objects.isNull(exact)) {
+            return entity -> entity.getDepartureTime() != null && !entity.getDepartureTime().isBefore(now);
         }
-        return entity.getAvailableSeats() >= passengers;
+
+        return entity -> {
+            if (Objects.isNull(entity.getDepartureTime())) {
+                return false;
+            }
+            if (entity.getDepartureTime().isBefore(now)) {
+                return false;
+            }
+            LocalDate entityDate = entity.getDepartureTime().toLocalDate();
+            boolean afterFrom = Objects.isNull(from) || entityDate.isAfter(from);
+            boolean beforeTo = Objects.isNull(to) || entityDate.isBefore(to);
+            boolean matchesExact = Objects.isNull(exact) || entityDate.isEqual(exact);
+            return afterFrom && beforeTo && matchesExact;
+        };
+    }
+
+    private Predicate<VoyageEntity> statusMatcher(VoyageFilter filter) {
+        VoyageStatusEnum status = filter.getStatus();
+        if (Objects.isNull(status)) {
+            return entity -> true;
+        }
+        return entity -> entity.getStatus() == status;
+    }
+
+    private Predicate<VoyageEntity> passengersMatcher(VoyageFilter filter) {
+        Integer passengers = filter.getPassengers();
+        if (Objects.isNull(passengers)) {
+            return entity -> true;
+        }
+        return entity -> entity.getAvailableSeats() >= passengers;
     }
 
     private Voyage createInstanceFromTemplate(Voyage template, LocalDateTime departureTime) {
         var instance = new Voyage();
-        copyTemplateProperties(instance, template);
-        setInstanceTiming(instance, template, departureTime);
-        setInstanceDefaults(instance, template);
-        return instance;
-    }
-
-    private void copyTemplateProperties(Voyage instance, Voyage template) {
         instance.setKoperative(template.getKoperative());
         instance.setRoute(template.getRoute());
         instance.setDepartureGare(template.getDepartureGare());
@@ -263,187 +275,87 @@ public class VoyageService implements IVoyageService {
         instance.setClasse(template.getClasse());
         instance.setAvailableSeats(template.getAvailableSeats());
         instance.setPricePerSeat(template.getPricePerSeat());
+        instance.setPourcentageMinimumAvance(template.getPourcentageMinimumAvance());
         instance.setDescription(template.getDescription());
-    }
-
-    private void setInstanceTiming(Voyage instance, Voyage template, LocalDateTime departureTime) {
         instance.setDepartureTime(departureTime);
-
         if (template.getEstimatedArrivalTime() != null) {
             long duration = ChronoUnit.MINUTES.between(template.getDepartureTime(), template.getEstimatedArrivalTime());
             instance.setEstimatedArrivalTime(departureTime.plusMinutes(duration));
         }
-    }
-
-    private void setInstanceDefaults(Voyage instance, Voyage template) {
         instance.setRecurrenceType(RecurrenceTypeEnum.ONE_OFF);
         instance.setIsTemplate(false);
         instance.setParentTemplate(template);
-        instance.setStatus(template.getStatus() != null ? template.getStatus() : VoyageStatusEnum.SCHEDULED);
+        instance.setStatus(Objects.requireNonNullElse(template.getStatus(), VoyageStatusEnum.SCHEDULED));
+        return instance;
     }
 
     private LocalDateTime getNextOccurrence(LocalDateTime current, Voyage template) {
         return switch (template.getRecurrenceType()) {
-            case WEEKLY ->
-                getNextWeeklyOccurrence(current, template);
-            case MONTHLY ->
-                getNextMonthlyOccurrence(current, template);
-            case CUSTOM -> {
-                int interval = Optional.ofNullable(template.getCustomInterval()).orElse(1);
-                yield current.plusDays(interval);
-            }
-            default ->
-                current.plusDays(1);
+            case DAILY -> current.plusDays(1);
+            case WEEKLY -> getNextWeeklyOccurrence(current, template);
+            case MONTHLY -> getNextMonthlyOccurrence(current, template);
+            case CUSTOM -> current.plusDays(Optional.ofNullable(template.getCustomInterval()).orElse(1));
+            case ONE_OFF -> throw new IllegalStateException("ONE_OFF cannot be used in recurring generation");
         };
     }
 
     private LocalDateTime getNextWeeklyOccurrence(LocalDateTime current, Voyage template) {
-        List<Integer> weekdays = parseWeekdays(template.getWeekdays());
+        List<Integer> weekdays = parseIntList(template.getWeekdays(), "weekdays");
         if (weekdays.isEmpty()) {
-            return current.plusWeeks(1);
+            throw new IllegalArgumentException("Weekly recurrence requires at least one weekday");
         }
 
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 1; i <= 14; i++) {
             LocalDateTime next = current.plusDays(i);
             if (weekdays.contains(next.getDayOfWeek().getValue())) {
                 return next;
             }
         }
-        return current.plusWeeks(1);
+
+        throw new IllegalStateException(String.format("No weekly occurrence found within 14 days: %s", weekdays));
     }
 
     private LocalDateTime getNextMonthlyOccurrence(LocalDateTime current, Voyage template) {
-        List<Integer> monthlyDates = parseMonthlyDates(template.getMonthlyDates());
+        List<Integer> monthlyDates = parseIntList(template.getMonthlyDates(), "monthly dates");
         if (monthlyDates.isEmpty()) {
-            return current.plusMonths(1);
+            throw new IllegalArgumentException("Monthly recurrence requires at least one date");
         }
 
-        for (int i = 1; i <= 31; i++) {
-            LocalDateTime next = current.plusDays(i);
-            if (monthlyDates.contains(next.getDayOfMonth())) {
-                return next;
-            }
+        List<Integer> validDates = monthlyDates.stream().filter(d -> d >= 1 && d <= 31).sorted().toList();
+
+        if (validDates.isEmpty()) {
+            throw new IllegalArgumentException("Monthly dates must be between 1 and 31");
         }
-        return current.plusMonths(1);
+
+        LocalDateTime search = current.plusDays(1);
+        LocalDateTime maxSearch = current.plusMonths(2);
+
+        while (search.isBefore(maxSearch)) {
+            if (validDates.contains(search.getDayOfMonth())) {
+                return search;
+            }
+            search = search.plusDays(1);
+        }
+
+        throw new IllegalStateException(String.format("No monthly occurrence found within 2 months: %s", monthlyDates));
     }
 
-    private List<Integer> parseWeekdays(String weekdaysJson) {
-        if (weekdaysJson == null) {
+    private List<Integer> parseIntList(String json, String label) {
+        if (json == null) {
             return List.of();
         }
         try {
-            return objectMapper.readValue(weekdaysJson, new TypeReference<>() {
+            return objectMapper.readValue(json, new TypeReference<>() {
             });
         } catch (JsonProcessingException e) {
-            log.error("Error parsing weekdays: {}", weekdaysJson, e);
+            log.error("Error parsing {}: {}", label, json, e);
             return List.of();
         }
     }
 
-    private List<Integer> parseMonthlyDates(String monthlyDatesJson) {
-        if (monthlyDatesJson == null) {
-            return List.of();
-        }
-        try {
-            return objectMapper.readValue(monthlyDatesJson, new TypeReference<>() {
-            });
-        } catch (JsonProcessingException e) {
-            log.error("Error parsing monthly dates: {}", monthlyDatesJson, e);
-            return List.of();
-        }
-    }
-
-    // Enhanced Scheduler Methods Implementation
     @Override
-    @Transactional
-    public int processActiveTemplates() {
-        List<VoyageEntity> activeTemplates = voyageRepository.findActiveTemplates();
-        int totalGenerated = 0;
-
-        for (VoyageEntity templateEntity : activeTemplates) {
-            Voyage template = Voyage.fromEntity(templateEntity);
-            List<Voyage> newInstances = generateRecurringInstances(template, 50);
-            totalGenerated += newInstances.size();
-
-            log.info("Generated {} instances for template ID: {}", newInstances.size(), template.getId());
-        }
-
-        log.info("Processed {} active templates, generated {} total instances", activeTemplates.size(), totalGenerated);
-        return totalGenerated;
-    }
-
-    @Override
-    @Transactional
-    public int batchGenerateInstances(List<Long> templateIds, int maxInstancesPerTemplate) {
-        int totalGenerated = 0;
-
-        for (Long templateId : templateIds) {
-            VoyageEntity templateEntity = voyageRepository.findById(templateId).orElse(null);
-            if (templateEntity != null && Boolean.TRUE.equals(templateEntity.getIsTemplate())) {
-                Voyage template = Voyage.fromEntity(templateEntity);
-                List<Voyage> newInstances = generateRecurringInstances(template, maxInstancesPerTemplate);
-                totalGenerated += newInstances.size();
-            }
-        }
-
-        log.info("Batch generated {} total instances for {} templates", totalGenerated, templateIds.size());
-        return totalGenerated;
-    }
-
-    @Override
-    public List<Voyage> findInstancesByTemplate(Long templateId) {
-        return convertToVoyages(voyageRepository.findByParentTemplateId(templateId));
-    }
-
-    @Override
-    @Transactional
-    public List<Voyage> updateTemplateAndRegenerate(Long templateId, Voyage updatedTemplate) {
-        // Update the template
-        updatedTemplate.setId(templateId);
-        updatedTemplate.setIsTemplate(true);
-        Voyage savedTemplate = saveVoyageEntity(updatedTemplate.toEntity());
-
-        // Cancel future instances that haven't started yet
-        cancelFutureInstances(templateId, LocalDate.now().plusDays(1));
-
-        // Generate new instances based on updated template
-        List<Voyage> newInstances = generateRecurringInstances(savedTemplate, 100);
-
-        List<Voyage> result = new ArrayList<>();
-        result.add(savedTemplate);
-        result.addAll(newInstances);
-
-        return result;
-    }
-
-    @Override
-    @Transactional
-    public int cancelFutureInstances(Long templateId, LocalDate fromDate) {
-        List<VoyageEntity> futureInstances = voyageRepository
-                .findByParentTemplateId(templateId)
-                .stream()
-                .filter(instance -> instance.getDepartureTime().toLocalDate().isAfter(fromDate.minusDays(1)))
-                .filter(instance -> instance.getStatus() == VoyageStatusEnum.SCHEDULED)
-                .toList();
-
-        int cancelledCount = 0;
-        for (VoyageEntity instance : futureInstances) {
-            instance.setStatus(VoyageStatusEnum.CANCELLED);
-            voyageRepository.save(instance);
-            cancelledCount++;
-        }
-
-        log.info("Cancelled {} future instances for template ID: {}", cancelledCount, templateId);
-        return cancelledCount;
-    }
-
-    @Override
-    public List<Voyage> findPreviousVoyages(Long voyageurId) {
-        List<VoyageEntity> entities = voyageRepository.findByPreviousDate(voyageurId);
-
-        return entities.stream()
-                .map(Voyage::fromEntity)
-                .toList();
+    public Page<Voyage> findPreviousVoyages(Long voyageurId, Pageable pageable) {
+        return voyageRepository.findByPreviousDate(voyageurId, pageable).map(Voyage::fromEntity);
     }
 
     @Override
@@ -461,35 +373,42 @@ public class VoyageService implements IVoyageService {
         LocalDate weekEndDate = weekStartDate.plusDays(6);
 
         LocalDateTime weekStart = weekStartDate.atStartOfDay();
-        LocalDateTime weekEnd = weekEndDate.atTime(LocalTime.MAX);        // Move as many filters as possible to the repository
-        List<VoyageEntity> filteredVoyages = voyageRepository.findWeeklyFiltered(
-                weekStart, weekEnd,
+        LocalDateTime weekEnd = weekEndDate.atTime(LocalTime.MAX); // Move as many filters as possible to the repository
+
+        List<VoyageEntity> allFilteredVoyages = voyageRepository.findWeeklyFiltered(weekStart,
+                weekEnd,
                 filter.getKoperativeId(),
                 filter.getDepartureGareId(),
                 filter.getDepartureVilleId(),
                 filter.getArrivalGareId(),
                 filter.getArrivalVilleId(),
-                null, null,
-                filter.getPassengers()
-        );
+                null,
+                null,
+                filter.getPassengers());
 
-        Map<LocalDate, List<VoyageEntity>> voyagesByDate = filteredVoyages.stream()
+        LocalDateTime now = LocalDateTime.now();
+        Map<LocalDate, List<VoyageEntity>> voyagesByDate = allFilteredVoyages.stream()
+                .filter(v -> v.getDepartureTime().isAfter(now))
                 .collect(Collectors.groupingBy(v -> v.getDepartureTime().toLocalDate()));
 
         List<VoyageWeeklyResult> weeklyResults = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             LocalDate currentDate = weekStartDate.plusDays(i);
             List<VoyageEntity> dayVoyages = voyagesByDate.getOrDefault(currentDate, List.of());
-            weeklyResults.add(buildDailyResult(currentDate, dayVoyages));
+
+            List<DepartureTimeGroupEnum> availableTimeGroups = calculateAvailableTimeGroups(dayVoyages);
+
+            List<VoyageEntity> filteredDayVoyages = dayVoyages.stream().filter(departureTimeGroupMatcher(filter)).toList();
+
+            VoyageWeeklyResult dailyResult = buildDailyResult(currentDate, filteredDayVoyages);
+            dailyResult.setAvailableTimeGroups(availableTimeGroups);
+            weeklyResults.add(dailyResult);
         }
 
-        var koperativeSummaries = buildKoperativeSummaries(filteredVoyages);
+        List<VoyageEntity> finalFilteredVoyages = allFilteredVoyages.stream().filter(departureTimeGroupMatcher(filter)).toList();
+        var koperativeSummaries = buildKoperativeSummaries(finalFilteredVoyages);
 
-        return new VoyageWeeklyResponse(
-                Long.valueOf(baseDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"))),
-                weekStartDate, weekEndDate,
-                baseDate, weeklyResults, koperativeSummaries
-        );
+        return new VoyageWeeklyResponse(Long.valueOf(baseDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"))), weekStartDate, weekEndDate, baseDate, weeklyResults, koperativeSummaries);
     }
 
     private List<KoperativeWeeklySummary> buildKoperativeSummaries(List<VoyageEntity> voyages) {
@@ -497,11 +416,7 @@ public class VoyageService implements IVoyageService {
             return List.of();
         }
 
-        return voyages.stream()
-                .collect(Collectors.groupingBy(v -> v.getKoperative().getId()))
-                .values().stream().map(KoperativeWeeklySummary::from)
-                .sorted((a, b) -> b.getVoyageCount().compareTo(a.getVoyageCount()))
-                .toList();
+        return voyages.stream().collect(Collectors.groupingBy(v -> v.getKoperative().getId())).values().stream().map(KoperativeWeeklySummary::from).toList();
     }
 
     /**
@@ -509,12 +424,9 @@ public class VoyageService implements IVoyageService {
      */
     private Locale getLocaleFromLanguage(String language) {
         return switch (language) {
-            case "fr" ->
-                Locale.FRANCE;
-            case "en" ->
-                Locale.US;
-            default ->
-                Locale.US; // MG, US
+            case "fr" -> Locale.FRANCE;
+            case "en" -> Locale.US;
+            default -> Locale.US; // MG, US
         };
     }
 
@@ -535,22 +447,14 @@ public class VoyageService implements IVoyageService {
             return result;
         }
 
-        List<BigDecimal> prices = voyages.stream()
-                .map(VoyageEntity::getPricePerSeat)
-                .toList();
-        List<Koperative> availableKoperatives = voyages.stream()
-                .map(VoyageEntity::getKoperative)
-                .distinct()
-                .map(k -> Koperative.fromEntity(k, false))
-                .toList();
+        List<BigDecimal> prices = voyages.stream().map(VoyageEntity::getPricePerSeat).toList();
+        List<Koperative> availableKoperatives = voyages.stream().map(VoyageEntity::getKoperative).distinct().map(Koperative::fromEntityForSearch).toList();
 
         BigDecimal minPrice = prices.stream().min(BigDecimal::compareTo).orElse(null);
         BigDecimal maxPrice = prices.stream().max(BigDecimal::compareTo).orElse(null);
         BigDecimal avgPrice = calculateAverage(prices);
 
-        int totalSeats = voyages.stream()
-                .mapToInt(VoyageEntity::getAvailableSeats)
-                .sum();
+        int totalSeats = voyages.stream().mapToInt(VoyageEntity::getAvailableSeats).sum();
 
         result.setMinPrice(minPrice);
         result.setMaxPrice(maxPrice);
@@ -558,7 +462,7 @@ public class VoyageService implements IVoyageService {
         result.setTotalVoyages(voyages.size());
         result.setTotalAvailableSeats(totalSeats);
         result.setHasVoyages(true);
-        result.setVoyages(voyages.stream().map(Voyage::fromEntity).toList());
+        result.setVoyages(voyages.stream().map(Voyage::fromEntityForSearch).toList());
         result.setKoperatives(availableKoperatives);
         return result;
     }
@@ -579,29 +483,19 @@ public class VoyageService implements IVoyageService {
     }
 
     @Override
-    public VoyageMonthlyResponse getMonthlyResults(
-            Long departureVilleId,
-            Long arrivalVilleId,
-            String month,
-            Long koperativeId,
-            Integer passengers,
-            String language
-    ) {
+    public VoyageMonthlyResponse getMonthlyResults(Long departureVilleId, Long arrivalVilleId, String month, Long koperativeId, Integer passengers, String language) {
         YearMonth yearMonth = YearMonth.parse(month);
         LocalDate monthStart = yearMonth.atDay(1);
         LocalDate monthEnd = yearMonth.atEndOfMonth();
 
-        List<VoyageEntity> voyages = voyageRepository.findMonthlyFiltered(
-                monthStart.atStartOfDay(),
+        List<VoyageEntity> voyages = voyageRepository.findMonthlyFiltered(monthStart.atStartOfDay(),
                 monthEnd.atTime(LocalTime.MAX),
                 departureVilleId,
                 arrivalVilleId,
                 koperativeId,
-                (passengers != null && passengers > 0) ? passengers : null
-        );
+                (passengers != null && passengers > 0) ? passengers : null);
 
-        Map<LocalDate, List<VoyageEntity>> voyagesByDate = voyages.stream()
-                .collect(Collectors.groupingBy(v -> v.getDepartureTime().toLocalDate()));
+        Map<LocalDate, List<VoyageEntity>> voyagesByDate = voyages.stream().collect(Collectors.groupingBy(v -> v.getDepartureTime().toLocalDate()));
 
         List<VoyageMonthlyResponse.DayResult> days = new ArrayList<>();
         for (int day = 1; day <= yearMonth.lengthOfMonth(); day++) {
@@ -618,9 +512,7 @@ public class VoyageService implements IVoyageService {
             return new VoyageMonthlyResponse.DayResult(date, false, null, null, 0, 0);
         }
 
-        List<BigDecimal> prices = voyages.stream()
-                .map(VoyageEntity::getPricePerSeat)
-                .toList();
+        List<BigDecimal> prices = voyages.stream().map(VoyageEntity::getPricePerSeat).toList();
 
         BigDecimal minPrice = prices.stream().min(BigDecimal::compareTo).orElse(null);
         BigDecimal maxPrice = prices.stream().max(BigDecimal::compareTo).orElse(null);
@@ -631,30 +523,71 @@ public class VoyageService implements IVoyageService {
 
     @Override
     public List<VoyageClasses> findGroupedFilteredVoyages(VoyageFilter filter) {
-        List<Voyage> voyages = findFilteredVoyages(filter);
+        // Fetch entities directly — avoids the heavy Voyage::fromEntity mapping of findFilteredVoyages
+        List<VoyageEntity> entities = voyageRepository.findFilteredVoyages(filter.getKoperativeId(),
+                filter.getDepartureVilleId(),
+                filter.getArrivalVilleId(),
+                filter.getDepartureGareId(),
+                filter.getArrivalGareId());
 
-        Map<String, List<Voyage>> grouped = voyages.stream()
-                .collect(Collectors.groupingBy(v -> {
-                    String koperativeId = v.getKoperative() != null ? String.valueOf(v.getKoperative().getId()) : "null";
-                    String depTime = v.getDepartureTime() != null ? v.getDepartureTime().toString() : "null";
-                    String depGareId = v.getDepartureGare() != null ? String.valueOf(v.getDepartureGare().getId()) : "null";
-                    String arrGareId = v.getArrivalGare() != null ? String.valueOf(v.getArrivalGare().getId()) : "null";
-                    return koperativeId + "-" + depTime + "-" + depGareId + "-" + arrGareId;
-                }));
+        // Apply client-side filters (date, status, passengers) on the entity level
+        List<VoyageEntity> filtered = applyClientSideFilters(entities, filter);
 
-        return grouped.values().stream()
-                .map(group -> {
-                    Voyage rep = group.get(0);
-                    VoyageClasses vg = new VoyageClasses();
-                    vg.setKoperative(rep.getKoperative());
-                    vg.setDepartureGare(rep.getDepartureGare());
-                    vg.setArrivalGare(rep.getArrivalGare());
-                    vg.setDepartureTime(rep.getDepartureTime() != null ? rep.getDepartureTime().toString() : null);
-                    vg.setEstimatedArrivalTime(rep.getEstimatedArrivalTime() != null ? rep.getEstimatedArrivalTime().toString() : null);
-                    vg.setVoyages(group);
-                    return vg;
-                })
-                .sorted(Comparator.comparing(VoyageClasses::getDepartureTime, Comparator.nullsLast(Comparator.naturalOrder())))
-                .toList();
+        // Map to lean projection and group
+        Map<String, List<Voyage>> grouped = filtered.stream()
+                .filter(e -> e.getKoperative() != null && e.getDepartureTime() != null && e.getDepartureGare() != null && e.getArrivalGare() != null)
+                .map(Voyage::fromEntityForGrouped)
+                .collect(Collectors.groupingBy(Voyage::getKoperativeDepartureDateKey, LinkedHashMap::new, Collectors.toList()));
+
+        return grouped.values().stream().map(group -> {
+            Voyage rep = group.getFirst();
+            VoyageClasses vg = new VoyageClasses();
+            vg.setKoperative(rep.getKoperative());
+            vg.setDepartureGare(rep.getDepartureGare());
+            vg.setArrivalGare(rep.getArrivalGare());
+            vg.setDepartureTime(rep.getDepartureTime().toString());
+            vg.setEstimatedArrivalTime(Optional.ofNullable(rep.getEstimatedArrivalTime()).map(LocalDateTime::toString).orElse(null));
+            vg.setVoyages(group);
+            return vg;
+        }).toList();
+    }
+
+    @Override
+    public List<VoyageClasses> findGroupedFilteredVoyagesByKoperative(VoyageFilter filter) {
+        if (filter.getKoperativeId() == null) {
+            return List.of();
+        }
+
+        List<VoyageEntity> entities = voyageRepository.findFilteredVoyagesByKoperative(filter.getKoperativeId(),
+                filter.getDepartureVilleId(),
+                filter.getArrivalVilleId(),
+                filter.getDepartureGareId(),
+                filter.getArrivalGareId());
+
+        List<VoyageEntity> filtered = applyClientSideFilters(entities, filter);
+
+        Map<String, List<Voyage>> grouped = filtered.stream()
+                .filter(e -> e.getKoperative() != null && e.getDepartureTime() != null && e.getDepartureGare() != null && e.getArrivalGare() != null)
+                .map(Voyage::fromEntityForGrouped)
+                .collect(Collectors.groupingBy(Voyage::getKoperativeDepartureDateKey, LinkedHashMap::new, Collectors.toList()));
+
+        return grouped.values().stream().map(group -> {
+            Voyage rep = group.getFirst();
+            VoyageClasses vg = new VoyageClasses();
+            vg.setKoperative(rep.getKoperative());
+            vg.setDepartureGare(rep.getDepartureGare());
+            vg.setArrivalGare(rep.getArrivalGare());
+            vg.setDepartureTime(rep.getDepartureTime().toString());
+            vg.setEstimatedArrivalTime(Optional.ofNullable(rep.getEstimatedArrivalTime()).map(LocalDateTime::toString).orElse(null));
+            vg.setVoyages(group);
+            return vg;
+        }).toList();
+    }
+
+    private List<DepartureTimeGroupEnum> calculateAvailableTimeGroups(List<VoyageEntity> voyages) {
+        if (voyages == null || voyages.isEmpty()) {
+            return List.of();
+        }
+        return voyages.stream().map(v -> getDepartureTimeGroup(v.getDepartureTime().toLocalTime())).distinct().toList();
     }
 }

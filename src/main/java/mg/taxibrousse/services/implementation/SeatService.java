@@ -11,6 +11,8 @@ import mg.taxibrousse.repositories.ICrafterRepository;
 import mg.taxibrousse.repositories.ISeatRepository;
 import mg.taxibrousse.repositories.IVoyageRepository;
 import mg.taxibrousse.services.ISeatService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,7 @@ public class SeatService implements ISeatService {
 
     @Override
     @Transactional
+    @CacheEvict(value = {"seats", "voyages"}, allEntries = true)
     public Seat save(Seat seat) {
         SeatEntity entity = seat.toEntity();
         SeatEntity saved = seatRepository.save(entity);
@@ -37,6 +40,7 @@ public class SeatService implements ISeatService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "seats", key = "'id:' + #id", unless = "#result == null")
     public Seat findById(Long id) {
         Optional<SeatEntity> entity = seatRepository.findById(id);
         return entity.map(Seat::fromEntity).orElse(null);
@@ -44,6 +48,7 @@ public class SeatService implements ISeatService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "seats", key = "'voyage:' + #voyageId")
     public List<Seat> findByVoyageId(Long voyageId) {
         List<SeatEntity> entities = seatRepository.findByVoyageIdOrderBySeatNumber(voyageId);
         return entities.stream().map(Seat::fromEntityLight).toList();
@@ -51,6 +56,7 @@ public class SeatService implements ISeatService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "seats", key = "'crafter:' + #crafterId")
     public List<Seat> findByCrafterId(Long crafterId) {
         List<SeatEntity> entities = seatRepository.findByCrafterIdOrderBySeatNumber(crafterId);
         return entities.stream().map(Seat::fromEntity).toList();
@@ -92,6 +98,7 @@ public class SeatService implements ISeatService {
 
     @Override
     @Transactional
+    @CacheEvict(value = {"seats", "voyages"}, allEntries = true)
     public List<Seat> initializeSeatsForVoyage(Long voyageId, Long crafterId) {
         // Check if seats already exist for this voyage
         List<SeatEntity> existingSeats = seatRepository.findByVoyageIdOrderBySeatNumber(voyageId);
@@ -131,6 +138,7 @@ public class SeatService implements ISeatService {
 
     @Override
     @Transactional
+    @CacheEvict(value = {"seats", "voyages"}, allEntries = true)
     public Seat updateSeatStatus(Long seatId, SeatStatusEnum status) {
         Optional<SeatEntity> entityOpt = seatRepository.findById(seatId);
         if (entityOpt.isEmpty()) {
@@ -148,6 +156,7 @@ public class SeatService implements ISeatService {
 
     @Override
     @Transactional
+    @CacheEvict(value = {"seats", "voyages"}, allEntries = true)
     public Seat reserveSeat(Long voyageId, Integer seatNumber) {
         Optional<SeatEntity> entityOpt = seatRepository.findByVoyageIdAndSeatNumber(voyageId, seatNumber);
         if (entityOpt.isEmpty()) {
@@ -170,6 +179,7 @@ public class SeatService implements ISeatService {
 
     @Override
     @Transactional
+    @CacheEvict(value = {"seats", "voyages"}, allEntries = true)
     public Seat releaseSeat(Long voyageId, Integer seatNumber) {
         Optional<SeatEntity> entityOpt = seatRepository.findByVoyageIdAndSeatNumber(voyageId, seatNumber);
         if (entityOpt.isEmpty()) {
@@ -194,6 +204,7 @@ public class SeatService implements ISeatService {
 
     @Override
     @Transactional
+    @CacheEvict(value = {"seats", "voyages"}, allEntries = true)
     public void deleteById(Long id) {
         seatRepository.deleteById(id);
         log.info("Deleted seat with ID {}", id);
@@ -201,6 +212,7 @@ public class SeatService implements ISeatService {
 
     @Override
     @Transactional
+    @CacheEvict(value = {"seats", "voyages"}, allEntries = true)
     public List<Seat> updateMultipleSeatsStatus(Long voyageId, List<Integer> seatNumbers, SeatStatusEnum status) {
         List<SeatEntity> seats = seatRepository.findByVoyageIdAndSeatNumberIn(voyageId, seatNumbers);
 
@@ -216,6 +228,7 @@ public class SeatService implements ISeatService {
 
     @Override
     @Transactional
+    @CacheEvict(value = {"seats", "voyages"}, allEntries = true)
     public List<Seat> resetVoyageSeats(Long voyageId) {
         List<SeatEntity> seats = seatRepository.findByVoyageIdOrderBySeatNumber(voyageId);
 
@@ -233,6 +246,7 @@ public class SeatService implements ISeatService {
 
     @Override
     @Transactional
+    @CacheEvict(value = {"seats", "voyages"}, allEntries = true)
     public List<Seat> releaseSeatsByReservation(Long voyageId, Long reservationId) {
         List<SeatEntity> seats = seatRepository.findByVoyageIdAndReservationId(voyageId, reservationId);
 

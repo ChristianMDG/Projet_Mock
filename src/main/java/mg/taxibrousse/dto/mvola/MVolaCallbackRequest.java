@@ -12,10 +12,11 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class MVolaCallbackRequest {
+
     private String transactionStatus;
     private String serverCorrelationId;
     private String transactionReference;
-    
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
     private OffsetDateTime requestDate;
 

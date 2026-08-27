@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Repository
 public interface IAuthorityRepository extends JpaRepository<AuthorityEntity, Long> {
+
     AuthorityEntity findByName(String name);
 
     boolean existsByName(String name);

@@ -1,7 +1,6 @@
 import type { Logger } from '@strapi/logger';
 
-const logstashHost = process.env.LOGSTASH_HOST || 'logstash';
-const logstashPort = parseInt(process.env.LOGSTASH_PORT || '5000');
+
 const environment = process.env.NODE_ENV || 'development';
 
 export default ({ env }) => {
@@ -16,7 +15,6 @@ export default ({ env }) => {
     try {
       // Dynamic import to avoid issues if winston-logstash-transport is not installed
       const winston = require('winston');
-      const { LogstashTransport } = require('winston-logstash-transport');
 
       config.transports = [
         // Console transport with JSON format
@@ -25,21 +23,6 @@ export default ({ env }) => {
             winston.format.timestamp(),
             winston.format.json()
           ),
-        }),
-        // Logstash transport for ELK
-        new LogstashTransport({
-          host: logstashHost,
-          port: logstashPort,
-          reconnect: {
-            enabled: true,
-            maxRetries: 10,
-            delay: 5000,
-          },
-          meta: {
-            service: 'taxibrousse-cms',
-            service_type: 'nodejs',
-            environment: environment,
-          },
         }),
       ];
 

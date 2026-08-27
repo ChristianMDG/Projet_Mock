@@ -5,7 +5,7 @@ import EastIcon from '@mui/icons-material/East';
 import RouteIcon from '@mui/icons-material/Route';
 import { useTranslation } from 'react-i18next';
 import { Ville } from '@/models/Ville';
-import { StyledIcon } from '@/components/ui';
+import StyledIcon from '@/components/ui/StyledIcon';
 
 interface ColisSchedulerCardTitleProps {
   isEditMode: boolean;

@@ -45,12 +45,7 @@ public class GuichetController {
 
     @GetMapping("/koperative/{koperativeId}/operateurs")
     public List<UserOperator> listOperatorByKoperative(@PathVariable Long koperativeId) {
-        return guichetService
-                .findByKoperativeId(koperativeId)
-                .stream()
-                .flatMap(guichet -> guichet.getOperateurs() != null ? guichet.getOperateurs().stream() : Stream.empty())
-                .distinct()
-                .toList();
+        return guichetService.findByKoperativeId(koperativeId).stream().flatMap(guichet -> guichet.getOperateurs() != null ? guichet.getOperateurs().stream() : Stream.empty()).distinct().toList();
     }
 
     @GetMapping("/{id}/destinations")

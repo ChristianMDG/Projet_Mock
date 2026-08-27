@@ -16,11 +16,19 @@ const HeroBackgroundContainer = styled(Box)<BoxProps>(() => {
     position: 'absolute',
     inset: 0,
     zIndex: 0,
+    '& picture, & img': {
+      width: '100%',
+      height: '100%',
+      display: 'block',
+      objectFit: 'cover',
+      objectPosition: 'center',
+    },
     '&::after': {
       content: '""',
       position: 'absolute',
       inset: 0,
       pointerEvents: 'none',
+      background: 'linear-gradient(to right, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 100%)',
     },
   };
 });
@@ -50,17 +58,6 @@ const HeroContentPanel = styled(Box)<BoxProps>(({ theme }) => {
       marginBottom: theme.spacing(4),
       alignSelf: 'flex-end',
       padding: theme.spacing(2),
-      '& .MuiTypography-h1': { fontSize: '1.25rem', lineHeight: 1.2 },
-      '& .MuiTypography-h2': { fontSize: '1.1rem', lineHeight: 1.25 },
-      '& .MuiTypography-h3': { fontSize: '1rem', lineHeight: 1.3 },
-      '& .MuiTypography-h4': { fontSize: '0.9rem', lineHeight: 1.35 },
-      '& .MuiTypography-h5': { fontSize: '0.8rem', lineHeight: 1.4 },
-      '& .MuiTypography-h6': { fontSize: '0.75rem', lineHeight: 1.4 },
-      '& .MuiTypography-body1': { fontSize: '0.72rem', lineHeight: 1.5 },
-      '& .MuiTypography-body2': { fontSize: '0.68rem', lineHeight: 1.5 },
-      '& .MuiTypography-overline': { fontSize: '0.6rem', letterSpacing: '0.08em' },
-      '& .MuiTypography-subtitle1': { fontSize: '0.75rem' },
-      '& .MuiTypography-subtitle2': { fontSize: '0.68rem' },
     },
 
     [theme.breakpoints.up('sm')]: {

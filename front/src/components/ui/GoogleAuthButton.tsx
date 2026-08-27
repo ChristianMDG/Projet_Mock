@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, CircularProgress } from '@mui/material';
-import { Google as GoogleIcon } from '@mui/icons-material';
+import GoogleIcon from '@mui/icons-material/Google';
 import { useGoogleAuth } from '@/hooks/google-auth.hooks';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
@@ -9,73 +9,81 @@ interface CredentialResponse {
   credential: string;
 }
 
+const GOOGLE_GSI_SRC = 'https://accounts.google.com/gsi/client';
+
 const GoogleAuthButton: React.FC = () => {
   const { t } = useTranslation();
   const { verifyGoogleToken, isLoading } = useGoogleAuth();
-  const buttonDivRef = useRef<HTMLDivElement>(null);
+  const [isReady, setIsReady] = useState(false);
+
+  const handleCredentialResponse = useCallback(
+    async (response: CredentialResponse) => {
+      if (response.credential) {
+        await verifyGoogleToken(response.credential);
+      }
+    },
+    [verifyGoogleToken],
+  );
 
   useEffect(() => {
-    // load google script
-    const script = document.createElement('script');
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    script.defer = true;
-    script.onload = initializeGoogleSignIn;
-    document.body.appendChild(script);
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  });
+    if (clientId) {
+      const initialize = () => {
+        if (window.google) {
+          try {
+            window.google.accounts.id.initialize({
+              client_id: clientId,
+              callback: handleCredentialResponse,
+              use_fedcm_for_prompt: true,
+              auto_select: false,
+              cancel_on_tap_outside: true,
+              context: 'signin',
+              ux_mode: 'popup',
+            });
+            setIsReady(true);
+          } catch (error) {
+            console.error('Error initializing Google Sign-In (FedCM):', error);
+          }
+        }
+      };
 
-  const initializeGoogleSignIn = () => {
-    if (!window.google || !buttonDivRef.current) return;
+      const existing = document.querySelector<HTMLScriptElement>(`script[src="${GOOGLE_GSI_SRC}"]`);
 
-    try {
-      window.google.accounts.id.initialize({
-        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-        callback: handleCredentialResponse,
-      });
-
-      window.google.accounts.id.renderButton(buttonDivRef.current, {
-        type: 'standard',
-        theme: 'outline',
-        size: 'large',
-        text: 'signin_with',
-        width: buttonDivRef.current?.offsetWidth,
-      });
-    } catch (error) {
-      console.error('Error initializing Google Sign-In:', error);
+      if (existing && window.google) {
+        initialize();
+      } else if (existing) {
+        existing.addEventListener('load', initialize, { once: true });
+      } else {
+        const script = document.createElement('script');
+        script.src = GOOGLE_GSI_SRC;
+        script.async = true;
+        script.defer = true;
+        script.onload = initialize;
+        document.body.appendChild(script);
+      }
+    } else {
+      console.warn('VITE_GOOGLE_CLIENT_ID is not set');
     }
-  };
+  }, [handleCredentialResponse]);
 
-  const handleCredentialResponse = async (response: CredentialResponse) => {
-    if (response.credential) {
-      await verifyGoogleToken(response.credential);
+  const handleClick = useCallback(() => {
+    if (isReady && window.google) {
+      window.google.accounts.id.prompt();
     }
-  };
-
-  const handleClick = () => {
-    // Triggers the actual hidden Google button
-    const googleButton = buttonDivRef.current?.querySelector('div[role="button"]');
-    if (googleButton) {
-      (googleButton as HTMLElement).click();
-    }
-  };
+  }, [isReady]);
 
   return (
-    <>
-      <div ref={buttonDivRef} style={{ display: 'none' }} />
-      <Button
-        fullWidth
-        variant="outlined"
-        startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <GoogleIcon />}
-        onClick={handleClick}
-        disabled={isLoading}
-      >
-        {t(Labels.authform_google)}
-      </Button>
-    </>
+    <Button
+      fullWidth
+      variant="contained"
+      startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <GoogleIcon />}
+      onClick={handleClick}
+      disabled={isLoading || !isReady}
+      sx={{ bgcolor: '#4285F4', '&:hover': { bgcolor: '#2d6fcd' }, color: '#fff' }}
+    >
+      {t(Labels.authform_google)}
+    </Button>
   );
 };
 

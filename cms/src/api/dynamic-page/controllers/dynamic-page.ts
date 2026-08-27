@@ -20,6 +20,54 @@ const populateConfig = {
           },
         },
         "page.section-reference": { populate: "*" },
+        "rental.hero-section": {
+          populate: {
+            backgroundImage: "*",
+          },
+        },
+        "rental.categories-section": {
+          populate: {
+            categories: {
+              populate: {
+                image: "*",
+              },
+            },
+          },
+        },
+        "rental.how-it-works": {
+          populate: {
+            steps: "*",
+          },
+        },
+        "rental.featured-vehicles": {
+          populate: {
+            vehicles: {
+              populate: {
+                image: "*",
+              },
+            },
+          },
+        },
+        "rental.offers-section": {
+          populate: {
+            offers: {
+              populate: {
+                image: "*",
+              },
+            },
+          },
+        },
+        "rental.reassurance-section": {
+          populate: {
+            indicators: "*",
+          },
+        },
+        "rental.faq-section": {
+          populate: {
+            faqs: "*",
+          },
+        },
+        "rental.contact-section": { populate: "*" },
         "page.safety-measures": { populate: "*" },
         "page.insurance-coverage": { populate: "*" },
         "page.safety-tips": { populate: "*" },
@@ -89,6 +137,13 @@ const populateConfig = {
             },
           },
         },
+        "page.simple-search": {
+          populate: {
+            image: {
+              fields: ["url", "alternativeText", "name"],
+            },
+          },
+        },
       },
     },
     pageHeader: true,
@@ -145,6 +200,13 @@ export default factories.createCoreController('api::dynamic-page.dynamic-page', 
     }
 
     const entityToReturn = Array.isArray(entities) ? entities[0] : entities;
+
+    if (query.sectionType && entityToReturn.sections) {
+      entityToReturn.sections = entityToReturn.sections.filter(
+        (s: any) => s.__component === query.sectionType
+      );
+    }
+
     const sanitizedEntity = await this.sanitizeOutput(entityToReturn, ctx);
 
     return this.transformResponse(sanitizedEntity);

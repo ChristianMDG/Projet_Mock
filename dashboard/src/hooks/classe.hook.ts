@@ -25,9 +25,12 @@ export const useClasses = () => {
 
 export const useClassesByKoperative = (koperativeId?: number) => {
   return useQuery({
-    queryKey: classeKeys.byKoperative(koperativeId!),
-    queryFn: () => getClassesByKoperative(koperativeId!),
-    enabled: !!koperativeId,
+    queryKey: classeKeys.byKoperative(koperativeId ?? 0),
+    queryFn: () => {
+      if (!koperativeId) throw new Error('koperativeId is required');
+      return getClassesByKoperative(koperativeId);
+    },
+    enabled: Boolean(koperativeId),
   });
 };
 

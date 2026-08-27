@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import { HeroBackgroundContainer, HeroContentPanel, HeroSectionContainer } from '@/components/ui/HeroSection';
-import { HERO_DIMENSIONS } from '@/skeleton/HeroLoadingSkeleton';
 import HeroLoadingSkeleton from '@/skeleton/HeroLoadingSkeleton';
+import { HERO_DIMENSIONS } from '@/constants/hero.constants';
 import MissingContent from '@/components/shared/MissingContent';
 import ImageMedia from '@/components/shared/ImageMedia';
 import { useGareBanner } from '@/hooks/cms.hooks';
@@ -36,7 +36,11 @@ const GareBanner: React.FC = () => {
   return (
     <HeroSectionContainer component="section" aria-label={Title} sx={HERO_DIMENSIONS}>
       <HeroBackgroundContainer>
-        <ImageMedia media={Image} />
+        <ImageMedia
+          media={Image}
+          responsivePreset="banner"
+          sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
       </HeroBackgroundContainer>
 
       <HeroContentPanel component="article">

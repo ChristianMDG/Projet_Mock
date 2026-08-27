@@ -27,6 +27,8 @@ export const useRoutes = () => {
   return useQuery({
     queryKey: ROUTE_KEYS.all,
     queryFn: getRoutesActive,
+    retry: 2,
+    retryDelay: 1000,
   });
 };
 
@@ -38,6 +40,8 @@ export const useRoutesByConnectedGare = (gareId: number) => {
     queryKey: ROUTE_KEYS.byConnectedGare(gareId),
     queryFn: () => getRoutesByConnectedGare(gareId),
     enabled: !!gareId,
+    retry: 2,
+    retryDelay: 1000,
   });
 };
 
@@ -49,6 +53,8 @@ export const useAvailableDestinations = (gareId: number) => {
     queryKey: ROUTE_KEYS.availableDestinations(gareId),
     queryFn: () => getAvailableDestinations(gareId),
     enabled: !!gareId,
+    retry: 2,
+    retryDelay: 1000,
   });
 };
 
@@ -60,6 +66,8 @@ export const useRouteById = (id: number) => {
     queryKey: ROUTE_KEYS.detail(id),
     queryFn: () => getRouteById(id),
     enabled: !!id,
+    retry: 2,
+    retryDelay: 1000,
   });
 };
 
@@ -113,6 +121,8 @@ export const useTopVilles = () => {
   return useQuery({
     queryKey: ['villes', 'top'],
     queryFn: getTopVilles,
+    retry: 2,
+    retryDelay: 1000,
   });
 };
 
@@ -124,5 +134,7 @@ export const useRoutesByDepartureVilleId = (villeId?: number, date?: string) => 
     queryKey: ['routes', 'byDepartureVille', villeId, date],
     queryFn: () => getRoutesByDepartureVilleId(villeId!, date!),
     enabled: !!villeId && !!date,
+    retry: 2,
+    retryDelay: 1000,
   });
 };

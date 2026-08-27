@@ -48,16 +48,16 @@ public class UserController {
     public ResponseEntity<UserInfo> getCurrentUser(Authentication authentication) {
         try {
             String username = authentication.getName();
-            Voyageur voyageur = voyageurService.findByPhoneOrIdNumber(username, username);
+            Voyageur voyageur = voyageurService.findByUsername(username);
             if (voyageur != null) {
                 return ResponseEntity.ok(voyageur);
             }
-            
+
             UserOperator operator = operatorService.findByUsername(username);
             if (operator != null) {
                 return ResponseEntity.ok(operator);
             }
-            
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -74,10 +74,7 @@ public class UserController {
     public ResponseEntity<UserToken> token(Authentication authentication, @RequestBody(required = false) Map<String, String> requestBody) {
         var now = Instant.now();
         var expiry = 7889152L; // ~91 days
-        var scope = authentication.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(" "));
+        var scope = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));
 
         // Generate unique JWT ID for token tracking and invalidation
         var jti = UUID.randomUUID().toString();
@@ -93,16 +90,16 @@ public class UserController {
         var token = this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
         String username = authentication.getName();
-        Voyageur voyageur = voyageurService.findByPhoneOrIdNumber(username, username);
+        Voyageur voyageur = voyageurService.findByUsername(username);
         if (voyageur != null) {
             return ResponseEntity.ok(new UserToken(token, voyageur));
         }
-        
+
         UserOperator operator = operatorService.findByUsername(username);
         if (operator != null) {
             return ResponseEntity.ok(new UserToken(token, operator));
         }
-        
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
@@ -119,10 +116,7 @@ public class UserController {
         String token = authHeader.replace("Bearer ", "");
         long remainingTtl = 7889152L;
         tokenBlacklistService.blacklistToken(token, remainingTtl);
-        return ResponseEntity.ok(Map.of(
-                "message", "Logged out successfully",
-                "status", "success"
-        ));
+        return ResponseEntity.ok(Map.of("message", "Logged out successfully", "status", "success"));
     }
 
     @PostMapping("/account")
@@ -148,11 +142,11 @@ public class UserController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody PasswordResetRequest request) {
+    public ResponseEntity<String> resetPassword(@Valid @RequestBody PasswordResetRequest request) {
         String phone = request.getPhone();
         String otp = request.getOtp();
         String newPassword = request.getNewPassword();
-        
+
         String result = userService.resetPassword(phone, otp, newPassword);
         if (result.startsWith("error_")) {
             return ResponseEntity.badRequest().body(result);
@@ -162,14 +156,8 @@ public class UserController {
 
     @PostMapping("/change-password")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<String> changePassword(
-            Authentication authentication,
-            @RequestBody PasswordResetRequest request) {
-        String result = userService.changePassword(
-                authentication.getName(),
-                request.getCurrentPassword(),
-                request.getNewPassword()
-        );
+    public ResponseEntity<String> changePassword(Authentication authentication, @RequestBody PasswordResetRequest request) {
+        String result = userService.changePassword(authentication.getName(), request.getCurrentPassword(), request.getNewPassword());
         if (result.startsWith("error_")) {
             return ResponseEntity.badRequest().body(result);
         }
@@ -214,10 +202,8 @@ public class UserController {
     @PutMapping("/language-preference")
     @PreAuthorize("isAuthenticated()")
     @Transactional
-    public ResponseEntity<Map<String, String>> updateLanguagePreference(
-            Authentication authentication,
-            @RequestBody Map<String, String> request) {
-        
+    public ResponseEntity<Map<String, String>> updateLanguagePreference(Authentication authentication, @RequestBody Map<String, String> request) {
+
         var language = request.get("language");
         if (language == null || language.isBlank()) {
             return ResponseEntity.badRequest().body(Map.of("error", "Language is required"));
@@ -226,20 +212,15 @@ public class UserController {
         try {
             var preference = LanguagePreferenceEnum.valueOf(language.toUpperCase());
             var result = userService.updateLanguagePreference(authentication.getName(), preference);
-            
-            return result.startsWith("error_") 
-                ? ResponseEntity.badRequest().body(Map.of("error", result))
-                : ResponseEntity.ok(Map.of("message", result, "language", preference.name()));
+
+            return result.startsWith("error_") ? ResponseEntity.badRequest().body(Map.of("error", result)) : ResponseEntity.ok(Map.of("message", result, "language", preference.name()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", "Invalid language. Use: FR, EN, or MG"));
         }
     }
 
     @GetMapping("/operators")
-    public List<UserOperator> searchUsers(
-            @RequestParam(required = false) String search,
-            @RequestParam(required = false) Long koperativeId,
-            @RequestParam(required = false) Boolean isActive,
+    public List<UserOperator> searchUsers(@RequestParam(required = false) String search, @RequestParam(required = false) Long koperativeId, @RequestParam(required = false) Boolean isActive,
             @RequestParam(required = false) Long gareId) {
         return operatorService.searchOperators(search, koperativeId, isActive, gareId);
     }

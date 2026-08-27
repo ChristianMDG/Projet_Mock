@@ -10,6 +10,7 @@ import lombok.Setter;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AirtelPaymentRequest {
+
     private String reference;
     private AirtelSubscriber subscriber;
     private AirtelTransactionRequest transaction;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material';
-import { GridView as GridViewIcon, List as ListIcon } from '@mui/icons-material';
+import GridViewIcon from '@mui/icons-material/GridView';
+import ListIcon from '@mui/icons-material/List';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 

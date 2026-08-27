@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -26,11 +27,11 @@ public abstract class BaseDto<E extends BaseEntity> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     protected Long id;
-    
+
     @JsonIgnore
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     protected LocalDateTime createdAt;
-    
+
     @JsonIgnore
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     protected LocalDateTime updatedAt;
@@ -43,9 +44,10 @@ public abstract class BaseDto<E extends BaseEntity> implements Serializable {
         List<D> result = new ArrayList<>();
         for (E e : entities) {
             D dto = mapper.apply(e);
-            if (dto != null) {
-                result.add(dto);
+            if (dto == null) {
+                continue;
             }
+            result.add(dto);
         }
         return result;
     }
@@ -71,21 +73,20 @@ public abstract class BaseDto<E extends BaseEntity> implements Serializable {
      * DTO is {@code null}, a new entity instance is returned with no ID set.
      *
      * @param entityClass the class of the entity to instantiate
-     * @param dto         the DTO containing the ID to set on the entity
-     * @param <E>         the type of the entity, extending {@link BaseEntity}
+     * @param dto the DTO containing the ID to set on the entity
+     * @param <E> the type of the entity, extending {@link BaseEntity}
      * @return a new entity instance with the ID set from the DTO, or
      * {@code null} if instantiation fails
      */
     public static <E extends BaseEntity> E toIdentity(Class<E> entityClass, BaseDto<E> dto) {
+        if (Optional.ofNullable(dto).map(BaseDto::getId).orElse(0L) <= 0) {
+            return null;
+        }
         try {
             E e = entityClass.getConstructor().newInstance();
-            if (dto == null) {
-                return e;
-            }
             e.setId(dto.getId());
             return e;
-        } catch (IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException |
-                 SecurityException | InvocationTargetException ignored) {
+        } catch (IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException ignored) {
             return null;
         }
     }
@@ -95,19 +96,20 @@ public abstract class BaseDto<E extends BaseEntity> implements Serializable {
      * ID field.
      *
      * @param entityClass the class of the entity
-     * @param dtos        the list of DTOs
+     * @param dtos the list of DTOs
      * @return list of entities with only ID set
      */
-    public static <E extends BaseEntity, D extends BaseDto<E>> Set<E> toIdentities(
-            Class<E> entityClass,
-            Iterable<D> dtos
-    ) {
+    public static <E extends BaseEntity, D extends BaseDto<E>> Set<E> toIdentities(Class<E> entityClass, Iterable<D> dtos) {
         Set<E> entities = new HashSet<>();
         if (dtos == null) {
             return entities;
         }
         for (D dto : dtos) {
-            entities.add(toIdentity(entityClass, dto));
+            E identity = toIdentity(entityClass, dto);
+            if (identity == null) {
+                continue;
+            }
+            entities.add(identity);
         }
         return entities;
     }

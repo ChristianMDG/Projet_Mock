@@ -1,13 +1,12 @@
 import React from 'react';
 import { alpha, Avatar, Chip, Paper, Stack, Theme, Typography } from '@mui/material';
 import BusinessIcon from '@mui/icons-material/Business';
-import PhoneIcon from '@mui/icons-material/Phone';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PersonIcon from '@mui/icons-material/Person';
 import Labels from '@/labelKeys.json';
 import { Gare, Koperative, UserOperator } from '@/types';
 import { useGuichetByGareAndKoperative } from '@/hooks/guichet.hooks';
-import { InfoRow } from '@/components/shared';
+import { InfoRow } from '@/components/shared/InfoRow';
 import { GuichetInformationSkeleton } from '@/skeleton';
 
 interface GuichetInformationProps {
@@ -70,7 +69,7 @@ export const GuichetInformation: React.FC<GuichetInformationProps> = ({ gare, ko
                 color: 'error.main',
               }}
             />
-            <Typography variant="body2" color="error.main">
+            <Typography variant="body2" color="error">
               {t(Labels.guichet_load_error)}
             </Typography>
           </Stack>
@@ -133,11 +132,6 @@ export const GuichetInformation: React.FC<GuichetInformationProps> = ({ gare, ko
               </Typography>
             </Stack>
           </Stack>
-
-          {/* Contact Info */}
-          {guichet.phones && (
-            <InfoRow icon={<PhoneIcon sx={{ fontSize: 16, color: 'text.secondary' }} />} text={guichet.phones} />
-          )}
 
           {guichet.openingHours && (
             <InfoRow

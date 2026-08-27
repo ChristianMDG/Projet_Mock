@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Voyageur } from '@/models/Voyageur';
 import type { UserFormData } from '@/types/user.type';
-import { createVoyageur, updateVoyageur } from '@/api/voyageur.api';
+import { createVoyageur, searchVoyageur, updateVoyageur } from '@/api/voyageur.api';
 
 // Query Keys
 export const voyageurKeys = {
@@ -12,6 +12,16 @@ export const voyageurKeys = {
   detail: (id: number) => [...voyageurKeys.details(), id] as const,
   search: (phone?: string, idNumber?: string) => [...voyageurKeys.all, 'search', { phone, idNumber }] as const,
 };
+
+export function useSearchVoyageur(phone: string) {
+  return useQuery({
+    queryKey: voyageurKeys.search(phone),
+    queryFn: () => searchVoyageur(phone),
+    enabled: Boolean(phone && /^\d+$/.test(phone)),
+    staleTime: 5 * 60 * 1000,
+    retry: false,
+  });
+}
 
 // Mutations
 export const useCreateVoyageur = () => {

@@ -9,4 +9,7 @@ export * from '@/models/Gare';
 export * from '@/models/Ville';
 export * from '@/models/Chauffeur';
 export * from '@/models/Colis';
+export * from '@/models/Shop';
 export * from './user.type';
+export * from './order.types';
+export * from './shop-enums.types';

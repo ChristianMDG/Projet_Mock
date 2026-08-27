@@ -2,16 +2,20 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import express, { Request, Response, NextFunction } from 'express';
-import { createServer as createViteServer, ViteDevServer } from 'vite';
+import { createServer as createViteServer } from 'vite';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function createServer() {
   const app = express();
-  let vite: ViteDevServer;
+  app.disable('x-powered-by');
 
+  app.use((_req, res, next) => {
+    res.setHeader('Permissions-Policy', 'unload=(self)');
+    next();
+  });
   // Create Vite server in middleware mode
-  vite = await createViteServer({
+  const vite = await createViteServer({
     server: { middlewareMode: true },
     appType: 'custom',
   });
@@ -31,7 +35,7 @@ async function createServer() {
   app.get('/sitemap.xml', async (_req: Request, res: Response) => {
     try {
       const { generateSitemapXml } = await vite.ssrLoadModule('/src/utils/seo.ts');
-      const xml = generateSitemapXml();
+      const xml = await generateSitemapXml();
       res.setHeader('Content-Type', 'application/xml; charset=utf-8');
       res.send(xml);
     } catch (e) {
@@ -61,13 +65,14 @@ async function createServer() {
         url: renderedUrl,
       } = await render(url, req.headers.cookie);
 
-      let html = template.replace(`<!--ssr-outlet-->`, appHtml);
+      let html = template.replace(/<html lang="[^"]*">/, `<html lang="${language}">`);
+      html = html.replace(`<!--ssr-outlet-->`, appHtml);
 
       // Inject both query state and SSR metadata for hydration matching
 
       // Extract mode from cookies just for the script injection (render already extracts it via entry-server)
-      const cookies = req.headers.cookie || '';
-      const mode = cookies.match(/mui-mode=(light|dark)/)?.[1] || 'light';
+      const cookies = req.headers.cookie ?? '';
+      const mode = /mui-mode=(light|dark)/.exec(cookies)?.[1] ?? 'light';
 
       const stateScript = `<script>
         window.__REACT_QUERY_STATE__ = ${JSON.stringify(dehydratedState)};
@@ -89,8 +94,10 @@ async function createServer() {
       html = html.replace('</head>', `${helmetHead}${stateScript}</head>`);
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
-    } catch (e: any) {
-      vite.ssrFixStacktrace(e);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        vite.ssrFixStacktrace(e);
+      }
       next(e);
     }
   });
@@ -100,4 +107,4 @@ async function createServer() {
   });
 }
 
-createServer().then(_ => {});
+await createServer();

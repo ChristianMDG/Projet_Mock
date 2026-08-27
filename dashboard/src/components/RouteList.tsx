@@ -172,7 +172,7 @@ export default function RouteList({ routes, onUpdateRoute, onToggleStatus, onEdi
         {...mrtTableProps}
         columns={columns}
         data={routes}
-        initialState={{ pagination: { pageIndex: 0, pageSize: 15 }, density: 'compact' }}
+        initialState={{ density: 'compact', pagination: { pageIndex: 0, pageSize: 15 } }}
         renderTopToolbarCustomActions={() =>
           title ? (
             <Typography variant="subtitle1" sx={{ fontWeight: 600, alignSelf: 'center', pl: 1 }}>

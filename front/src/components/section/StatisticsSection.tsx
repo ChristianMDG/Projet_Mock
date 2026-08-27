@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Grid, Typography, type SxProps, type Theme } from '@mui/material';
 import { StatisticsSection as StatisticsSectionType } from '@/api/dynamic-page.api';
-import { StatCard } from '@/components/ui';
+import StatCard from '@/components/ui/StatCard';
 
 interface Props {
   section: StatisticsSectionType;

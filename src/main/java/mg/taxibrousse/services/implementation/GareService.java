@@ -50,24 +50,20 @@ public class GareService implements IGareService {
     }
 
     private List<CloudinaryEntity> createCloudinaryEntity(List<Cloudinary> cloudinaryEntities) {
-        return cloudinaryEntities.stream()
-                .map(cloudinary -> {
-                    if (checkCloudinaryEntity(cloudinary.getPublicId())) {
-                        return cloudinaryRepository.findByPublicId(cloudinary.getPublicId())
-                                .orElse(null);
-                    }
-                    CloudinaryEntity entity = new CloudinaryEntity();
-                    entity.setUrl(cloudinary.getUrl());
-                    entity.setPublicId(cloudinary.getPublicId());
-                    entity.setFormat(cloudinary.getFormat());
-                    entity.setResourceType(cloudinary.getResourceType());
-                    entity.setBytes(cloudinary.getBytes());
-                    entity.setWidth(cloudinary.getWidth());
-                    entity.setHeight(cloudinary.getHeight());
-                    return cloudinaryRepository.save(entity);
-                })
-                .filter(Objects::nonNull)
-                .toList();
+        return cloudinaryEntities.stream().map(cloudinary -> {
+            if (checkCloudinaryEntity(cloudinary.getPublicId())) {
+                return cloudinaryRepository.findByPublicId(cloudinary.getPublicId()).orElse(null);
+            }
+            CloudinaryEntity entity = new CloudinaryEntity();
+            entity.setUrl(cloudinary.getUrl());
+            entity.setPublicId(cloudinary.getPublicId());
+            entity.setFormat(cloudinary.getFormat());
+            entity.setResourceType(cloudinary.getResourceType());
+            entity.setBytes(cloudinary.getBytes());
+            entity.setWidth(cloudinary.getWidth());
+            entity.setHeight(cloudinary.getHeight());
+            return cloudinaryRepository.save(entity);
+        }).filter(Objects::nonNull).toList();
     }
 
     private Boolean checkCloudinaryEntity(String publicId) {
@@ -152,10 +148,6 @@ public class GareService implements IGareService {
 
     @Override
     public List<Gare> findGares(GareFilter filter) {
-        return gareRepository
-                .findGares(filter.getVilleIds(), filter.getKoperativeName(), filter.getName(), filter.getIsClosed())
-                .stream()
-                .map(Gare::fromEntity)
-                .toList();
+        return gareRepository.findGares(filter.getVilleIds(), filter.getKoperativeName(), filter.getName(), filter.getIsClosed()).stream().map(Gare::fromEntity).toList();
     }
 }

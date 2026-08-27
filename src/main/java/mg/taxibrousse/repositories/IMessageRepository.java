@@ -41,7 +41,5 @@ public interface IMessageRepository extends JpaRepository<MessageEntity, Long> {
     List<MessageEntity> findBySenderIdAndTypeOrderByCreatedAtDesc(String senderId, MessageType type);
 
     @Query("SELECT m FROM Message m WHERE m.roomId = :roomId AND m.createdAt BETWEEN :start AND :end ORDER BY m.createdAt ASC")
-    List<MessageEntity> findMessagesInTimeRange(@Param("roomId") String roomId, 
-                                               @Param("start") LocalDateTime start, 
-                                               @Param("end") LocalDateTime end);
+    List<MessageEntity> findMessagesInTimeRange(@Param("roomId") String roomId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }

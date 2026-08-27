@@ -37,7 +37,8 @@
         "Additional Info",
         "Service Categories",
         "Loyalty Program",
-        "Additional Services"
+        "Additional Services",
+        "Simple Search"
       ],
       "required": true,
       "default": "Statistics Section",
@@ -71,7 +72,8 @@
         "page.additional-info",
         "page.service-categories",
         "page.loyalty-program",
-        "page.additional-services"
+        "page.additional-services",
+        "page.simple-search"
       ],
       "required": true,
       "default": "page.statistics-section"

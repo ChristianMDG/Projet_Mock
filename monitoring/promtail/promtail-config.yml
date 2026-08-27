@@ -1,0 +1,70 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  # ── Spring Boot API ──────────────────────────────────────────────────────────
+  # The API container's stdout/console is now human-readable (see logback-spring.xml),
+  # so structured JSON logs are read directly from the log file on the shared
+  # `api_logs` volume instead of Docker container discovery.
+  - job_name: taxibrousse-api
+    static_configs:
+      - targets: [ localhost ]
+        labels:
+          container: taxibrousse-api
+          project: taxibrousse
+          tier: api
+          __path__: /var/log/taxibrousse-api/taxibrousse-api.log
+    pipeline_stages:
+      # Parse the JSON log produced by logstash-logback-encoder
+      - json:
+          expressions:
+            level: level
+            logger: logger_name
+            thread: thread_name
+            message: message
+            stack_trace: stack_trace
+      - labels:
+          level:
+          logger:
+
+
+  # ── CMS (Strapi) ─────────────────────────────────────────────────────────────
+  - job_name: taxibrousse-cms
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 5s
+        filters:
+          - name: name
+            values: [ taxibrousse-cms ]
+    relabel_configs:
+      - source_labels: [ __meta_docker_container_name ]
+        regex: "/(.*)"
+        target_label: container
+      - replacement: taxibrousse
+        target_label: project
+      - replacement: cms
+        target_label: tier
+
+  # ── PostgreSQL ───────────────────────────────────────────────────────────────
+  - job_name: taxibrousse-postgres
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 5s
+        filters:
+          - name: name
+            values: [ taxibrousse-postgres ]
+    relabel_configs:
+      - source_labels: [ __meta_docker_container_name ]
+        regex: "/(.*)"
+        target_label: container
+      - replacement: taxibrousse
+        target_label: project
+      - replacement: postgres
+        target_label: tier

@@ -45,16 +45,10 @@ public interface IReservationController {
     ResponseEntity<Void> deleteReservation(@PathVariable Long id);
 
     @PatchMapping("/{id}/cancel")
-    ResponseEntity<Reservation> cancelReservation(
-            @PathVariable Long id,
-            @RequestParam ReservationStatusEnum status
-    );
+    ResponseEntity<Reservation> cancelReservation(@PathVariable Long id, @RequestParam ReservationStatusEnum status);
 
     @PostMapping("/{id}/payment")
-    ResponseEntity<PaymentResponse> processPayment(
-            @PathVariable Long id,
-            @RequestBody PaymentRequest paymentRequest
-    );
+    ResponseEntity<PaymentResponse> processPayment(@PathVariable Long id, @RequestBody PaymentRequest paymentRequest);
 
     @GetMapping("/voyageur/{voyageurId}")
     ResponseEntity<List<Reservation>> getReservationsByVoyageur(@PathVariable Long voyageurId);
@@ -72,10 +66,7 @@ public interface IReservationController {
     ResponseEntity<Reservation> cancelReservationByOperator(@PathVariable Long id);
 
     @GetMapping("/guest")
-    ResponseEntity<List<Reservation>> getGuestReservations(
-            @RequestParam(required = false) String phoneNumber,
-            @RequestParam(required = false) String idNumber
-    );
+    ResponseEntity<List<Reservation>> getGuestReservations(@RequestParam(required = false) String phoneNumber, @RequestParam(required = false) String idNumber);
 
     @PostMapping("/confirm-without-voyageur")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR')")
@@ -87,4 +78,5 @@ public interface IReservationController {
 
     @PatchMapping("/{id}/voyageur")
     ResponseEntity<Reservation> attachVoyageur(@PathVariable Long id, @RequestParam Long voyageurId);
+
 }

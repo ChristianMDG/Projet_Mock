@@ -16,7 +16,7 @@ import { Gare } from '@/models/Gare';
 import { useGares } from '@/hooks/gare.hooks';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
-import { StyledIcon } from '../ui';
+import StyledIcon from '@/components/ui/StyledIcon';
 
 interface GareAutocompleteProps<Multiple extends boolean = false> {
   value: Multiple extends true ? Gare[] : Gare | null;
@@ -56,6 +56,7 @@ const GareAutocomplete = <Multiple extends boolean = false>({
   fetchError: externalFetchError,
 }: GareAutocompleteProps<Multiple>) => {
   const { t } = useTranslation();
+  const fallbackId = useId();
   const { data: garesFetched = [], isLoading: internalLoading, error: internalError } = useGares();
   const gares = externalOptions ?? garesFetched;
   const isLoading = externalIsLoading ?? internalLoading;
@@ -82,10 +83,10 @@ const GareAutocomplete = <Multiple extends boolean = false>({
 
   return (
     <Autocomplete<Gare, Multiple, false, false>
-      id={providedId ?? `gare-autocomplete-${useId()}`}
+      id={providedId ?? `gare-autocomplete-${fallbackId}`}
       multiple={multiple}
-      value={value as any}
-      onChange={(_, newValue) => onChange(newValue as any)}
+      value={value}
+      onChange={(_, newValue) => onChange(newValue)}
       options={gares}
       filterOptions={customFilterOptions}
       getOptionLabel={getGareLabel}
@@ -109,7 +110,7 @@ const GareAutocomplete = <Multiple extends boolean = false>({
       }}
       renderOption={(props, gare) => (
         <MenuItem disabled={gare.id === 0} {...props} key={gare.id}>
-          <ListItemIcon>
+          <ListItemIcon sx={{ minWidth: 36 }}>
             <StyledIcon icon={LocationOnIcon} />
           </ListItemIcon>
           <ListItemText primary={getGareLabel(gare)} secondary={getGareDetails(gare)} />
@@ -121,23 +122,23 @@ const GareAutocomplete = <Multiple extends boolean = false>({
           label={label}
           placeholder={placeholder}
           required={required}
-          error={error || !!queryError}
+          error={error || Boolean(queryError)}
           helperText={queryError ? t(Labels.error_loading_voyages) : helperText}
           slotProps={{
             ...params.slotProps,
             input: {
-              ...params.slotProps.input,
+              ...params.slotProps?.input,
               startAdornment: StartIcon ? (
                 <InputAdornment position="start">
                   <StyledIcon icon={StartIcon} />
                 </InputAdornment>
               ) : (
-                params.slotProps.input.startAdornment
+                params.slotProps?.input?.startAdornment
               ),
               endAdornment: (
                 <>
                   {isLoading && <CircularProgress color="inherit" size={20} />}
-                  {params.slotProps.input.endAdornment}
+                  {params.slotProps?.input?.endAdornment}
                 </>
               ),
             },

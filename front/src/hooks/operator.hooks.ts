@@ -37,9 +37,11 @@ export function useCreateOperator() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (operator: Partial<UserOperator>) => createOperator(operator),
-    onSuccess: async data => {
+    onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries({ queryKey: ['operators'] });
-      await queryClient.invalidateQueries({ queryKey: ['koperative', data.koperative?.id, 'guichets'] });
+      if (variables.koperative?.id) {
+        await queryClient.invalidateQueries({ queryKey: ['koperative', variables.koperative.id, 'guichets'] });
+      }
     },
   });
 }
@@ -49,9 +51,11 @@ export function useUpdateOperator() {
 
   return useMutation({
     mutationFn: ({ id, operator }: { id: number; operator: Partial<UserOperator> }) => updateOperator(id, operator),
-    onSuccess: async _data => {
+    onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries({ queryKey: ['operators'] });
-      await queryClient.invalidateQueries({ queryKey: ['koperative', _data.koperative?.id, 'guichets'] });
+      if (variables.operator.koperative?.id) {
+        await queryClient.invalidateQueries({ queryKey: ['koperative', variables.operator.koperative.id, 'guichets'] });
+      }
     },
   });
 }

@@ -26,6 +26,9 @@ public interface IKoperativeController {
     @GetMapping("/{id}")
     ResponseEntity<Koperative> getKoperativeById(@PathVariable Long id);
 
+    @GetMapping("/slug/{slug}")
+    ResponseEntity<Koperative> getKoperativeBySlug(@PathVariable String slug);
+
     @PutMapping("/{id}")
     ResponseEntity<Koperative> updateKoperative(@PathVariable Long id, @RequestBody Koperative koperative);
 

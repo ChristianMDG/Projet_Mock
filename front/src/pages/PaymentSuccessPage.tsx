@@ -1,23 +1,36 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Alert, Box, Button, Card, CardActions, CardContent, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  TextField,
+  Typography,
+  InputAdornment,
+} from '@mui/material';
 import { useAuth } from '@/context/AuthContext';
+import NotesOutlined from '@mui/icons-material/NotesOutlined';
 import { useTranslation } from 'react-i18next';
 import { useVoyage } from '@/hooks/voyage.hooks';
 import { useCreatePostPaymentReservation } from '@/hooks/payment.hooks';
+import { useSearchVoyageur } from '@/hooks/voyageur.hooks';
 import { usePaymentSuccessStore } from '@/stores/payment-success.store';
 import { useSeatSelectionStore } from '@/stores/seat-selection.store';
 import { usePaymentStore } from '@/stores/payment.store';
-import { SelectedSeats, UserDetailsForm } from '@/components/forms';
+import { SelectedSeats } from '@/components/forms/SelectedSeats';
+import { UserDetailsForm } from '@/components/forms/UserDetailsForm';
 import { PaymentSuccessPageSkeleton } from '@/skeleton';
 import Labels from '@/labelKeys.json';
 import { SeatStatusEnum } from '@/models/enums';
 import { Seat } from '@/models/Seat';
 import { SeatConfig } from '@/types/type.props';
-import { searchVoyageur } from '@/api/voyageur.api';
 import { populateVoyageur } from '@/utils/populate.voyageur';
 import { ROUTES } from '@/constants/routes';
 import SEO from '@/components/shared/SEO';
+import { trackEvent } from '@/hooks/google-analytics.hook';
 
 const PaymentSuccessPage: React.FC = () => {
   const navigate = useNavigate();
@@ -25,14 +38,33 @@ const PaymentSuccessPage: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const { t, i18n } = useTranslation();
 
-  const { phoneNumber, resetPaymentFlow } = usePaymentStore();
+  useEffect(() => {
+    setTimeout(() => {
+      document.getElementById('info-user')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  }, []);
+
+  const { phoneNumber, isPartial, resetPaymentFlow } = usePaymentStore();
   const { selectedSeats } = useSeatSelectionStore();
-  const { userForm, notes, hasExistingAccount, setUserForm, setNotes, setHasExistingAccount, isFormValid, reset } =
+  const { userForm, notes, hasExistingAccount, setUserForm, setNotes, setHasExistingAccount, reset } =
     usePaymentSuccessStore();
 
+  const userFormRef = useRef(userForm);
+  userFormRef.current = userForm;
+
   const voyageId = params.voyageId ? Number(params.voyageId) : 0;
-  const voyageSelectedSeats: SeatConfig[] = selectedSeats[voyageId] ?? [];
+
+  const { data: foundVoyageur } = useSearchVoyageur(phoneNumber);
+
+  const voyageSelectedSeats: SeatConfig[] = useMemo(() => selectedSeats[voyageId] ?? [], [selectedSeats, voyageId]);
   const hasSelectedSeats = voyageSelectedSeats.length > 0;
+
+  const formValid = useMemo(
+    () => Boolean(userForm.firstName && userForm.lastName && userForm.phone),
+    [userForm.firstName, userForm.lastName, userForm.phone],
+  );
+
+  const navigateHome = useCallback(() => navigate(ROUTES.home[i18n.language]), [navigate, i18n.language]);
 
   const { data: voyage, isLoading: voyageLoading, error: voyageError } = useVoyage(voyageId ?? 0);
   const createReservationMutation = useCreatePostPaymentReservation();
@@ -52,45 +84,36 @@ const PaymentSuccessPage: React.FC = () => {
   }, [voyage, voyageSelectedSeats]);
 
   useEffect(() => {
-    const trimmed = phoneNumber.trim();
-    if (Boolean(trimmed && /^\d+$/.test(trimmed)) && !userForm.phone) {
-      searchVoyageur(trimmed)
-        .then(foundUser => {
-          if (foundUser) {
-            setUserForm(populateVoyageur(foundUser));
-            setHasExistingAccount(true);
-            return;
-          }
-
-          setUserForm({ ...userForm, phone: trimmed });
-          setHasExistingAccount(false);
-        })
-        .catch(() => {
-          setUserForm({ ...userForm, phone: trimmed });
-          setHasExistingAccount(false);
-        });
-    }
-  }, [phoneNumber, userForm, setUserForm, setHasExistingAccount]);
-
-  useEffect(() => {
-    const shouldPrefillUser = Boolean(user && !userForm.id);
-    if (shouldPrefillUser) {
+    if (user) {
       setUserForm({
-        id: user!.id,
-        firstName: user!.firstName ?? '',
-        lastName: user!.lastName ?? '',
-        phone: user!.phone ?? '',
-        email: user!.email ?? '',
-        idNumber: user!.idNumber ?? '',
-        address: user!.address ?? '',
+        id: user.id,
+        firstName: user.firstName ?? '',
+        lastName: user.lastName ?? '',
+        phone: user.phone ?? '',
+        idNumber: user.idNumber ?? '',
       });
     }
-  }, [user, userForm.id, setUserForm]);
+  }, [user, setUserForm]);
+
+  useEffect(() => {
+    if (user) return;
+
+    if (foundVoyageur) {
+      setUserForm(populateVoyageur(foundVoyageur));
+      setHasExistingAccount(true);
+    } else {
+      const trimmed = phoneNumber.trim();
+      if (trimmed) {
+        setUserForm({ ...userFormRef.current, phone: trimmed });
+        setHasExistingAccount(false);
+      }
+    }
+  }, [foundVoyageur, user, phoneNumber, setUserForm, setHasExistingAccount]);
 
   useEffect(() => () => reset(), [reset]);
 
   const handleSubmit = useCallback(() => {
-    if (voyage && hasSelectedSeats && isFormValid()) {
+    if (voyage && hasSelectedSeats && formValid) {
       createReservationMutation.mutate(
         {
           voyage,
@@ -101,21 +124,36 @@ const PaymentSuccessPage: React.FC = () => {
           redirectToLogin: !isAuthenticated,
           hasExistingAccount,
         },
-        { onSuccess: () => resetPaymentFlow() },
+        {
+          onSuccess: () => {
+            trackEvent(
+              'reservation_confirmed',
+              'Booking',
+              `${voyage.departureGare?.name ?? ''} → ${voyage.arrivalGare?.name ?? ''}`,
+              voyageSelectedSeats.length,
+            );
+            resetPaymentFlow();
+          },
+        },
       );
     }
   }, [
     voyage,
     hasSelectedSeats,
+    formValid,
     seats,
     userForm,
     notes,
     hasExistingAccount,
     isAuthenticated,
-    isFormValid,
     createReservationMutation,
     resetPaymentFlow,
+    voyageSelectedSeats.length,
   ]);
+
+  if (voyageLoading) {
+    return <PaymentSuccessPageSkeleton showForm={!isAuthenticated} />;
+  }
 
   const isPaymentValid = Boolean(voyageId && hasSelectedSeats);
 
@@ -125,24 +163,20 @@ const PaymentSuccessPage: React.FC = () => {
         <Typography variant="h6" color="error" gutterBottom>
           {t(Labels.payment_no_reservation_found)}
         </Typography>
-        <Button variant="contained" onClick={() => navigate(ROUTES.home[i18n.language])} sx={{ mt: 2 }}>
+        <Button variant="contained" onClick={navigateHome} sx={{ mt: 2 }}>
           {t(Labels.payment_return_home)}
         </Button>
       </Box>
     );
   }
 
-  if (voyageLoading) {
-    return <PaymentSuccessPageSkeleton showForm={!isAuthenticated} />;
-  }
-
-  if (voyageError || !voyage) {
+  if (voyageError) {
     return (
       <Box sx={{ textAlign: 'center' }}>
         <Typography variant="h6" color="error" gutterBottom>
           {t(Labels.error_loading_voyages)}
         </Typography>
-        <Button variant="contained" onClick={() => navigate(ROUTES.home[i18n.language])} sx={{ mt: 2 }}>
+        <Button variant="contained" onClick={navigateHome} sx={{ mt: 2 }}>
           {t(Labels.payment_return_home)}
         </Button>
       </Box>
@@ -150,60 +184,77 @@ const PaymentSuccessPage: React.FC = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', maxWidth: 600, mx: 'auto' }}>
-      <SEO title={t(Labels.payment_success)} />
-      <Alert severity="success" sx={{ mb: 3, borderRadius: 3, boxShadow: 1 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <Typography variant="h6">{t(Labels.payment_success)}</Typography>
-        </Box>
-        <Typography variant="body2" sx={{ mt: 1 }}>
-          {t(Labels.payment_success_description)}
-        </Typography>
-      </Alert>
+    voyage && (
+      <Box sx={{ minHeight: '100vh', maxWidth: 600, mx: 'auto' }}>
+        <SEO title={t(Labels.payment_success)} />
+        <SelectedSeats voyage={voyage} selectedSeats={seats} isPartial={isPartial} />
 
-      <SelectedSeats voyage={voyage} selectedSeats={seats} />
+        <Card sx={{ my: 2 }} id="info-user">
+          <CardContent>
+            <Typography variant="h4" gutterBottom>
+              {t(Labels.reservation_form_title)}
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+              <Alert severity="success" sx={{ borderRadius: 2, boxShadow: 0 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                    {t(Labels.payment_success)}
+                  </Typography>
+                </Box>
+              </Alert>
 
-      <Card sx={{ my: 2 }}>
-        <CardContent>
-          <Typography variant="h4" gutterBottom>
-            {t(Labels.reservation_form_title)}
-          </Typography>
+              <Alert severity="error" sx={{ borderRadius: 2, boxShadow: 0 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                    {t(Labels.payment_success_confirm_instruction)}
+                  </Typography>
+                </Box>
+              </Alert>
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
-            <UserDetailsForm
-              userForm={userForm}
-              setUserForm={form => setUserForm(typeof form === 'function' ? form(userForm) : form)}
-            />
+              <UserDetailsForm
+                userForm={userForm}
+                setUserForm={form => setUserForm(typeof form === 'function' ? form(userForm) : form)}
+              />
 
-            <TextField
+              <TextField
+                fullWidth
+                label={t(Labels.note_label)}
+                value={notes}
+                onChange={e => setNotes(e.target.value)}
+                variant="outlined"
+                multiline
+                rows={3}
+                placeholder={t(Labels.notes_placeholder)}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start" sx={{ alignSelf: 'flex-start', mt: 1.5 }}>
+                        <NotesOutlined fontSize="small" color="action" />
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+            </Box>
+          </CardContent>
+
+          <CardActions sx={{ p: 2, borderTop: 1, borderColor: 'divider' }}>
+            <Button fullWidth variant="outlined" disabled>
+              {t(Labels.ui_cancel)}
+            </Button>
+            <Button
               fullWidth
-              label={t(Labels.note_label)}
-              value={notes}
-              onChange={e => setNotes(e.target.value)}
-              variant="outlined"
-              multiline
-              rows={3}
-              placeholder={t(Labels.notes_placeholder)}
-            />
-          </Box>
-        </CardContent>
-
-        <CardActions sx={{ p: 2, borderTop: 1, borderColor: 'divider' }}>
-          <Button fullWidth variant="outlined" disabled>
-            {t(Labels.ui_cancel)}
-          </Button>
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={handleSubmit}
-            disabled={createReservationMutation.isPending || !isFormValid()}
-            size="large"
-          >
-            {createReservationMutation.isPending ? t(Labels.creating_reservation) : t(Labels.create_reservation)}
-          </Button>
-        </CardActions>
-      </Card>
-    </Box>
+              variant="contained"
+              onClick={handleSubmit}
+              disabled={createReservationMutation.isPending || !formValid}
+              size="large"
+            >
+              {createReservationMutation.isPending ? t(Labels.creating_reservation) : t(Labels.create_reservation)}
+            </Button>
+          </CardActions>
+        </Card>
+      </Box>
+    )
   );
 };
 

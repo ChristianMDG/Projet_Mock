@@ -1,63 +1,72 @@
 package mg.taxibrousse.controllers;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import lombok.RequiredArgsConstructor;
+import mg.taxibrousse.controllers.interfaces.IColisController;
 import mg.taxibrousse.entities.enums.ColisStatusEnum;
 import mg.taxibrousse.models.Colis;
 import mg.taxibrousse.services.IColisService;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/colis")
 @RequiredArgsConstructor
-public class ColisController {
+public class ColisController implements IColisController {
 
     private final IColisService colisService;
 
     @GetMapping
-    public List<Colis> listAllColis() {
-        return colisService.findAll();
+    public ResponseEntity<List<Colis>> listAllColis() {
+        return ResponseEntity.ok(colisService.findAll());
     }
 
     @GetMapping("/{id}")
-    public Colis getColis(@PathVariable Long id) {
-        return colisService.findById(id);
+    public ResponseEntity<Colis> getColis(Long id) {
+        return ResponseEntity.ok(colisService.findById(id));
     }
 
     @GetMapping("/status/{status}")
-    public List<Colis> listColisByStatus(@PathVariable ColisStatusEnum status) {
-        return colisService.findByStatus(status);
+    public ResponseEntity<List<Colis>> listColisByStatus(ColisStatusEnum status) {
+        return ResponseEntity.ok(colisService.findByStatus(status));
     }
 
     @GetMapping("/crafter/{crafterId}")
-    public List<Colis> listColisByCrafter(@PathVariable Long crafterId) {
-        return colisService.findByCrafterId(crafterId);
+    public ResponseEntity<List<Colis>> listColisByCrafter(Long crafterId) {
+        return ResponseEntity.ok(colisService.findByCrafterId(crafterId));
     }
 
     @GetMapping("/voyage/{voyageId}")
-    public List<Colis> listColisByVoyage(@PathVariable Long voyageId) {
-        return colisService.findByVoyageId(voyageId);
+    public ResponseEntity<List<Colis>> listColisByVoyage(Long voyageId) {
+        return ResponseEntity.ok(colisService.findByVoyageId(voyageId));
     }
 
     @GetMapping("/koperative/{koperativeId}")
-    public List<Colis> listColisByKoperative(@PathVariable Long koperativeId) {
-        return colisService.findByKoperativeId(koperativeId);
+    public ResponseEntity<List<Colis>> listColisByKoperative(Long koperativeId) {
+        return ResponseEntity.ok(colisService.findByKoperativeId(koperativeId));
     }
 
-    @PostMapping
-    public Colis createColis(@RequestBody Colis colis) {
-        return colisService.save(colis);
+    @Override
+    public ResponseEntity<List<Colis>> listFilteredColis(Long voyageId, String search) {
+        return ResponseEntity.ok(colisService.findFilteredByVoyageId(voyageId, search));
     }
 
-    @PutMapping("/{id}")
-    public Colis updateColis(@PathVariable Long id, @RequestBody Colis colis) {
+    @Override
+    public ResponseEntity<Colis> createColis(Colis colis) {
+        return ResponseEntity.ok(colisService.save(colis));
+    }
+
+    @Override
+    public ResponseEntity<Colis> updateColis(Long id, Colis colis) {
         colis.setId(id);
-        return colisService.save(colis);
+        return ResponseEntity.ok(colisService.save(colis));
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteColis(@PathVariable Long id) {
+    @Override
+    public ResponseEntity<Void> deleteColis(Long id) {
         colisService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

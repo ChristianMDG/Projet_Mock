@@ -5,6 +5,7 @@ import mg.taxibrousse.models.Crafter;
 import java.util.List;
 
 public interface ICrafterService {
+
     Crafter save(Crafter crafter);
 
     Crafter findById(Long id);

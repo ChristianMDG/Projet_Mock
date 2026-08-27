@@ -1,8 +1,9 @@
 import { SwipeableDrawer } from '@mui/material';
 import { Voyage } from '@/models/Voyage';
 import { SeatConfig } from '@/types/type.props';
-import { ReservationFormCard } from '@/components';
-import React from 'react';
+import { ReservationFormCard } from '@/components/reservation/ReservationFormCard';
+import React, { useEffect } from 'react';
+import { trackEvent } from '@/hooks/google-analytics.hook';
 
 interface ReservationFormDrawerProps {
   open: boolean;
@@ -19,6 +20,12 @@ export const ReservationFormDrawer: React.FC<ReservationFormDrawerProps> = ({
   selectedSeats,
   onSuccess,
 }) => {
+  useEffect(() => {
+    if (open) {
+      trackEvent('reservation_form_opened', 'Booking');
+    }
+  }, [open]);
+
   return (
     <SwipeableDrawer
       anchor="bottom"

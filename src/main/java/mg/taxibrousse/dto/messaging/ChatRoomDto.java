@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatRoomDto {
+
     private String roomId;
     private ChatRoomType type;
     private String participants;

@@ -13,11 +13,7 @@ import java.time.LocalDateTime;
  * actual token validation for performance at scale.
  */
 @Entity
-@Table(name = "token", indexes = {
-    @Index(name = "idx_jti", columnList = "jti"),
-    @Index(name = "idx_username", columnList = "username"),
-    @Index(name = "idx_expires_at", columnList = "expiresAt")
-})
+@Table(name = "token", indexes = {@Index(name = "idx_jti", columnList = "jti"), @Index(name = "idx_username", columnList = "username"), @Index(name = "idx_expires_at", columnList = "expiresAt")})
 @Getter
 @Setter
 @NoArgsConstructor

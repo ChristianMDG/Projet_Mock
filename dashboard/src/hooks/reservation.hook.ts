@@ -25,7 +25,9 @@ export const useReservations = (page = 0, size = 15) => {
   return useQuery({
     queryKey: reservationKeys.list(filters, page),
     queryFn: () => searchReservations(filters, page, size),
-    staleTime: 30000,
+    staleTime: 10000,
+    refetchInterval: 15000,
+    refetchOnWindowFocus: true,
     placeholderData: keepPreviousData,
   });
 };
@@ -36,6 +38,8 @@ export const useReservation = (id: number) => {
     queryKey: reservationKeys.detail(id),
     queryFn: () => getReservationById(id),
     enabled: id > 0,
+    staleTime: 10000,
+    refetchOnWindowFocus: true,
   });
 };
 
@@ -47,6 +51,8 @@ export const useUpdateReservationStatus = () => {
     mutationFn: ({ id, status }: { id: number; status: ReservationStatusEnum }) => updateReservationStatus(id, status),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: reservationKeys.all });
+      queryClient.invalidateQueries({ queryKey: ['seats'] });
+      queryClient.invalidateQueries({ queryKey: ['voyages'] });
     },
   });
 };
@@ -59,6 +65,8 @@ export const useCancelReservation = () => {
     mutationFn: (id: number) => cancelReservationByOperator(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: reservationKeys.all });
+      queryClient.invalidateQueries({ queryKey: ['seats'] });
+      queryClient.invalidateQueries({ queryKey: ['voyages'] });
     },
   });
 };
@@ -71,6 +79,8 @@ export const useConfirmReservation = () => {
     mutationFn: (id: number) => confirmReservation(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: reservationKeys.all });
+      queryClient.invalidateQueries({ queryKey: ['seats'] });
+      queryClient.invalidateQueries({ queryKey: ['voyages'] });
     },
   });
 };

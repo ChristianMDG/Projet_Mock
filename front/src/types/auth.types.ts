@@ -10,6 +10,7 @@ export interface LoginFormData {
   otp?: string;
   newPassword?: string;
   confirmPassword?: string;
+  isGuichet?: boolean;
 }
 
 export type AccountModel = UserOperator;
@@ -26,6 +27,7 @@ export interface AuthContext {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  isGuichetAndInactive: boolean;
   login: (token: string, user?: UserOperator) => void;
   logout: () => void;
   setUser: (user: UserOperator) => void;

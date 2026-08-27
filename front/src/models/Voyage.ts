@@ -5,7 +5,7 @@ import { Gare } from './Gare';
 import { Crafter } from './Crafter';
 import { Chauffeur } from './Chauffeur';
 import { Classe } from './Classe';
-import { RecurrenceTypeEnum, VoyageStatusEnum } from './enums';
+import { RecurrenceTypeEnum, VoyageStatusEnum, VoyageTypeEnum } from './enums';
 
 export interface Voyage extends Base {
   koperative?: Koperative;
@@ -20,8 +20,11 @@ export interface Voyage extends Base {
   actualArrivalTime?: string;
   availableSeats?: number;
   pricePerSeat: number;
+  priceKoperative?: number;
   status?: VoyageStatusEnum;
+  typeVoyage?: VoyageTypeEnum;
   description?: string;
+  pourcentageMinimumAvance?: number;
 
   // Recurrence fields
   recurrenceType?: RecurrenceTypeEnum;
@@ -45,8 +48,11 @@ export class VoyageManager {
       koperative: { id: koperativeId } as Koperative,
       recurrenceType: RecurrenceTypeEnum.ONE_OFF,
       status: VoyageStatusEnum.SCHEDULED,
+      typeVoyage: VoyageTypeEnum.NATIONAL,
       availableSeats: 0,
       pricePerSeat: 0,
+      priceKoperative: 0,
+      pourcentageMinimumAvance: 0,
       isTemplate: false,
     };
   }
@@ -75,8 +81,10 @@ export class VoyageManager {
       departureTime: voyage.departureTime,
       estimatedArrivalTime: voyage.estimatedArrivalTime,
       availableSeats: voyage.availableSeats,
-      pricePerSeat: voyage.pricePerSeat,
+      priceKoperative: voyage.priceKoperative,
+      pourcentageMinimumAvance: voyage.pourcentageMinimumAvance ?? 0,
       status: voyage.status,
+      typeVoyage: voyage.typeVoyage,
       description: voyage.description,
       recurrenceType: voyage.recurrenceType,
       customInterval: voyage.customInterval,
@@ -151,7 +159,7 @@ export class VoyageManager {
       errors.push('Departure time is required');
     }
 
-    if (!voyage.pricePerSeat || voyage.pricePerSeat <= 0) {
+    if (!voyage.priceKoperative || voyage.priceKoperative <= 0) {
       errors.push('Price per seat must be greater than 0');
     }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, Box, Card, CardContent, Grid, Rating, Typography, type SxProps, type Theme } from '@mui/material';
-import { Star } from '@mui/icons-material';
+import Star from '@mui/icons-material/Star';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import type { Testimonials as TestimonialsType } from '@/api/dynamic-page.api';

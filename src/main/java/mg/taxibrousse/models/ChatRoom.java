@@ -1,5 +1,6 @@
 package mg.taxibrousse.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import mg.taxibrousse.entities.ChatRoomEntity;
 import mg.taxibrousse.entities.enums.ChatRoomType;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static java.util.Optional.ofNullable;
@@ -27,6 +29,9 @@ public class ChatRoom extends BaseDto<ChatRoomEntity> {
     private String metadata;
     private Long unreadCount;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime lastActivity;
+
     public static ChatRoom fromEntity(ChatRoomEntity entity) {
         if (entity == null) {
             return null;
@@ -42,6 +47,7 @@ public class ChatRoom extends BaseDto<ChatRoomEntity> {
         model.lastMessage = entity.getLastMessage();
         model.lastMessageSender = entity.getLastMessageSender();
         model.metadata = entity.getMetadata();
+        model.lastActivity = entity.getUpdatedAt();
 
         return model;
     }
@@ -61,7 +67,8 @@ public class ChatRoom extends BaseDto<ChatRoomEntity> {
                 .title(entity.getTitle())
                 .lastMessage(entity.getLastMessage())
                 .lastMessageSender(entity.getLastMessageSender())
-                .metadata(entity.getMetadata());
+                .metadata(entity.getMetadata())
+                .lastActivity(entity.getUpdatedAt());
     }
 
     public static ChatRoom fromEntityLight(ChatRoomEntity entity) {

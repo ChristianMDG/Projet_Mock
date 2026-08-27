@@ -7,9 +7,10 @@ import mg.taxibrousse.entities.ReservationEntity;
  * Messages are sent in the user's preferred language.
  */
 public interface IReservationSmsService {
-    
+
     /**
      * Sends a confirmation SMS after a reservation is confirmed/paid.
+     *
      * @param reservation The confirmed reservation
      */
     void sendConfirmationSms(ReservationEntity reservation);

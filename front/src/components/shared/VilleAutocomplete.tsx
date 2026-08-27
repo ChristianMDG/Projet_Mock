@@ -17,7 +17,7 @@ import { Ville } from '@/models/Ville';
 import { useVilles } from '@/hooks/ville.hooks';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
-import { StyledIcon } from '../ui';
+import StyledIcon from '@/components/ui/StyledIcon';
 import type { SvgIconComponent } from '@mui/icons-material';
 
 interface VilleAutocompleteProps<Multiple extends boolean = false> {
@@ -33,6 +33,10 @@ interface VilleAutocompleteProps<Multiple extends boolean = false> {
   multiple?: Multiple;
   id?: string;
   startIcon?: SvgIconComponent;
+  excludeVille?: Ville | null;
+  options?: Ville[];
+  isLoading?: boolean;
+  fetchError?: unknown;
 }
 
 const VilleAutocomplete = <Multiple extends boolean = false>({
@@ -48,9 +52,22 @@ const VilleAutocomplete = <Multiple extends boolean = false>({
   multiple,
   id: providedId,
   startIcon: StartIcon,
+  excludeVille,
+  options: externalOptions,
+  isLoading: externalIsLoading,
+  fetchError: externalFetchError,
 }: VilleAutocompleteProps<Multiple>) => {
   const { t } = useTranslation();
-  const { data: villes = [], isLoading, error: queryError } = useVilles();
+  const fallbackId = useId();
+  const { data: rawVilles = [], isLoading: internalLoading, error: internalError } = useVilles();
+
+  const actualVilles = externalOptions ?? rawVilles;
+  const isLoading = externalIsLoading ?? internalLoading;
+  const queryError = externalFetchError ?? internalError;
+
+  const villes = [...actualVilles]
+    .filter(v => (excludeVille ? v.id !== excludeVille.id : true))
+    .sort((a, b) => (b.frequence ?? 0) - (a.frequence ?? 0));
 
   const getVilleLabel = (ville: Ville) => ville?.name ?? '';
   const getVilleDetails = (ville: Ville) => [ville?.province, ville?.region].filter(Boolean).join(' • ');
@@ -65,7 +82,7 @@ const VilleAutocomplete = <Multiple extends boolean = false>({
     if (tooMany) {
       return [
         ...filtered.slice(0, 4),
-        { id: 0, name: t(Labels.ui_koperative_more_results, { count: filtered.length - 4 }) } as Ville,
+        { id: 0, name: t(Labels.ui_city_more_results, { count: filtered.length - 4 }) } as Ville,
       ];
     }
 
@@ -74,7 +91,7 @@ const VilleAutocomplete = <Multiple extends boolean = false>({
 
   return (
     <Autocomplete<Ville, Multiple, false, false>
-      id={providedId ?? useId()}
+      id={providedId ?? fallbackId}
       multiple={multiple}
       value={value}
       onChange={(_, newValue) => onChange(newValue)}
@@ -100,7 +117,7 @@ const VilleAutocomplete = <Multiple extends boolean = false>({
       }}
       renderOption={(props, ville) => (
         <MenuItem disabled={ville.id === 0} {...props} key={ville.id}>
-          <ListItemIcon>
+          <ListItemIcon sx={{ minWidth: 36 }}>
             <StyledIcon icon={LocationCityIcon} />
           </ListItemIcon>
           <ListItemText primary={getVilleLabel(ville)} secondary={getVilleDetails(ville)} />
@@ -112,26 +129,26 @@ const VilleAutocomplete = <Multiple extends boolean = false>({
           label={label}
           placeholder={placeholder}
           required={required}
-          error={error || !!queryError}
+          error={error || Boolean(queryError)}
           helperText={queryError ? t(Labels.error_loading_voyages) : helperText}
           slotProps={{
             ...params.slotProps,
             input: {
-              ...params.slotProps.input,
+              ...params.slotProps?.input,
               startAdornment: StartIcon ? (
                 <>
                   <InputAdornment position="start">
                     <StyledIcon icon={StartIcon} />
                   </InputAdornment>
-                  {params.slotProps.input.startAdornment}
+                  {params.slotProps?.input?.startAdornment}
                 </>
               ) : (
-                params.slotProps.input.startAdornment
+                params.slotProps?.input?.startAdornment
               ),
               endAdornment: (
                 <>
                   {isLoading && <CircularProgress color="inherit" size={20} />}
-                  {params.slotProps.input.endAdornment}
+                  {params.slotProps?.input?.endAdornment}
                 </>
               ),
             },

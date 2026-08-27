@@ -15,4 +15,7 @@ export interface PaymentTransaction extends Base {
   completedAt?: string;
   otpAttempts?: number;
   paymentUrl?: string;
+  fraisRetrait?: number;
+  fraisTransfert?: number;
+  fraisTotal?: number;
 }

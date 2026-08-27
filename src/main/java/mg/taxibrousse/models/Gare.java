@@ -52,18 +52,11 @@ public class Gare extends BaseDto<GareEntity> {
         }
 
         if (withDetails && entity.getPhotos() != null) {
-            model.setPhotos(entity.getPhotos()
-                    .stream()
-                    .map(Cloudinary::fromEntity)
-                    .toList());
+            model.setPhotos(entity.getPhotos().stream().map(Cloudinary::fromEntity).toList());
         }
 
         if (withDetails && entity.getGuichets() != null) {
-            model.setGuichets(entity
-                    .getGuichets()
-                    .stream()
-                    .map(guichet -> Guichet.fromEntity(guichet, false))
-                    .toList());
+            model.setGuichets(entity.getGuichets().stream().map(guichet -> Guichet.fromEntity(guichet, false)).toList());
         }
 
         return model;
@@ -111,13 +104,11 @@ public class Gare extends BaseDto<GareEntity> {
         }
 
         if (photos != null && !photos.isEmpty()) {
-            List<CloudinaryEntity> photoEntities = photos.stream()
-                    .map(img -> {
-                        CloudinaryEntity photoEntity = new CloudinaryEntity();
-                        photoEntity.setId(img.getId());
-                        return photoEntity;
-                    })
-                    .toList();
+            List<CloudinaryEntity> photoEntities = photos.stream().map(img -> {
+                CloudinaryEntity photoEntity = new CloudinaryEntity();
+                photoEntity.setId(img.getId());
+                return photoEntity;
+            }).toList();
             entity.setPhotos(photoEntities);
         }
 

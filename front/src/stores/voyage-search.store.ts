@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import dayjs, { Dayjs } from 'dayjs';
 import { Koperative, Ville, Voyage } from '@/types';
 import { customStorage } from '@/utils/customStorage';
+import { DepartureTimeGroupEnum } from '@/models/enums';
 
 export interface VoyageSearchState {
   // Search form state
@@ -13,6 +14,7 @@ export interface VoyageSearchState {
   passengers: number;
   isRoundTrip: boolean;
   koperativeId: number | null;
+  departureTimeGroup: DepartureTimeGroupEnum | null;
   // Search results state
   searchResults: Voyage[];
   availableKoperatives: Koperative[];
@@ -29,6 +31,7 @@ export interface VoyageSearchState {
   setPassengers: (count: number) => void;
   setIsRoundTrip: (roundTrip: boolean) => void;
   setKoperativeId: (koperativeId: number | null) => void;
+  setDepartureTimeGroup: (group: DepartureTimeGroupEnum | null) => void;
   setSearchResults: (results: Voyage[]) => void;
   setAvailableKoperatives: (koperatives: Koperative[]) => void;
   setLoading: (loading: boolean) => void;
@@ -48,6 +51,7 @@ const initialState = {
   passengers: 1,
   isRoundTrip: false,
   koperativeId: null,
+  departureTimeGroup: null,
   searchResults: [],
   availableKoperatives: [],
   isLoading: false,
@@ -70,6 +74,7 @@ export const useVoyageSearchStore = create<VoyageSearchState>()(
           returnDate: isRoundTrip ? (get().returnDate ?? dayjs().add(7, 'day')) : null,
         }),
       setKoperativeId: koperativeId => set({ koperativeId }),
+      setDepartureTimeGroup: departureTimeGroup => set({ departureTimeGroup }),
       setSearchResults: searchResults => set({ searchResults }),
       setAvailableKoperatives: availableKoperatives => set({ availableKoperatives }),
       setLoading: isLoading => set({ isLoading }),
@@ -111,6 +116,7 @@ export const useVoyageSearchStore = create<VoyageSearchState>()(
         passengers: state.passengers,
         isRoundTrip: state.isRoundTrip,
         koperativeId: state.koperativeId,
+        departureTimeGroup: state.departureTimeGroup,
       }),
       storage: {
         getItem: name => {
@@ -149,6 +155,7 @@ export const useVoyageSearchStore = create<VoyageSearchState>()(
         },
         removeItem: name => customStorage.removeItem(name),
       },
+      skipHydration: true,
     },
   ),
 );

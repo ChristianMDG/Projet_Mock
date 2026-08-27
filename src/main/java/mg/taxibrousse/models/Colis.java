@@ -1,16 +1,22 @@
 package mg.taxibrousse.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import mg.taxibrousse.entities.ColisEntity;
+import mg.taxibrousse.entities.VoyageEntity;
 import mg.taxibrousse.entities.enums.ColisStatusEnum;
 import mg.taxibrousse.entities.enums.ColisTypeEnum;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Optional;
 
 @Setter
 @Getter
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 public class Colis extends BaseDto<ColisEntity> {
 
     private String senderName;
@@ -32,6 +38,17 @@ public class Colis extends BaseDto<ColisEntity> {
         if (entity == null) {
             return null;
         }
+        var model = fromEntityLight(entity);
+        model.setCrafter(Optional.ofNullable(entity.getCrafter()).map(Crafter::fromEntity).orElse(null));
+        model.setReservation(Optional.ofNullable(entity.getReservation()).map(Reservation::fromEntity).orElse(null));
+        model.setVoyageId(Optional.ofNullable(entity.getVoyage()).map(VoyageEntity::getId).orElse(null));
+        return model;
+    }
+
+    public static Colis fromEntityLight(ColisEntity entity) {
+        if (entity == null) {
+            return null;
+        }
         var model = new Colis();
         model.setBaseDto(entity);
         model.setSenderName(entity.getSenderName());
@@ -45,31 +62,31 @@ public class Colis extends BaseDto<ColisEntity> {
         model.setWeight(entity.getWeight());
         model.setPrice(entity.getPrice());
         model.setStatus(entity.getStatus());
-        model.setCrafter(Crafter.fromEntity(entity.getCrafter()));
-        model.setReservation(Reservation.fromEntity(entity.getReservation()));
-        model.setVoyageId(entity.getVoyage() != null ? entity.getVoyage().getId() : null);
         return model;
     }
 
     @Override
     public ColisEntity toEntity(ColisEntity entity) {
-        entity = Objects.requireNonNullElse(entity, new ColisEntity());
-        setBaseEntity(entity);
-        entity.setSenderName(senderName);
-        entity.setSenderPhone(senderPhone);
-        entity.setRecipientName(recipientName);
-        entity.setRecipientPhone(recipientPhone);
-        entity.setDescription(description);
-        entity.setType(type);
-        entity.setContent(content);
-        entity.setEstimatedValue(estimatedValue);
-        entity.setWeight(weight);
-        entity.setPrice(price);
-        entity.setStatus(status);
-        entity.setCrafter(crafter != null ? crafter.toEntity() : null);
-        entity.setReservation(reservation != null ? reservation.toEntity() : null);
-        // Voyage is set in ColisService
-        // entity.setVoyage(voyageId != null ? VoyageEntity.builder().id(voyageId).build() : null);
-        return entity;
+        ColisEntity targetEntity = Objects.requireNonNullElseGet(entity, ColisEntity::new);
+        setBaseEntity(targetEntity);
+        targetEntity.setSenderName(senderName);
+        targetEntity.setSenderPhone(senderPhone);
+        targetEntity.setRecipientName(recipientName);
+        targetEntity.setRecipientPhone(recipientPhone);
+        targetEntity.setDescription(description);
+        targetEntity.setType(type);
+        targetEntity.setContent(content);
+        targetEntity.setEstimatedValue(estimatedValue);
+        targetEntity.setWeight(weight);
+        targetEntity.setPrice(price);
+        targetEntity.setStatus(status);
+        targetEntity.setCrafter(Optional.ofNullable(crafter).map(BaseDto::toEntity).orElse(null));
+        targetEntity.setReservation(Optional.ofNullable(reservation).map(BaseDto::toEntity).orElse(null));
+        Optional.ofNullable(voyageId).ifPresent(id -> {
+            VoyageEntity voyage = new VoyageEntity();
+            voyage.setId(id);
+            targetEntity.setVoyage(voyage);
+        });
+        return targetEntity;
     }
 }

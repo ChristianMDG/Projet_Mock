@@ -6,19 +6,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import mg.taxibrousse.entities.PaymentTransactionEntity;
+import mg.taxibrousse.entities.FacturationEntity;
 import mg.taxibrousse.entities.enums.PaymentTransactionStatusEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 @Setter
 @Getter
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 public class PaymentTransaction extends BaseDto<PaymentTransactionEntity> {
-
     private Long facturationId;
+    private Facturation facturation;
     private String transactionReference;
     private String operatorName;
     private BigDecimal amount;
@@ -28,13 +30,19 @@ public class PaymentTransaction extends BaseDto<PaymentTransactionEntity> {
     private String operatorResponse;
     private String failureReason;
     private String paymentUrl;
-    
+    private BigDecimal fraisRetrait;
+    private BigDecimal fraisTransfert;
+    private BigDecimal fraisTotal;
+    private BigDecimal fraisTransaction;
+    private BigDecimal commissionSeats;
+    private BigDecimal commissionFee;
+
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime initiatedAt;
-    
+
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime completedAt;
-    
+
     private Integer otpAttempts;
 
     public static PaymentTransaction fromEntity(PaymentTransactionEntity entity) {
@@ -43,7 +51,8 @@ public class PaymentTransaction extends BaseDto<PaymentTransactionEntity> {
         }
         var model = new PaymentTransaction();
         model.setBaseDto(entity);
-        model.setFacturationId(entity.getFacturation() != null ? entity.getFacturation().getId() : null);
+        model.setFacturationId(Optional.ofNullable(entity.getFacturation()).map(FacturationEntity::getId).orElse(null));
+        model.setFacturation(Optional.ofNullable(entity.getFacturation()).map(f -> Facturation.fromEntity(f, true)).orElse(null));
         model.setTransactionReference(entity.getTransactionReference());
         model.setOperatorName(entity.getOperatorName());
         model.setAmount(entity.getAmount());
@@ -55,6 +64,12 @@ public class PaymentTransaction extends BaseDto<PaymentTransactionEntity> {
         model.setInitiatedAt(entity.getInitiatedAt());
         model.setCompletedAt(entity.getCompletedAt());
         model.setOtpAttempts(entity.getOtpAttempts());
+        model.setFraisRetrait(entity.getFraisRetrait());
+        model.setFraisTransfert(entity.getFraisTransfert());
+        model.setFraisTotal(entity.getFraisTotal());
+        model.setFraisTransaction(entity.getFraisTransaction());
+        model.setCommissionSeats(entity.getCommissionSeats());
+        model.setCommissionFee(entity.getCommissionFee());
         return model;
     }
 
@@ -63,7 +78,8 @@ public class PaymentTransaction extends BaseDto<PaymentTransactionEntity> {
                 .id(entity.getId())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
-                .facturationId(entity.getFacturation() != null ? entity.getFacturation().getId() : null)
+                .facturationId(Optional.ofNullable(entity.getFacturation()).map(FacturationEntity::getId).orElse(null))
+                .facturation(Optional.ofNullable(entity.getFacturation()).map(f -> Facturation.fromEntity(f, true)).orElse(null))
                 .transactionReference(entity.getTransactionReference())
                 .operatorName(entity.getOperatorName())
                 .amount(entity.getAmount())
@@ -74,7 +90,13 @@ public class PaymentTransaction extends BaseDto<PaymentTransactionEntity> {
                 .failureReason(resolveFailureReason(entity))
                 .initiatedAt(entity.getInitiatedAt())
                 .completedAt(entity.getCompletedAt())
-                .otpAttempts(entity.getOtpAttempts());
+                .otpAttempts(entity.getOtpAttempts())
+                .fraisRetrait(entity.getFraisRetrait())
+                .fraisTransfert(entity.getFraisTransfert())
+                .fraisTotal(entity.getFraisTotal())
+                .fraisTransaction(entity.getFraisTransaction())
+                .commissionSeats(entity.getCommissionSeats())
+                .commissionFee(entity.getCommissionFee());
     }
 
     public static PaymentTransaction fromEntityLight(PaymentTransactionEntity entity) {
@@ -95,15 +117,20 @@ public class PaymentTransaction extends BaseDto<PaymentTransactionEntity> {
         entity.setInitiatedAt(initiatedAt);
         entity.setCompletedAt(completedAt);
         entity.setOtpAttempts(otpAttempts);
+        entity.setFraisRetrait(fraisRetrait);
+        entity.setFraisTransfert(fraisTransfert);
+        entity.setFraisTotal(fraisTotal);
+        entity.setFraisTransaction(fraisTransaction);
+        entity.setCommissionSeats(commissionSeats);
+        entity.setCommissionFee(commissionFee);
         return entity;
     }
 
     private static String resolveFailureReason(PaymentTransactionEntity entity) {
         if (entity.getStatus().isTerminal() && entity.getStatus() != PaymentTransactionStatusEnum.COMPLETED) {
-            var response = entity.getOperatorResponse();
-            if (response != null && response.startsWith("payment_error_")) {
-                return response;
-            }
+            return Optional.ofNullable(entity.getOperatorResponse())
+                    .filter(response -> response.startsWith("payment_error_"))
+                    .orElse(null);
         }
         return null;
     }

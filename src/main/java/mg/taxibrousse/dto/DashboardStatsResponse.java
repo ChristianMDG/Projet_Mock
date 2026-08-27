@@ -13,6 +13,7 @@ import java.util.Map;
 @Setter
 @Builder
 public class DashboardStatsResponse {
+
     // Reservation stats
     private long totalReservations;
     private long confirmedCount;
@@ -48,6 +49,7 @@ public class DashboardStatsResponse {
     @Setter
     @Builder
     public static class RouteStats {
+
         private String name;
         private long count;
         private BigDecimal revenue;

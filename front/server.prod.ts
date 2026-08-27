@@ -9,15 +9,27 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function createServer() {
   const app = express();
-  const port = parseInt(process.env.PORT || '3000', 10);
+  app.disable('x-powered-by');
+  const port = Number.parseInt(process.env.PORT ?? '3000', 10);
+
+  app.use((_req, res, next) => {
+    res.setHeader('Permissions-Policy', 'unload=(self)');
+    next();
+  });
 
   // SEO routes
   app.get('/robots.txt', (_req: Request, res: Response) => {
     res.set('Content-Type', 'text/plain').send(generateRobotsTxt());
   });
 
-  app.get('/sitemap.xml', (_req: Request, res: Response) => {
-    res.set('Content-Type', 'application/xml; charset=utf-8').send(generateSitemapXml());
+  app.get('/sitemap.xml', async (_req: Request, res: Response) => {
+    try {
+      const xml = await generateSitemapXml();
+      res.set('Content-Type', 'application/xml; charset=utf-8').send(xml);
+    } catch (e) {
+      console.error('Error generating sitemap.xml:', e);
+      res.status(500).send('<?xml version="1.0"?><error>Failed to generate sitemap</error>');
+    }
   });
 
   // Serve static files from dist/client
@@ -64,11 +76,12 @@ async function createServer() {
 
       // Inject dehydrated state for React Query
       // Extract mode from cookies just for the script injection
-      const cookies = req.headers.cookie || '';
-      const mode = cookies.match(/mui-mode=(light|dark)/)?.[1] || 'light';
+      const cookies = req.headers.cookie ?? '';
+      const mode = /mui-mode=(light|dark)/.exec(cookies)?.[1] ?? 'light';
 
       const stateScript = `<script>
         window.__REACT_QUERY_STATE__ = ${JSON.stringify(dehydratedState)};
+        window.__SSR_LANGUAGE__ = ${JSON.stringify(language)};
         window.__MUI_MODE__ = ${JSON.stringify(mode)};
       </script>`;
 
@@ -85,8 +98,8 @@ async function createServer() {
       html = html.replace('</head>', `${helmetHead}${stateScript}</head>`);
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
-    } catch (e: any) {
-      console.error('SSR Error:', e.message);
+    } catch (e: unknown) {
+      console.error('SSR Error:', e);
       // Fallback to client-side rendering
       try {
         const template = fs.readFileSync(path.resolve(__dirname, 'dist/client/index.html'), 'utf-8');
@@ -105,8 +118,8 @@ async function createServer() {
   });
 
   app.listen(port, '0.0.0.0', () => {
-    console.log(`SSR Server running at http://0.0.0.0:${port}`);
+    console.warn(`SSR Server running at http://0.0.0.0:${port}`);
   });
 }
 
-createServer();
+await createServer();

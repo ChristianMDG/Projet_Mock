@@ -57,18 +57,12 @@ public class VilleService implements IVilleService {
     @Transactional(readOnly = true)
     @Cacheable(value = "villes", key = "'top20'")
     public List<Ville> getTop20Villes() {
-        return villeRepository.findTop20ByIsActiveTrueOrderByFrequenceDesc()
-                .stream()
-                .map(Ville::fromEntity)
-                .toList();
+        return villeRepository.findTop20ByIsActiveTrueOrderByFrequenceDesc().stream().map(Ville::fromEntity).toList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Ville> findByKeyword(String keyword) {
-        return villeRepository.findByKeyword(keyword, PageRequest.of(0, 5))
-                .stream()
-                .map(Ville::fromEntity)
-                .toList();
+        return villeRepository.findByKeyword(keyword, PageRequest.of(0, 5)).stream().map(Ville::fromEntity).toList();
     }
 }

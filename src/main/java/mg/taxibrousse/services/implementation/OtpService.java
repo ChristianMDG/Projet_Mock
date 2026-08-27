@@ -17,6 +17,7 @@ public class OtpService implements IOtpService {
     private final ISmsService smsService;
     private static final String OTP_PREFIX = "otp:";
     private static final long OTP_EXPIRATION_MINUTES = 5;
+    private static final SecureRandom random = new SecureRandom();
 
     @Override
     public void generateAndSendOtp(String phoneNumber) {
@@ -28,16 +29,18 @@ public class OtpService implements IOtpService {
 
     @Override
     public boolean verifyOtp(String phoneNumber, String otp) {
+        if (otp == null || otp.isBlank())
+            return false;
+
         String storedOtp = redisTemplate.opsForValue().get(OTP_PREFIX + phoneNumber);
-        if (storedOtp != null && storedOtp.equals(otp)) {
+        boolean valid = otp.equals(storedOtp);
+        if (valid)
             redisTemplate.delete(OTP_PREFIX + phoneNumber);
-            return true;
-        }
-        return false;
+
+        return valid;
     }
 
     private String generateOtp() {
-        SecureRandom random = new SecureRandom();
         int otp = 100000 + random.nextInt(900000);
         return String.valueOf(otp);
     }

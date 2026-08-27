@@ -35,9 +35,7 @@ public class RouteService {
     @Transactional(readOnly = true)
     @Cacheable(value = "routes", key = "'gare-' + #gareId")
     public List<Route> findByConnectedGare(Long gareId) {
-        return routeRepository.findByDepartureGareId(gareId)
-                .stream().map(Route::fromEntity)
-                .toList();
+        return routeRepository.findByDepartureGareId(gareId).stream().map(Route::fromEntity).toList();
     }
 
     /**
@@ -46,8 +44,7 @@ public class RouteService {
     @Transactional(readOnly = true)
     @Cacheable(value = "routes", key = "#id", unless = "#result == null")
     public Optional<Route> findById(Long id) {
-        return routeRepository.findByIdWithGares(id)
-                .map(Route::fromEntity);
+        return routeRepository.findByIdWithGares(id).map(Route::fromEntity);
     }
 
     /**
@@ -59,14 +56,12 @@ public class RouteService {
         RouteEntity entity = route.toEntity(null);
 
         if (route.getDepartureGare() != null && route.getDepartureGare().getId() != null) {
-            GareEntity departureGare = gareRepository.findById(route.getDepartureGare().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Departure gare not found"));
+            GareEntity departureGare = gareRepository.findById(route.getDepartureGare().getId()).orElseThrow(() -> new IllegalArgumentException("Departure gare not found"));
             entity.setDepartureGare(departureGare);
         }
 
         if (route.getArrivalGare() != null && route.getArrivalGare().getId() != null) {
-            GareEntity arrivalGare = gareRepository.findById(route.getArrivalGare().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Arrival gare not found"));
+            GareEntity arrivalGare = gareRepository.findById(route.getArrivalGare().getId()).orElseThrow(() -> new IllegalArgumentException("Arrival gare not found"));
             entity.setArrivalGare(arrivalGare);
         }
 
@@ -85,8 +80,7 @@ public class RouteService {
     @Transactional
     @CacheEvict(value = "routes", allEntries = true)
     public void deleteById(Long id) {
-        RouteEntity entity = routeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Route not found"));
+        RouteEntity entity = routeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Route not found"));
         entity.setIsActive(false);
         routeRepository.save(entity);
     }
@@ -97,26 +91,20 @@ public class RouteService {
      */
     @Transactional(readOnly = true)
     public List<Gare> getAvailableDestinations(Long departureGareId) {
-        List<Long> existingConnectedGareIds = new ArrayList<>(findByConnectedGare(departureGareId)
-                .stream().map(route -> route.getArrivalGare().getId())
-                .toList());
+        List<Long> existingConnectedGareIds = new ArrayList<>(findByConnectedGare(departureGareId).stream().map(route -> route.getArrivalGare().getId()).toList());
 
         existingConnectedGareIds.add(departureGareId);
 
-        return gareRepository.findByIdNotIn(existingConnectedGareIds)
-                .stream()
-                .map(Gare::fromEntity)
-                .toList();
+        return gareRepository.findByIdNotIn(existingConnectedGareIds).stream().map(Gare::fromEntity).toList();
     }
+
     /**
      * Get all active routes
      */
     @Transactional(readOnly = true)
     @Cacheable(value = "routes", key = "'active'")
     public List<Route> findAllActive() {
-        return routeRepository.findAllActiveWithGares()
-                .stream().map(Route::fromEntity)
-                .toList();
+        return routeRepository.findAllActiveWithGares().stream().map(Route::fromEntity).toList();
     }
 
     /**
@@ -125,17 +113,13 @@ public class RouteService {
     @Transactional(readOnly = true)
     @Cacheable(value = "routes", key = "'all'")
     public List<Route> findAll() {
-        return routeRepository.findAll()
-                .stream().map(Route::fromEntity)
-                .toList();
+        return routeRepository.findAll().stream().map(Route::fromEntity).toList();
     }
 
     @Transactional(readOnly = true)
     @Cacheable(value = "routes", key = "'ville-' + #villeId")
     public List<Route> findByVille(Long villeId) {
-        return routeRepository.findByDepartureGareVilleId(villeId)
-                .stream().map(Route::fromEntity)
-                .toList();
+        return routeRepository.findByDepartureGareVilleId(villeId).stream().map(Route::fromEntity).toList();
     }
 
     /**
@@ -144,10 +128,7 @@ public class RouteService {
     @Transactional(readOnly = true)
     @Cacheable(value = "routes", key = "'top-gare-' + #departureGareId")
     public List<Route> getRoutesByDepartureGareId(Long departureGareId) {
-        return routeRepository.findTopByDepartureGare(departureGareId, PageRequest.of(0, 5))
-                .stream()
-                .map(Route::fromEntity)
-                .toList();
+        return routeRepository.findTopByDepartureGare(departureGareId, PageRequest.of(0, 5)).stream().map(Route::fromEntity).toList();
     }
 
     /**
@@ -157,27 +138,22 @@ public class RouteService {
      */
     @Transactional(readOnly = true)
     public List<Route> getRoutesByDepartureVilleId(Long villeId, LocalDate date) {
-        List<RouteEntity> routeEntities = routeRepository.findTopByDepartureVille(villeId, PageRequest.of(0, 5));
-        if (routeEntities.isEmpty()) return List.of();
+        List<RouteEntity> routeEntities = routeRepository.findTopByDepartureVille(villeId, PageRequest.of(0, 25));
+        if (routeEntities.isEmpty())
+            return List.of();
 
         var startDateTime = date.atStartOfDay();
         var endDateTime = date.plusDays(14).atStartOfDay();
+        var routeIds = routeEntities.stream().map(RouteEntity::getId).toList();
 
-        var voyagesByRouteId = voyageRepository.findByRouteIdsAndDepartureBetween(
-                routeEntities.stream().map(RouteEntity::getId).toList(),
-                startDateTime,
-                endDateTime
-        ).stream().collect(Collectors.groupingBy(
-                v -> v.getRoute().getId(),
-                Collectors.mapping(Voyage::fromEntityLightWithKoperative, Collectors.toList())
-        ));
+        var voyagesByRouteId = voyageRepository.findByRouteIdsAndDepartureBetween(routeIds, startDateTime, endDateTime)
+                .stream()
+                .collect(Collectors.groupingBy(v -> v.getRoute().getId(), Collectors.mapping(Voyage::fromEntityLightWithKoperative, Collectors.toList())));
 
         return routeEntities.stream().map(entity -> {
             var route = Route.fromEntity(entity);
             route.setVoyages(voyagesByRouteId.getOrDefault(entity.getId(), List.of()));
             return route;
-        })
-        .filter(route -> route.getVoyages().isEmpty() == false)
-        .toList();
+        }).filter(route -> route.getVoyages().iterator().hasNext()).toList();
     }
 }

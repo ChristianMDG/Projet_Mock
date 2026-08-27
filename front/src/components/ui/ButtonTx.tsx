@@ -27,13 +27,17 @@ const ButtonTx: React.FC<ButtonTxProps> = ({
     defaultMatches: false,
     noSsr: true,
   });
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isGuichetAndInactive } = useAuth();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   if (hidden || (!isAuthenticated && isProtected)) {
+    return <></>;
+  }
+
+  if (isGuichetAndInactive && isProtected) {
     return <></>;
   }
 

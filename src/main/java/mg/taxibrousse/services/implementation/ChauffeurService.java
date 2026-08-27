@@ -25,21 +25,21 @@ public class ChauffeurService implements IChauffeurService {
     private final ICloudinaryRepository cloudinaryRepository;
     private final IContratRepository contratRepository;
     private final IKoperativeRepository koperativeRepository;
+    private final IVoyageRepository voyageRepository;
 
     @Override
     @Transactional
     @CacheEvict(value = "chauffeurs", allEntries = true)
     public Chauffeur save(Chauffeur chauffeur) {
         var entity = chauffeur.toEntity();
-        var koperative = koperativeRepository
-            .findById(chauffeur.getKoperativeId())
-            .orElseThrow(() -> new RuntimeException("Koperative not found"));
+        var koperative = koperativeRepository.findById(chauffeur.getKoperativeId()).orElseThrow(() -> new RuntimeException("Koperative not found"));
 
         entity.setKoperative(koperative);
         entity.getUser().setKoperative(koperative);
         entity.setUser(userRepository.save(entity.getUser()));
 
-        if (entity.getPhoto() != null) entity.setPhoto(cloudinaryRepository.save(entity.getPhoto()));
+        if (entity.getPhoto() != null)
+            entity.setPhoto(cloudinaryRepository.save(entity.getPhoto()));
 
         ChauffeurEntity saved = chauffeurRepository.save(entity);
         if (chauffeur.getId() <= 0 && chauffeur.getKoperativeId() != null && chauffeur.getKoperativeId() > 0) {
@@ -51,18 +51,16 @@ public class ChauffeurService implements IChauffeurService {
             contratEntity.setStartDate(LocalDate.now());
             contratEntity.setEndDate(LocalDate.now().plusYears(2));
             contratEntity.setStatus(ContratStatusEnum.ACTIVE);
-            contratEntity.setTerms(
-                """
-                (OHATRA) TERMES D’EMPLOI HO AN’NY CHAUFFEUR KOPERATIVE
-                    1. Fotoana iasana: 8 ora isan’andro, 5 andro isan-kerinandro.
-                    2. Karama: Araka ny fifanarahana sy ny fitsipiky ny koperative.
-                    3. Fialan-tsasatra: 2 herinandro isan-taona.
-                    4. Asa: Mitondra sy mikarakara ny fiara amin’ny fahamatorana sy fahitsiana.
-                    5. Fanafoanana: Afaka manafoana fifanarahana amin’ny fanomezam-baovao mialoha 1 volana.
-                    6. Fitondran-tena: Tokony hanaja ny fitsipika sy ny mpikambana rehetra ao amin’ny koperative.
-                    7. Fisorohana loza: Tsy maintsy manaraka ny lalàna sy ny fepetra momba ny fifamoivoizana.
-                """
-            );
+            contratEntity.setTerms("""
+                    (OHATRA) TERMES D’EMPLOI HO AN’NY CHAUFFEUR KOPERATIVE
+                        1. Fotoana iasana: 8 ora isan’andro, 5 andro isan-kerinandro.
+                        2. Karama: Araka ny fifanarahana sy ny fitsipiky ny koperative.
+                        3. Fialan-tsasatra: 2 herinandro isan-taona.
+                        4. Asa: Mitondra sy mikarakara ny fiara amin’ny fahamatorana sy fahitsiana.
+                        5. Fanafoanana: Afaka manafoana fifanarahana amin’ny fanomezam-baovao mialoha 1 volana.
+                        6. Fitondran-tena: Tokony hanaja ny fitsipika sy ny mpikambana rehetra ao amin’ny koperative.
+                        7. Fisorohana loza: Tsy maintsy manaraka ny lalàna sy ny fepetra momba ny fifamoivoizana.
+                    """);
             contratRepository.save(contratEntity);
         }
 
@@ -102,4 +100,5 @@ public class ChauffeurService implements IChauffeurService {
     public List<Chauffeur> findByKoperativeId(Long koperativeId) {
         return chauffeurRepository.findByKoperativeId(koperativeId).stream().map(Chauffeur::fromEntity).toList();
     }
+
 }

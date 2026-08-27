@@ -43,10 +43,7 @@ public class MessagingController implements IMessagingController {
     public ResponseEntity<Message> sendMessage(String roomId, String message) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String senderId = auth.getName();
-        String senderName = auth.getAuthorities().stream()
-                .findFirst()
-                .map(a -> a.getAuthority() + " - " + senderId)
-                .orElse(senderId);
+        String senderName = auth.getAuthorities().stream().findFirst().map(a -> a.getAuthority() + " - " + senderId).orElse(senderId);
 
         SendMessageRequest request = new SendMessageRequest();
         request.setRoomId(roomId);

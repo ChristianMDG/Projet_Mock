@@ -25,27 +25,27 @@ public class MVolaApiClient {
     public <T> T post(String token, String url, Object body, Class<T> responseType) throws IOException, InterruptedException {
         String jsonBody = objectMapper.writeValueAsString(body);
         log.debug("MVola API POST request to {}: {}", url, jsonBody);
-        
+
         var request = buildJsonRequest(token, url, jsonBody);
         T response = send(request, responseType);
-        
+
         log.info("MVola API POST response: {}", objectMapper.writeValueAsString(response));
         return response;
     }
 
     public <T> T get(String token, String url, Class<T> responseType) throws IOException, InterruptedException {
         log.debug("MVola API GET request to {}", url);
-        
+
         var request = buildBaseRequest(token, url).GET().build();
         T response = send(request, responseType);
-        
+
         log.debug("MVola API GET response: {}", objectMapper.writeValueAsString(response));
         return response;
     }
 
     public <T> T authenticate(Class<T> responseType) throws IOException, InterruptedException {
         log.info("Authenticating with MVola API");
-        
+
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(config.getTokenUrl()))
                 .header("Authorization", "Basic %s".formatted(config.getBasicAuthHeader()))
@@ -53,34 +53,32 @@ public class MVolaApiClient {
                 .header("Cache-Control", "no-cache")
                 .POST(HttpRequest.BodyPublishers.ofString("grant_type=client_credentials&scope=EXT_INT_MVOLA_SCOPE"))
                 .build();
-        
+
         return send(request, responseType);
     }
 
     private <T> T send(HttpRequest request, Class<T> responseType) throws IOException, InterruptedException {
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        
+
         log.info("MVola API response status: {}", response.statusCode());
         log.info("MVola API response body: {}", response.body());
-        
+
         if (response.statusCode() >= 400) {
             log.error("MVola API error - Status: {}, Body: {}", response.statusCode(), response.body());
             throw new IOException("MVola API error: %d %s".formatted(response.statusCode(), response.body()));
         }
-        
+
         return objectMapper.readValue(response.body(), responseType);
     }
 
     private HttpRequest buildJsonRequest(String token, String url, String jsonBody) {
-        return buildBaseRequest(token, url)
-                .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
-                .build();
+        return buildBaseRequest(token, url).POST(HttpRequest.BodyPublishers.ofString(jsonBody)).build();
     }
 
     private HttpRequest.Builder buildBaseRequest(String token, String url) {
         String correlationId = UUID.randomUUID().toString();
         log.debug("MVola API request - CorrelationID: {}", correlationId);
-        
+
         return HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("Authorization", token)

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
+import ShortUniqueId from 'short-unique-id';
 import { Message } from '@/models/Message';
 import { ChatRoom } from '@/models/ChatRoom';
 import { MessageType } from '@/models/enums';
@@ -67,7 +68,7 @@ export const useMessagingStore = create<MessagingState>()(
       unreadCounts: {},
       isChatOpen: false,
       isSidebarOpen: true,
-      navigatorRoom: getNavigatorRoomFromStorage(),
+      navigatorRoom: {} as NavigatorRoom,
 
       // Connection actions
       connect: () => {
@@ -257,6 +258,26 @@ export const useMessagingStore = create<MessagingState>()(
         })),
 
       getNavigatorRoom: () => get().navigatorRoom,
+      initNavigatorRoom: () => {
+        const existingRoom = getNavigatorRoomFromStorage();
+        if (existingRoom.senderId) {
+          set({ navigatorRoom: existingRoom });
+          return existingRoom;
+        }
+        // Initialize new navigator room if needed
+        const uid = new ShortUniqueId({ length: 10 });
+        const now = dayjs().tz('Indian/Antananarivo').toISOString();
+        const newRoom: NavigatorRoom = {
+          senderId: 'navigator',
+          roomId: `nav-${uid.rnd()}`,
+          userName: 'Navigator',
+          createdAt: now,
+          lastActivity: now,
+        };
+        setNavigatorRoomToStorage(newRoom);
+        set({ navigatorRoom: newRoom });
+        return newRoom;
+      },
       updateNavigatorRoom: updates => {
         const currentRoom = get().navigatorRoom;
         const updatedRoom: NavigatorRoom = {

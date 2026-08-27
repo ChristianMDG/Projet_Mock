@@ -8,14 +8,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = "Fokotany")
-@Table(name = "fokotany", indexes = {
-    @Index(name = "fokotany_created_by_id_fk", columnList = "created_by_id"),
-    @Index(name = "fokotany_updated_by_id_fk", columnList = "updated_by_id"),
-    @Index(name = "fokotany_documents_idx", columnList = "document_id, locale, published_at"),
-    @Index(name = "fokotany_ville_id_fk", columnList = "ville_id")
-})
+@Table(name = "fokotany", indexes = {@Index(name = "fokotany_created_by_id_fk", columnList = "created_by_id"), @Index(name = "fokotany_updated_by_id_fk", columnList = "updated_by_id"),
+        @Index(name = "fokotany_documents_idx", columnList = "document_id, locale, published_at"), @Index(name = "fokotany_ville_id_fk", columnList = "ville_id")})
 @NoArgsConstructor
 public class FokotanyEntity extends BaseEntity {
+
     @Column(nullable = false, length = 100)
     private String commune;
 

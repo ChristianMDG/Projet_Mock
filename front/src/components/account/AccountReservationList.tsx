@@ -15,8 +15,10 @@ import { useTranslation } from 'react-i18next';
 import { useReservationsByVoyageurId } from '@/hooks/reservation.hooks';
 import { useAuthStore } from '@/stores/auth.store';
 import { getPaymentChipColor, getStatusChipColor } from '@/utils/reservation.utils';
+import { trackEvent } from '@/hooks/google-analytics.hook';
 
-import { ReservationContent, ReservationHeader } from './reservation';
+import { ReservationContent } from './reservation/ReservationContent';
+import { ReservationHeader } from './reservation/ReservationHeader';
 import { AccountReservationListSkeleton } from '@/skeleton';
 
 export function AccountReservationList() {
@@ -27,9 +29,13 @@ export function AccountReservationList() {
   const [expandedAccordion, setExpandedAccordion] = React.useState<string | false>(false);
   const { data: reservations, isLoading, error } = useReservationsByVoyageurId(user?.id ?? 0);
 
-  const handleAccordionChange = (panelId: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpandedAccordion(isExpanded ? panelId : false);
-  };
+  const handleAccordionChange =
+    (panelId: string, reservationId?: number) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpandedAccordion(isExpanded ? panelId : false);
+      if (isExpanded && reservationId) {
+        trackEvent('view_my_reservations', 'Account', `Viewed reservation ID: ${reservationId}`);
+      }
+    };
 
   if (isLoading) {
     return <AccountReservationListSkeleton count={3} />;
@@ -71,7 +77,7 @@ export function AccountReservationList() {
           <Accordion
             key={reservation.id}
             expanded={expandedAccordion === `panel-${reservation.id}`}
-            onChange={handleAccordionChange(`panel-${reservation.id}`)}
+            onChange={handleAccordionChange(`panel-${reservation.id}`, reservation.id)}
             slotProps={{
               transition: { unmountOnExit: true },
               heading: { component: 'h3' },

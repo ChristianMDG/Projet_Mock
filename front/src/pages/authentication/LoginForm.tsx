@@ -1,7 +1,20 @@
 import React from 'react';
-import { Box, FormControl, Grid, IconButton, InputAdornment, InputLabel, Link, OutlinedInput } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { PhoneInput } from '@/components/shared';
+import {
+  Box,
+  FormControl,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  Link,
+  OutlinedInput,
+  Typography,
+} from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import LockOutlined from '@mui/icons-material/LockOutlined';
+import PhoneInput from '@/components/shared/PhoneInput';
+import StyledIcon from '@/components/ui/StyledIcon';
 import type { AuthMode, LoginFormData } from '@/types/auth.types';
 import Labels from '@/labelKeys.json';
 import { useTranslation } from 'react-i18next';
@@ -47,16 +60,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
           autoComplete="tel"
           error={!!validationErrors.phone}
           helperText={validationErrors.phone}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              borderRadius: { xs: 1, sm: 1.5 },
-            },
-          }}
         />
       </Grid>
       <Grid size={{ xs: 12 }}>
         <FormControl fullWidth variant="outlined" error={!!validationErrors.password}>
-          <InputLabel htmlFor="password">{t(Labels.authform_password)}</InputLabel>
+          <InputLabel htmlFor="password" required>
+            {t(Labels.authform_password)}
+          </InputLabel>
           <OutlinedInput
             id="password"
             type={showPassword ? 'text' : 'password'}
@@ -66,9 +76,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
             required
             autoComplete="current-password"
             size="medium"
-            sx={{
-              borderRadius: { xs: 1, sm: 1.5 },
-            }}
+            placeholder="••••••••"
+            startAdornment={
+              <InputAdornment position="start">
+                <StyledIcon icon={LockOutlined} fontSize="small" />
+              </InputAdornment>
+            }
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -84,7 +97,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
             label={t(Labels.authform_password)}
           />
           {validationErrors.password && (
-            <Box sx={{ color: 'error.main', fontSize: '0.75rem', mt: 0.5, ml: 2 }}>{validationErrors.password}</Box>
+            <Typography variant="caption" sx={{ color: 'error.main', mt: 0.5, ml: 2 }}>
+              {validationErrors.password}
+            </Typography>
           )}
         </FormControl>
       </Grid>
@@ -103,7 +118,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
             onClick={() => onModeChange('forgot')}
             color="primary"
             sx={{
-              fontSize: { xs: '0.875rem', sm: '0.9rem' },
               textDecoration: 'none',
               '&:hover': {
                 textDecoration: 'underline',

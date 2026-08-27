@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class MVolaPaymentResponse {
+
     private String status;
 
     @JsonProperty("serverCorrelationId")

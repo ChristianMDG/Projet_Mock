@@ -5,6 +5,7 @@ import mg.taxibrousse.models.Chauffeur;
 import java.util.List;
 
 public interface IChauffeurService {
+
     Chauffeur save(Chauffeur chauffeur);
 
     Chauffeur findById(Long id);

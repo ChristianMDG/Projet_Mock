@@ -20,19 +20,19 @@ export const PaymentWebSocketListener: React.FC<PaymentWebSocketListenerProps> =
     transactionReference,
     enabled: !!transactionReference,
     onNotification: notification => {
-      console.log('[Payment Listener] Received notification:', notification);
+      console.warn('[Payment Listener] Received notification:', notification);
       setPaymentStatus(notification.status);
     },
     onSuccess: notification => {
-      console.log('[Payment Listener] Payment completed:', notification);
+      console.warn('[Payment Listener] Payment completed:', notification);
       onPaymentComplete?.(notification);
     },
     onFailure: notification => {
-      console.log('[Payment Listener] Payment failed:', notification);
+      console.warn('[Payment Listener] Payment failed:', notification);
       onPaymentFailed?.(notification);
     },
     onTimeout: notification => {
-      console.log('[Payment Listener] Payment timeout:', notification);
+      console.warn('[Payment Listener] Payment timeout:', notification);
       onPaymentTimeout?.(notification);
     },
   });
@@ -43,7 +43,7 @@ export const PaymentWebSocketListener: React.FC<PaymentWebSocketListenerProps> =
 
   useEffect(() => {
     if (lastNotification) {
-      console.log('[Payment Listener] Last notification updated:', lastNotification);
+      console.warn('[Payment Listener] Last notification updated:', lastNotification);
     }
   }, [lastNotification]);
 

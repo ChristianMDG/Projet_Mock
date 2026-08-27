@@ -39,10 +39,7 @@ public class ChatController implements IChatController {
     @Override
     public ResponseEntity<ChatRoom> getRoomDetails(String roomId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return chatRoomService.findByRoomId(roomId)
-                .map(room -> withUnreadCount(room, auth.getName()))
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return chatRoomService.findByRoomId(roomId).map(room -> withUnreadCount(room, auth.getName())).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @Override
@@ -53,7 +50,7 @@ public class ChatController implements IChatController {
         if (chatRoomService.isUserInRoom(roomId, userId)) {
             return ResponseEntity.ok().build();
         }
-        
+
         chatRoomService.joinRoom(roomId, userId);
         messageService.broadcastUserJoined(roomId, userId, userId);
         return ResponseEntity.ok().build();

@@ -1,33 +1,17 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
-import {
-  Box,
-  Typography,
-  List,
-  ListItemButton,
-  ListItemAvatar,
-  ListItemText,
-  Avatar,
-  TextField,
-  InputAdornment,
-  Chip,
-  Stack,
-} from '@mui/material';
+import { Box, List, TextField, InputAdornment } from '@mui/material';
 import { Search } from '@mui/icons-material';
-import { ChatRoom, ChatRoomType } from '@/models';
-import { formatLastActivity } from './utils';
+import { ChatRoom } from '@/models';
+import { humanizeRoomTitle } from './utils';
+import ChatListItem from './ChatListItem';
+import { WHATSAPP_COLORS } from './constants';
 
 interface ChatsPaneProps {
   chats: ChatRoom[];
   setSelectedChat: (chat: ChatRoom) => void;
   selectedChatId: string;
-}
-
-function roomBgColor(type: ChatRoomType): string {
-  if (type === ChatRoomType.CUSTOMER_SUPPORT) return 'primary.main';
-  if (type === ChatRoomType.VOYAGE_CHAT) return 'secondary.main';
-  return 'info.main';
 }
 
 export default function ChatsPane({ chats, setSelectedChat, selectedChatId }: ChatsPaneProps) {
@@ -39,35 +23,49 @@ export default function ChatsPane({ chats, setSelectedChat, selectedChatId }: Ch
     return (
       c.roomId.toLowerCase().includes(q) ||
       (c.lastMessage ?? '').toLowerCase().includes(q) ||
-      (c.title ?? '').toLowerCase().includes(q)
+      humanizeRoomTitle(c).toLowerCase().includes(q)
     );
   });
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      {/* Header */}
-      <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
-        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-          {t(Labels.msg_conversations_title)}
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          {t(Labels.msg_conversations_count, { count: chats.length })}
-        </Typography>
-      </Box>
-
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        bgcolor: WHATSAPP_COLORS.bgLight,
+        borderRight: `1px solid ${WHATSAPP_COLORS.divider}`,
+      }}
+    >
       {/* Search */}
-      <Box sx={{ px: 2, py: 1 }}>
+      <Box
+        sx={{ px: 1.5, py: 1, bgcolor: WHATSAPP_COLORS.searchBg, borderBottom: `1px solid ${WHATSAPP_COLORS.divider}` }}
+      >
         <TextField
           size="small"
           fullWidth
           placeholder={t(Labels.msg_search_placeholder)}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          variant="outlined"
+          sx={{
+            bgcolor: WHATSAPP_COLORS.bgLight,
+            borderRadius: '24px',
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '24px',
+              '& fieldset': { border: 'none' },
+            },
+            '& .MuiOutlinedInput-input': {
+              py: 1,
+              px: 1,
+              fontSize: '0.9rem',
+            },
+          }}
           slotProps={{
             input: {
               startAdornment: (
                 <InputAdornment position="start">
-                  <Search fontSize="small" />
+                  <Search sx={{ color: 'text.secondary', fontSize: 20 }} />
                 </InputAdornment>
               ),
             },
@@ -76,55 +74,17 @@ export default function ChatsPane({ chats, setSelectedChat, selectedChatId }: Ch
       </Box>
 
       {/* List */}
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
+      <Box sx={{ flex: 1, overflowY: 'auto', bgcolor: WHATSAPP_COLORS.bgLight }}>
         <List disablePadding>
-          {filtered.map((chat) => {
-            const isSelected = selectedChatId === chat.roomId;
-            const hasUnread = (chat.unreadCount ?? 0) > 0;
-
-            return (
-              <ListItemButton
-                key={chat.roomId}
-                selected={isSelected}
-                onClick={() => setSelectedChat(chat)}
-                sx={{
-                  borderRadius: 1.5,
-                  mx: 1,
-                  mb: 0.5,
-                  '&.Mui-selected': { bgcolor: 'action.selected' },
-                }}
-              >
-                <ListItemAvatar>
-                  <Avatar sx={{ bgcolor: roomBgColor(chat.type) }}>{chat.roomId.substring(0, 2).toUpperCase()}</Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={chat.title || chat.roomId}
-                  secondary={chat.lastMessage || t(Labels.msg_no_messages_short)}
-                  slotProps={{
-                    primary: { noWrap: true, sx: { fontWeight: hasUnread ? 700 : 500 } },
-                    secondary: { noWrap: true, sx: { fontWeight: hasUnread ? 600 : 400 } },
-                  }}
-                />
-                <Stack direction="column" sx={{ alignItems: 'flex-end', gap: 0.5, ml: 1, flexShrink: 0 }}>
-                  <Typography variant="caption" color="text.secondary" sx={{ whiteSpace: 'nowrap' }}>
-                    {formatLastActivity(chat.lastActivity)}
-                  </Typography>
-                  {hasUnread && (
-                    <Chip
-                      label={chat.unreadCount}
-                      size="small"
-                      color="primary"
-                      sx={{
-                        height: 18,
-                        minWidth: 18,
-                        '& .MuiChip-label': { px: 0.5, fontSize: '0.65rem' },
-                      }}
-                    />
-                  )}
-                </Stack>
-              </ListItemButton>
-            );
-          })}
+          {filtered.map((chat) => (
+            <ChatListItem
+              key={chat.roomId}
+              chat={chat}
+              isSelected={selectedChatId === chat.roomId}
+              onClick={() => setSelectedChat(chat)}
+              t={t}
+            />
+          ))}
         </List>
       </Box>
     </Box>

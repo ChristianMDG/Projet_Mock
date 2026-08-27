@@ -1,0 +1,300 @@
+{
+    "description": "Shop product subcategories grouped under top-level categories. Each entry references its parent via category.slug. Primary locale = fr, with en + mg translations. Slugs are unique across the whole collection.",
+    "collection": "api::product-category.product-category",
+    "data": [
+        {
+            "name": "Smartphones",
+            "slug": "smartphones",
+            "description": "Téléphones intelligents, accessoires et coques",
+            "icon": "Smartphone",
+            "displayOrder": 1,
+            "isActive": true,
+            "category": { "slug": "newtech-electronique" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Smartphones", "description": "Smartphones, accessories and cases" },
+                "mg": { "name": "Finday", "description": "Finday, fanampiny sy kitapo" }
+            }
+        },
+        {
+            "name": "Ordinateurs portables",
+            "slug": "ordinateurs-portables",
+            "description": "Laptops, ultrabooks et chargeurs",
+            "icon": "Laptop",
+            "displayOrder": 2,
+            "isActive": true,
+            "category": { "slug": "newtech-electronique" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Laptops", "description": "Laptops, ultrabooks and chargers" },
+                "mg": { "name": "Solosaina entina", "description": "Solosaina entina, ultrabook sy charger" }
+            }
+        },
+        {
+            "name": "Audio & Casques",
+            "slug": "audio-casques",
+            "description": "Casques, écouteurs et enceintes Bluetooth",
+            "icon": "Headphones",
+            "displayOrder": 3,
+            "isActive": true,
+            "category": { "slug": "newtech-electronique" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Audio & Headphones", "description": "Headphones, earbuds and Bluetooth speakers" },
+                "mg": { "name": "Feo & Headphones", "description": "Headphones, earbuds sy haino-vaky Bluetooth" }
+            }
+        },
+        {
+            "name": "Gaming",
+            "slug": "gaming",
+            "description": "Consoles, manettes et accessoires gaming",
+            "icon": "SportsEsports",
+            "displayOrder": 4,
+            "isActive": true,
+            "category": { "slug": "newtech-electronique" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Gaming", "description": "Consoles, controllers and gaming accessories" },
+                "mg": { "name": "Lalao", "description": "Console, manette sy fanampin'ny lalao" }
+            }
+        },
+        {
+            "name": "Fournitures de bureau",
+            "slug": "fournitures-bureau",
+            "description": "Stylos, classeurs, papeterie pour le bureau",
+            "icon": "Edit",
+            "displayOrder": 1,
+            "isActive": true,
+            "category": { "slug": "fournitures" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Office Supplies", "description": "Pens, binders and office stationery" },
+                "mg": { "name": "Fitaovam-birao", "description": "Penina, classeur sy taratasin-birao" }
+            }
+        },
+        {
+            "name": "Fournitures scolaires",
+            "slug": "fournitures-scolaires",
+            "description": "Cahiers, sacs, trousses et matériel scolaire",
+            "icon": "School",
+            "displayOrder": 2,
+            "isActive": true,
+            "category": { "slug": "fournitures" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "School Supplies", "description": "Notebooks, bags, pencil cases and school gear" },
+                "mg": { "name": "Fitaovan-tsekoly", "description": "Kahie, kitapo, trousse sy fitaovan-tsekoly" }
+            }
+        },
+        {
+            "name": "Papeterie créative",
+            "slug": "papeterie-creative",
+            "description": "Carnets, stickers et papeterie déco",
+            "icon": "Brush",
+            "displayOrder": 3,
+            "isActive": true,
+            "category": { "slug": "fournitures" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Creative Stationery", "description": "Notebooks, stickers and decorative paper goods" },
+                "mg": { "name": "Taratasy haitao", "description": "Carnet, sticker sy taratasy haingo" }
+            }
+        },
+        {
+            "name": "Cuisine",
+            "slug": "petit-electromenager-cuisine",
+            "description": "Mixeurs, bouilloires, grille-pains et cafetières",
+            "icon": "Kitchen",
+            "displayOrder": 1,
+            "isActive": true,
+            "category": { "slug": "petit-electromenager" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Kitchen", "description": "Blenders, kettles, toasters and coffee makers" },
+                "mg": { "name": "Lakozia", "description": "Blender, ketela, grille-pain sy fanaovana kafe" }
+            }
+        },
+        {
+            "name": "Entretien maison",
+            "slug": "entretien-maison",
+            "description": "Aspirateurs, fers à repasser et nettoyeurs",
+            "icon": "CleaningServices",
+            "displayOrder": 2,
+            "isActive": true,
+            "category": { "slug": "petit-electromenager" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Home Care", "description": "Vacuum cleaners, irons and cleaners" },
+                "mg": { "name": "Fanadiovana trano", "description": "Aspirateur, fer sy fitaovam-panadiovana" }
+            }
+        },
+        {
+            "name": "Soin du visage",
+            "slug": "soin-visage",
+            "description": "Crèmes, sérums et nettoyants visage",
+            "icon": "Face",
+            "displayOrder": 1,
+            "isActive": true,
+            "category": { "slug": "beaute" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Face Care", "description": "Creams, serums and facial cleansers" },
+                "mg": { "name": "Fikarakarana tarehy", "description": "Menaka, sérum sy fanadiovana tarehy" }
+            }
+        },
+        {
+            "name": "Cheveux",
+            "slug": "cheveux",
+            "description": "Shampoings, après-shampoings et soins capillaires",
+            "icon": "ContentCut",
+            "displayOrder": 2,
+            "isActive": true,
+            "category": { "slug": "beaute" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Hair Care", "description": "Shampoos, conditioners and hair treatments" },
+                "mg": { "name": "Volo", "description": "Shampoing, après-shampoing sy fikarakarana volo" }
+            }
+        },
+        {
+            "name": "Maquillage",
+            "slug": "maquillage",
+            "description": "Rouges à lèvres, fards et palettes",
+            "icon": "Spa",
+            "displayOrder": 3,
+            "isActive": true,
+            "category": { "slug": "beaute" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Makeup", "description": "Lipsticks, eyeshadows and palettes" },
+                "mg": { "name": "Fialambika", "description": "Mena-molotra, loko maso sy palette" }
+            }
+        },
+        {
+            "name": "Vêtements femme",
+            "slug": "vetements-femme",
+            "description": "Robes, hauts, pantalons et tenues femme",
+            "icon": "Checkroom",
+            "displayOrder": 1,
+            "isActive": true,
+            "category": { "slug": "mode" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Women's Clothing", "description": "Dresses, tops, pants and women's outfits" },
+                "mg": { "name": "Akanjo vehivavy", "description": "Robe, akanjo ambony, pataloha ho an'ny vehivavy" }
+            }
+        },
+        {
+            "name": "Vêtements homme",
+            "slug": "vetements-homme",
+            "description": "Chemises, pantalons et tenues homme",
+            "icon": "Checkroom",
+            "displayOrder": 2,
+            "isActive": true,
+            "category": { "slug": "mode" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Men's Clothing", "description": "Shirts, pants and men's outfits" },
+                "mg": { "name": "Akanjo lehilahy", "description": "Lobaka, pataloha ho an'ny lehilahy" }
+            }
+        },
+        {
+            "name": "Chaussures",
+            "slug": "chaussures",
+            "description": "Sneakers, sandales et chaussures de ville",
+            "icon": "DirectionsRun",
+            "displayOrder": 3,
+            "isActive": true,
+            "category": { "slug": "mode" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Shoes", "description": "Sneakers, sandals and city shoes" },
+                "mg": { "name": "Kiraro", "description": "Kiraro filalaovana, sandaly sy kiraro tanana" }
+            }
+        },
+        {
+            "name": "Pièces auto",
+            "slug": "pieces-auto",
+            "description": "Pièces détachées, filtres et accessoires auto",
+            "icon": "DirectionsCar",
+            "displayOrder": 1,
+            "isActive": true,
+            "category": { "slug": "auto-moto-vtt" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Car Parts", "description": "Spare parts, filters and car accessories" },
+                "mg": { "name": "Kojakojan'ny fiara", "description": "Kojakoja, filtre sy fanampin'ny fiara" }
+            }
+        },
+        {
+            "name": "Moto",
+            "slug": "moto",
+            "description": "Casques, pièces moto et accessoires",
+            "icon": "TwoWheeler",
+            "displayOrder": 2,
+            "isActive": true,
+            "category": { "slug": "auto-moto-vtt" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Motorbike", "description": "Helmets, motorbike parts and accessories" },
+                "mg": { "name": "Moto", "description": "Aro-loha, kojakoja moto sy fanampiny" }
+            }
+        },
+        {
+            "name": "Vélo & VTT",
+            "slug": "velo-vtt",
+            "description": "Vélos, VTT, pièces et accessoires",
+            "icon": "PedalBike",
+            "displayOrder": 3,
+            "isActive": true,
+            "category": { "slug": "auto-moto-vtt" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Bike & MTB", "description": "Bikes, mountain bikes, parts and accessories" },
+                "mg": { "name": "Bisikileta & VTT", "description": "Bisikileta, VTT, kojakoja sy fanampiny" }
+            }
+        },
+        {
+            "name": "Meubles",
+            "slug": "meubles",
+            "description": "Canapés, tables, chaises et lits",
+            "icon": "Chair",
+            "displayOrder": 1,
+            "isActive": true,
+            "category": { "slug": "maison" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Furniture", "description": "Sofas, tables, chairs and beds" },
+                "mg": { "name": "Fanaka", "description": "Seza lava, latabatra, seza sy fandriana" }
+            }
+        },
+        {
+            "name": "Décoration",
+            "slug": "decoration",
+            "description": "Tableaux, miroirs, vases et objets déco",
+            "icon": "Wallpaper",
+            "displayOrder": 2,
+            "isActive": true,
+            "category": { "slug": "maison" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Decoration", "description": "Wall art, mirrors, vases and decor" },
+                "mg": { "name": "Haingon-trano", "description": "Sary, fitaratra, vazy sy haingon-trano" }
+            }
+        },
+        {
+            "name": "Jardin",
+            "slug": "jardin",
+            "description": "Outils, plantes et mobilier de jardin",
+            "icon": "Yard",
+            "displayOrder": 3,
+            "isActive": true,
+            "category": { "slug": "maison" },
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Garden", "description": "Tools, plants and garden furniture" },
+                "mg": { "name": "Zaridaina", "description": "Fitaovana, zavamaniry sy fanaka zaridaina" }
+            }
+        }
+    ]
+}

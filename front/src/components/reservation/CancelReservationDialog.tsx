@@ -13,9 +13,13 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { AccountBalance, AttachMoney, Cancel, EventSeat, Person } from '@mui/icons-material';
+import AccountBalance from '@mui/icons-material/AccountBalance';
+import AttachMoney from '@mui/icons-material/AttachMoney';
+import Cancel from '@mui/icons-material/Cancel';
+import EventSeat from '@mui/icons-material/EventSeat';
+import Person from '@mui/icons-material/Person';
 import { useTranslation } from 'react-i18next';
-import { StyledIcon } from '@/components/ui';
+import StyledIcon from '@/components/ui/StyledIcon';
 import { Reservation } from '@/models/Reservation';
 import { PaymentStatusEnum, PaymentStatusLabels, ReservationStatusLabels } from '@/models/enums';
 import { convertPhoneToDisplay } from '@/utils/phoneUtils';
@@ -181,7 +185,7 @@ const CancelReservationDialog: React.FC<CancelReservationDialogProps> = ({ open,
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <Typography
                             variant="body2"
-                            color="success.main"
+                            color="success"
                             sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
                           >
                             <AccountBalance
@@ -193,7 +197,7 @@ const CancelReservationDialog: React.FC<CancelReservationDialogProps> = ({ open,
                           </Typography>
                           <Typography
                             variant="body1"
-                            color="success.main"
+                            color="success"
                             sx={{
                               fontWeight: 'medium',
                             }}
@@ -206,12 +210,12 @@ const CancelReservationDialog: React.FC<CancelReservationDialogProps> = ({ open,
                       {/* Remaining Amount */}
                       {remainingAmount > 0 && (
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <Typography variant="body2" color="warning.main">
+                          <Typography variant="body2" color="warning">
                             {t(Labels.remaining_amount)}:
                           </Typography>
                           <Typography
                             variant="body1"
-                            color="warning.main"
+                            color="warning"
                             sx={{
                               fontWeight: 'medium',
                             }}

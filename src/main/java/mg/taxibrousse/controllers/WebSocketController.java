@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 
 import java.security.Principal;
 
@@ -22,10 +23,7 @@ public class WebSocketController {
     private final IChatRoomService chatRoomService;
 
     @MessageMapping("/chat/{roomId}/send")
-    public void sendMessage(@DestinationVariable String roomId,
-                            @Payload SendMessageRequest request,
-                            SimpMessageHeaderAccessor headerAccessor,
-                            Principal principal) {
+    public void sendMessage(@DestinationVariable String roomId, @Payload SendMessageRequest request, SimpMessageHeaderAccessor headerAccessor, Principal principal) {
 
         String userId = extractUserId(headerAccessor, principal);
         String userName = extractUserName(headerAccessor, principal);
@@ -38,10 +36,7 @@ public class WebSocketController {
     }
 
     @MessageMapping("/chat/{roomId}/typing")
-    public void handleTypingIndicator(@DestinationVariable String roomId,
-                                      @Payload TypingIndicatorMessage typingMessage,
-                                      SimpMessageHeaderAccessor headerAccessor,
-                                      Principal principal) {
+    public void handleTypingIndicator(@DestinationVariable String roomId, @Payload TypingIndicatorMessage typingMessage, SimpMessageHeaderAccessor headerAccessor, Principal principal) {
 
         String userId = extractUserId(headerAccessor, principal);
         if (chatRoomService.isUserInRoom(roomId, userId)) {
@@ -50,9 +45,7 @@ public class WebSocketController {
     }
 
     @MessageMapping("/chat/{roomId}/join")
-    public void handleUserJoin(@DestinationVariable String roomId,
-                               SimpMessageHeaderAccessor headerAccessor,
-                               Principal principal) {
+    public void handleUserJoin(@DestinationVariable String roomId, SimpMessageHeaderAccessor headerAccessor, Principal principal) {
 
         String userId = extractUserId(headerAccessor, principal);
         String userName = extractUserName(headerAccessor, principal);
@@ -66,9 +59,7 @@ public class WebSocketController {
     }
 
     @MessageMapping("/chat/{roomId}/leave")
-    public void handleUserLeave(@DestinationVariable String roomId,
-                                SimpMessageHeaderAccessor headerAccessor,
-                                Principal principal) {
+    public void handleUserLeave(@DestinationVariable String roomId, SimpMessageHeaderAccessor headerAccessor, Principal principal) {
 
         String userId = extractUserId(headerAccessor, principal);
         String userName = extractUserName(headerAccessor, principal);
@@ -91,7 +82,7 @@ public class WebSocketController {
 
     private String extractHeader(SimpMessageHeaderAccessor accessor, String headerName, Principal principal, String fallback) {
         String value = accessor.getFirstNativeHeader(headerName);
-        if (value != null && !value.isBlank())
+        if (StringUtils.hasText(value))
             return value;
         if (principal == null)
             return fallback;

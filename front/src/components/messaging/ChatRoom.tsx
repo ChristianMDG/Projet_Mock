@@ -12,13 +12,11 @@ import {
   Tooltip,
   CircularProgress,
 } from '@mui/material';
-import {
-  Send as SendIcon,
-  AttachFile as AttachFileIcon,
-  EmojiEmotions as EmojiIcon,
-  Phone as PhoneIcon,
-  VideoCall as VideoCallIcon,
-} from '@mui/icons-material';
+import SendIcon from '@mui/icons-material/Send';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import EmojiIcon from '@mui/icons-material/EmojiEmotions';
+import PhoneIcon from '@mui/icons-material/Phone';
+import VideoCallIcon from '@mui/icons-material/VideoCall';
 import { Message } from '@/api/messaging.api';
 import { useChatRoom } from '@/hooks/messaging.hook';
 import { useMessagingStore } from '@/stores/messaging.store';
@@ -83,6 +81,16 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
   const renderMessage = (message: Message) => {
     const isMe = message.senderId === navigatorRoom.senderId;
     const formatTime = (timestamp: string) => dayjs(timestamp).format('HH:mm');
+    const formatFullDateTime = (timestamp: string) => {
+      const d = dayjs(timestamp);
+      if (d.isValid()) {
+        const isToday = d.isSame(dayjs(), 'day');
+        const isYesterday = d.isSame(dayjs().subtract(1, 'day'), 'day');
+        const dateLabel = isToday ? "Aujourd'hui" : isYesterday ? 'Hier' : d.format('DD/MM/YYYY');
+        return `${dateLabel} à ${d.format('HH:mm')}`;
+      }
+      return '';
+    };
 
     return (
       <ListItem
@@ -122,15 +130,18 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
             <Typography variant="body2">{message.content}</Typography>
 
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 0.5 }}>
-              <Typography
-                variant="caption"
-                sx={{
-                  color: isMe ? 'primary.contrastText' : 'text.secondary',
-                  opacity: 0.7,
-                }}
-              >
-                {formatTime(message.createdAt)}
-              </Typography>
+              <Tooltip title={formatFullDateTime(message.createdAt)} placement="top" arrow>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: isMe ? 'primary.contrastText' : 'text.secondary',
+                    opacity: 0.7,
+                    cursor: 'default',
+                  }}
+                >
+                  {formatTime(message.createdAt)}
+                </Typography>
+              </Tooltip>
 
               {isMe && (
                 <Typography variant="caption" sx={{ color: 'primary.contrastText', opacity: 0.7, ml: 1 }}>

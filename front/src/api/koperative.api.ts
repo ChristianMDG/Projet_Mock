@@ -37,6 +37,11 @@ export const getKoperative = async (id: number) => {
   return data;
 };
 
+export const getKoperativeBySlug = async (slug: string) => {
+  const { data } = await axios.get<Koperative>(`${API_URL}/slug/${slug}`);
+  return data;
+};
+
 export const createKoperative = async (koperative: Partial<Koperative>) => {
   const { data } = await axios.post<Koperative>(API_URL, koperative);
   return data;

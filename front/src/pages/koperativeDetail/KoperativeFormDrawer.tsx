@@ -24,7 +24,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { ButtonTx, IconButtonTx, StyledIcon } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
+import IconButtonTx from '@/components/ui/IconButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import { grey } from '@mui/material/colors';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -38,25 +40,12 @@ import { useCreateKoperative, useUpdateKoperative } from '@/hooks/koperative.hoo
 import { useNavigate } from 'react-router-dom';
 import { useVilles } from '@/hooks/ville.hooks';
 import { useCloudinaryUpload } from '@/hooks/cloudinary.hook';
-import { KoperativeStatusEnum } from '@/models/enums';
+import { KoperativeStatusEnum, KoperativeTypeEnum } from '@/models/enums';
+import { KoperativeStatusLabels, KoperativeTypeLabels } from '@/models/enums';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import useKoperativeFormStore from '@/stores/koperative-form.store';
 import { generateRoute } from '@/constants/routes';
-
-// Helper function to get translated status labels
-const getKoperativeStatusLabel = (status: KoperativeStatusEnum, t: (key: string) => string): string => {
-  switch (status) {
-    case KoperativeStatusEnum.ACTIVE:
-      return t(Labels.status_active);
-    case KoperativeStatusEnum.INACTIVE:
-      return t(Labels.status_inactive);
-    case KoperativeStatusEnum.SUSPENDED:
-      return t(Labels.status_suspended);
-    default:
-      return status;
-  }
-};
 
 const Puller = styled('div')(({ theme }) => ({
   width: 30,
@@ -118,7 +107,7 @@ const KoperativeFormDrawer: React.FC<KoperativeFormDrawerProps> = ({ open, onClo
         koperativeId = result?.id;
       }
       onClose();
-      if (koperativeId) navigate(generateRoute.koperativeDetail(koperativeId, i18n.language));
+      if (koperativeId && form.slug) navigate(generateRoute.koperativeDetail(form.slug, i18n.language));
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Une erreur est survenue lors de la sauvegarde.');
     } finally {
@@ -214,6 +203,7 @@ const KoperativeFormDrawer: React.FC<KoperativeFormDrawerProps> = ({ open, onClo
                   fullWidth
                   margin="dense"
                   autoComplete="off"
+                  placeholder="Koperativa FITIA"
                 />
                 <Box
                   sx={{
@@ -288,6 +278,7 @@ const KoperativeFormDrawer: React.FC<KoperativeFormDrawerProps> = ({ open, onClo
                   autoComplete="off"
                   multiline
                   minRows={3}
+                  placeholder="Description de la coopérative..."
                 />
                 <TextField
                   label={t(Labels.koperative_form_address_label)}
@@ -297,6 +288,7 @@ const KoperativeFormDrawer: React.FC<KoperativeFormDrawerProps> = ({ open, onClo
                   fullWidth
                   margin="dense"
                   autoComplete="off"
+                  placeholder="Antananarivo, Madagascar"
                 />
                 <TextField
                   label={t(Labels.koperative_form_phone_label)}
@@ -306,6 +298,7 @@ const KoperativeFormDrawer: React.FC<KoperativeFormDrawerProps> = ({ open, onClo
                   fullWidth
                   margin="dense"
                   autoComplete="off"
+                  placeholder="034 00 000 00"
                 />
                 <TextField
                   label={t(Labels.koperative_form_email_label)}
@@ -315,6 +308,7 @@ const KoperativeFormDrawer: React.FC<KoperativeFormDrawerProps> = ({ open, onClo
                   fullWidth
                   margin="dense"
                   autoComplete="off"
+                  placeholder="contact@koperativa.mg"
                 />
                 <TextField
                   label={t(Labels.koperative_form_tax_id_label)}
@@ -324,22 +318,44 @@ const KoperativeFormDrawer: React.FC<KoperativeFormDrawerProps> = ({ open, onClo
                   fullWidth
                   margin="dense"
                   autoComplete="off"
+                  placeholder="NIF-0000000"
                 />
-                <FormControl fullWidth margin="dense">
-                  <InputLabel>{t(Labels.koperative_form_status_label)}</InputLabel>
-                  <Select
-                    name="status"
-                    value={form.status ?? ''}
-                    onChange={e => updateForm({ status: e.target.value as KoperativeStatusEnum })}
-                    label="Status"
-                  >
-                    {Object.values(KoperativeStatusEnum).map(status => (
-                      <MenuItem key={status} value={status}>
-                        {getKoperativeStatusLabel(status, t)}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <FormControl fullWidth margin="dense">
+                      <InputLabel>{t(Labels.koperative_form_status_label)}</InputLabel>
+                      <Select
+                        name="status"
+                        value={form.status ?? ''}
+                        onChange={e => updateForm({ status: e.target.value as KoperativeStatusEnum })}
+                        label={t(Labels.koperative_form_status_label)}
+                      >
+                        {Object.values(KoperativeStatusEnum).map(status => (
+                          <MenuItem key={status} value={status}>
+                            {t(KoperativeStatusLabels[status])}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <FormControl fullWidth margin="dense">
+                      <InputLabel>Type</InputLabel>
+                      <Select
+                        name="type"
+                        value={form.type ?? ''}
+                        onChange={e => updateForm({ type: e.target.value as KoperativeTypeEnum })}
+                        label="Type"
+                      >
+                        {Object.values(KoperativeTypeEnum).map(type => (
+                          <MenuItem key={type} value={type}>
+                            {t(KoperativeTypeLabels[type])}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
               </CardContent>
             </Card>
           </Grid>

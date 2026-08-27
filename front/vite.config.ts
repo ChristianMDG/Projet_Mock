@@ -1,27 +1,71 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
+import viteCompression from 'vite-plugin-compression';
 
-// https://vite.dev/config/
+// ============================================================================
+// VITE CONFIGURATION
+// ============================================================================
+
 export default defineConfig(({ mode }) => {
-  // Load env file based on `mode` in the current working directory.
   const env = loadEnv(mode, process.cwd(), '');
+  const isSSRBuild = process.env.SSR_BUILD === 'true';
 
   return {
-    plugins: [react()],
+    // ========================================
+    // Plugins
+    // ========================================
+    plugins: [
+      react(),
+      viteCompression({
+        verbose: true,
+        threshold: 1024,
+        algorithm: 'gzip',
+        ext: '.gz',
+      }),
+      viteCompression({
+        verbose: true,
+        threshold: 1024,
+        algorithm: 'brotliCompress',
+        ext: '.br',
+      }),
+    ],
+
+    // ========================================
+    // Development Server
+    // ========================================
     server: {
-      host: true, // Expose to local network
-      port: 5173, // Default Vite port
+      host: true,
+      port: 5173,
+      watch: {
+        usePolling: process.env.CHOKIDAR_USEPOLLING === 'true',
+      },
+      hmr: {
+        port: 24678,
+      },
     },
+
+    // ========================================
+    // Path Aliases
+    // ========================================
     resolve: {
       alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
     },
+
+    // ========================================
+    // Global Constants
+    // ========================================
     define: {
-      // Make env variables available in the app
       __APP_ENV__: JSON.stringify(env.VITE_ENV),
       __API_URL__: JSON.stringify(env.VITE_API_URL),
-      global: 'window',
+      // Use globalThis (works in both browser and Node.js) instead of window (browser-only)
+      // Skip for SSR builds where Node.js already provides global
+      ...(isSSRBuild ? {} : { global: 'globalThis' }),
     },
+
+    // ========================================
+    // Dependency Pre-bundling
+    // ========================================
     optimizeDeps: {
       include: [
         'react',
@@ -37,8 +81,14 @@ export default defineConfig(({ mode }) => {
         'axios',
         'zustand',
       ],
-      force: true, // Force re-optimization on restart
+      esbuildOptions: {
+        target: 'esnext',
+      },
     },
+
+    // ========================================
+    // SSR Configuration
+    // ========================================
     ssr: {
       resolve: {
         externalConditions: ['import'],
@@ -51,12 +101,19 @@ export default defineConfig(({ mode }) => {
         '@emotion/styled',
         'react-i18next',
         'react-helmet-async',
+        'react-transition-group',
       ],
     },
+
+    // ========================================
+    // Build Configuration
+    // ========================================
     build: {
-      // SSR build configuration
-      ssr: process.env.SSR_BUILD === 'true' ? 'src/entry-server.tsx' : undefined,
-      outDir: process.env.SSR_BUILD === 'true' ? 'dist/server' : 'dist/client',
+      ssr: isSSRBuild ? 'src/entry-server.tsx' : undefined,
+      outDir: isSSRBuild ? 'dist/server' : 'dist/client',
+      target: 'esnext',
+      minify: 'esbuild',
+      chunkSizeWarningLimit: 500,
       rollupOptions: {
         output:
           process.env.SSR_BUILD === 'true'
@@ -65,34 +122,13 @@ export default defineConfig(({ mode }) => {
                 manualChunks: {
                   // Vendor chunks
                   'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-                  'vendor-mui': ['@mui/material', '@mui/icons-material', '@mui/lab'],
+                  'vendor-mui': ['@mui/material', '@mui/lab'],
+                  'vendor-mui-icons': ['@mui/icons-material'],
                   'vendor-query': ['@tanstack/react-query'],
                   'vendor-utils': ['dayjs', 'axios', 'zustand'],
-
-                  // Feature-based chunks - split main pages further
-                  'pages-home': ['./src/pages/HomePage.tsx'],
-                  'pages-auth': ['./src/pages/LoginPage.tsx'],
-                  'pages-koperative': ['./src/pages/KoperativePage.tsx', './src/pages/KoperativeDetailPage.tsx'],
-                  'pages-gare': ['./src/pages/GarePage.tsx', './src/pages/GareDetailPage.tsx'],
-                  'pages-operator': ['./src/pages/OperatorPage.tsx'],
-                  'pages-contrat': ['./src/pages/ContratPage.tsx', './src/pages/ContratFormPage.tsx'],
-                  'pages-dynamic': ['./src/pages/DynamicPage.tsx', './src/pages/ListDynamicPage.tsx'],
-
-                  // Store chunks
-                  stores: [
-                    './src/stores/auth.store.ts',
-                    './src/stores/header.store.ts',
-                    './src/stores/voyage-scheduler.store.ts',
-                    './src/stores/guichet-form.store.ts',
-                    './src/stores/gare-form.store.ts',
-                    './src/stores/koperative-form.store.ts',
-                    './src/stores/operator-form.store.ts',
-                    './src/stores/guichet-list.store.ts',
-                  ],
                 },
               },
       },
-      chunkSizeWarningLimit: 700, // Increase warning limit to 700kb
     },
   };
 });

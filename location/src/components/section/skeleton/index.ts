@@ -1,0 +1,9 @@
+export { default as DynamicPageCardSkeleton } from './DynamicPageCardSkeleton';
+export { default as RentalHeroSectionSkeleton } from './RentalHeroSectionSkeleton';
+export { default as RentalCategoriesSectionSkeleton } from './RentalCategoriesSectionSkeleton';
+export { default as RentalHowItWorksSkeleton } from './RentalHowItWorksSkeleton';
+export { default as RentalFeaturedVehiclesSkeleton } from './RentalFeaturedVehiclesSkeleton';
+export { default as RentalOffersSectionSkeleton } from './RentalOffersSectionSkeleton';
+export { default as RentalReassuranceSectionSkeleton } from './RentalReassuranceSectionSkeleton';
+export { default as RentalFaqSectionSkeleton } from './RentalFaqSectionSkeleton';
+export { default as RentalContactSectionSkeleton } from './RentalContactSectionSkeleton';

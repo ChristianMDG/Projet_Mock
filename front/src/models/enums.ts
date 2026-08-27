@@ -1,6 +1,10 @@
 // Enums extracted from backend Java enums
 // Path: /Users/ofanomezantsoa/Taxibrousse/src/main/java/mg/taxibrousse/entities/enums/
 
+import React from 'react';
+import { LightMode, WbTwilight, NightsStay } from '@mui/icons-material';
+import Labels from '@/labelKeys.json';
+
 // Authority Enum
 export enum AuthorityEnum {
   USER = 'USER',
@@ -45,6 +49,16 @@ export enum KoperativeStatusEnum {
   SUSPENDED = 'SUSPENDED',
 }
 
+// Koperative Type Enum
+export enum KoperativeTypeEnum {
+  COOP = 'COOP',
+  TAXI = 'TAXI',
+  TAXIMOTO = 'TAXIMOTO',
+  LOCATION = 'LOCATION',
+  SPECIAL = 'SPECIAL',
+  TUCTUC = 'TUCTUC',
+}
+
 // Contract Type Enum
 export enum ContratTypeEnum {
   PARTNERSHIP = 'PARTNERSHIP',
@@ -71,6 +85,12 @@ export enum VoyageStatusEnum {
   COMPLETED = 'COMPLETED',
   CANCELLED = 'CANCELLED',
   DELAYED = 'DELAYED',
+}
+
+// Voyage Type Enum
+export enum VoyageTypeEnum {
+  NATIONAL = 'NATIONAL',
+  REGIONAL = 'REGIONAL',
 }
 
 // Recurrence Type Enum
@@ -171,6 +191,15 @@ export const KoperativeStatusLabels: Record<KoperativeStatusEnum, string> = {
   [KoperativeStatusEnum.SUSPENDED]: 'enum_koperative_status_suspended',
 };
 
+export const KoperativeTypeLabels: Record<KoperativeTypeEnum, string> = {
+  [KoperativeTypeEnum.TAXIMOTO]: 'enum_koperative_type_taximoto',
+  [KoperativeTypeEnum.LOCATION]: 'enum_koperative_type_location',
+  [KoperativeTypeEnum.COOP]: 'enum_koperative_type_coop',
+  [KoperativeTypeEnum.TAXI]: 'enum_koperative_type_taxi',
+  [KoperativeTypeEnum.SPECIAL]: 'enum_koperative_type_special',
+  [KoperativeTypeEnum.TUCTUC]: 'enum_koperative_type_tuctuc',
+};
+
 export const ContratTypeLabels: Record<ContratTypeEnum, string> = {
   [ContratTypeEnum.PARTNERSHIP]: 'enum_contrat_type_partnership',
   [ContratTypeEnum.EMPLOYMENT]: 'enum_contrat_type_employment',
@@ -194,6 +223,11 @@ export const VoyageStatusLabels: Record<VoyageStatusEnum, string> = {
   [VoyageStatusEnum.COMPLETED]: 'enum_voyage_status_completed',
   [VoyageStatusEnum.CANCELLED]: 'enum_voyage_status_cancelled',
   [VoyageStatusEnum.DELAYED]: 'enum_voyage_status_delayed',
+};
+
+export const VoyageTypeLabels: Record<VoyageTypeEnum, string> = {
+  [VoyageTypeEnum.NATIONAL]: 'enum_voyage_type_national',
+  [VoyageTypeEnum.REGIONAL]: 'enum_voyage_type_regional',
 };
 
 export const RecurrenceTypeLabels: Record<RecurrenceTypeEnum, string> = {
@@ -257,3 +291,28 @@ export const ChatRoomTypeLabels: Record<ChatRoomType, string> = {
   [ChatRoomType.VOYAGE_CHAT]: 'enum_chat_room_type_voyage_chat',
   [ChatRoomType.GENERAL_INQUIRY]: 'enum_chat_room_type_general_inquiry',
 };
+
+// Departure Time Group Enum
+export enum DepartureTimeGroupEnum {
+  MORNING = 'MORNING',
+  AFTERNOON = 'AFTERNOON',
+  NIGHT = 'NIGHT',
+}
+
+export const getTimeFilters = (t: (key: string) => string) => [
+  {
+    value: DepartureTimeGroupEnum.MORNING,
+    label: t(Labels.morning),
+    icon: React.createElement(LightMode, { fontSize: 'small' }),
+  },
+  {
+    value: DepartureTimeGroupEnum.AFTERNOON,
+    label: t(Labels.afternoon),
+    icon: React.createElement(WbTwilight, { fontSize: 'small' }),
+  },
+  {
+    value: DepartureTimeGroupEnum.NIGHT,
+    label: t(Labels.evening_night),
+    icon: React.createElement(NightsStay, { fontSize: 'small' }),
+  },
+];

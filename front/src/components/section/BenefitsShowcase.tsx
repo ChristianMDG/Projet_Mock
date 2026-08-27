@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Container, Typography, Card, CardContent, Button, Stack, Chip, Grid } from '@mui/material';
-import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import type { BenefitsShowcase as BenefitsShowcaseType } from '@/api/dynamic-page.api';
 import { Icon } from '@/shared/IconMapper';
 
@@ -10,10 +10,10 @@ interface BenefitsShowcaseProps {
 
 const BenefitsShowcase: React.FC<BenefitsShowcaseProps> = ({ section }) => {
   return (
-    <Box sx={{ py: 6, bgcolor: section.backgroundColor || '#ffffff' }}>
+    <Box sx={{ py: 6, bgcolor: section.backgroundColor ?? '#ffffff' }}>
       <Container
         sx={{
-          maxWidth: section.containerMaxWidth || 'lg',
+          maxWidth: section.containerMaxWidth ?? 'lg',
         }}
       >
         <Box sx={{ mb: 5, textAlign: 'center' }}>

@@ -46,9 +46,15 @@ export function useUpdateUserAccount() {
   return useMutation({
     mutationFn: ({ id, accountData }: { id: number; accountData: Partial<UserOperator> }) =>
       updateUserAccount(id, accountData),
-    onSuccess: async response => {
+    onSuccess: async (response, variables) => {
       // Invalidate and refetch current user data
       await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      await queryClient.invalidateQueries({ queryKey: ['operators'] });
+      if (variables.accountData.koperative?.id) {
+        await queryClient.invalidateQueries({
+          queryKey: ['koperative', variables.accountData.koperative.id, 'guichets'],
+        });
+      }
       return response; // Return the success message
     },
   });

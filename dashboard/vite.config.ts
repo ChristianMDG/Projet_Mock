@@ -40,16 +40,28 @@ export default defineConfig(({ mode }) => {
       ],
       force: true,
     },
+    ssr: {
+      resolve: {
+        externalConditions: ['import'],
+      },
+      noExternal: ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled', 'react-i18next'],
+    },
     build: {
+      // SSR build configuration
+      ssr: process.env.SSR_BUILD === 'true' ? 'src/entry-server.tsx' : undefined,
+      outDir: process.env.SSR_BUILD === 'true' ? 'dist/server' : 'dist/client',
       rollupOptions: {
-        output: {
-          manualChunks: {
-            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-            'vendor-mui': ['@mui/material', '@mui/icons-material'],
-            'vendor-query': ['@tanstack/react-query'],
-            'vendor-utils': ['axios', 'zustand'],
-          },
-        },
+        output:
+          process.env.SSR_BUILD === 'true'
+            ? {}
+            : {
+                manualChunks: {
+                  'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+                  'vendor-mui': ['@mui/material', '@mui/icons-material'],
+                  'vendor-query': ['@tanstack/react-query'],
+                  'vendor-utils': ['axios', 'zustand'],
+                },
+              },
       },
       chunkSizeWarningLimit: 700,
     },

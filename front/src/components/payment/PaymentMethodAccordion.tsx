@@ -9,14 +9,18 @@ import {
   FormControlLabel,
   Radio,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
-import { ExpandMore, Phone } from '@mui/icons-material';
-import { useSectionContext } from '@/context/SectionProvider';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Phone from '@mui/icons-material/Phone';
+import { useSectionByComponent } from '@/hooks/dynamic-page.hooks';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import type { PaymentSection } from '@/api/dynamic-page.api';
 import { SECTION_TYPES } from '@/constants/section.types';
 import MissingContent from '../shared/MissingContent';
+import { trackEvent } from '@/hooks/google-analytics.hook';
 
 interface PaymentMethodAccordionProps {
   selectedMethod: string;
@@ -24,16 +28,20 @@ interface PaymentMethodAccordionProps {
 }
 
 const PaymentMethodAccordion: React.FC<PaymentMethodAccordionProps> = ({ selectedMethod, onMethodChange }) => {
-  const { getSectionByType } = useSectionContext();
-  const section = getSectionByType<PaymentSection>(SECTION_TYPES.PAYMENT_SECTION);
+  const { data } = useSectionByComponent(SECTION_TYPES.PAYMENT_SECTION);
+  const section = data?.data as PaymentSection | undefined;
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const logoSize = isMobile ? 36 : 48;
 
   const activeMethods = useMemo(
     () => section?.paymentMethods?.filter(m => m.isActive)?.sort((a, b) => a.sortOrder - b.sortOrder) ?? [],
     [section?.paymentMethods],
   );
+  const hasMethods = activeMethods.length > 0;
 
-  if (!activeMethods?.length) {
+  if (!hasMethods) {
     return <MissingContent componentName="Payment Methods" />;
   }
 
@@ -53,8 +61,24 @@ const PaymentMethodAccordion: React.FC<PaymentMethodAccordionProps> = ({ selecte
           <Accordion
             key={method.id}
             expanded={isSelected}
-            onChange={(_, expanded) => expanded && onMethodChange(method.identifier)}
-            sx={{ mb: 1, '&:before': { display: 'none' }, boxShadow: 1 }}
+            onChange={(_, expanded) => {
+              if (expanded) {
+                trackEvent('payment_method_selected', 'Payment', method.identifier);
+                onMethodChange(method.identifier);
+              }
+            }}
+            sx={{
+              mb: 1.5,
+              boxShadow: 1,
+              border: 1,
+              borderColor: 'transparent',
+              bgcolor: isSelected ? theme => `${theme.palette.primary.main}0A` : 'background.paper',
+              transition: 'all 0.3s ease-in-out',
+              borderRadius: 4,
+              '&.MuiAccordion-root': {
+                borderRadius: 4,
+              },
+            }}
             component={Card}
           >
             <AccordionSummary
@@ -65,8 +89,10 @@ const PaymentMethodAccordion: React.FC<PaymentMethodAccordionProps> = ({ selecte
                 control={
                   <Radio
                     checked={isSelected}
-                    onChange={() => onMethodChange(method.identifier)}
-                    value={method.identifier}
+                    onChange={() => {
+                      trackEvent('payment_method_selected', 'Payment', method.identifier);
+                      onMethodChange(method.identifier);
+                    }}
                     onClick={e => e.stopPropagation()}
                   />
                 }
@@ -76,15 +102,16 @@ const PaymentMethodAccordion: React.FC<PaymentMethodAccordionProps> = ({ selecte
                       <Box
                         component="img"
                         src={method.logo.url}
-                        alt={method.logo.alternativeText || method.name}
+                        alt={method.logo.alternativeText ?? method.name}
                         loading="lazy"
                         sx={{
-                          width: 48,
-                          height: 48,
+                          width: logoSize,
+                          height: logoSize,
                           objectFit: 'contain',
                           borderRadius: 1.5,
                           bgcolor: 'grey.50',
                           p: 0.5,
+                          flexShrink: 0,
                         }}
                       />
                     )}

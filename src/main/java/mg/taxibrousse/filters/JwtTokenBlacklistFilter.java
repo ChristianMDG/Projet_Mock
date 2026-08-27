@@ -12,7 +12,6 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,16 +31,15 @@ public class JwtTokenBlacklistFilter extends OncePerRequestFilter {
 
     // List of patterns that should be excluded from JWT blacklist checking
     // These are truly public endpoints that don't require JWT processing
-    private static final List<String> excludedPatterns = Arrays.asList(
-            "/",
+    // Should protected by callback
+    private static final List<String> excludedPatterns = List.of("/",
             "/api/users/token",
             "/api/users/account",
             "/api/auth/google/**",
-            "/api/payments/mvola/callback", // TODO: configure from callback url of MVola
-            "/api/payments/orangemoney/callback", // TODO: configure from callback url of Orange
-            "/api/payments/airtelmoney/callback", // TODO: configure from callback url of Airtel
-            "/ws/**"
-    );
+            "/api/payments/mvola/callback",
+            "/api/payments/orangemoney/callback",
+            "/api/payments/airtelmoney/callback",
+            "/ws/**");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {

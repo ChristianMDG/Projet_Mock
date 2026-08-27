@@ -6,6 +6,7 @@ export interface VoyageFilter {
   arrivalVilleId?: number;
   departureDate?: string;
   status?: VoyageStatusEnum;
+  types?: string[];
   language?: string;
   passengers?: number;
 }

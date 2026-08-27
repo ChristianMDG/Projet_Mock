@@ -22,27 +22,27 @@ import {
   Typography,
 } from '@mui/material';
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from '@mui/lab';
-import {
-  Business,
-  CheckCircle,
-  Email,
-  EmojiEventsOutlined,
-  Handshake,
-  LocationOn,
-  NatureOutlined,
-  People,
-  Phone,
-  Schedule,
-  Shield,
-  TrendingUp,
-} from '@mui/icons-material';
+import Business from '@mui/icons-material/Business';
+import CheckCircle from '@mui/icons-material/CheckCircle';
+import Email from '@mui/icons-material/Email';
+import EmojiEventsOutlined from '@mui/icons-material/EmojiEventsOutlined';
+import Handshake from '@mui/icons-material/Handshake';
+import LocationOn from '@mui/icons-material/LocationOn';
+import NatureOutlined from '@mui/icons-material/NatureOutlined';
+import People from '@mui/icons-material/People';
+import Phone from '@mui/icons-material/Phone';
+import Schedule from '@mui/icons-material/Schedule';
+import Shield from '@mui/icons-material/Shield';
+import TrendingUp from '@mui/icons-material/TrendingUp';
 import { useParams } from 'react-router-dom';
-import { useKoperative } from '@/hooks/koperative.hooks';
+import { useKoperativeBySlug } from '@/hooks/koperative.hooks';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
-import { KoperativeAvatar } from '@/components/ui';
-import { VehicleIcon } from '@/components/shared';
+import KoperativeAvatar from '@/components/ui/KoperativeAvatar';
+import VehicleIcon from '@/components/shared/VehicleIcon';
 import SEO from '@/components/shared/SEO';
+import ProtectedTx from '@/components/ProtectedTx';
+import { AuthorityEnum } from '@/models/enums';
 
 // Static data for fallback/default display
 const staticCooperative = {
@@ -63,7 +63,7 @@ const staticCooperative = {
   specialties: ['Confort Premium', 'Ponctualité', 'Sécurité Renforcée'],
   certifications: ['ISO 9001:2015', 'Certification Sécurité Transport Madagascar', 'Label Éco-responsable'],
   contact: {
-    phone: '+261 20 44 123 45',
+    phone: '020 44 123 45',
     email: 'contact@cotisse.mg',
     address: "Avenue de l'Indépendance, Antsirabe 110",
   },
@@ -133,9 +133,9 @@ const milestones = [
 ];
 
 const KoperativeInfoPage: React.FC = () => {
-  const { id } = useParams();
-  const koperativeId = id ? parseInt(id, 10) : 0;
-  const { data: koperative, isLoading, error } = useKoperative(koperativeId);
+  const { slug } = useParams<{ slug?: string }>();
+  const slugParam = slug?.trim();
+  const { data: koperative, isLoading, error } = useKoperativeBySlug(slugParam);
   const { t } = useTranslation();
 
   if (isLoading) {
@@ -153,7 +153,7 @@ const KoperativeInfoPage: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (error || !slugParam) {
     return (
       <Box
         sx={{
@@ -484,12 +484,23 @@ const KoperativeInfoPage: React.FC = () => {
               </Typography>
 
               <List>
-                <ListItem disablePadding sx={{ mb: 1 }}>
-                  <ListItemIcon>
-                    <Phone color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary={cooperative.contact.phone} />
-                </ListItem>
+                {cooperative.contact.phone && (
+                  <ProtectedTx
+                    allowedRoles={[
+                      AuthorityEnum.ADMIN,
+                      AuthorityEnum.OPERATOR,
+                      AuthorityEnum.KOPERATIVE,
+                      AuthorityEnum.GUICHET,
+                    ]}
+                  >
+                    <ListItem disablePadding sx={{ mb: 1 }}>
+                      <ListItemIcon>
+                        <Phone color="primary" />
+                      </ListItemIcon>
+                      <ListItemText primary={cooperative.contact.phone} />
+                    </ListItem>
+                  </ProtectedTx>
+                )}
 
                 <ListItem disablePadding sx={{ mb: 1 }}>
                   <ListItemIcon>

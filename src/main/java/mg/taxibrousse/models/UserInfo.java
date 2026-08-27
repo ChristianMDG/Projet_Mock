@@ -1,6 +1,5 @@
 package mg.taxibrousse.models;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 import mg.taxibrousse.entities.UserInfoEntity;
 import mg.taxibrousse.entities.enums.CinTypeEnum;
 import mg.taxibrousse.entities.enums.LanguagePreferenceEnum;
+import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
@@ -90,7 +90,7 @@ public class UserInfo extends UserAccount {
         model.idType = entity.getIdType();
         model.isActive = entity.getIsActive();
         model.languagePreference = entity.getLanguagePreference();
-        
+
         try {
             model.photo = Cloudinary.fromEntity(entity.getPhoto());
         } catch (Exception e) {
@@ -110,6 +110,6 @@ public class UserInfo extends UserAccount {
     }
 
     public boolean hasPassword() {
-        return password != null && !password.isEmpty();
+        return StringUtils.hasText(password);
     }
 }

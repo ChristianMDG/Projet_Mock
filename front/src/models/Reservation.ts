@@ -11,6 +11,7 @@ export interface Reservation extends Base {
   voyageur?: Voyageur;
   classe?: Classe;
   seats?: Seat[];
+  seatCount?: number;
   bookingReference: string;
   status: ReservationStatusEnum;
   bookingDate: string;

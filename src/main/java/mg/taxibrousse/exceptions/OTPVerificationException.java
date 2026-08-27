@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class OTPVerificationException extends PaymentException {
-    
+
     private final int attemptCount;
 
     public OTPVerificationException(int attemptCount) {

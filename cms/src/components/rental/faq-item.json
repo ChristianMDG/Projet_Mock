@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_rental_faq_items",
+  "info": {
+    "displayName": "Rental FAQ Item",
+    "description": "A single rental FAQ question/answer pair",
+    "icon": "message"
+  },
+  "options": {},
+  "attributes": {
+    "question": {
+      "type": "string",
+      "required": true,
+      "maxLength": 300,
+      "default": "Quels documents sont requis pour louer un véhicule ?",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "answer": {
+      "type": "text",
+      "required": true,
+      "maxLength": 1000,
+      "default": "Un permis de conduire valide depuis au moins 3 ans, une pièce d'identité et un justificatif de domicile sont requis.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

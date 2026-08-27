@@ -12,8 +12,9 @@ import java.util.List;
  * MVola expects arrays of key-value objects like: [{"key": "msisdn", "value": "0343500003"}]
  */
 public class MVolaApiSerializer {
-    
+
     public static class PartyListSerializer extends JsonSerializer<List<Party>> {
+
         @Override
         public void serialize(List<Party> parties, JsonGenerator gen, SerializerProvider serializers) throws IOException {
             gen.writeStartArray();
@@ -26,8 +27,9 @@ public class MVolaApiSerializer {
             gen.writeEndArray();
         }
     }
-    
+
     public static class MetadataListSerializer extends JsonSerializer<List<Metadata>> {
+
         @Override
         public void serialize(List<Metadata> metadata, JsonGenerator gen, SerializerProvider serializers) throws IOException {
             gen.writeStartArray();

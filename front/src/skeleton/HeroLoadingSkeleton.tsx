@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
-import { HeroBackgroundContainer, HeroContentPanel, HeroSectionContainer } from '@/components';
+import { HeroBackgroundContainer, HeroContentPanel, HeroSectionContainer } from '@/components/ui/HeroSection';
 import { Skeleton, useMediaQuery, useTheme } from '@mui/material';
 
-export const HERO_DIMENSIONS = {
-  height: { xs: '40vh', sm: '45vh', md: '50vh' },
-  minHeight: { xs: 320, sm: 380, md: 400 },
-};
+import { HERO_DIMENSIONS } from '@/constants/hero.constants';
 
 const HeroLoadingSkeleton: React.FC = () => {
   const theme = useTheme();

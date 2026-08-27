@@ -5,6 +5,7 @@ import { AuthorityEnum } from '@/models/enums';
 interface ProtectedTxProps {
   children: React.ReactNode;
   allowedRoles?: string[];
+  fallback?: React.ReactNode;
 }
 
 /**
@@ -15,16 +16,21 @@ interface ProtectedTxProps {
 const ProtectedTx: React.FC<ProtectedTxProps> = ({
   children,
   allowedRoles = [AuthorityEnum.ADMIN, AuthorityEnum.GUICHET, AuthorityEnum.KOPERATIVE],
+  fallback = null,
 }) => {
-  const { user } = useAuth();
+  const { user, isGuichetAndInactive } = useAuth();
 
   if (user && allowedRoles && allowedRoles.length > 0) {
+    if (isGuichetAndInactive) {
+      return <>{fallback}</>;
+    }
+
     const hasAccess = user.authorities?.some(role => allowedRoles.includes(role.name));
 
     if (hasAccess) return <>{children}</>;
   }
 
-  return <></>;
+  return <>{fallback}</>;
 };
 
 export default ProtectedTx;

@@ -14,10 +14,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Close as CloseIcon, Save as SaveIcon, Train as TrainIcon } from '@mui/icons-material';
-import { ButtonTx, StyledIcon } from '@/components/ui';
+import CloseIcon from '@mui/icons-material/Close';
+import SaveIcon from '@mui/icons-material/Save';
+import TrainIcon from '@mui/icons-material/Train';
+import ButtonTx from '@/components/ui/ButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import ProtectedTx from '@/components/ProtectedTx';
-import { VilleAutocomplete } from '@/components/shared';
+import VilleAutocomplete from '@/components/shared/VilleAutocomplete';
 import { useCreateGare, useUpdateGare } from '@/hooks/gare.hooks';
 import { Gare } from '@/models/Gare';
 import { Ville } from '@/models/Ville';
@@ -72,7 +75,7 @@ const GareFormDrawer: React.FC<GareFormDrawerProps> = ({ open, onClose, initialD
         address: form.address.trim() || undefined,
         ville: form.ville?.id ? ({ id: form.ville.id } as Ville) : undefined,
         description: form.description.trim() || undefined,
-        photos: form.photos || undefined,
+        photos: form.photos ?? undefined,
         isClosed: form.isClosed,
       };
 
@@ -137,7 +140,7 @@ const GareFormDrawer: React.FC<GareFormDrawerProps> = ({ open, onClose, initialD
             </Box>
           }
         />
-        <CardContent>
+        <CardContent sx={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
           {error && (
             <Alert severity="error" sx={{ mb: 2 }}>
               {error}

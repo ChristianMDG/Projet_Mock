@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Paper, Typography } from '@mui/material';
+import { Alert, Box, Paper, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
@@ -58,12 +58,14 @@ export const KrafterViewer: React.FC<KrafterViewerProps> = ({
           {t(Labels[error as keyof typeof Labels] || error)}
         </Alert>
       )}
-      <SeatGrid
-        crafter={voyage?.crafter ?? ({} as Crafter)}
-        getSeatStatus={getSeatStatus}
-        onSeatClick={handleSeatClick}
-        readonly={readonly}
-      />
+      <Box sx={{ width: '100%', maxWidth: '100%', overflowX: 'auto' }}>
+        <SeatGrid
+          crafter={voyage?.crafter ?? ({} as Crafter)}
+          getSeatStatus={getSeatStatus}
+          onSeatClick={handleSeatClick}
+          readonly={readonly}
+        />
+      </Box>
     </>
   );
 };

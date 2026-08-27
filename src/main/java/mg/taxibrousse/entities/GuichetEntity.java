@@ -25,19 +25,30 @@ public class GuichetEntity extends BaseEntity {
     private KoperativeEntity koperative;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "guichet_operateurs",
-        joinColumns = @JoinColumn(name = "guichet_id"),
-        inverseJoinColumns = @JoinColumn(name = "operateur_id")
-    )
+    @JoinTable(name = "guichet_operateurs", joinColumns = @JoinColumn(name = "guichet_id"), inverseJoinColumns = @JoinColumn(name = "operateur_id"))
     @com.fasterxml.jackson.annotation.JsonIgnore
     private List<UserOperatorEntity> operateurs;
 
     @Column
     private String phones;
 
+    @Column
+    private String smsPhone;
+
+    @Column
+    private String numeroMvola;
+
+    @Column
+    private String numeroAirtelMoney;
+
+    @Column
+    private String numeroOrangeMoney;
+
     @Column(nullable = false)
     private Boolean isActive = true;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean paymentAutomatique = false;
 
     @Column(length = 100)
     private String openingHours;
@@ -46,10 +57,6 @@ public class GuichetEntity extends BaseEntity {
     private CloudinaryEntity photo;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "guichet_destinations",
-        joinColumns = @JoinColumn(name = "guichet_id"),
-        inverseJoinColumns = @JoinColumn(name = "gare_id")
-    )
+    @JoinTable(name = "guichet_destinations", joinColumns = @JoinColumn(name = "guichet_id"), inverseJoinColumns = @JoinColumn(name = "gare_id"))
     private List<GareEntity> destinations;
 }

@@ -6,10 +6,12 @@ const API_URL = '/reservations';
 // Paginated response from Spring Data
 export interface PageResponse<T> {
   content: T[];
-  totalElements: number;
-  totalPages: number;
-  size: number;
-  number: number; // current page (0-indexed)
+  page: {
+    size: number;
+    number: number; // current page (0-indexed)
+    totalElements: number;
+    totalPages: number;
+  };
 }
 
 export const getAllReservations = async (): Promise<Reservation[]> => {
@@ -23,10 +25,12 @@ export const searchReservations = async (
   page = 0,
   size = 15
 ): Promise<PageResponse<Reservation>> => {
+  const finalPaymentStatus = filters.status === 'CONFIRMED' ? 'PAID,PARTIALLY_PAID' : '';
   const { data } = await api.post<PageResponse<Reservation>>(`${API_URL}/search`, {
     status: filters.status,
     phoneNumber: filters.phoneNumber,
-    bookingReference: filters.bookingReference,
+    bookingReference: filters.searchQuery || filters.bookingReference,
+    paymentStatus: finalPaymentStatus,
     page,
     size,
   });

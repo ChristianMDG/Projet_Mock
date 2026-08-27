@@ -13,7 +13,8 @@ import {
   type SxProps,
   type Theme,
 } from '@mui/material';
-import { Article, ArrowForward } from '@mui/icons-material';
+import Article from '@mui/icons-material/Article';
+import ArrowForward from '@mui/icons-material/ArrowForward';
 import { useTranslation } from 'react-i18next';
 import type { NewsSection as NewsSectionType, NewsItem } from '@/api/dynamic-page.api';
 
@@ -35,12 +36,12 @@ const NewsSection: React.FC<NewsSectionProps> = ({ section, sx }) => {
     <Box
       sx={{
         py: 6,
-        bgcolor: section.backgroundColor || 'background.default',
+        bgcolor: section.backgroundColor ?? 'background.default',
         ...sx,
       }}
       data-section="page.news-section"
     >
-      <Container maxWidth={section.containerMaxWidth || 'lg'}>
+      <Container maxWidth={section.containerMaxWidth ?? 'lg'}>
         <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Typography
             variant="h4"
@@ -102,7 +103,7 @@ const NewsSection: React.FC<NewsSectionProps> = ({ section, sx }) => {
                       onClick={() => handleNewsClick(item.link)}
                       fullWidth
                     >
-                      {item.buttonText || t('common.read_more')}
+                      {item.buttonText ?? t('common.read_more')}
                     </Button>
                   </CardActions>
                 )}

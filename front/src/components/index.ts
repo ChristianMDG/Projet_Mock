@@ -14,7 +14,7 @@ export * from './voyage';
 export * from './reservation';
 
 // Seat Components
-export * from './seat';
+export * from './seats';
 
 // Crafter Components
 export * from './crafter';

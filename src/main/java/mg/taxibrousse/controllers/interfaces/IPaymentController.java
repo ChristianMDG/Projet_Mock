@@ -34,10 +34,7 @@ public interface IPaymentController {
     ResponseEntity<PaymentTransaction> initiateOrangeMoneyPayment(@Valid @RequestBody PaymentRequest paymentRequest) throws IOException, InterruptedException;
 
     @PostMapping("/orangemoney/callback")
-    ResponseEntity<Void> handleOrangeMoneyCallback(
-            @Valid @RequestBody OrangeMoneyCallbackRequest callbackRequest,
-            @RequestParam(value = "order_id", required = false) String orderIdParam
-    );
+    ResponseEntity<Void> handleOrangeMoneyCallback(@Valid @RequestBody OrangeMoneyCallbackRequest callbackRequest, @RequestParam(value = "order_id", required = false) String orderIdParam);
 
     @GetMapping("/orangemoney/status/{transactionReference}")
     ResponseEntity<PaymentTransaction> getOrangeMoneyPaymentStatus(@PathVariable String transactionReference);

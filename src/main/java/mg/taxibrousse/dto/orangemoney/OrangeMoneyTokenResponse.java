@@ -38,11 +38,7 @@ public class OrangeMoneyTokenResponse {
      * Automatically calculates expiration time with 30-second buffer.
      */
     @JsonCreator
-    public OrangeMoneyTokenResponse(
-            @JsonProperty("access_token") String accessToken,
-            @JsonProperty("token_type") String tokenType,
-            @JsonProperty("expires_in") int expiresIn
-    ) {
+    public OrangeMoneyTokenResponse(@JsonProperty("access_token") String accessToken, @JsonProperty("token_type") String tokenType, @JsonProperty("expires_in") int expiresIn) {
         this.accessToken = accessToken;
         this.tokenType = tokenType == null ? "Bearer" : tokenType;
         this.expiresIn = expiresIn <= 0 ? 3600 : expiresIn;

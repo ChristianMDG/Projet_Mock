@@ -10,6 +10,7 @@ import {
   createKoperative,
   deleteKoperative,
   getKoperative,
+  getKoperativeBySlug,
   getKoperativeChauffeurs,
   getKoperativeCrafters,
   getKoperativeGuichets,
@@ -49,7 +50,7 @@ export function useTopKoperatives(filter?: Partial<KoperativeFilter>): UseQueryR
   return useQuery<Koperative[], Error>({
     queryKey: ['topKoperatives', filter],
     queryFn: () => {
-      const hasFilter = Boolean(filter?.ville?.length || filter?.name);
+      const hasFilter = (filter?.ville?.length ?? 0) > 0 || Boolean(filter?.name);
       return getKoperatives(hasFilter ? filter : { top: 4 });
     },
   });
@@ -60,6 +61,14 @@ export function useKoperative(koperativeId: number): UseQueryResult<Koperative, 
     queryKey: ['koperative', koperativeId],
     queryFn: () => getKoperative(koperativeId),
     enabled: Boolean(koperativeId),
+  });
+}
+
+export function useKoperativeBySlug(slug?: string): UseQueryResult<Koperative, Error> {
+  return useQuery<Koperative, Error>({
+    queryKey: ['koperative', 'slug', slug],
+    queryFn: () => getKoperativeBySlug(slug ?? ''),
+    enabled: Boolean(slug),
   });
 }
 

@@ -12,7 +12,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Close as CloseIcon, Person as PersonIcon, Save as SaveIcon } from '@mui/icons-material';
+import CloseIcon from '@mui/icons-material/Close';
+import PersonIcon from '@mui/icons-material/Person';
+import SaveIcon from '@mui/icons-material/Save';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
@@ -21,8 +23,11 @@ import { Voyageur } from '@/models/Voyageur';
 import { Seat } from '@/models/Seat';
 import { SeatConfig } from '@/types/type.props';
 import { ReservationStatusEnum, SeatStatusEnum } from '@/models/enums';
-import { StyledIcon } from '@/components/ui';
-import { SelectedSeats, UserDetailsForm, UserFormData, UserSearchForm } from '@/components/forms';
+import StyledIcon from '@/components/ui/StyledIcon';
+import { SelectedSeats } from '@/components/forms/SelectedSeats';
+import { UserDetailsForm } from '@/components/forms/UserDetailsForm';
+import { UserSearchForm } from '@/components/forms/UserSearchForm';
+import type { UserFormData } from '@/types/user.type';
 import { createReservationHandler, getEmptyUserForm } from '@/utils/reservation-form.utils';
 import { useUpsertVoyageur } from '@/hooks/voyageur.hooks';
 import { populateVoyageur } from '@/utils/populate.voyageur';
@@ -32,6 +37,7 @@ import { reservationKeys } from '@/hooks/reservation.hooks';
 import { crafterKeys } from '@/hooks/crafter.hooks';
 import { SEAT_ENTITY_KEYS } from '@/hooks/seat.hooks';
 import { saveGuestReservationData } from '@/utils/guestReservation.utils';
+import { trackEvent } from '@/hooks/google-analytics.hook';
 
 interface ReservationFormCardProps {
   voyage: Voyage;
@@ -81,7 +87,7 @@ export const ReservationFormCard: React.FC<ReservationFormCardProps> = ({
   const handleSearchValueChange = (searchValue: string) => {
     if (searchValue) {
       const isPhone = /^\d+$/.test(searchValue);
-      setUserForm(prev => ({
+      setUserForm((prev: UserFormData) => ({
         ...prev,
         [isPhone ? 'phone' : 'idNumber']: searchValue,
       }));
@@ -89,6 +95,7 @@ export const ReservationFormCard: React.FC<ReservationFormCardProps> = ({
   };
 
   const handleSubmit = async () => {
+    trackEvent('submit_passenger_details_clicked', 'Booking', 'Submit Passenger Details');
     setLoading(true);
     setError(null);
 

@@ -35,7 +35,7 @@ interface VoyageFormValues {
   departureTime: string;
   estimatedArrivalTime: string;
   availableSeats: number | '';
-  pricePerSeat: number | '';
+  priceKoperative: number | '';
   crafterId: number | '';
   chauffeurId: number | '';
   classeId: number | '';
@@ -56,7 +56,9 @@ const createVoyageValidationSchema = (t: (key: string) => string) =>
     arrivalGareId: Yup.number().required(t(Labels.field_required)),
     departureTime: Yup.string().required(t(Labels.field_required)),
     availableSeats: Yup.number().min(1, t(Labels.voyage_validation_seats_min)).required(t(Labels.field_required)),
-    pricePerSeat: Yup.number().min(1, t(Labels.voyage_validation_price_min)).required(t(Labels.field_required)),
+    priceKoperative: Yup.number().min(1, t(Labels.voyage_validation_price_min)).required(t(Labels.field_required)),
+    crafterId: Yup.number().required(t(Labels.field_required)),
+    chauffeurId: Yup.number().required(t(Labels.field_required)),
     selectedWeekdays: Yup.array().when('recurrenceType', {
       is: RecurrenceTypeEnum.WEEKLY,
       then: schema => schema.min(1, t(Labels.voyage_validation_weekday_required)),
@@ -65,10 +67,14 @@ const createVoyageValidationSchema = (t: (key: string) => string) =>
       is: RecurrenceTypeEnum.MONTHLY,
       then: schema => schema.min(1, t(Labels.voyage_validation_monthly_date_required)),
     }),
-    customInterval: Yup.number().when('recurrenceType', {
-      is: RecurrenceTypeEnum.CUSTOM,
-      then: schema => schema.min(1, t(Labels.voyage_validation_interval_min)).required(t(Labels.field_required)),
-    }),
+    customInterval: Yup.number()
+      .transform((value, originalValue) => (originalValue === '' ? undefined : value))
+      .optional()
+      .nullable()
+      .when('recurrenceType', {
+        is: RecurrenceTypeEnum.CUSTOM,
+        then: schema => schema.min(1, t(Labels.voyage_validation_interval_min)).required(t(Labels.field_required)),
+      }),
   });
 
 const VoyageFormDrawer: React.FC<VoyageFormDrawerProps> = ({
@@ -79,6 +85,7 @@ const VoyageFormDrawer: React.FC<VoyageFormDrawerProps> = ({
   isLoading = false,
   koperativeId,
 }) => {
+  console.log('🚪 [VoyageFormDrawer] rendered - open:', open, 'voyage:', voyage);
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -101,7 +108,7 @@ const VoyageFormDrawer: React.FC<VoyageFormDrawerProps> = ({
         departureTime: voyage.departureTime ?? '',
         estimatedArrivalTime: voyage.estimatedArrivalTime ?? '',
         availableSeats: voyage.availableSeats ?? '',
-        pricePerSeat: voyage.pricePerSeat ?? '',
+        priceKoperative: voyage.priceKoperative ?? '',
         crafterId: voyage.crafter?.id ?? '',
         chauffeurId: voyage.chauffeur?.id ?? '',
         classeId: voyage.classe?.id ?? '',
@@ -122,7 +129,7 @@ const VoyageFormDrawer: React.FC<VoyageFormDrawerProps> = ({
       departureTime: '',
       estimatedArrivalTime: '',
       availableSeats: '',
-      pricePerSeat: '',
+      priceKoperative: '',
       crafterId: '',
       chauffeurId: '',
       classeId: '',
@@ -138,32 +145,30 @@ const VoyageFormDrawer: React.FC<VoyageFormDrawerProps> = ({
   }, [voyage]);
 
   const handleFormSubmit = (values: VoyageFormValues) => {
-    const submissionData = VoyageManager.toScheduleFormat(
-      {
-        id: values.id,
-        koperative: { id: koperativeId } as Koperative,
-        departureGare: values.departureGareId ? ({ id: values.departureGareId } as Gare) : undefined,
-        arrivalGare: values.arrivalGareId ? ({ id: values.arrivalGareId } as Gare) : undefined,
-        departureTime: values.departureTime,
-        estimatedArrivalTime: values.estimatedArrivalTime ?? undefined,
-        availableSeats: values.availableSeats as number,
-        pricePerSeat: values.pricePerSeat as number,
-        crafter: values.crafterId ? ({ id: values.crafterId } as Crafter) : undefined,
-        chauffeur: values.chauffeurId ? ({ id: values.chauffeurId } as Chauffeur) : undefined,
-        classe: values.classeId ? ({ id: values.classeId } as Classe) : undefined,
-        status: values.status,
-        description: values.description,
-        recurrenceType: values.recurrenceType,
-        customInterval: values.customInterval as number,
-        isTemplate: values.isTemplate,
-      },
-      {
-        weekdays: values.selectedWeekdays,
-        monthlyDates: values.selectedMonthlyDates,
-        recurrenceStartDate: values.recurrenceStartDate ?? undefined,
-        recurrenceEndDate: values.recurrenceEndDate ?? undefined,
-      },
-    );
+    console.warn('📋 [VoyageFormDrawer] Form submitted with values:', values);
+
+    const submissionData: Partial<Voyage> = {
+      id: values.id,
+      koperative: { id: koperativeId } as Koperative,
+      departureGare: values.departureGareId ? ({ id: values.departureGareId } as Gare) : undefined,
+      arrivalGare: values.arrivalGareId ? ({ id: values.arrivalGareId } as Gare) : undefined,
+      departureTime: values.departureTime,
+      estimatedArrivalTime: values.estimatedArrivalTime || undefined,
+      availableSeats: values.availableSeats as number,
+      priceKoperative: values.priceKoperative as number,
+      crafter: values.crafterId ? ({ id: values.crafterId } as Crafter) : undefined,
+      chauffeur: values.chauffeurId ? ({ id: values.chauffeurId } as Chauffeur) : undefined,
+      classe: values.classeId ? ({ id: values.classeId } as Classe) : undefined,
+      status: values.status,
+      description: values.description,
+      recurrenceType: values.recurrenceType,
+      customInterval: values.customInterval ? (values.customInterval as number) : undefined,
+      isTemplate: values.isTemplate,
+      weekdays: values.selectedWeekdays.length > 0 ? JSON.stringify(values.selectedWeekdays) : undefined,
+      monthlyDates: values.selectedMonthlyDates.length > 0 ? JSON.stringify(values.selectedMonthlyDates) : undefined,
+      recurrenceStartDate: values.recurrenceStartDate || undefined,
+      recurrenceEndDate: values.recurrenceEndDate || undefined,
+    };
     onSubmit(submissionData);
   };
 

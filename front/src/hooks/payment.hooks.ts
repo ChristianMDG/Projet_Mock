@@ -6,7 +6,13 @@ import { useAuth } from '@/context/AuthContext';
 import { useUpsertVoyageur } from '@/hooks/voyageur.hooks';
 import { useSeatSelectionStore } from '@/stores/seat-selection.store';
 import { usePaymentStore } from '@/stores/payment.store';
-import { MobileMoneyOperatorEnum, PaymentTransactionStatusEnum, ReservationStatusEnum } from '@/models/enums';
+import { saveGuestReservationData } from '@/utils/guestReservation.utils';
+import {
+  MobileMoneyOperatorEnum,
+  PaymentStatusEnum,
+  PaymentTransactionStatusEnum,
+  ReservationStatusEnum,
+} from '@/models/enums';
 import { voyageKeys } from '@/hooks/voyage.hooks';
 import { reservationKeys, useCreateReservation } from '@/hooks/reservation.hooks';
 import { SEAT_ENTITY_KEYS } from '@/hooks/seat.hooks';
@@ -21,18 +27,21 @@ import {
   checkMVolaPaymentStatus,
   checkOrangeMoneyPaymentStatus,
   checkAirtelPaymentStatus,
+  calculateMobileMoneyFee,
 } from '@/api/payment.api';
-import { InitiatePaymentRequest } from '@/models/Payment';
+import { InitiatePaymentRequest, PayableType } from '@/models/Payment';
 import { PaymentTransaction } from '@/models/PaymentTransaction';
 import Labels from '@/labelKeys.json';
 import dayjs from '@/utils/dayjs';
+import { Facturation } from '@/models/Facturation';
 
 // Export WebSocket hook
 export { usePaymentWebSocket } from './payment-websocket.hook';
 
 // Types for payment flow
 export interface PaymentProcessingData {
-  reservationId: number;
+  payableId: number;
+  payableType: PayableType;
   phoneNumber?: string;
   paymentMethodId: string;
   mobileMoneyOperator: string;
@@ -58,7 +67,8 @@ export const useProcessPayment = () => {
   return useMutation<PaymentTransaction, Error, PaymentProcessingData>({
     mutationFn: async paymentData => {
       const request: InitiatePaymentRequest = {
-        reservationId: paymentData.reservationId,
+        payableId: paymentData.payableId,
+        payableType: paymentData.payableType,
         amount: paymentData.amount,
         ...(paymentData.phoneNumber && { phoneNumber: paymentData.phoneNumber }),
         operatorName: paymentData.mobileMoneyOperator,
@@ -82,11 +92,15 @@ export const useProcessPayment = () => {
 // Types for reservation + payment flow
 export interface ReservationPaymentParams {
   voyage: Voyage;
+  reservationTotalAmount: number;
   totalAmount: number;
   phoneNumber: string;
   paymentMethodId: string;
   mobileMoneyOperator: string;
   seatPositions: string[];
+  isPartial?: boolean;
+  advanceAmount?: number;
+  commission?: number;
 }
 
 // Hook that encapsulates: create reservation → initiate payment
@@ -97,20 +111,42 @@ export const useReservationPayment = () => {
   const { t } = useTranslation();
 
   return useMutation<void, Error, ReservationPaymentParams>({
-    mutationFn: async ({ voyage, totalAmount, phoneNumber, paymentMethodId, mobileMoneyOperator, seatPositions }) => {
+    mutationFn: async ({
+      voyage,
+      reservationTotalAmount,
+      totalAmount,
+      phoneNumber,
+      paymentMethodId,
+      mobileMoneyOperator,
+      seatPositions,
+      isPartial,
+      advanceAmount,
+      commission,
+    }) => {
       let reservationId = existingReservationId;
 
       if (!reservationId) {
         // Step 1: Create reservation without seats — seats are attached after successful payment only
         const reservation = await createReservationMutation.mutateAsync({
           voyage: { id: voyage.id } as Voyage,
-          totalAmount,
+          totalAmount: reservationTotalAmount,
+          seatCount: seatPositions.length,
           status: ReservationStatusEnum.PENDING_PAYMENT,
           bookingDate: dayjs().tz('Indian/Antananarivo').toISOString(),
           notes: t(Labels.payment_notes_template, {
             operator: mobileMoneyOperator,
             phone: phoneNumber ?? t(Labels.payment_web_payment),
             seats: seatPositions.join(', '),
+          }),
+          ...(isPartial && {
+            facturation: {
+              advanceAmount,
+              commission,
+              amount: reservationTotalAmount,
+              totalAmount: reservationTotalAmount,
+              remainingAmount: reservationTotalAmount,
+              paymentStatus: PaymentStatusEnum.PENDING,
+            } as Facturation,
           }),
         });
         if (!reservation?.id) throw new Error(t(Labels.error_reservation_failed));
@@ -123,7 +159,8 @@ export const useReservationPayment = () => {
         phoneNumber,
         paymentMethodId,
         mobileMoneyOperator,
-        reservationId,
+        payableId: reservationId,
+        payableType: PayableType.RESERVATION,
         amount: totalAmount,
       });
 
@@ -157,7 +194,13 @@ export const usePaymentStatus = (transactionReference: string | null, enabled: b
       }
       return 3000;
     },
-    retry: 3,
+    retry: failureCount => {
+      // Stop retrying after 5 attempts
+      if (failureCount >= 5) return false;
+      // Exponential backoff: 1s, 2s, 4s, 8s, 16s
+      return true;
+    },
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 };
 
@@ -220,9 +263,7 @@ export const useCreatePostPaymentReservation = () => {
         firstName: user.firstName ?? '',
         lastName: user.lastName ?? '',
         phone: user.phone ?? '',
-        email: user.email ?? '',
         idNumber: user.idNumber ?? '',
-        address: user.address ?? '',
       };
     }
     return userForm;
@@ -269,6 +310,16 @@ export const useCreatePostPaymentReservation = () => {
         await queryClient.invalidateQueries({ queryKey: SEAT_ENTITY_KEYS.available(voyage.id) });
         await queryClient.invalidateQueries({ queryKey: SEAT_ENTITY_KEYS.reserved(voyage.id) });
 
+        // Save guest reservation data to localStorage
+        const phoneNumber = user?.phone ?? userForm!.phone;
+        const idNumber = user?.idNumber ?? userForm!.idNumber;
+        if (Boolean(phoneNumber && idNumber)) {
+          saveGuestReservationData({
+            phoneNumber: phoneNumber,
+            idNumber: idNumber,
+          });
+        }
+
         if (user) {
           navigate(ROUTES.accountDetail[i18n.language]);
         } else if (redirectToLogin && hasExistingAccount && userForm?.phone) {
@@ -292,3 +343,12 @@ export const useCreatePostPaymentReservation = () => {
     },
   });
 };
+
+export function useMobileMoneyFee(operatorName: string, amount: number) {
+  return useQuery({
+    queryKey: ['mobile-money-fee', operatorName, amount],
+    queryFn: () => calculateMobileMoneyFee(operatorName, amount),
+    enabled: Boolean(operatorName) && amount > 0,
+    staleTime: 50 * 60 * 1000, // 50 minutes cache
+  });
+}

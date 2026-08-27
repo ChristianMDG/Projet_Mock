@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface IColisRepository extends JpaRepository<ColisEntity, Long> {
+
     List<ColisEntity> findByStatus(ColisStatusEnum status);
 
     @Query("SELECT c FROM Colis c WHERE c.crafter.id = :crafterId")
@@ -22,4 +23,19 @@ public interface IColisRepository extends JpaRepository<ColisEntity, Long> {
 
     @Query("SELECT c FROM Colis c WHERE c.voyage.id = :voyageId")
     List<ColisEntity> findByVoyageId(@Param("voyageId") Long voyageId);
+
+        @Query("""
+            SELECT c FROM Colis c
+            WHERE c.voyage.id = :voyageId
+                AND (
+                    LOWER(c.senderName) LIKE LOWER(CONCAT('%', :search, '%'))
+                    OR LOWER(c.senderPhone) LIKE LOWER(CONCAT('%', :search, '%'))
+                    OR LOWER(c.recipientName) LIKE LOWER(CONCAT('%', :search, '%'))
+                    OR LOWER(c.recipientPhone) LIKE LOWER(CONCAT('%', :search, '%'))
+                    OR LOWER(c.description) LIKE LOWER(CONCAT('%', :search, '%'))
+                    OR LOWER(c.content) LIKE LOWER(CONCAT('%', :search, '%'))
+                )
+            ORDER BY c.id DESC
+            """)
+        List<ColisEntity> findFilteredByVoyageId(@Param("voyageId") Long voyageId, @Param("search") String search);
 }

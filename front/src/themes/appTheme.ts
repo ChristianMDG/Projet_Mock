@@ -1,6 +1,6 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
-// Extend the theme interface to add custom shadows
+// Extend the theme interface to add custom shadows and custom breakpoints
 declare module '@mui/material/styles' {
   interface Theme {
     customShadows: {
@@ -21,9 +21,53 @@ declare module '@mui/material/styles' {
       };
     };
   }
+
+  interface BreakpointOverrides {
+    xm: true;
+  }
+
+  interface Palette {
+    taxi: {
+      main: string;
+      light: string;
+      dark: string;
+      contrastText?: string;
+    };
+    special: {
+      main: string;
+      light: string;
+      dark: string;
+      contrastText?: string;
+    };
+  }
+
+  interface PaletteOptions {
+    taxi?: {
+      main?: string;
+      light?: string;
+      dark?: string;
+      contrastText?: string;
+    };
+    special?: {
+      main?: string;
+      light?: string;
+      dark?: string;
+      contrastText?: string;
+    };
+  }
 }
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      xm: 375,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
   colorSchemes: {
     light: {
       palette: {
@@ -73,6 +117,16 @@ const theme = createTheme({
           dark: '#005005',
           contrastText: '#ffffff',
         },
+        taxi: {
+          main: '#fbbf24',
+          light: '#fde68a',
+          dark: '#b45309',
+        },
+        special: {
+          main: '#9c27b0',
+          light: '#e1bee7',
+          dark: '#7b1fa2',
+        },
         action: {
           hover: 'rgba(1, 22, 56, 0.10)',
           selected: 'rgba(255, 226, 90, 0.22)',
@@ -85,6 +139,16 @@ const theme = createTheme({
           default: '#0a0e27',
           paper: '#1a1f3a',
         },
+        taxi: {
+          main: '#fbbf24',
+          light: '#fef3c7',
+          dark: '#fbbf24',
+        },
+        special: {
+          main: '#ce93d8',
+          light: '#f3e5f5',
+          dark: '#ce93d8',
+        },
       },
     },
   },
@@ -94,13 +158,11 @@ const theme = createTheme({
       textTransform: 'none',
       fontWeight: 500,
       letterSpacing: '0.02em',
-      fontFamily: '"Inter", sans-serif',
     },
     h1: {
       fontWeight: 700,
       fontSize: '2.25rem',
       color: 'primary.main',
-      fontFamily: '"Inter", sans-serif',
       letterSpacing: '-0.025em',
       lineHeight: 1.2,
     },
@@ -108,7 +170,6 @@ const theme = createTheme({
       fontWeight: 600,
       fontSize: '1.875rem',
       color: 'primary.main',
-      fontFamily: '"Inter", sans-serif',
       letterSpacing: '-0.015em',
       lineHeight: 1.3,
     },
@@ -116,7 +177,6 @@ const theme = createTheme({
       fontWeight: 600,
       fontSize: '1.5rem',
       color: 'primary.main',
-      fontFamily: '"Inter", sans-serif',
       letterSpacing: '-0.01em',
       lineHeight: 1.4,
     },
@@ -124,7 +184,6 @@ const theme = createTheme({
       fontWeight: 600,
       fontSize: '1.25rem',
       color: 'primary.main',
-      fontFamily: '"Inter", sans-serif',
       letterSpacing: '0em',
       lineHeight: 1.4,
     },
@@ -132,7 +191,6 @@ const theme = createTheme({
       fontWeight: 500,
       fontSize: '1.125rem',
       color: 'primary.main',
-      fontFamily: '"Inter", sans-serif',
       letterSpacing: '0em',
       lineHeight: 1.5,
     },
@@ -140,13 +198,11 @@ const theme = createTheme({
       fontWeight: 500,
       fontSize: '1rem',
       color: 'primary.main',
-      fontFamily: '"Inter", sans-serif',
       letterSpacing: '0em',
       lineHeight: 1.5,
     },
     body1: {
       fontSize: '1rem',
-      fontFamily: '"Inter", sans-serif',
       letterSpacing: '0.01em',
       lineHeight: 1.6,
       fontWeight: 400,
@@ -154,7 +210,6 @@ const theme = createTheme({
     body2: {
       fontSize: '0.875rem',
       color: 'text.secondary',
-      fontFamily: '"Inter", sans-serif',
       letterSpacing: '0.01em',
       lineHeight: 1.5,
       fontWeight: 400,
@@ -163,7 +218,6 @@ const theme = createTheme({
       fontSize: '1rem',
       fontWeight: 500,
       color: 'primary.main',
-      fontFamily: '"Inter", sans-serif',
       letterSpacing: '0.01em',
       lineHeight: 1.75,
     },
@@ -171,7 +225,6 @@ const theme = createTheme({
       fontSize: '0.875rem',
       fontWeight: 500,
       color: 'text.secondary',
-      fontFamily: '"Inter", sans-serif',
       letterSpacing: '0.01em',
       lineHeight: 1.57,
     },
@@ -179,9 +232,15 @@ const theme = createTheme({
       fontSize: '0.75rem',
       fontWeight: 400,
       color: 'text.secondary',
-      fontFamily: '"Inter", sans-serif',
       letterSpacing: '0.02em',
       lineHeight: 1.66,
+    },
+    overline: {
+      fontSize: '0.75rem',
+      fontWeight: 600,
+      letterSpacing: '0.08em',
+      lineHeight: 2.66,
+      textTransform: 'uppercase',
     },
   },
   customShadows: {
@@ -203,14 +262,16 @@ const theme = createTheme({
           backgroundColor: 'background.default',
           margin: 0,
         },
+        '.MuiPickersOutlinedInput-root': {
+          borderRadius: '8px !important',
+        },
       },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
+          borderRadius: 14,
           fontWeight: 400,
-          fontFamily: '"Inter", sans-serif',
           textTransform: 'none',
           fontSize: '1.10rem',
           padding: '8px 20px',
@@ -232,7 +293,6 @@ const theme = createTheme({
     MuiTab: {
       styleOverrides: {
         root: ({ theme }) => ({
-          fontFamily: '"Inter", sans-serif',
           fontWeight: 400,
           padding: 14,
           textTransform: 'none',
@@ -256,7 +316,6 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontWeight: 500,
-          fontFamily: '"Inter", sans-serif',
           borderRadius: 16,
           fontSize: '0.8rem',
         },
@@ -312,13 +371,7 @@ const theme = createTheme({
         }),
       },
     },
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          fontFamily: '"Inter", sans-serif',
-        },
-      },
-    },
+
     MuiListItemButton: {
       styleOverrides: {
         root: {
@@ -352,14 +405,26 @@ const theme = createTheme({
         root: {
           borderRadius: 8,
         },
+        input: {
+          '&::placeholder': {
+            opacity: 0.45,
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        asterisk: ({ theme }) => ({
+          color: theme.palette.error.main,
+        }),
       },
     },
   },
 });
 
 export const appTheme = responsiveFontSizes(theme, {
-  factor: 3,
-  breakpoints: ['xs', 'sm', 'md', 'lg'],
-  variants: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'subtitle1', 'subtitle2'],
-  disableAlign: false,
+  factor: 4,
+  breakpoints: ['xs', 'xm', 'sm', 'md', 'lg', 'xl'],
+  variants: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'subtitle1', 'subtitle2', 'body1', 'body2', 'caption', 'button'],
+  disableAlign: true,
 });

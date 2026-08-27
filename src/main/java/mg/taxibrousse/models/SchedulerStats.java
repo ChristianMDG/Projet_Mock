@@ -26,14 +26,6 @@ public class SchedulerStats {
     private double averageInstancesPerTemplate;
 
     public static SchedulerStats empty() {
-        return SchedulerStats.builder()
-                .totalTemplates(0)
-                .activeTemplates(0)
-                .totalInstances(0)
-                .upcomingInstances(0)
-                .cancelledInstances(0)
-                .resourceConflicts(0)
-                .averageInstancesPerTemplate(0.0)
-                .build();
+        return SchedulerStats.builder().totalTemplates(0).activeTemplates(0).totalInstances(0).upcomingInstances(0).cancelledInstances(0).resourceConflicts(0).averageInstancesPerTemplate(0.0).build();
     }
 }

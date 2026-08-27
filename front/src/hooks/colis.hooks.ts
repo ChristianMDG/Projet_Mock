@@ -24,7 +24,7 @@ export const colisKeys = {
   detail: (id: number) => [...colisKeys.details(), id] as const,
   koperative: (id: number) => [...colisKeys.all, 'koperative', id] as const,
   voyage: (id: number) => [...colisKeys.all, 'voyage', id] as const,
-  filtered: (filters: Record<string, any>) => [...colisKeys.all, 'filtered', filters] as const,
+  filtered: (filters: Record<string, unknown>) => [...colisKeys.all, 'filtered', filters] as const,
 };
 
 // Fetch paginated colis
@@ -74,7 +74,7 @@ export function useColisDetail(id: number) {
 }
 
 // Filtered colis
-export function useFilteredColis(filters: Record<string, any>) {
+export function useFilteredColis(filters: Record<string, unknown>) {
   return useQuery<Colis[], Error>({
     queryKey: colisKeys.filtered(filters),
     queryFn: () => findFilteredColis(filters),

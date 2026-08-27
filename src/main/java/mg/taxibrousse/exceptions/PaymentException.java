@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class PaymentException extends RuntimeException {
-    
+
     private final String errorCode;
     private final String messageKey;
 

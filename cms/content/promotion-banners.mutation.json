@@ -1,0 +1,28 @@
+{
+    "description": "Bannière de promotion du shop – campagne mensuelle. Single-type : un seul enregistrement actif à la fois. Mettre à jour ctaLink et les dates à chaque nouvelle campagne.",
+    "collection": "api::promotion-banner.promotion-banner",
+    "data": [
+        {
+            "Title": "Offres spéciales de rentrée",
+            "SubTitle": "Jusqu'à -20% sur une sélection de vanille bourbon, rhum arrangé et panier raphia",
+            "Active": true,
+            "ctaText": "Voir les promotions",
+            "ctaLink": "/boutique/promotions",
+            "startDate": "2026-09-01T00:00:00.000Z",
+            "endDate": "2026-09-30T23:59:59.000Z",
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "Title": "Back-to-school special offers",
+                    "SubTitle": "Up to -20% on selected Bourbon vanilla, arranged rum and raffia baskets",
+                    "ctaText": "See promotions"
+                },
+                "mg": {
+                    "Title": "Tolotra manokana ho an'ny fiverenana an-tsekoly",
+                    "SubTitle": "Hatramin'ny -20% amin'ny lavanila bourbon, rhum arrangé sy sobika rafia voafantina",
+                    "ctaText": "Hijery ny fihenam-bidy"
+                }
+            }
+        }
+    ]
+}

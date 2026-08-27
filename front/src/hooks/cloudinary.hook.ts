@@ -57,7 +57,7 @@ export function useCloudinaryUpload(folder: string) {
             format: data.format,
             bytes: data.bytes,
             userinfo: data.userinfo,
-            gares: data.gares || [],
+            gares: data.gares ?? [],
           };
         } else {
           setError(data.error?.message ?? 'Upload failed');

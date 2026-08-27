@@ -25,6 +25,7 @@ public class AppVersionService {
     }
 
     public void initVersionIfAbsent() {
-        if (redisTemplate.opsForValue().get(REDIS_KEY) == null) refreshVersion();
+        if (redisTemplate.opsForValue().get(REDIS_KEY) == null)
+            refreshVersion();
     }
 }

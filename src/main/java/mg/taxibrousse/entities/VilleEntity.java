@@ -10,11 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity(name = "Ville")
-@Table(name = "Ville", indexes = {
-    @Index(name = "ville_created_by_id_fk", columnList = "created_by_id"),
-    @Index(name = "ville_updated_by_id_fk", columnList = "updated_by_id"),
-    @Index(name = "ville_documents_idx", columnList = "document_id, locale, published_at")
-})
+@Table(name = "Ville", indexes = {@Index(name = "ville_created_by_id_fk", columnList = "created_by_id"), @Index(name = "ville_updated_by_id_fk", columnList = "updated_by_id"),
+        @Index(name = "ville_documents_idx", columnList = "document_id, locale, published_at")})
 @NoArgsConstructor
 public class VilleEntity extends BaseEntity {
 

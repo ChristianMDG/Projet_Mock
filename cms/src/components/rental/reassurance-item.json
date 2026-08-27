@@ -1,0 +1,61 @@
+{
+  "collectionName": "components_rental_reassurance_items",
+  "info": {
+    "displayName": "Reassurance Item",
+    "description": "A single trust indicator (icon, title, short description)",
+    "icon": "check-circle"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "default": "VerifiedUser",
+      "description": "Material UI icon name (e.g. VerifiedUser, SupportAgent, Payments, Shield)"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Assurance incluse",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 300,
+      "default": "Chaque location inclut une assurance responsabilité civile de base.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "color": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "primary.main",
+      "description": "Icon color (e.g. primary.main, secondary.main)"
+    },
+    "link": {
+      "type": "string",
+      "maxLength": 255,
+      "description": "Optional link for more details"
+    },
+    "linkText": {
+      "type": "string",
+      "maxLength": 100,
+      "default": "En savoir plus",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

@@ -12,9 +12,20 @@ interface PaymentSummaryProps {
 
 export const PaymentSummary: React.FC<PaymentSummaryProps> = ({ reservation, theme, t, language }) => {
   const formatCurrency = (amount: number | undefined) => {
-    if (!amount) return '0 Ar';
-    const locale = language === 'en' ? 'en-US' : 'fr-FR';
-    return `${new Intl.NumberFormat(locale, { minimumFractionDigits: 0 }).format(amount)} Ar`;
+    if (amount) {
+      const locale = language === 'en' ? 'en-US' : 'fr-FR';
+      return `${new Intl.NumberFormat(locale, { minimumFractionDigits: 0 }).format(amount)} Ar`;
+    }
+    return '0 Ar';
+  };
+
+  const getPaidAmount = () => {
+    if (reservation.facturation) {
+      const total = reservation.facturation.totalAmount ?? 0;
+      const remaining = reservation.facturation.remainingAmount ?? 0;
+      return total - remaining;
+    }
+    return reservation.totalAmount;
   };
 
   return (
@@ -52,7 +63,7 @@ export const PaymentSummary: React.FC<PaymentSummaryProps> = ({ reservation, the
             </Typography>
             <Typography
               variant="h6"
-              color="info.main"
+              color="info"
               sx={{
                 fontWeight: 700,
               }}
@@ -84,7 +95,7 @@ export const PaymentSummary: React.FC<PaymentSummaryProps> = ({ reservation, the
             </Typography>
             <Typography
               variant="h6"
-              color="primary.main"
+              color="primary"
               sx={{
                 fontWeight: 700,
               }}
@@ -116,12 +127,12 @@ export const PaymentSummary: React.FC<PaymentSummaryProps> = ({ reservation, the
             </Typography>
             <Typography
               variant="h6"
-              color="success.main"
+              color="success"
               sx={{
                 fontWeight: 700,
               }}
             >
-              {formatCurrency(reservation.facturation?.amount ?? reservation.totalAmount)}
+              {formatCurrency(getPaidAmount())}
             </Typography>
           </Paper>
         </Grid>

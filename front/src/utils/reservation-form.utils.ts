@@ -41,6 +41,7 @@ export const createReservationHandler = async ({
     voyage: { id: voyage.id } as Voyage,
     voyageur: { id: voyageur.id } as Voyageur,
     seats: minimalSeats,
+    seatCount: selectedSeats.length,
     bookingReference: generateBookingReference(),
     totalAmount,
     status,
@@ -53,7 +54,5 @@ export const getEmptyUserForm = (): UserFormData => ({
   firstName: '',
   lastName: '',
   phone: '',
-  email: '',
   idNumber: '',
-  address: '',
 });

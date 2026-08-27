@@ -1,0 +1,66 @@
+{
+    "_comment": "Vendeurs du shop AmbondronA – 5 coopératives et artisans malgaches. Le champ 'slug' est un identifiant interne utilisé par le script populate pour lier les produits au documentId du vendeur.",
+    "collection": "api::seller.seller",
+    "data": [
+        {
+            "name": "Malagasy Trésors",
+            "slug": "malagasy-tresors",
+            "location": "Antananarivo",
+            "rating": 4.8,
+            "productCount": 42,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Malagasy Treasures" },
+                "mg": { "name": "Harena Malagasy" }
+            }
+        },
+        {
+            "name": "Épices du SAVA",
+            "slug": "epices-du-sava",
+            "location": "Antalaha",
+            "rating": 4.9,
+            "productCount": 18,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "SAVA Spices" },
+                "mg": { "name": "Zava-manitra SAVA" }
+            }
+        },
+        {
+            "name": "Artisans Ambositra",
+            "slug": "artisans-ambositra",
+            "location": "Ambositra",
+            "rating": 4.7,
+            "productCount": 55,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Ambositra Artisans" },
+                "mg": { "name": "Mpanao asa tanana Ambositra" }
+            }
+        },
+        {
+            "name": "Côte Est Bio",
+            "slug": "cote-est-bio",
+            "location": "Toamasina",
+            "rating": 4.6,
+            "productCount": 31,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "East Coast Bio" },
+                "mg": { "name": "Côte Est Bio" }
+            }
+        },
+        {
+            "name": "Soie & Tradition",
+            "slug": "soie-tradition",
+            "location": "Antsirabe",
+            "rating": 4.9,
+            "productCount": 12,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Silk & Tradition" },
+                "mg": { "name": "Landibe sy Fomba" }
+            }
+        }
+    ]
+}

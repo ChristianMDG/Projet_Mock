@@ -28,7 +28,7 @@ public class Voyageur extends UserInfo {
 
         Voyageur model = new Voyageur();
         model.setBaseUserInfoFields(entity, model);
-        
+
         try {
             model.setPhoto(Cloudinary.fromEntity(entity.getPhoto()));
         } catch (Exception e) {
@@ -66,8 +66,12 @@ public class Voyageur extends UserInfo {
                 .isActive(entity.getIsActive());
     }
 
+    public static Voyageur fromEntityLight(VoyageurEntity entity) {
+        return toBuilder(entity).build();
+    }
+
     public VoyageurEntity toEntity(VoyageurEntity entity) {
-        entity = Objects.requireNonNullElse(entity, new VoyageurEntity());
+        entity = Objects.requireNonNullElseGet(entity, VoyageurEntity::new);
         setBaseUserInfoFields(entity);
         if (reservations != null) {
             entity.setReservations(BaseDto.mapModels(reservations, BaseDto::toEntity));
@@ -75,7 +79,6 @@ public class Voyageur extends UserInfo {
         return entity;
     }
 
-    @Override
     public VoyageurEntity toEntity() {
         return toEntity(new VoyageurEntity());
     }

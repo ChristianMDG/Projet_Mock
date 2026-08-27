@@ -6,6 +6,7 @@ import mg.taxibrousse.models.Guichet;
 import java.util.List;
 
 public interface IGuichetService {
+
     Guichet save(Guichet guichet);
 
     Guichet findById(Long id);

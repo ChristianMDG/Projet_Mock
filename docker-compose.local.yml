@@ -19,7 +19,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
       - ./backups:/backups
     networks:
       - taxibrousse
@@ -52,129 +52,6 @@ services:
       timeout: 5s
       retries: 5
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
-    container_name: taxibrousse-elasticsearch
-    environment:
-      - discovery.type=single-node
-      - cluster.name=taxibrousse
-      - node.name=taxibrousse-node-1
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - xpack.security.enabled=true
-      - xpack.security.transport.ssl.enabled=false
-      - xpack.security.enrollment.enabled=false
-      - xpack.ml.enabled=false
-      - xpack.license.self_generated.type=basic
-      - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD:-elastic123}
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-    networks:
-      - taxibrousse
-    healthcheck:
-      test: [ "CMD-SHELL", "curl -s -u elastic:${ELASTICSEARCH_PASSWORD:-elastic123} http://localhost:9200/_cluster/health | grep -q 'status.*green\\|yellow'" ]
-      interval: 30s
-      timeout: 15s
-      retries: 10
-      start_period: 120s
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-
-  # ===========================================================================
-  # TIER 1 - Infrastructure Services (depend on Tier 0)
-  # ===========================================================================
-
-  elasticsearch-setup:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
-    container_name: taxibrousse-elasticsearch-setup
-    entrypoint: >
-      /bin/bash -c '
-        echo "Waiting for Elasticsearch to be ready...";
-        until curl -s -u elastic:${ELASTICSEARCH_PASSWORD:-elastic123} http://elasticsearch:9200/_cluster/health | grep -q "status"; do
-          sleep 5;
-        done;
-        echo "Setting kibana_system password...";
-        curl -s -X POST "http://elasticsearch:9200/_security/user/kibana_system/_password" \
-          -u elastic:${ELASTICSEARCH_PASSWORD:-elastic123} \
-          -H "Content-Type: application/json" \
-          -d "{\"password\":\"${KIBANA_SYSTEM_PASSWORD:-kibana123}\"}";
-        echo "";
-        echo "Elasticsearch setup complete!";
-      '
-    networks:
-      - taxibrousse
-    restart: "no"
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    labels:
-      - "com.docker.compose.oneoff=true"
-
-  logstash:
-    image: docker.elastic.co/logstash/logstash:8.12.2
-    container_name: taxibrousse-logstash
-    environment:
-      - "LS_JAVA_OPTS=-Xms256m -Xmx256m"
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-elastic123}
-      - XPACK_MONITORING_ENABLED=false
-    ports:
-      - "5044:5044"
-      - "9600:9600"
-      - "5001:5000/tcp"
-      - "5001:5000/udp"
-    volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
-      - logstash_data:/usr/share/logstash/data
-    networks:
-      - taxibrousse
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9600" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 60s
-
-  # ===========================================================================
-  # TIER 2 - ELK Visualization (depends on Tier 1)
-  # ===========================================================================
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.12.2
-    container_name: taxibrousse-kibana
-    environment:
-      - KIBANA_SYSTEM_PASSWORD=${KIBANA_SYSTEM_PASSWORD:-kibana123}
-      - KIBANA_ENCRYPTION_KEY=${KIBANA_ENCRYPTION_KEY:-a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6}
-      - KIBANA_PUBLIC_URL=http://localhost:5601
-    ports:
-      - "5601:5601"
-    volumes:
-      - kibana_data:/usr/share/kibana/data
-      - kibana_logs:/usr/share/kibana/logs
-      - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
-    networks:
-      - taxibrousse
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-      elasticsearch-setup:
-        condition: service_completed_successfully
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:5601/api/status" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 60s
-
   # ===========================================================================
   # TIER 3 - Application Services (depend on Tier 0 + Tier 1)
   # ===========================================================================
@@ -197,24 +74,23 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       # CORS configuration for local development
       APP_CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:3001,http://localhost:8080,http://localhost:5173,http://localhost:8081
+      # Enable payment mocking locally
+      APP_PAYMENT_MOCK: "true"
       # OAuth placeholders for local dev
       FACEBOOK_CLIENT_ID: ${FACEBOOK_CLIENT_ID:-local-fb-id}
       FACEBOOK_CLIENT_SECRET: ${FACEBOOK_CLIENT_SECRET:-local-fb-secret}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-local-google-id}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-local-google-secret}
-      # Logstash Configuration
-      LOGSTASH_HOST: logstash
-      LOGSTASH_PORT: 5000
+      LOGGING_FILE_NAME: /taxibrousse/logs/taxibrousse-api.log
     ports:
       - "8080:8080"
     volumes:
       - ./front:/taxibrousse/front
+      - api_logs:/taxibrousse/logs
     depends_on:
       postgres:
         condition: service_healthy
       redis:
-        condition: service_healthy
-      logstash:
         condition: service_healthy
     networks:
       - taxibrousse
@@ -233,16 +109,10 @@ services:
     env_file: ./cms/.env
     environment:
       DATABASE_HOST: postgres
-      # Logstash Configuration for local testing
-      LOGSTASH_HOST: logstash
-      LOGSTASH_PORT: 5000
-      ENABLE_LOGSTASH: "false" # Set to true to test ELK locally
     ports:
       - "1337:1337"
     depends_on:
       postgres:
-        condition: service_healthy
-      logstash:
         condition: service_healthy
     networks:
       - taxibrousse
@@ -267,17 +137,19 @@ services:
     build:
       context: ./front
       dockerfile: Dockerfile
+      target: runtime
       args:
         VITE_API_URL: http://localhost:8080/api
         VITE_CMS_API_URL: http://localhost:1337/api
-        VITE_CMS_API_KEY: 791793d69cfe5467fe19d0387b0b927b349ff6a063ac5bb0c6c4802afa0cc6e266062a6dcfe79bfec04dba040d65c230a2ffb83216a1f352a34b5a672974159033c79c50bd0ae336e2f0d3975b66f0e5f66bb32086ac410dd82e673f692ebe0bfc70706d81b717e3f186407a38125fcbb63d917bc21a2c5b2ab050dbb2cec1f4
+        VITE_CMS_API_KEY: 76e3cb93535d3bb0202778f64cc212be01959f500d8972ec7297f1c31ada26ef7f859f389f1daedc72bd2b8ef2991c6379c22e0d35e7ba3fd99936f6834ca03f93268c58ca9a70e2f1638073b8056e432ccfefc51cf2f4d2473022c2a3f082a91e429b9448c8028c490f3b9b24cedf2a1fa0dd90ccb39b10361c91296f1c4871
         VITE_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-local-google-id}
         VITE_FACEBOOK_APP_ID: ${FACEBOOK_CLIENT_ID:-local-fb-id}
     container_name: taxibrousse-front
-    env_file: ./front/.env
     environment:
       NODE_ENV: production
       PORT: 3000
+      SSR_VITE_API_URL: http://api:8080/api
+      SSR_VITE_CMS_API_URL: http://cms:1337/api
     ports:
       - "3000:3000"
     depends_on:
@@ -316,60 +188,150 @@ services:
     networks:
       - taxibrousse
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3001/health.json" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:3001/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  location:
+    build:
+      context: ./location
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:8080/api
+        VITE_CMS_API_URL: http://localhost:1337/api
+        VITE_CMS_API_KEY: 76e3cb93535d3bb0202778f64cc212be01959f500d8972ec7297f1c31ada26ef7f859f389f1daedc72bd2b8ef2991c6379c22e0d35e7ba3fd99936f6834ca03f93268c58ca9a70e2f1638073b8056e432ccfefc51cf2f4d2473022c2a3f082a91e429b9448c8028c490f3b9b24cedf2a1fa0dd90ccb39b10361c91296f1c4871
+        VITE_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-local-google-id}
+        VITE_FACEBOOK_APP_ID: ${FACEBOOK_CLIENT_ID:-local-fb-id}
+    container_name: taxibrousse-location
+    environment:
+      NODE_ENV: production
+      SSR_VITE_API_URL: http://api:8080/api
+      SSR_VITE_CMS_API_URL: http://cms:1337/api
+    ports:
+      - "3002:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+      cms:
+        condition: service_healthy
+    networks:
+      - taxibrousse
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/health" ]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 30s
 
   # ===========================================================================
-  # TIER 5 - Monitoring (depends on all services)
+  # TIER 5 - Monitoring (Grafana + Loki + Promtail + Prometheus)
+  # Grafana    → http://localhost:3030  (admin / admin)
+  # Prometheus → http://localhost:9090
   # ===========================================================================
 
-  metricbeat:
-    image: docker.elastic.co/beats/metricbeat:8.12.2
-    container_name: taxibrousse-metricbeat
-    hostname: taxibrousse-local
-    user: root
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-elastic123}
-      - KIBANA_HOST=http://kibana:5601
-      - POSTGRES_USER=${DATABASE_USERNAME:-taxibrousse}
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD:-taxibrousse}
-      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
-      - ENVIRONMENT=local
-      - DOCKER_API_VERSION=1.44
+  prometheus:
+    image: prom/prometheus:v3.4.2
+    container_name: taxibrousse-prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=7d
+      - --web.enable-lifecycle
+    ports:
+      - "9090:9090"
     volumes:
-      - ./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
-      - /proc:/hostfs/proc:ro
-      - /:/hostfs:ro
-      - metricbeat_data:/usr/share/metricbeat/data
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    depends_on:
+      api:
+        condition: service_healthy
     networks:
       - taxibrousse
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-      kibana:
-        condition: service_healthy
-      logstash:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
-    command: metricbeat -e -strict.perms=false
+    restart: unless-stopped
     healthcheck:
-      test: [ "CMD-SHELL", "pgrep -f 'metricbeat -e' || exit 1" ]
-      interval: 30s
-      timeout: 10s
+      test: [ "CMD-SHELL", "wget -qO- http://localhost:9090/-/ready || exit 1" ]
+      interval: 15s
+      timeout: 5s
       retries: 5
-      start_period: 60s
+
+  loki:
+    image: grafana/loki:3.5.0
+    container_name: taxibrousse-loki
+    command: -config.file=/etc/loki/loki-config.yml
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./monitoring/loki/loki-config.yml:/etc/loki/loki-config.yml:ro
+      - loki_data:/loki
+    networks:
+      - taxibrousse
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -qO- http://localhost:3100/ready || exit 1" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  promtail:
+    image: grafana/promtail:3.5.0
+    container_name: taxibrousse-promtail
+    command: -config.file=/etc/promtail/promtail-config.yml
+    volumes:
+      - ./monitoring/promtail/promtail-config.yml:/etc/promtail/promtail-config.yml:ro
+      # Docker socket so Promtail can discover containers and read their logs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - api_logs:/var/log/taxibrousse-api:ro
+    depends_on:
+      loki:
+        condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=taxibrousse-promtail"
+
+  grafana:
+    image: grafana/grafana:11.6.0
+    container_name: taxibrousse-grafana
+    environment:
+      GF_SERVER_DOMAIN: admin.taxibrousse.mg
+      GF_SERVER_ROOT_URL: "%(protocol)s://%(domain)s/"
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+    ports:
+      - "3030:3000"
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/etc/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      loki:
+        condition: service_healthy
+    networks:
+      - taxibrousse
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=taxibrousse-grafana"
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
 
 networks:
   taxibrousse:
     driver: bridge
+    name: taxibrousse
 
 volumes:
   postgres_data:
@@ -377,13 +339,11 @@ volumes:
     name: taxibrousse_postgres_data
   redis_data:
     driver: local
-  elasticsearch_data:
+  api_logs:
     driver: local
-  logstash_data:
+  loki_data:
     driver: local
-  kibana_data:
+  grafana_data:
     driver: local
-  metricbeat_data:
-    driver: local
-  kibana_logs:
+  prometheus_data:
     driver: local

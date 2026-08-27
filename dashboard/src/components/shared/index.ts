@@ -6,3 +6,6 @@ export { StatusExplorationList, RouteExplorationList } from './ExplorationList';
 export type { StatusListItem, RouteItem } from './ExplorationList';
 export type { StatCardProps } from './StatCard';
 export { mrtTableProps } from './mrtTableProps';
+export * from './StyledSwitch';
+export { default as StyledIcon } from './StyledIcon';
+export { default as KoperativeAutocomplete } from './KoperativeAutocomplete';

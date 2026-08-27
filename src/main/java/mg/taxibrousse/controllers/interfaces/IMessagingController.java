@@ -23,17 +23,10 @@ public interface IMessagingController {
     ResponseEntity<List<ChatRoom>> getRoomsByType(@PathVariable ChatRoomType type);
 
     @GetMapping("/rooms/{roomId}/messages")
-    ResponseEntity<Page<Message>> getMessagesInRoom(
-        @PathVariable String roomId,
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "50") int size
-    );
+    ResponseEntity<Page<Message>> getMessagesInRoom(@PathVariable String roomId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "50") int size);
 
     @PostMapping("/rooms/{roomId}/messages")
-    ResponseEntity<Message> sendMessage(
-        @PathVariable String roomId,
-        @RequestBody String message
-    );
+    ResponseEntity<Message> sendMessage(@PathVariable String roomId, @RequestBody String message);
 
     @DeleteMapping("/rooms/{roomId}")
     ResponseEntity<Void> deactivateRoom(@PathVariable String roomId);

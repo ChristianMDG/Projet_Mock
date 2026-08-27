@@ -9,6 +9,12 @@ export const formatCurrency = (amount: number, language: string): string => {
 };
 
 /**
+ * Formats date for display (without time)
+ */
+export const formatDate = (value: string, language: string): string =>
+  dayjs(value).locale(language).format(DATE_FORMATS.DATE_FULL);
+
+/**
  * Formats datetime for display
  */
 export const formatDateTime = (value: string, language: string): string =>

@@ -17,7 +17,7 @@ import java.util.Optional;
 @Setter
 @Builder
 public class PaymentNotification {
-    
+
     private String transactionReference;
     private String serverCorrelationId;
     private PaymentTransactionStatusEnum status;
@@ -41,24 +41,21 @@ public class PaymentNotification {
                 .reservationId(getReservationId(transaction))
                 .build();
     }
-    
+
     private static String buildMessage(PaymentTransactionEntity transaction) {
         return switch (transaction.getStatus()) {
-            case COMPLETED   -> Labels.PAYMENT_STATUS_MSG_COMPLETED;
-            case FAILED      -> Labels.PAYMENT_STATUS_MSG_FAILED;
-            case TIMEOUT     -> Labels.PAYMENT_STATUS_MSG_TIMEOUT;
-            case CANCELLED   -> Labels.PAYMENT_STATUS_MSG_CANCELLED;
+            case COMPLETED -> Labels.PAYMENT_STATUS_MSG_COMPLETED;
+            case FAILED -> Labels.PAYMENT_STATUS_MSG_FAILED;
+            case TIMEOUT -> Labels.PAYMENT_STATUS_MSG_TIMEOUT;
+            case CANCELLED -> Labels.PAYMENT_STATUS_MSG_CANCELLED;
             case PENDING_OTP -> Labels.PAYMENT_STATUS_MSG_PENDING_OTP;
-            case INITIATED   -> Labels.PAYMENT_STATUS_MSG_PENDING;
+            case INITIATED -> Labels.PAYMENT_STATUS_MSG_PENDING;
             case OTP_VERIFIED, PROCESSING -> Labels.PAYMENT_STATUS_MSG_PROCESSING;
         };
     }
-    
+
     private static Long getReservationId(PaymentTransactionEntity transaction) {
-        return Optional.ofNullable(transaction.getFacturation())
-                .map(FacturationEntity::getReservation)
-                .map(BaseEntity::getId)
-                .orElse(null);
+        return Optional.ofNullable(transaction.getFacturation()).map(FacturationEntity::getReservation).map(BaseEntity::getId).orElse(null);
     }
 
     private static String buildFailureReason(PaymentTransactionEntity transaction) {

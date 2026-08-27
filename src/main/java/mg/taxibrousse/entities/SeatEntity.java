@@ -14,7 +14,7 @@ import mg.taxibrousse.entities.enums.SeatStatusEnum;
  */
 @Getter
 @Setter
-@Table(name = "Seat", uniqueConstraints = @UniqueConstraint(columnNames = { "voyage_id", "seat_number" }))
+@Table(name = "Seat", uniqueConstraints = @UniqueConstraint(columnNames = {"voyage_id", "seat_number"}))
 @Entity(name = "Seat")
 @NoArgsConstructor
 public class SeatEntity extends BaseEntity {

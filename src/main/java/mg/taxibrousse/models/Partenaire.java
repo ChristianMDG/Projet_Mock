@@ -40,6 +40,9 @@ public class Partenaire extends BaseDto<PartenaireEntity> {
     }
 
     public static PartenaireBuilder<?, ?> toBuilder(PartenaireEntity entity) {
+        if (entity == null) {
+            return Partenaire.builder();
+        }
         return Partenaire.builder()
                 .id(entity.getId())
                 .createdAt(entity.getCreatedAt())
@@ -53,9 +56,13 @@ public class Partenaire extends BaseDto<PartenaireEntity> {
                 .isActive(entity.getIsActive());
     }
 
+    public static Partenaire fromEntityLight(PartenaireEntity entity) {
+        return toBuilder(entity).build();
+    }
+
     @Override
     public PartenaireEntity toEntity(PartenaireEntity entity) {
-        entity = Objects.requireNonNullElse(entity, new PartenaireEntity());
+        entity = Objects.requireNonNullElseGet(entity, PartenaireEntity::new);
         setBaseEntity(entity);
         entity.setName(name);
         entity.setType(type);

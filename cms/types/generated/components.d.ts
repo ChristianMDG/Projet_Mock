@@ -980,6 +980,72 @@ export interface PageFeatureItem extends Struct.ComponentSchema {
   };
 }
 
+export interface PageFeaturedProducts extends Struct.ComponentSchema {
+  collectionName: 'components_page_featured_products';
+  info: {
+    description: 'Section highlighting selected shop products';
+    displayName: 'Featured Products';
+    icon: 'shopping-cart';
+  };
+  attributes: {
+    backgroundColor: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'background.default'>;
+    containerMaxWidth: Schema.Attribute.Enumeration<
+      ['xs', 'sm', 'md', 'lg', 'xl']
+    > &
+      Schema.Attribute.DefaultTo<'lg'>;
+    ctaLink: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }>;
+    ctaText: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 80;
+      }>;
+    layout: Schema.Attribute.Enumeration<['grid', 'carousel', 'list']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'grid'>;
+    maxItems: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 24;
+          min: 1;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<8>;
+    products: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Produits en vedette'>;
+  };
+}
+
 export interface PageHelpArticle extends Struct.ComponentSchema {
   collectionName: 'components_page_help_articles';
   info: {
@@ -1156,6 +1222,42 @@ export interface PageInsuranceType extends Struct.ComponentSchema {
         maxLength: 100;
       }> &
       Schema.Attribute.DefaultTo<'Inclus'>;
+  };
+}
+
+export interface PageKoperativeTypesList extends Struct.ComponentSchema {
+  collectionName: 'components_page_koperative_types_lists';
+  info: {
+    description: 'Displays a static list of Koperative types (Taximoto, Taxi, etc) with a redirection to search';
+    displayName: 'Koperative Types List';
+    icon: 'apps';
+  };
+  attributes: {
+    backgroundColor: Schema.Attribute.String;
+    containerMaxWidth: Schema.Attribute.Enumeration<
+      ['xs', 'sm', 'md', 'lg', 'xl']
+    > &
+      Schema.Attribute.DefaultTo<'lg'>;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Nos moyens de transport'>;
   };
 }
 
@@ -1741,6 +1843,77 @@ export interface PagePopularRoutes extends Struct.ComponentSchema {
   };
 }
 
+export interface PageProductCategories extends Struct.ComponentSchema {
+  collectionName: 'components_page_product_categories';
+  info: {
+    description: 'Section displaying shop product categories';
+    displayName: 'Product Categories';
+    icon: 'layer-group';
+  };
+  attributes: {
+    backgroundColor: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'background.default'>;
+    categories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-category.product-category'
+    >;
+    containerMaxWidth: Schema.Attribute.Enumeration<
+      ['xs', 'sm', 'md', 'lg', 'xl']
+    > &
+      Schema.Attribute.DefaultTo<'lg'>;
+    ctaLink: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }>;
+    ctaText: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 80;
+      }>;
+    layout: Schema.Attribute.Enumeration<
+      ['grid', 'carousel', 'list', 'showcase']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'grid'>;
+    maxItems: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 24;
+          min: 1;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<12>;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Cat\u00E9gories de produits'>;
+  };
+}
+
 export interface PagePromotionItem extends Struct.ComponentSchema {
   collectionName: 'components_page_promotion_items';
   info: {
@@ -2091,6 +2264,7 @@ export interface PageSectionReference extends Struct.ComponentSchema {
         'Service Categories',
         'Loyalty Program',
         'Additional Services',
+        'Simple Search',
       ]
     > &
       Schema.Attribute.Required &
@@ -2123,6 +2297,7 @@ export interface PageSectionReference extends Struct.ComponentSchema {
         'page.service-categories',
         'page.loyalty-program',
         'page.additional-services',
+        'page.simple-search',
       ]
     > &
       Schema.Attribute.Required &
@@ -2261,6 +2436,111 @@ export interface PageServiceTypes extends Struct.ComponentSchema {
         maxLength: 200;
       }> &
       Schema.Attribute.DefaultTo<'Nos types de services'>;
+  };
+}
+
+export interface PageShopPromotions extends Struct.ComponentSchema {
+  collectionName: 'components_page_shop_promotions';
+  info: {
+    description: 'Shop promotional banner section (CTA with image and optional campaign)';
+    displayName: 'Shop Promotions';
+    icon: 'bullhorn';
+  };
+  attributes: {
+    backgroundColor: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'background.default'>;
+    campaigns: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::promotional-campaign.promotional-campaign'
+    >;
+    containerMaxWidth: Schema.Attribute.Enumeration<
+      ['xs', 'sm', 'md', 'lg', 'xl']
+    > &
+      Schema.Attribute.DefaultTo<'lg'>;
+    ctaLink: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }>;
+    ctaText: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 80;
+      }>;
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    image: Schema.Attribute.Media<'images'>;
+    layout: Schema.Attribute.Enumeration<
+      ['banner', 'split', 'overlay', 'carousel']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'banner'>;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Promotions en cours'>;
+  };
+}
+
+export interface PageSimpleSearch extends Struct.ComponentSchema {
+  collectionName: 'components_page_simple_searches';
+  info: {
+    description: 'Compact search section with departure and arrival city fields';
+    displayName: 'Simple Search';
+    icon: 'search';
+  };
+  attributes: {
+    description: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    image: Schema.Attribute.Media<'images'>;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }>;
   };
 }
 
@@ -2699,6 +2979,877 @@ export interface PageWhyChooseUs extends Struct.ComponentSchema {
   };
 }
 
+export interface RentalCategoriesSection extends Struct.ComponentSchema {
+  collectionName: 'components_rental_categories_sections';
+  info: {
+    description: 'Displays vehicle categories (Voitures, SUV, Utilitaires, etc.) with icons and call-to-action links';
+    displayName: 'Categories Section';
+    icon: 'apps';
+  };
+  attributes: {
+    backgroundColor: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'background.default'>;
+    categories: Schema.Attribute.Component<'rental.category-item', true> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 8;
+          min: 1;
+        },
+        number
+      >;
+    containerMaxWidth: Schema.Attribute.Enumeration<
+      ['xs', 'sm', 'md', 'lg', 'xl']
+    > &
+      Schema.Attribute.DefaultTo<'lg'>;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<'Trouvez le v\u00E9hicule adapt\u00E9 \u00E0 chaque besoin'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Nos cat\u00E9gories de v\u00E9hicules'>;
+  };
+}
+
+export interface RentalCategoryItem extends Struct.ComponentSchema {
+  collectionName: 'components_rental_category_items';
+  info: {
+    description: 'A single vehicle category entry (label, icon, link)';
+    displayName: 'Category Item';
+    icon: 'apps';
+  };
+  attributes: {
+    color: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'primary.main'>;
+    description: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Citadines, berlines et SUV pour tous vos trajets'>;
+    icon: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'DirectionsCar'>;
+    image: Schema.Attribute.Media<'images'> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    imageUrl: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    label: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }> &
+      Schema.Attribute.DefaultTo<'Voitures'>;
+    link: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }> &
+      Schema.Attribute.DefaultTo<'/voitures'>;
+  };
+}
+
+export interface RentalContactSection extends Struct.ComponentSchema {
+  collectionName: 'components_rental_contact_sections';
+  info: {
+    description: 'Contact details and assistance channels for the rental service (phone, email, address, hours)';
+    displayName: 'Rental Contact Section';
+    icon: 'phone';
+  };
+  attributes: {
+    address: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<'Analakely, Antananarivo 101, Madagascar'>;
+    assistancePhone: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'+261 34 00 123 45'>;
+    backgroundColor: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'background.paper'>;
+    containerMaxWidth: Schema.Attribute.Enumeration<
+      ['xs', 'sm', 'md', 'lg', 'xl']
+    > &
+      Schema.Attribute.DefaultTo<'lg'>;
+    email: Schema.Attribute.Email &
+      Schema.Attribute.DefaultTo<'contact@taxibrousse-location.mg'>;
+    openingHours: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Lun - Sam : 08:00 - 18:00'>;
+    servicePhone: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'+261 20 22 123 45'>;
+    showContactForm: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<true>;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<'Notre \u00E9quipe est disponible pour r\u00E9pondre \u00E0 toutes vos questions'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Contactez-nous'>;
+  };
+}
+
+export interface RentalFaqItem extends Struct.ComponentSchema {
+  collectionName: 'components_rental_faq_items';
+  info: {
+    description: 'A single rental FAQ question/answer pair';
+    displayName: 'Rental FAQ Item';
+    icon: 'message';
+  };
+  attributes: {
+    answer: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 1000;
+      }> &
+      Schema.Attribute.DefaultTo<"Un permis de conduire valide depuis au moins 3 ans, une pi\u00E8ce d'identit\u00E9 et un justificatif de domicile sont requis.">;
+    question: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<'Quels documents sont requis pour louer un v\u00E9hicule ?'>;
+  };
+}
+
+export interface RentalFaqSection extends Struct.ComponentSchema {
+  collectionName: 'components_rental_faq_sections';
+  info: {
+    description: 'FAQ section specific to rental \u2014 booking process, payment, insurance, breakdown assistance';
+    displayName: 'Rental FAQ Section';
+    icon: 'question';
+  };
+  attributes: {
+    backgroundColor: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'background.default'>;
+    containerMaxWidth: Schema.Attribute.Enumeration<
+      ['xs', 'sm', 'md', 'lg', 'xl']
+    > &
+      Schema.Attribute.DefaultTo<'md'>;
+    faqs: Schema.Attribute.Component<'rental.faq-item', true> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 20;
+          min: 1;
+        },
+        number
+      >;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<'Tout ce que vous devez savoir avant de louer'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Foire Aux Questions'>;
+  };
+}
+
+export interface RentalFeaturedVehicles extends Struct.ComponentSchema {
+  collectionName: 'components_rental_featured_vehicles';
+  info: {
+    description: 'Showcases a curated selection of highlighted rental vehicles';
+    displayName: 'Featured Vehicles';
+    icon: 'star';
+  };
+  attributes: {
+    backgroundColor: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'background.default'>;
+    containerMaxWidth: Schema.Attribute.Enumeration<
+      ['xs', 'sm', 'md', 'lg', 'xl']
+    > &
+      Schema.Attribute.DefaultTo<'lg'>;
+    showViewAllButton: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<true>;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<'D\u00E9couvrez notre s\u00E9lection de v\u00E9hicules populaires'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Nos v\u00E9hicules \u00E0 la une'>;
+    vehicles: Schema.Attribute.Component<'rental.vehicle-item', true> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 12;
+          min: 1;
+        },
+        number
+      >;
+    viewAllLabel: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }> &
+      Schema.Attribute.DefaultTo<'Voir tous les v\u00E9hicules'>;
+    viewAllUrl: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }> &
+      Schema.Attribute.DefaultTo<'/voitures'>;
+  };
+}
+
+export interface RentalHeroSection extends Struct.ComponentSchema {
+  collectionName: 'components_rental_hero_sections';
+  info: {
+    description: 'Hero banner with headline, subtitle, and an integrated search form for the rental home page';
+    displayName: 'Hero Section';
+    icon: 'search';
+  };
+  attributes: {
+    backgroundColor: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'primary.main'>;
+    backgroundImage: Schema.Attribute.Media<'images'> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    backgroundImageUrl: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    overlayOpacity: Schema.Attribute.Decimal &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 1;
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0.65>;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 400;
+      }> &
+      Schema.Attribute.DefaultTo<'Voitures, SUV et utilitaires disponibles partout \u00E0 Madagascar'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Louez votre v\u00E9hicule \u00E0 Madagascar'>;
+  };
+}
+
+export interface RentalHowItWorks extends Struct.ComponentSchema {
+  collectionName: 'components_rental_how_it_works';
+  info: {
+    description: 'Step-by-step guide explaining the rental process to first-time customers';
+    displayName: 'How It Works';
+    icon: 'layer';
+  };
+  attributes: {
+    backgroundColor: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'background.paper'>;
+    containerMaxWidth: Schema.Attribute.Enumeration<
+      ['xs', 'sm', 'md', 'lg', 'xl']
+    > &
+      Schema.Attribute.DefaultTo<'lg'>;
+    steps: Schema.Attribute.Component<'rental.step-item', true> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 6;
+          min: 2;
+        },
+        number
+      >;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<'Louez votre v\u00E9hicule en quelques \u00E9tapes simples'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Comment \u00E7a marche ?'>;
+  };
+}
+
+export interface RentalOfferItem extends Struct.ComponentSchema {
+  collectionName: 'components_rental_offer_items';
+  info: {
+    description: 'A single promotional rental offer card (badge, title, description, CTA)';
+    displayName: 'Offer Item';
+    icon: 'priceTag';
+  };
+  attributes: {
+    ctaLabel: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }> &
+      Schema.Attribute.DefaultTo<'En profiter'>;
+    ctaUrl: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }> &
+      Schema.Attribute.DefaultTo<'/voitures'>;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 500;
+      }> &
+      Schema.Attribute.DefaultTo<'Profitez de 20% de r\u00E9duction sur toutes les locations du vendredi au dimanche.'>;
+    discount: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 100;
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<20>;
+    gridSize: Schema.Attribute.Enumeration<['small', 'large']> &
+      Schema.Attribute.DefaultTo<'small'>;
+    image: Schema.Attribute.Media<'images'> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    imageUrl: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<'https://images.unsplash.com/photo-1549317661-bd32c8ce0729?w=400&h=300&fit=crop'>;
+    isLimited: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    progress: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 100;
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<65>;
+    remaining: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<100>;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }> &
+      Schema.Attribute.DefaultTo<'-20% ce week-end'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 150;
+      }> &
+      Schema.Attribute.DefaultTo<'Offre Week-end'>;
+    validUntil: Schema.Attribute.DateTime &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+  };
+}
+
+export interface RentalOffersSection extends Struct.ComponentSchema {
+  collectionName: 'components_rental_offers_sections';
+  info: {
+    description: 'Current rental promotions, deals, and special offers';
+    displayName: 'Offers Section';
+    icon: 'gift';
+  };
+  attributes: {
+    backgroundColor: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'background.paper'>;
+    containerMaxWidth: Schema.Attribute.Enumeration<
+      ['xs', 'sm', 'md', 'lg', 'xl']
+    > &
+      Schema.Attribute.DefaultTo<'lg'>;
+    offers: Schema.Attribute.Component<'rental.offer-item', true> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 6;
+          min: 1;
+        },
+        number
+      >;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<'Profitez de nos meilleures promotions sur la location de v\u00E9hicules'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'Nos offres du moment'>;
+  };
+}
+
+export interface RentalReassuranceItem extends Struct.ComponentSchema {
+  collectionName: 'components_rental_reassurance_items';
+  info: {
+    description: 'A single trust indicator (icon, title, short description)';
+    displayName: 'Reassurance Item';
+    icon: 'check-circle';
+  };
+  attributes: {
+    color: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'primary.main'>;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<'Chaque location inclut une assurance responsabilit\u00E9 civile de base.'>;
+    icon: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'VerifiedUser'>;
+    link: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }>;
+    linkText: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }> &
+      Schema.Attribute.DefaultTo<'En savoir plus'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }> &
+      Schema.Attribute.DefaultTo<'Assurance incluse'>;
+  };
+}
+
+export interface RentalReassuranceSection extends Struct.ComponentSchema {
+  collectionName: 'components_rental_reassurance_sections';
+  info: {
+    description: 'Trust indicators and guarantees for the rental service (insurance, assistance, transparency)';
+    displayName: 'Reassurance Section';
+    icon: 'shield';
+  };
+  attributes: {
+    backgroundColor: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'background.default'>;
+    containerMaxWidth: Schema.Attribute.Enumeration<
+      ['xs', 'sm', 'md', 'lg', 'xl']
+    > &
+      Schema.Attribute.DefaultTo<'lg'>;
+    indicators: Schema.Attribute.Component<'rental.reassurance-item', true> &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 6;
+          min: 1;
+        },
+        number
+      >;
+    subtitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<"Des garanties pour que vous rouliez l'esprit tranquille">;
+    title: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }> &
+      Schema.Attribute.DefaultTo<'La location en toute s\u00E9r\u00E9nit\u00E9'>;
+  };
+}
+
+export interface RentalStepItem extends Struct.ComponentSchema {
+  collectionName: 'components_rental_step_items';
+  info: {
+    description: 'A single step in the rental process (number, title, description)';
+    displayName: 'Step Item';
+    icon: 'layer';
+  };
+  attributes: {
+    color: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'primary.main'>;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<'Parcourez notre catalogue et s\u00E9lectionnez le v\u00E9hicule adapt\u00E9 \u00E0 vos besoins.'>;
+    icon: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'Search'>;
+    stepNumber: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<1>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }> &
+      Schema.Attribute.DefaultTo<'Choisissez votre v\u00E9hicule'>;
+  };
+}
+
+export interface RentalVehicleItem extends Struct.ComponentSchema {
+  collectionName: 'components_rental_vehicle_items';
+  info: {
+    description: 'A single rental vehicle card entry with specs and pricing';
+    displayName: 'Vehicle Item';
+    icon: 'car';
+  };
+  attributes: {
+    brand: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }> &
+      Schema.Attribute.DefaultTo<'Toyota'>;
+    category: Schema.Attribute.Enumeration<
+      ['Citadine', 'Berline', 'SUV', 'Utilitaire', 'Minibus', '4x4']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Berline'>;
+    fuel: Schema.Attribute.Enumeration<
+      ['Essence', 'Diesel', 'Hybride', '\u00C9lectrique']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Essence'>;
+    image: Schema.Attribute.Media<'images'> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    imageUrl: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }> &
+      Schema.Attribute.DefaultTo<'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=400&q=80'>;
+    isFeatured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    model: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }> &
+      Schema.Attribute.DefaultTo<'Corolla'>;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    pricePerDay: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<65000>;
+    seats: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 50;
+          min: 1;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<5>;
+    transmission: Schema.Attribute.Enumeration<['Manuelle', 'Automatique']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Automatique'>;
+  };
+}
+
+export interface SharedSeo extends Struct.ComponentSchema {
+  collectionName: 'components_shared_seo';
+  info: {
+    description: 'Search engine optimization metadata';
+    displayName: 'SEO';
+    icon: 'search';
+  };
+  attributes: {
+    canonicalURL: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    metaDescription: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 320;
+      }>;
+    metaImage: Schema.Attribute.Media<'images'> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    metaKeywords: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }>;
+    metaTitle: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 160;
+      }>;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
@@ -2726,11 +3877,13 @@ declare module '@strapi/strapi' {
       'page.faq-item': PageFaqItem;
       'page.faq-section': PageFaqSection;
       'page.feature-item': PageFeatureItem;
+      'page.featured-products': PageFeaturedProducts;
       'page.help-article': PageHelpArticle;
       'page.help-category': PageHelpCategory;
       'page.help-center-section': PageHelpCenterSection;
       'page.insurance-coverage': PageInsuranceCoverage;
       'page.insurance-type': PageInsuranceType;
+      'page.koperative-types-list': PageKoperativeTypesList;
       'page.legal-content': PageLegalContent;
       'page.legal-section': PageLegalSection;
       'page.loyalty-benefit': PageLoyaltyBenefit;
@@ -2746,6 +3899,7 @@ declare module '@strapi/strapi' {
       'page.payment-section': PagePaymentSection;
       'page.popular-destinations': PagePopularDestinations;
       'page.popular-routes': PagePopularRoutes;
+      'page.product-categories': PageProductCategories;
       'page.promotion-item': PagePromotionItem;
       'page.promotional-content': PagePromotionalContent;
       'page.region-item': PageRegionItem;
@@ -2758,6 +3912,8 @@ declare module '@strapi/strapi' {
       'page.service-category-item': PageServiceCategoryItem;
       'page.service-item': PageServiceItem;
       'page.service-types': PageServiceTypes;
+      'page.shop-promotions': PageShopPromotions;
+      'page.simple-search': PageSimpleSearch;
       'page.statistic-item': PageStatisticItem;
       'page.statistics-section': PageStatisticsSection;
       'page.testimonial-item': PageTestimonialItem;
@@ -2770,6 +3926,21 @@ declare module '@strapi/strapi' {
       'page.value-item': PageValueItem;
       'page.values-section': PageValuesSection;
       'page.why-choose-us': PageWhyChooseUs;
+      'rental.categories-section': RentalCategoriesSection;
+      'rental.category-item': RentalCategoryItem;
+      'rental.contact-section': RentalContactSection;
+      'rental.faq-item': RentalFaqItem;
+      'rental.faq-section': RentalFaqSection;
+      'rental.featured-vehicles': RentalFeaturedVehicles;
+      'rental.hero-section': RentalHeroSection;
+      'rental.how-it-works': RentalHowItWorks;
+      'rental.offer-item': RentalOfferItem;
+      'rental.offers-section': RentalOffersSection;
+      'rental.reassurance-item': RentalReassuranceItem;
+      'rental.reassurance-section': RentalReassuranceSection;
+      'rental.step-item': RentalStepItem;
+      'rental.vehicle-item': RentalVehicleItem;
+      'shared.seo': SharedSeo;
     }
   }
 }

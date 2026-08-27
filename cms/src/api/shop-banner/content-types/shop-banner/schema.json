@@ -1,0 +1,82 @@
+{
+    "kind": "singleType",
+    "collectionName": "shop_banners",
+    "info": {
+        "singularName": "shop-banner",
+        "pluralName": "shop-banners",
+        "displayName": "Shop Banner",
+        "description": "Hero banner for the shop landing page"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "pluginOptions": {
+        "i18n": {
+            "localized": true
+        }
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true,
+            "maxLength": 200,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "subtitle": {
+            "type": "text",
+            "required": false,
+            "maxLength": 500,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "ctaText": {
+            "type": "string",
+            "required": false,
+            "maxLength": 80,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "ctaLink": {
+            "type": "string",
+            "required": false,
+            "maxLength": 255,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "backgroundImage": {
+            "type": "media",
+            "multiple": false,
+            "required": false,
+            "allowedTypes": [
+                "images"
+            ],
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "isActive": {
+            "type": "boolean",
+            "default": true,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        }
+    }
+}

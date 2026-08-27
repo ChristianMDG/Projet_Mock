@@ -1,0 +1,72 @@
+{
+  "collectionName": "components_rental_featured_vehicles",
+  "info": {
+    "displayName": "Featured Vehicles",
+    "description": "Showcases a curated selection of highlighted rental vehicles",
+    "icon": "star"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Nos véhicules à la une",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "Découvrez notre sélection de véhicules populaires",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "vehicles": {
+      "type": "component",
+      "repeatable": true,
+      "component": "rental.vehicle-item",
+      "required": true,
+      "min": 1,
+      "max": 12
+    },
+    "showViewAllButton": {
+      "type": "boolean",
+      "default": true,
+      "description": "Display a 'view all' button below the grid"
+    },
+    "viewAllLabel": {
+      "type": "string",
+      "maxLength": 100,
+      "default": "Voir tous les véhicules",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "viewAllUrl": {
+      "type": "string",
+      "maxLength": 255,
+      "default": "/voitures",
+      "description": "Link target for the 'view all' button"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "background.default",
+      "description": "Section background color (e.g. background.default, background.paper)"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg"
+    }
+  }
+}

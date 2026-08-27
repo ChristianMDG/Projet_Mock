@@ -36,12 +36,8 @@ public class Route extends BaseDto<RouteEntity> {
         var model = new Route();
         model.setBaseDto(entity);
         model.name = entity.getName();
-        model.departureGare = Optional.ofNullable(entity.getDepartureGare())
-                .map(Gare::fromEntity)
-                .orElse(null);
-        model.arrivalGare = Optional.ofNullable(entity.getArrivalGare())
-                .map(Gare::fromEntity)
-                .orElse(null);
+        model.departureGare = Optional.ofNullable(entity.getDepartureGare()).map(Gare::fromEntity).orElse(null);
+        model.arrivalGare = Optional.ofNullable(entity.getArrivalGare()).map(Gare::fromEntity).orElse(null);
         model.estimatedDurationHours = entity.getEstimatedDurationHours();
         model.distanceKm = entity.getDistanceKm();
         model.fraisTaxibrousse = entity.getFraisTaxibrousse();

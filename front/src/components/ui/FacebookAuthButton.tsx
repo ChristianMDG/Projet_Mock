@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, CircularProgress, Tooltip } from '@mui/material';
-import { Facebook as FacebookIcon } from '@mui/icons-material';
+import FacebookIcon from '@mui/icons-material/Facebook';
 import { useFacebookAuth } from '@/hooks/facebook-auth.hooks';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
@@ -68,7 +68,7 @@ const FacebookAuthButton: React.FC = () => {
       // Remove old script if present
       if (existing) {
         existing.remove();
-        delete (window as any).FB;
+        delete (window as { FB?: unknown }).FB;
         fbInitialized.current = false;
       }
 
@@ -142,10 +142,11 @@ const FacebookAuthButton: React.FC = () => {
   const FbButton = (
     <Button
       fullWidth
-      variant="outlined"
+      variant="contained"
       startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <FacebookIcon />}
       onClick={handleFacebookLogin}
       disabled={isLoading || isLoginBlocked}
+      sx={{ bgcolor: '#1877F2', '&:hover': { bgcolor: '#0c5fcc' }, color: '#fff' }}
     >
       {t(Labels.authform_facebook)}
     </Button>
@@ -165,7 +166,13 @@ const FacebookAuthButton: React.FC = () => {
   }
 
   return (
-    <Button fullWidth variant="outlined" startIcon={<FacebookIcon />} disabled>
+    <Button
+      fullWidth
+      variant="contained"
+      startIcon={<FacebookIcon />}
+      disabled
+      sx={{ bgcolor: '#1877F2', color: '#fff' }}
+    >
       {t(Labels.authform_facebook)}
     </Button>
   );

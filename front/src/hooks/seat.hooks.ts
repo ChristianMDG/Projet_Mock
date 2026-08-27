@@ -3,12 +3,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Voyage } from '@/models/Voyage';
 import { Seat } from '@/models/Seat';
 import { SeatConfig } from '@/types/type.props';
-import { mapSeatStatusToDisplay, SeatStatus } from '@/components/seats/constants';
+import { mapSeatStatusToDisplay, SeatStatus } from '@/utils/constants';
 import { seatApi } from '@/api/seat.api';
 import { SeatStatusEnum } from '@/models/enums';
 
 interface UseSeatManagementProps {
   voyage?: Voyage;
+  voyageId?: number;
+  availableSeats?: number;
   selectedSeats?: SeatConfig[];
   onSelectSeat?: (seatConfig: SeatConfig) => void;
   multiSelect?: boolean;
@@ -24,18 +26,29 @@ interface UseSeatManagementReturn {
   clearSelection: () => void;
   availableSeatsCount: number;
   reservedSeatsCount: number;
+  remainingAvailableSeats: number;
+  totalReservedSeats: number;
+  actualAvailableSeats: number;
 }
 
 export const useSeatManagement = ({
   voyage,
+  voyageId: propVoyageId,
+  availableSeats: propAvailableSeats,
   selectedSeats = [],
   onSelectSeat,
 }: UseSeatManagementProps): UseSeatManagementReturn => {
-  const { data: seats = [], isLoading: loading, error: queryError } = useVoyageSeats(voyage?.id ?? 0);
+  const voyageId = voyage?.id ?? propVoyageId ?? 0;
+  const { data: seats = [], isLoading: loading, error: queryError } = useVoyageSeats(voyageId);
 
   const error = queryError ? 'error_loading_seats' : null;
   const availableSeatsCount = seats.filter((seat: Seat) => seat.seatStatus === SeatStatusEnum.AVAILABLE).length;
   const reservedSeatsCount = seats.filter((seat: Seat) => seat.seatStatus === SeatStatusEnum.RESERVED).length;
+
+  const totalSelectableSeats = voyage?.availableSeats ?? propAvailableSeats ?? 0;
+  const actualAvailableSeats = Math.max(0, totalSelectableSeats - reservedSeatsCount);
+  const remainingAvailableSeats = Math.max(0, actualAvailableSeats - selectedSeats.length);
+  const totalReservedSeats = reservedSeatsCount + selectedSeats.length;
 
   const getSeatStatus = useCallback(
     (seatNumber: number): SeatStatus => {
@@ -73,6 +86,9 @@ export const useSeatManagement = ({
     clearSelection,
     availableSeatsCount,
     reservedSeatsCount,
+    remainingAvailableSeats,
+    totalReservedSeats,
+    actualAvailableSeats,
   };
 };
 
@@ -94,6 +110,10 @@ export const useVoyageSeats = (voyageId: number) => {
     queryKey: SEAT_ENTITY_KEYS.byVoyage(voyageId),
     queryFn: () => seatApi.getByVoyageId(voyageId),
     enabled: !!voyageId,
+    staleTime: 5_000,
+    refetchInterval: 10_000,
+    refetchOnWindowFocus: true,
+    refetchOnMount: 'always',
   });
 };
 
@@ -105,7 +125,8 @@ export const useSeatsByVoyageAndReservation = (voyageId?: number, reservationId?
         : ['seats', 'disabled'],
     queryFn: () => seatApi.getByVoyageAndReservation(voyageId!, reservationId!),
     enabled: !!voyageId && !!reservationId,
-    staleTime: 30_000,
+    staleTime: 5_000,
+    refetchOnMount: 'always',
   });
 };
 
@@ -114,7 +135,8 @@ export const useSeatsByReservation = (reservationId?: number) => {
     queryKey: reservationId ? SEAT_ENTITY_KEYS.byReservation(reservationId) : ['seats', 'disabled'],
     queryFn: () => seatApi.getByReservationId(reservationId!),
     enabled: !!reservationId,
-    staleTime: 30_000,
+    staleTime: 5_000,
+    refetchOnMount: 'always',
   });
 };
 
@@ -123,6 +145,10 @@ export const useAvailableSeats = (voyageId: number) => {
     queryKey: SEAT_ENTITY_KEYS.available(voyageId),
     queryFn: () => seatApi.getAvailableSeats(voyageId),
     enabled: !!voyageId,
+    staleTime: 5_000,
+    refetchInterval: 10_000,
+    refetchOnWindowFocus: true,
+    refetchOnMount: 'always',
   });
 };
 
@@ -131,6 +157,10 @@ export const useReservedSeats = (voyageId: number) => {
     queryKey: SEAT_ENTITY_KEYS.reserved(voyageId),
     queryFn: () => seatApi.getReservedSeats(voyageId),
     enabled: !!voyageId,
+    staleTime: 5_000,
+    refetchInterval: 10_000,
+    refetchOnWindowFocus: true,
+    refetchOnMount: 'always',
   });
 };
 

@@ -11,7 +11,7 @@ import useGarePageStore from '@/stores/gare.store';
 import GareBanner from '@/components/banner/GareBanner';
 import GareListCard from '@/components/gare/GareListCard';
 import GareFilterBar from '@/components/gare/GareFilterBar';
-import { Section } from '@/components/section';
+import Section from '@/components/section/Section';
 import { SECTION_TYPES } from '@/constants';
 import SEO from '@/components/shared/SEO';
 import { generateRoute } from '@/constants/routes';
@@ -37,7 +37,7 @@ const GarePage = () => {
     () =>
       (gares ?? []).map(currentGare => ({
         gare: currentGare,
-        coverImage: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1000&q=80',
+        coverImage: currentGare.photo?.url,
       })),
     [gares],
   );
@@ -66,7 +66,7 @@ const GarePage = () => {
 
   const renderContent = () => {
     if (isLoading) {
-      return <KoperativeListSkeleton />;
+      return <KoperativeListSkeleton count={4} />;
     }
 
     if (error) {

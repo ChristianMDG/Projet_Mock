@@ -113,6 +113,7 @@ function buildWebSiteSearchJsonLd(urlTemplate: string): SeoJsonLd {
         '@type': 'EntryPoint',
         urlTemplate: toAbsoluteUrl(urlTemplate),
       },
+      'query-input': 'required name=search_term_string',
     },
   };
 }
@@ -131,7 +132,7 @@ export default function SEO({
   breadcrumbs,
   siteSearchUrlTemplate,
   jsonLd,
-}: SEOProps) {
+}: Readonly<SEOProps>) {
   const { i18n } = useTranslation();
   const location = useLocation();
 
@@ -143,22 +144,37 @@ export default function SEO({
     canonicalQueryParams,
   );
 
-  const keywordsContent = Array.isArray(keywords)
-    ? keywords.join(', ')
-    : (keywords ?? buildSeoKeywordsContent(seoLanguage, extraKeywords));
+  const absoluteImageUrl = toAbsoluteUrl(image);
 
+  const buildKeywordsContent = (): string => {
+    if (Array.isArray(keywords)) return keywords.join(', ');
+    if (keywords) return keywords;
+    return buildSeoKeywordsContent(seoLanguage, extraKeywords);
+  };
+
+  const keywordsContent = buildKeywordsContent();
   const locale = { mg: 'mg_MG', fr: 'fr_FR', en: 'en_US' } as const;
   const ogLocale = locale[seoLanguage as keyof typeof locale] ?? 'mg_MG';
 
-  const alternateLinks = alternates
-    ? (Object.entries(alternates) as Array<[SeoLanguage, string]>).filter(([, href]) => href)
-    : [];
+  const getAlternateEntries = (): Array<[SeoLanguage, string]> => {
+    if (!alternates) return [];
+    return Object.entries(alternates) as Array<[SeoLanguage, string]>;
+  };
+  const alternateLinks = getAlternateEntries().filter(([, href]) => href);
 
-  const jsonLdBlocks = [
-    ...(breadcrumbs && breadcrumbs.length > 0 ? [buildBreadcrumbJsonLd(breadcrumbs, currentUrl)] : []),
-    ...(siteSearchUrlTemplate ? [buildWebSiteSearchJsonLd(siteSearchUrlTemplate)] : []),
-    ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : []),
-  ].filter(Boolean);
+  const toJsonLdArray = (value: SeoJsonLd | SeoJsonLd[] | undefined): SeoJsonLd[] => {
+    if (Array.isArray(value)) return value;
+    if (value) return [value];
+    return [];
+  };
+
+  const hasBreadcrumbs = Boolean(breadcrumbs?.length);
+  const hasSiteSearch = Boolean(siteSearchUrlTemplate);
+
+  const breadcrumbBlock = hasBreadcrumbs ? buildBreadcrumbJsonLd(breadcrumbs!, currentUrl) : null;
+  const siteSearchBlock = hasSiteSearch ? buildWebSiteSearchJsonLd(siteSearchUrlTemplate!) : null;
+
+  const jsonLdBlocks = [breadcrumbBlock, siteSearchBlock, ...toJsonLdArray(jsonLd)].filter(Boolean);
 
   return (
     <Helmet>
@@ -186,7 +202,7 @@ export default function SEO({
       <meta property="og:url" content={currentUrl} />
       <meta property="og:title" content={fullTitle} />
       {description && <meta property="og:description" content={description} />}
-      <meta property="og:image" content={image} />
+      <meta property="og:image" content={absoluteImageUrl} />
       <meta property="og:site_name" content={siteName} />
       <meta property="og:locale" content={ogLocale} />
 
@@ -194,10 +210,10 @@ export default function SEO({
       <meta name="twitter:url" content={currentUrl} />
       <meta name="twitter:title" content={fullTitle} />
       {description && <meta name="twitter:description" content={description} />}
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image" content={absoluteImageUrl} />
 
-      {jsonLdBlocks.map((block, index) => (
-        <script key={`jsonld-${index}`} type="application/ld+json">
+      {jsonLdBlocks.map(block => (
+        <script key={JSON.stringify(block)} type="application/ld+json">
           {JSON.stringify(block)}
         </script>
       ))}

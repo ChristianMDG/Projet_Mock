@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert, Box, Button, Container, Typography } from '@mui/material';
-import { ErrorOutlined, Home } from '@mui/icons-material';
+import ErrorOutlined from '@mui/icons-material/ErrorOutlined';
+import Home from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';

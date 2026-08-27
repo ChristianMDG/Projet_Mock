@@ -13,8 +13,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { ButtonTx, IconButtonTx } from '@/components/ui';
-import { VilleDialog } from '@/components/shared';
+import ButtonTx from '@/components/ui/ButtonTx';
+import IconButtonTx from '@/components/ui/IconButtonTx';
+import VilleDialog from '@/components/shared/VilleDialog';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -152,7 +153,7 @@ const VilleList: React.FC<VilleListProps> = ({ koperativeId }) => {
             >
               <Typography
                 variant="h4"
-                color="primary.main"
+                color="primary"
                 component="div"
                 sx={{
                   fontSize: { xs: '2rem', md: '3rem' },
@@ -176,7 +177,7 @@ const VilleList: React.FC<VilleListProps> = ({ koperativeId }) => {
             >
               <Typography
                 variant="h4"
-                color="success.main"
+                color="success"
                 component="div"
                 sx={{
                   fontSize: { xs: '2rem', md: '3rem' },
@@ -200,7 +201,7 @@ const VilleList: React.FC<VilleListProps> = ({ koperativeId }) => {
             >
               <Typography
                 variant="h4"
-                color="error.main"
+                color="error"
                 component="div"
                 sx={{
                   fontSize: { xs: '2rem', md: '3rem' },
@@ -224,7 +225,7 @@ const VilleList: React.FC<VilleListProps> = ({ koperativeId }) => {
             >
               <Typography
                 variant="h4"
-                color="info.main"
+                color="info"
                 component="div"
                 sx={{
                   fontSize: { xs: '2rem', md: '3rem' },

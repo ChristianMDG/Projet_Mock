@@ -1,0 +1,83 @@
+{
+  "collectionName": "components_rental_vehicle_items",
+  "info": {
+    "displayName": "Vehicle Item",
+    "description": "A single rental vehicle card entry with specs and pricing",
+    "icon": "car"
+  },
+  "options": {},
+  "attributes": {
+    "brand": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Toyota",
+      "description": "Vehicle manufacturer brand"
+    },
+    "model": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Corolla",
+      "description": "Vehicle model name"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": ["Citadine", "Berline", "SUV", "Utilitaire", "Minibus", "4x4"],
+      "required": true,
+      "default": "Berline"
+    },
+    "pricePerDay": {
+      "type": "integer",
+      "required": true,
+      "min": 0,
+      "default": 65000,
+      "description": "Price per day in MGA"
+    },
+    "seats": {
+      "type": "integer",
+      "min": 1,
+      "max": 50,
+      "default": 5
+    },
+    "transmission": {
+      "type": "enumeration",
+      "enum": ["Manuelle", "Automatique"],
+      "default": "Automatique",
+      "required": true
+    },
+    "fuel": {
+      "type": "enumeration",
+      "enum": ["Essence", "Diesel", "Hybride", "Électrique"],
+      "default": "Essence",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "imageUrl": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=400&q=80",
+      "description": "Alternative image URL if no upload"
+    },
+    "isFeatured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Pin this vehicle to the featured section"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0,
+      "description": "Display order (0 = first)"
+    }
+  }
+}

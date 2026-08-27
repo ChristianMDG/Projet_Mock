@@ -6,6 +6,7 @@ import mg.taxibrousse.params.GareFilter;
 import java.util.List;
 
 public interface IGareService {
+
     Gare save(Gare gare);
 
     Gare updateGare(Long id, Gare gare);

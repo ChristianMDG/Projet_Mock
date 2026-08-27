@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { Container, Typography } from '@mui/material';
+import { Container } from '@mui/material';
 import SearchForm from '@/shared/SearchForm';
 import VoyageWeeklySearch from '@/components/VoyageWeeklySearch';
+import VoyageWeeklyBanner from '@/components/banner/VoyageWeeklyBanner';
+import LiveRoutePricing from '@/components/section/LiveRoutePricing';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { useVoyageSearchStore, VoyageSearchState } from '@/stores/voyage-search.store';
@@ -11,6 +13,7 @@ import { useVilles } from '@/hooks/ville.hooks';
 import dayjs from '@/utils/dayjs';
 import { useVoyageSearchUrl } from '@/hooks/useVoyageSearchUrl';
 import { ROUTES } from '@/constants/routes';
+import { trackEvent, useComponentView } from '@/hooks/google-analytics.hook';
 
 export default function VoyageWeeklyPage() {
   const { t, i18n } = useTranslation();
@@ -21,22 +24,26 @@ export default function VoyageWeeklyPage() {
 
   const { hasSearched, fromVille, toVille, setSearchParams } = useVoyageSearchStore();
 
+  useComponentView('Page', 'Voyage Results');
+
   const queryString = useMemo(() => {
     const qs = searchParams.toString();
     return qs && `?${qs}`;
   }, [searchParams]);
 
   const seoTitle = useMemo(() => {
-    return fromVille && toVille ? `${fromVille.name} → ${toVille.name}` : t(Labels.voyage_search_title);
-  }, [fromVille, toVille, t]);
+    if (fromVille?.name && toVille?.name) {
+      return `${fromVille.name} → ${toVille.name}`;
+    }
+    return t(Labels.voyage_search_title);
+  }, [fromVille?.name, toVille?.name, t]);
 
-  const seoDescription = useMemo(
-    () =>
-      fromVille && toVille
-        ? t(Labels.seo_description_voyage_search_with_cities, { from: fromVille.name, to: toVille.name })
-        : t(Labels.seo_description_voyage_search),
-    [fromVille, toVille, t],
-  );
+  const seoDescription = useMemo(() => {
+    if (fromVille?.name && toVille?.name) {
+      return t(Labels.seo_description_voyage_search_with_cities, { from: fromVille.name, to: toVille.name });
+    }
+    return t(Labels.seo_description_voyage_search);
+  }, [fromVille?.name, toVille?.name, t]);
 
   const seoCanonicalQueryParams = useMemo(() => {
     return [
@@ -120,33 +127,50 @@ export default function VoyageWeeklyPage() {
     }
   }, [hasSearched]);
 
+  useEffect(() => {
+    if (hasSearched && fromVille && toVille) {
+      trackEvent('voyage_search', 'Booking', `${fromVille.name} → ${toVille.name}`);
+    }
+  }, [hasSearched, fromVille, toVille]);
+
+  // Force document title update when fromVille or toVille changes
+  useEffect(() => {
+    if (fromVille?.name && toVille?.name) {
+      const siteName = 'Taxibrousse - National';
+      const pageTitle = `${fromVille.name} → ${toVille.name}`;
+      document.title = `${pageTitle} | ${siteName}`;
+    } else {
+      const siteName = 'Taxibrousse - National';
+      document.title = `${t(Labels.voyage_search_title)} | ${siteName}`;
+    }
+  }, [fromVille?.name, toVille?.name, t]);
+
   return (
-    <Container
-      sx={{
-        px: '0 !important',
-        maxWidth: 'lg',
-      }}
-    >
+    <>
       <SEO
+        key={`${fromVille?.id}-${toVille?.id}`}
         title={seoTitle}
         description={seoDescription}
         canonicalQueryParams={seoCanonicalQueryParams}
         alternates={alternates}
         breadcrumbs={breadcrumbs}
         extraKeywords={extraKeywords}
+        image="/weekly-voyage-banner.png"
       />
-      <Typography
-        variant="h2"
+      <VoyageWeeklyBanner />
+      <Container
         sx={{
-          mx: 1,
-          my: 4,
-          fontWeight: 600,
+          px: '0 !important',
+          maxWidth: 'lg',
         }}
       >
-        {t(Labels.voyage_search_title)}
-      </Typography>
-      <SearchForm navigateOnSearch={false} />
-      <VoyageWeeklySearch onEditSearch={handleEditSearch} />
-    </Container>
+        <SearchForm navigateOnSearch={false} />
+        {fromVille && toVille ? (
+          <VoyageWeeklySearch onEditSearch={handleEditSearch} />
+        ) : (
+          <LiveRoutePricing sx={{ my: 4 }} />
+        )}
+      </Container>
+    </>
   );
 }

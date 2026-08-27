@@ -10,7 +10,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class PaymentTransactionRequest {
+
     private Long facturationId;
+    private Long orderId;
+    private Long rentalReservationId;
     private String operatorName;
     private BigDecimal amount;
     private String phoneNumber;

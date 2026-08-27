@@ -1,12 +1,26 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { getHeroContent, getGareBanner, getKoperativeBanner, getPromotionBanner } from '@/api/cms.api';
+import {
+  getHeroContent,
+  getGareBanner,
+  getKoperativeBanner,
+  getShopBanner,
+  getPromotionBanner,
+  getCategories,
+  getProducts,
+  getProductBySlug,
+  getSimpleSearch,
+} from '@/api/cms.api';
 import {
   HeroContentResponse,
   GareBannerResponse,
   KoperativeBannerResponse,
+  ShopBannerResponse,
   PromotionBannerResponse,
+  SimpleSearchResponse,
+  ProductFilters,
 } from '@/types/cms.types';
+import type { Category, Product } from '@/models/Shop';
 
 function selectLocalization<T extends { data: { locale: string; localizations?: Array<{ locale: string }> } }>(
   locale: string,
@@ -46,11 +60,53 @@ export function useKoperativeBanner() {
   });
 }
 
+export function useShopBanner() {
+  const { i18n } = useTranslation();
+  return useQuery<ShopBannerResponse, Error>({
+    queryKey: ['shop-banner', i18n.language],
+    queryFn: () => getShopBanner(i18n.language),
+    select: selectLocalization<ShopBannerResponse>(i18n.language),
+  });
+}
+
 export function usePromotionBanner() {
   const { i18n } = useTranslation();
   return useQuery<PromotionBannerResponse, Error>({
     queryKey: ['promotion-banner', i18n.language],
     queryFn: () => getPromotionBanner(i18n.language),
     select: selectLocalization<PromotionBannerResponse>(i18n.language),
+  });
+}
+
+export function useCategories() {
+  const { i18n } = useTranslation();
+  return useQuery<Category[], Error>({
+    queryKey: ['categories', i18n.language],
+    queryFn: () => getCategories(i18n.language),
+  });
+}
+
+export function useProducts(filters: ProductFilters = {}) {
+  const { i18n } = useTranslation();
+  return useQuery<Product[], Error>({
+    queryKey: ['products', i18n.language, filters],
+    queryFn: () => getProducts(i18n.language, filters),
+  });
+}
+
+export function useProductBySlug(slug?: string) {
+  const { i18n } = useTranslation();
+  return useQuery<Product, Error>({
+    queryKey: ['product', 'cms', i18n.language, slug],
+    queryFn: () => getProductBySlug(slug ?? '', i18n.language),
+    enabled: !!slug,
+  });
+}
+
+export function useSimpleSearch() {
+  return useQuery<SimpleSearchResponse, Error>({
+    queryKey: ['simple-search'],
+    queryFn: getSimpleSearch,
+    staleTime: 15 * 60 * 1000,
   });
 }

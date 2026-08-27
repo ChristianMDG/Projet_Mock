@@ -42,14 +42,10 @@ public class Chauffeur extends BaseDto<ChauffeurEntity> {
 
         var model = new Chauffeur();
         model.setBaseDto(entity);
-        
+
         // Safely load user - handles orphan references where ChauffeurInfoEntity was deleted
         ChauffeurInfoEntity userEntity = safelyLoadUser(entity);
-        model.setUser(
-                Optional.ofNullable(userEntity)
-                        .map(ChauffeurInfo::fromEntity)
-                        .orElse(null)
-        );
+        model.setUser(Optional.ofNullable(userEntity).map(ChauffeurInfo::fromEntity).orElse(null));
         model.setLicenseNumber(entity.getLicenseNumber());
         model.setLicenseAuthority(entity.getLicenseAuthority());
         model.setLicenseExpiry(entity.getLicenseExpiry());
@@ -58,12 +54,7 @@ public class Chauffeur extends BaseDto<ChauffeurEntity> {
         model.setIsAvailable(entity.getIsAvailable());
         model.setPhoto(Optional.ofNullable(entity.getPhoto()).map(Cloudinary::fromEntity).orElse(null));
 
-        model.setKoperativeId(
-                Optional.ofNullable(userEntity)
-                        .filter(u -> u.getKoperative() != null)
-                        .map(u -> u.getKoperative().getId())
-                        .orElse(null)
-        );
+        model.setKoperativeId(Optional.ofNullable(userEntity).filter(u -> u.getKoperative() != null).map(u -> u.getKoperative().getId()).orElse(null));
 
         return model;
     }
@@ -98,6 +89,19 @@ public class Chauffeur extends BaseDto<ChauffeurEntity> {
 
     public static Chauffeur fromEntityLight(ChauffeurEntity entity) {
         return toBuilder(entity).build();
+    }
+
+    /**
+     * Lightweight projection that includes user info (firstName/lastName)
+     * without loading collections (crafters, motos, contrats, voyages).
+     * Used in voyage grouped/search projections.
+     */
+    public static Chauffeur fromEntityWithUser(ChauffeurEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        ChauffeurInfoEntity userEntity = safelyLoadUser(entity);
+        return toBuilder(entity).user(Optional.ofNullable(userEntity).map(ChauffeurInfo::fromEntity).orElse(null)).build();
     }
 
     @Override

@@ -1,5 +1,5 @@
 import { Alert, Box, Card, CardActionArea, Chip, Grid, Stack, Typography } from '@mui/material';
-import { KoperativeVerifiedIcon } from '@/components/shared';
+import KoperativeVerifiedIcon from '@/components/shared/KoperativeVerifiedIcon';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import type { KoperativeWeeklySummary } from '@/types/type.util';
@@ -29,7 +29,7 @@ export const KoperativeWeeklyGrid = ({ summaries, selectedDate, onKoperativeClic
 
       <Grid container spacing={2}>
         {summaries.map(({ id, name, status, minPrice, voyageCount, classes }) => (
-          <Grid key={id} size={{ xs: 6, sm: 4, md: 3 }}>
+          <Grid key={id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
             <Card variant="outlined" sx={{ '&:hover': { borderColor: 'primary.main', boxShadow: 2 } }}>
               <CardActionArea onClick={() => onKoperativeClick?.(id)} sx={{ p: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
@@ -50,7 +50,7 @@ export const KoperativeWeeklyGrid = ({ summaries, selectedDate, onKoperativeClic
                 </Typography>
                 <Typography
                   variant="h6"
-                  color="primary.main"
+                  color="primary"
                   sx={{
                     fontWeight: 700,
                   }}

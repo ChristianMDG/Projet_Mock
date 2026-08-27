@@ -1,7 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListItemButton, ListItemAvatar, ListItemText, Avatar, Badge, Typography, Box } from '@mui/material';
-import { Support as SupportIcon, Group as GroupIcon, Phone as PhoneIcon } from '@mui/icons-material';
+import SupportIcon from '@mui/icons-material/Support';
+import GroupIcon from '@mui/icons-material/Group';
+import PhoneIcon from '@mui/icons-material/Phone';
 import { ChatRoomDto, ChatRoomType } from '@/api/messaging.api';
 import dayjs from '@/utils/dayjs';
 

@@ -33,11 +33,7 @@ public interface IChatController {
     ResponseEntity<Message> sendMessage(@PathVariable String roomId, @RequestBody SendMessageRequest request);
 
     @GetMapping("/rooms/{roomId}/messages")
-    ResponseEntity<Page<Message>> getMessages(
-        @PathVariable String roomId,
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "20") int size
-    );
+    ResponseEntity<Page<Message>> getMessages(@PathVariable String roomId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size);
 
     @PostMapping("/rooms/{roomId}/read")
     ResponseEntity<Void> markRoomAsRead(@PathVariable String roomId);

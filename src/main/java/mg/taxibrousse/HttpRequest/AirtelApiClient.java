@@ -18,6 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class AirtelApiClient {
+
     private final AirtelApiConfig config;
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
@@ -42,14 +43,7 @@ public class AirtelApiClient {
 
     public <T> T get(String token, String url, Class<T> responseType) throws IOException, InterruptedException {
         log.debug("Airtel API GET request to {}", url);
-        var request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .header("Authorization", token)
-                .header("Accept", "*/*")
-                .header("X-Country", "MG")
-                .header("X-Currency", "MGA")
-                .GET()
-                .build();
+        var request = HttpRequest.newBuilder().uri(URI.create(url)).header("Authorization", token).header("Accept", "*/*").header("X-Country", "MG").header("X-Currency", "MGA").GET().build();
 
         return send(request, responseType);
     }

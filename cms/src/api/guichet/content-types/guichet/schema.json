@@ -30,6 +30,9 @@
         "phones": {
             "type": "string"
         },
+        "smsPhone": {
+            "type": "string"
+        },
         "isActive": {
             "type": "boolean",
             "default": true,

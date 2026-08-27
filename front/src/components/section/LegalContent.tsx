@@ -9,7 +9,7 @@ import {
   type SxProps,
   type Theme,
 } from '@mui/material';
-import { ExpandMore } from '@mui/icons-material';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import type { LegalContent as LegalContentType, LegalSection } from '@/api/dynamic-page.api';
 
 interface LegalContentProps {

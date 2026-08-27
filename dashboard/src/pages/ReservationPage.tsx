@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Paper, Alert, LinearProgress, Grid } from '@mui/material';
 import { ConfirmationNumber, CheckCircle, HourglassEmpty, AttachMoney } from '@mui/icons-material';
@@ -6,27 +6,47 @@ import { ReservationTable, ReservationFilters } from '@/components/reservation';
 import ReservationDetailDialog from '@/components/reservation/ReservationDetailDialog';
 import { SectionHeader, StatCard } from '@/components/shared';
 import { useReservations } from '@/hooks/reservation.hook';
+import { useDashboardStats } from '@/hooks/dashboard.hook';
+import { useReservationStore } from '@/stores/reservation.store';
 import type { Reservation } from '@/types/reservation.types';
-import { ReservationStatusEnum } from '@/types/reservation.types';
 import { formatCurrency } from '@/utils/format';
 import { paletteTokens } from '@/themes/appTheme';
 import Labels from '@/labelKeys.json';
 
 export default function ReservationPage() {
   const { t } = useTranslation();
-  const { data, isFetching, error } = useReservations();
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 15 });
+  const { data, isFetching, error } = useReservations(pagination.pageIndex, pagination.pageSize);
+  const { data: statsData } = useDashboardStats();
+  const { filters, resetFilters } = useReservationStore();
   const reservations = data?.content ?? [];
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
 
+  // Reset filters to defaults on mount (first time clicking Reservation menu)
+  useEffect(() => {
+    resetFilters();
+  }, [resetFilters]);
+
+  // Reset page index when filters change to avoid showing empty pages
+  useEffect(() => {
+    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+  }, [filters]);
+
   const stats = useMemo(() => {
-    const total = reservations.length;
-    const confirmed = reservations.filter(
-      (r) => r.status === ReservationStatusEnum.CONFIRMED || r.status === ReservationStatusEnum.COMPLETED
-    ).length;
-    const pending = reservations.filter((r) => r.status === ReservationStatusEnum.PENDING_PAYMENT).length;
-    const revenue = reservations.reduce((sum, r) => sum + (r.totalAmount ?? 0), 0);
-    return { total, confirmed, pending, revenue };
-  }, [reservations]);
+    if (statsData) {
+      const confirmed = statsData.confirmedCount + statsData.completedCount;
+      const pending = statsData.pendingCount;
+
+      return {
+        total: statsData.totalReservations,
+        confirmed,
+        pending,
+        revenue: statsData.totalRevenue,
+      };
+    }
+
+    return { total: 0, confirmed: 0, pending: 0, revenue: 0 };
+  }, [statsData]);
 
   const handleViewReservation = (reservation: Reservation) => {
     setSelectedReservation(reservation);
@@ -97,18 +117,23 @@ export default function ReservationPage() {
           <ReservationFilters />
           <ReservationTable
             data={reservations}
-            loading={false}
+            loading={isFetching}
             onViewReservation={handleViewReservation}
             title={t(Labels.reservation_title)}
+            pagination={pagination}
+            onPaginationChange={setPagination}
+            rowCount={data?.page?.totalElements}
           />
         </Paper>
       </Box>
 
-      <ReservationDetailDialog
-        reservation={selectedReservation}
-        open={!!selectedReservation}
-        onClose={() => setSelectedReservation(null)}
-      />
+      {selectedReservation && (
+        <ReservationDetailDialog
+          reservation={selectedReservation}
+          open={true}
+          onClose={() => setSelectedReservation(null)}
+        />
+      )}
     </>
   );
 }

@@ -1,8 +1,14 @@
 import { PaymentMethodEnum } from './enums';
 import { Reservation } from './Reservation';
 
+export enum PayableType {
+  RESERVATION = 'RESERVATION',
+  ORDER = 'ORDER',
+}
+
 export interface PaymentRequest {
-  reservationId: number;
+  payableId: number;
+  payableType: PayableType;
   amount: number;
   paymentMethod?: PaymentMethodEnum;
   phoneNumber?: string;
@@ -20,7 +26,8 @@ export interface PaymentResponse {
 
 // Request for initiating mobile money payment
 export interface InitiatePaymentRequest {
-  reservationId: number;
+  payableId: number;
+  payableType: PayableType;
   amount: number;
   phoneNumber?: string;
   operatorName: string;

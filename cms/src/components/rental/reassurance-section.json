@@ -1,0 +1,50 @@
+{
+  "collectionName": "components_rental_reassurance_sections",
+  "info": {
+    "displayName": "Reassurance Section",
+    "description": "Trust indicators and guarantees for the rental service (insurance, assistance, transparency)",
+    "icon": "shield"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "maxLength": 200,
+      "default": "La location en toute sérénité",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "Des garanties pour que vous rouliez l'esprit tranquille",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "indicators": {
+      "type": "component",
+      "repeatable": true,
+      "component": "rental.reassurance-item",
+      "required": true,
+      "min": 1,
+      "max": 6
+    },
+    "backgroundColor": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "background.default",
+      "description": "Section background color (e.g. background.default, primary.main)"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg"
+    }
+  }
+}

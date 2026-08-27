@@ -6,6 +6,7 @@ import mg.taxibrousse.models.Seat;
 import java.util.List;
 
 public interface ISeatService extends IBaseService {
+
     /**
      * Save or update a seat
      */

@@ -22,24 +22,23 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import {
-  Add as AddIcon,
-  ArrowBack as ArrowBackIcon,
-  Business as BusinessIcon,
-  Edit as EditIcon,
-  PhotoLibrary as PhotoLibraryIcon,
-  Store as StoreIcon,
-} from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import BusinessIcon from '@mui/icons-material/Business';
+import EditIcon from '@mui/icons-material/Edit';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+import StoreIcon from '@mui/icons-material/Store';
 
 import { useTranslation } from 'react-i18next';
 import { useGareById } from '@/hooks/gare.hooks';
 import { useAvailableDestinations, useDeleteRoute } from '@/hooks/route.hooks';
 import Labels from '@/labelKeys.json';
-import { ButtonTx, StyledIcon } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import { RouteFormDrawer, RouteList } from '@/components/gare';
 import GareFormDrawer from './gareDetail/GareFormDrawer';
 import KoperativeDetailSkeleton from '@/skeleton/KoperativeDetailSkeleton';
-import KoperativeListSkeleton from '@/skeleton/KoperativeListSkeleton';
+
 import { Route } from '@/models/Route';
 import Noimage from '@/assets/noimage.png';
 import { ROUTES, generateRoute } from '@/constants/routes';
@@ -129,9 +128,15 @@ const GareDetailPage: React.FC = () => {
   const photos = gare.photos && gare.photos.length > 0 ? gare.photos : SAMPLE_PHOTOS;
   const hasRealPhotos = gare.photos && gare.photos.length > 0;
 
+  const breadcrumbs = [
+    { name: t(Labels.nav_home), path: ROUTES.home.fr },
+    { name: t(Labels.menu_stations), path: ROUTES.garesList.fr },
+    { name: gare.name ?? '' },
+  ];
+
   return (
     <Box sx={{ pt: 2 }}>
-      <SEO title={gare.name} description={gare.address} />
+      <SEO title={gare.name} description={gare.description ?? gare.address} breadcrumbs={breadcrumbs} />
       <Box sx={{ mb: 3 }}>
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
@@ -154,12 +159,7 @@ const GareDetailPage: React.FC = () => {
             <IconButton onClick={handleBack} aria-label={t(Labels.ui_button_back_to_list)}>
               <ArrowBackIcon />
             </IconButton>
-            <Typography
-              variant={isMobile ? 'h6' : 'h4'}
-              component={isMobile ? 'h4' : 'h2'}
-              noWrap
-              sx={{ flexShrink: 1, minWidth: 0 }}
-            >
+            <Typography variant={isMobile ? 'h6' : 'h4'} component="h1" noWrap sx={{ flexShrink: 1, minWidth: 0 }}>
               {gare.name}
             </Typography>
             <Chip
@@ -251,10 +251,11 @@ const GareDetailPage: React.FC = () => {
                     {photos.map((item, index) => {
                       // Type guard to determine which type of photo we have
                       const isCloudinary = hasRealPhotos && 'publicId' in item;
-                      const key = isCloudinary ? (item as any).id || (item as any).publicId : `sample-${index}`;
-                      const imgSrc = isCloudinary ? (item as any).url : (item as any).img;
-                      const imgAlt = isCloudinary ? (item as any).publicId || 'Photo' : (item as any).title || 'Photo';
-                      const imgTitle = isCloudinary ? (item as any).publicId : (item as any).author || 'Photo';
+                      const photo = item as Record<string, string>;
+                      const key = isCloudinary ? (photo.id ?? photo.publicId) : `sample-${index}`;
+                      const imgSrc = isCloudinary ? photo.url : photo.img;
+                      const imgAlt = isCloudinary ? (photo.publicId ?? 'Photo') : (photo.title ?? 'Photo');
+                      const imgTitle = isCloudinary ? photo.publicId : (photo.author ?? 'Photo');
 
                       return (
                         <ImageListItem key={key}>
@@ -341,7 +342,7 @@ const GareDetailPage: React.FC = () => {
                       <Card>
                         <CardActionArea
                           onClick={() =>
-                            navigate(generateRoute.koperativeDetail(guichet.koperative?.id ?? 0, i18n.language))
+                            navigate(generateRoute.koperativeDetail(guichet.koperative?.slug ?? '', i18n.language))
                           }
                         >
                           <CardContent>
@@ -365,7 +366,6 @@ const GareDetailPage: React.FC = () => {
                   </Typography>
                 </Card>
               )}
-              {isLoading && <KoperativeListSkeleton />}
             </CardContent>
           </Card>
         </Grid>

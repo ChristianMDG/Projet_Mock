@@ -50,7 +50,6 @@ public class OrangeMoneyPaymentRequest {
 
     public static OrangeMoneyPaymentRequest fromPayment(PaymentRequest request, OrangeMoneyApiConfig config, String orderId) {
         String notifUrl = MessageFormat.format("{0}?order_id={1}", config.getNotificationUrl(), orderId);
-        String reference = MessageFormat.format("{0} - Reservation {1}", config.getMerchantName(), request.getReservationId());
         String returnUrl = config.getStatusUrl(request.getReturnUrl(), null);
         String cancelUrl = config.getStatusUrl(request.getReturnUrl(), PaymentTransactionStatusEnum.CANCELLED);
 
@@ -62,7 +61,7 @@ public class OrangeMoneyPaymentRequest {
                 .notifUrl(notifUrl)
                 .returnUrl(returnUrl)
                 .cancelUrl(cancelUrl)
-                .reference(reference)
+                .reference("EZOTRA - Taxibrousse.MG")
                 .build();
     }
 }

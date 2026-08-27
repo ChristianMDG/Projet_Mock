@@ -2,6 +2,7 @@ import { Ville } from '@/models/Ville';
 import { Koperative } from '@/models/Koperative';
 import { Voyage } from '@/models/Voyage';
 import { Gare } from '@/models/Gare';
+import { DepartureTimeGroupEnum } from '@/models/enums';
 
 export interface KoperativeFilter {
   ville: Ville[];
@@ -27,6 +28,7 @@ export interface VoyageFilter {
   statuses?: string[];
   language?: string;
   passengers?: number;
+  departureTimeGroup?: DepartureTimeGroupEnum;
 }
 
 export interface VoyageWeeklyResult {
@@ -40,6 +42,7 @@ export interface VoyageWeeklyResult {
   hasVoyages: boolean;
   voyages?: Voyage[]; // optional list of voyages for that date
   koperatives: Koperative[];
+  availableTimeGroups?: DepartureTimeGroupEnum[];
 }
 
 export interface KoperativeWeeklySummary {

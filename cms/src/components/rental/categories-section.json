@@ -1,0 +1,51 @@
+{
+  "collectionName": "components_rental_categories_sections",
+  "info": {
+    "displayName": "Categories Section",
+    "description": "Displays vehicle categories (Voitures, SUV, Utilitaires, etc.) with icons and call-to-action links",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Nos catégories de véhicules",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "Trouvez le véhicule adapté à chaque besoin",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "categories": {
+      "type": "component",
+      "repeatable": true,
+      "component": "rental.category-item",
+      "required": true,
+      "min": 1,
+      "max": 8
+    },
+    "backgroundColor": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "background.default",
+      "description": "Section background color (e.g. background.default, primary.main)"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg"
+    }
+  }
+}

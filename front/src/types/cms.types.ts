@@ -73,7 +73,17 @@ export interface HeroContent extends HeroContentAttributes {
 
 export interface HeroContentResponse extends StrapiLocalizedResponse<HeroContent> {}
 
-// Payment Method Types
+// Simple Search Types
+export interface SimpleSearchContent {
+  id: number;
+  documentId: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  image: StrapiMedia;
+}
+
+export interface SimpleSearchResponse extends StrapiResponse<SimpleSearchContent> {}
 export interface PaymentMethodAttributes {
   name: string;
   description: string;
@@ -134,6 +144,28 @@ export interface KoperativeBanner extends KoperativeBannerAttributes {
 
 export interface KoperativeBannerResponse extends StrapiLocalizedResponse<KoperativeBanner> {}
 
+// Shop Banner Types
+export interface ShopBannerAttributes {
+  title: string;
+  subtitle?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  backgroundImage?: StrapiMedia;
+  isActive: boolean;
+  locale: string;
+  publishedAt: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ShopBanner extends ShopBannerAttributes {
+  id: number;
+  documentId: string;
+  localizations?: Array<Partial<ShopBannerAttributes> & { id: number; documentId: string; locale: string }>;
+}
+
+export interface ShopBannerResponse extends StrapiLocalizedResponse<ShopBanner> {}
+
 // Promotion Banner Types
 export interface PromotionBannerAttributes {
   Title: string;
@@ -173,3 +205,12 @@ export interface VilleDetail extends VilleDetailAttributes {
 export interface VilleDetailResponse extends StrapiResponse<VilleDetail[]> {}
 
 export interface SingleVilleDetailResponse extends StrapiResponse<VilleDetail> {}
+
+export interface ProductFilters {
+  categorySlugs?: string[];
+  subcategorySlugs?: string[];
+  types?: string[];
+  sizes?: string[];
+  priceMin?: number;
+  priceMax?: number;
+}

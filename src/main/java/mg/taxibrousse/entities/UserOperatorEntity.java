@@ -23,11 +23,7 @@ public class UserOperatorEntity extends UserInfoEntity {
 
     /** Many koperatives directly assigned to this operator (not ownership). */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "operator_koperatives",
-        joinColumns = @JoinColumn(name = "operator_id"),
-        inverseJoinColumns = @JoinColumn(name = "koperative_id")
-    )
+    @JoinTable(name = "operator_koperatives", joinColumns = @JoinColumn(name = "operator_id"), inverseJoinColumns = @JoinColumn(name = "koperative_id"))
     private Set<KoperativeEntity> assignedKoperatives;
 
     /** Single departure gare for this operator. */

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert, Box, Card, CardContent, Typography } from '@mui/material';
-import { CalendarMonth as CalendarIcon, Construction as ConstructionIcon } from '@mui/icons-material';
+import CalendarIcon from '@mui/icons-material/CalendarMonth';
+import ConstructionIcon from '@mui/icons-material/Construction';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { Voyage } from '@/models/Voyage';

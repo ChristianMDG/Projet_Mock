@@ -3,6 +3,7 @@ package mg.taxibrousse.exceptions;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import mg.taxibrousse.dto.ErrorResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -38,13 +40,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrity(DataIntegrityViolationException ex, HttpServletRequest request) {
-        String msg = ex.getMessage() != null ? ex.getMessage().toLowerCase() : "";
-        if (msg.contains("email")) {
-            return buildErrorResponse("error_email_already_taken", "Email already exists", HttpStatus.CONFLICT, request);
-        }
-        if (msg.contains("phone") || msg.contains("username")) {
-            return buildErrorResponse("error_phone_already_taken", "Phone already taken", HttpStatus.CONFLICT, request);
-        }
+        log.error("Data integrity violation: {}", ex.getMessage(), ex);
         return buildErrorResponse("error_conflict", "Data integrity violation", HttpStatus.CONFLICT, request);
     }
 
@@ -78,12 +74,39 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(ex.getErrorCode(), ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
+    @ExceptionHandler(ShopException.class)
+    public ResponseEntity<ErrorResponse> handleShopException(ShopException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex.getErrorCode(), ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY, request);
+    }
+
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<ErrorResponse> handleInsufficientStock(InsufficientStockException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex.getErrorCode(), ex.getMessage(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(InvalidOrderStatusTransitionException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidOrderTransition(InvalidOrderStatusTransitionException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex.getErrorCode(), ex.getMessage(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(RentalConflictException.class)
+    public ResponseEntity<ErrorResponse> handleRentalConflict(RentalConflictException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex.getErrorCode(), ex.getMessage(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(InvalidRentalReservationStatusTransitionException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidRentalTransition(InvalidRentalReservationStatusTransitionException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex.getErrorCode(), ex.getMessage(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(LoyaltyException.class)
+    public ResponseEntity<ErrorResponse> handleLoyaltyException(LoyaltyException ex, HttpServletRequest request) {
+        return buildErrorResponse(ex.getResourceKey(), ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY, request);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest request) {
-        String message = ex.getBindingResult().getFieldErrors().stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .findFirst()
-                .orElse("Validation failed");
+        String message = ex.getBindingResult().getFieldErrors().stream().map(error -> error.getField() + ": " + error.getDefaultMessage()).findFirst().orElse("Validation failed");
         return buildErrorResponse("error_validation_failed", message, HttpStatus.BAD_REQUEST, request);
     }
 
@@ -99,17 +122,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneral(Exception ex, HttpServletRequest request) {
-        ex.printStackTrace(); // Log stack trace for debugging
+        log.error("Internal Server Error", ex);
         return buildErrorResponse("error_server_error", ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     private ResponseEntity<ErrorResponse> buildErrorResponse(String error, String message, HttpStatus status, HttpServletRequest request) {
-        ErrorResponse response = ErrorResponse.builder()
-                .error(error)
-                .message(message)
-                .status(status.value())
-                .path(request.getRequestURI())
-                .build();
+        ErrorResponse response = ErrorResponse.builder().error(error).message(message).status(status.value()).path(request.getRequestURI()).build();
         return ResponseEntity.status(status).body(response);
     }
 }

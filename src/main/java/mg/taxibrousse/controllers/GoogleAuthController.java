@@ -8,6 +8,7 @@ import mg.taxibrousse.services.IGoogleOAuthService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -32,9 +33,7 @@ public class GoogleAuthController {
     @GetMapping("/login")
     public ResponseEntity<Void> googleLogin() {
         String authorizationUrl = googleOAuthService.getGoogleAuthorizationUrl();
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create(authorizationUrl))
-                .build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizationUrl)).build();
     }
 
     /**
@@ -42,22 +41,15 @@ public class GoogleAuthController {
      * This endpoint receives the authorization code from Google
      */
     @GetMapping("/callback")
-    public ResponseEntity<Void> googleCallback(
-            @RequestParam(required = false) String code,
-            @RequestParam(required = false) String error
-    ) {
+    public ResponseEntity<Void> googleCallback(@RequestParam(required = false) String code, @RequestParam(required = false) String error) {
         if (error != null) {
             log.error("Google OAuth error: {}", error);
-            return ResponseEntity.status(HttpStatus.FOUND)
-                    .location(URI.create(MessageFormat.format("{0}/login?error={1}", frontendUrl, error)))
-                    .build();
+            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(MessageFormat.format("{0}/login?error={1}", frontendUrl, error))).build();
         }
 
         // Redirect to frontend with code
         // Frontend will exchange code for token
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create(MessageFormat.format("{0}/auth/google/callback?code={1}", frontendUrl, code)))
-                .build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(MessageFormat.format("{0}/auth/google/callback?code={1}", frontendUrl, code))).build();
     }
 
     /**
@@ -68,30 +60,29 @@ public class GoogleAuthController {
     public ResponseEntity<UserToken> verifyGoogleToken(@RequestBody Map<String, String> request) {
         String idToken = request.get("idToken");
 
-        if (idToken == null || idToken.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
+        if (StringUtils.hasText(idToken)) {
+            try {
+                // Verify Google token
+                GoogleOAuthUser googleUser = googleOAuthService.verifyGoogleToken(idToken);
 
-        try {
-            // Verify Google token
-            GoogleOAuthUser googleUser = googleOAuthService.verifyGoogleToken(idToken);
+                if (googleUser == null) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                }
 
-            if (googleUser == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
+                // Authenticate or create user
+                UserToken userToken = googleOAuthService.authenticateGoogleUser(googleUser);
 
-            // Authenticate or create user
-            UserToken userToken = googleOAuthService.authenticateGoogleUser(googleUser);
+                if (userToken == null) {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                }
 
-            if (userToken == null) {
+                return ResponseEntity.ok(userToken);
+            } catch (Exception e) {
+                log.error("Error verifying Google token", e);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
-
-            return ResponseEntity.ok(userToken);
-        } catch (Exception e) {
-            log.error("Error verifying Google token", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+        return ResponseEntity.badRequest().build();
     }
 
     /**

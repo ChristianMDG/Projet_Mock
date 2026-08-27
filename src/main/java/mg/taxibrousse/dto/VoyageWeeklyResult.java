@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mg.taxibrousse.models.Koperative;
 import mg.taxibrousse.models.Voyage;
+import mg.taxibrousse.entities.enums.DepartureTimeGroupEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class VoyageWeeklyResult {
+
     private Long resultId;
     private LocalDate date;
     private BigDecimal minPrice;
@@ -24,4 +26,5 @@ public class VoyageWeeklyResult {
     private Boolean hasVoyages;
     private List<Koperative> koperatives;
     private List<Voyage> voyages;
+    private List<DepartureTimeGroupEnum> availableTimeGroups;
 }

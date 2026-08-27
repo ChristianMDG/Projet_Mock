@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mg.taxibrousse.services.ITokenBlacklistService;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,38 +28,26 @@ public class TokenBlacklistService implements ITokenBlacklistService {
 
     @Override
     public void blacklistToken(String token, long expirationSeconds) {
-        if (token == null || token.isEmpty()) {
-            return;
+        if (StringUtils.hasText(token)) {
+            redisTemplate.opsForValue().set(BLACKLIST_PREFIX + token, String.valueOf(System.currentTimeMillis()), expirationSeconds, TimeUnit.SECONDS);
         }
-        redisTemplate.opsForValue().set(
-            BLACKLIST_PREFIX + token,
-            String.valueOf(System.currentTimeMillis()),
-            expirationSeconds,
-            TimeUnit.SECONDS
-        );
     }
 
     @Override
     public boolean isTokenBlacklisted(String token) {
-        return token != null && !token.isEmpty() && Boolean.TRUE.equals(redisTemplate.hasKey(BLACKLIST_PREFIX + token));
+        return StringUtils.hasText(token) && Boolean.TRUE.equals(redisTemplate.hasKey(BLACKLIST_PREFIX + token));
     }
 
     @Override
     public void blacklistAllUserTokens(String username) {
-        if (username == null || username.isEmpty()) {
-            return;
+        if (StringUtils.hasText(username)) {
+            redisTemplate.opsForValue().set(USER_BLACKLIST_PREFIX + username, String.valueOf(System.currentTimeMillis()), 7, TimeUnit.DAYS);
         }
-        redisTemplate.opsForValue().set(
-            USER_BLACKLIST_PREFIX + username,
-            String.valueOf(System.currentTimeMillis()),
-            7,
-            TimeUnit.DAYS
-        );
     }
 
     @Override
     public void removeFromBlacklist(String token) {
-        if (token != null && !token.isEmpty()) {
+        if (StringUtils.hasText(token)) {
             redisTemplate.delete(BLACKLIST_PREFIX + token);
         }
     }
@@ -66,15 +55,15 @@ public class TokenBlacklistService implements ITokenBlacklistService {
     /**
      * Check if user has been globally blacklisted (e.g., password change)
      *
-     * @param username      The username
+     * @param username The username
      * @param tokenIssuedAt When the token was issued (epoch milliseconds)
      * @return true if user tokens issued before blacklist time
      */
     public boolean isUserBlacklisted(String username, long tokenIssuedAt) {
-        if (username == null || username.isEmpty()) {
-            return false;
+        if (StringUtils.hasText(username)) {
+            String blacklistTime = redisTemplate.opsForValue().get(USER_BLACKLIST_PREFIX + username);
+            return blacklistTime != null && tokenIssuedAt < Long.parseLong(blacklistTime);
         }
-        String blacklistTime = redisTemplate.opsForValue().get(USER_BLACKLIST_PREFIX + username);
-        return blacklistTime != null && tokenIssuedAt < Long.parseLong(blacklistTime);
+        return false;
     }
 }

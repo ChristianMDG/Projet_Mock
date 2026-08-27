@@ -1,0 +1,182 @@
+{
+    "kind": "singleType",
+    "collectionName": "shop_configurations",
+    "info": {
+        "singularName": "shop-configuration",
+        "pluralName": "shop-configurations",
+        "displayName": "Shop Configuration",
+        "description": "Global shop configuration (currency, tax, thresholds, support info)"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {
+        "i18n": {
+            "localized": true
+        }
+    },
+    "attributes": {
+        "currency": {
+            "type": "string",
+            "default": "MGA",
+            "maxLength": 8,
+            "required": true,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "taxRate": {
+            "type": "decimal",
+            "default": 0,
+            "min": 0,
+            "max": 1,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "shippingFlatRate": {
+            "type": "decimal",
+            "default": 0,
+            "min": 0,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "freeShippingThreshold": {
+            "type": "decimal",
+            "default": 0,
+            "min": 0,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "lowStockThreshold": {
+            "type": "integer",
+            "default": 10,
+            "min": 0,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "enableWishlist": {
+            "type": "boolean",
+            "default": true,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "enableReviews": {
+            "type": "boolean",
+            "default": true,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "enableGuestCheckout": {
+            "type": "boolean",
+            "default": true,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "supportEmail": {
+            "type": "email",
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "supportPhone": {
+            "type": "string",
+            "maxLength": 30,
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "logo": {
+            "type": "media",
+            "multiple": false,
+            "required": false,
+            "allowedTypes": [
+                "images"
+            ],
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "bannerText": {
+            "type": "string",
+            "maxLength": 255,
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "termsUrl": {
+            "type": "string",
+            "maxLength": 255,
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "returnPolicyUrl": {
+            "type": "string",
+            "maxLength": 255,
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "isActive": {
+            "type": "boolean",
+            "default": true,
+            "required": true,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "seo": {
+            "type": "component",
+            "component": "shared.seo",
+            "repeatable": false,
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        }
+    }
+}

@@ -10,14 +10,15 @@ import {
   type SelectChangeEvent,
   Typography,
 } from '@mui/material';
-import { FilterList as FilterIcon } from '@mui/icons-material';
+import FilterIcon from '@mui/icons-material/FilterList';
 import { useTranslation } from 'react-i18next';
 import { useGares } from '@/hooks/gare.hooks';
 import { useKoperatives } from '@/hooks/koperative.hooks';
 import { VoyageStatusEnum, VoyageStatusLabels } from '@/models/enums';
 import { Gare } from '@/types';
 import Labels from '@/labelKeys.json';
-import { KoperativeVerifiedIcon, GareAutocomplete } from '@/components/shared';
+import KoperativeVerifiedIcon from '@/components/shared/KoperativeVerifiedIcon';
+import GareAutocomplete from '@/components/shared/GareAutocomplete';
 interface VoyageFilterFormProps {
   isAdmin: boolean;
   userKoperativeId: number | null;
@@ -56,6 +57,7 @@ export const VoyageFilterForm: React.FC<VoyageFilterFormProps> = ({
   };
 
   const selectedGares = gares.filter(gare => selectedGareIds.includes(gare.id!));
+  const showGareFilter = !isAdmin || Boolean(selectedKoperativeId);
 
   return (
     <Box>
@@ -66,7 +68,7 @@ export const VoyageFilterForm: React.FC<VoyageFilterFormProps> = ({
 
       <Grid container spacing={3}>
         {/* Gare Filter - Always visible for operators, optional for admins */}
-        {(!isAdmin || selectedKoperativeId) && (
+        {showGareFilter && (
           <Grid size={{ xs: 12, md: 6 }}>
             <GareAutocomplete
               multiple
@@ -89,9 +91,6 @@ export const VoyageFilterForm: React.FC<VoyageFilterFormProps> = ({
                 onChange={handleKoperativeChange}
                 label={t(Labels.voyage_filter_koperative)}
               >
-                <MenuItem value="">
-                  <em>{t(Labels.all_koperatives)}</em>
-                </MenuItem>
                 {koperatives.map(koperative => (
                   <MenuItem key={koperative.id} value={koperative.id}>
                     {koperative.name}

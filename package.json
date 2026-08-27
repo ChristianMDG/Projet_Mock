@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "Root package.json for convenience scripts",
   "scripts": {
-    "install": "cd front && npm install",
+    "install": "cd front && npm install && cd ../location && npm install",
     "build": "cd front && npm run build",
     "dev": "cd front && npm run dev",
+    "location:install": "cd location && npm install",
+    "location:build": "cd location && npm run build",
+    "location:dev": "cd location && npm run dev",
     "dashboard": "cd dashboard && npm run dev",
     "dashboard:install": "cd dashboard && npm install",
     "docker:up": "docker compose -f docker-compose.local.yml up -d",

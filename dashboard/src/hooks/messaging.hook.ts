@@ -1,9 +1,15 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ChatRoom, adminSendMessage, adminDeleteRoom, getMessages, adminGetAllRooms } from '@/api/messaging.api';
+import type { Message } from '@/models';
 import { useWebSocket } from './web-socket.hook';
 import { useMessagingStore } from '@/stores/messaging.store';
 import { useAuthStore } from '@/stores/auth.store';
+import dayjs from '@/utils/dayjsConfig';
+
+interface PaginatedMessages {
+  content: Message[];
+}
 
 export const messagingKeys = {
   all: ['messaging'] as const,
@@ -21,8 +27,11 @@ export function useRoomsQuery() {
 
 export function useMessagesQuery(roomId: string | null) {
   return useQuery({
-    queryKey: messagingKeys.messages(roomId || ''),
-    queryFn: () => getMessages(roomId!),
+    queryKey: messagingKeys.messages(roomId ?? ''),
+    queryFn: () => {
+      if (!roomId) throw new Error('roomId is required');
+      return getMessages(roomId);
+    },
     enabled: Boolean(roomId),
     staleTime: 30000,
   });
@@ -65,8 +74,11 @@ export const useMessaging = () => {
       addMessage(msg);
       // Also update query cache if current room
       if (msg.roomId === selectedRoomId) {
-        queryClient.setQueryData(messagingKeys.messages(msg.roomId), (old: any) => {
+        queryClient.setQueryData<PaginatedMessages>(messagingKeys.messages(msg.roomId), (old) => {
           if (old) {
+            if (old.content.some((m) => m.messageId === msg.messageId)) {
+              return old;
+            }
             return { ...old, content: [...old.content, msg] };
           }
           return { content: [msg] };
@@ -92,7 +104,8 @@ export const useMessaging = () => {
       }
 
       // Only auto-select on initial load, not after user navigates back
-      if (!initialSelectionDone.current && !selectedRoomId && roomsQuery.data.length > 0) {
+      const shouldAutoSelect = initialSelectionDone.current === false && !selectedRoomId && roomsQuery.data.length > 0;
+      if (shouldAutoSelect) {
         initialSelectionDone.current = true;
       }
     }
@@ -116,19 +129,26 @@ export const useMessaging = () => {
 
   // Mutation: Send Message
   const sendMessageMutation = useMutation({
-    mutationFn: (content: string) => adminSendMessage(selectedRoomId!, content),
+    mutationFn: (content: string) => {
+      if (!selectedRoomId) throw new Error('No room selected');
+      return adminSendMessage(selectedRoomId, content);
+    },
     onSuccess: (newMessage) => {
+      if (!selectedRoomId) return;
       addMessage(newMessage);
-      queryClient.setQueryData(messagingKeys.messages(selectedRoomId!), (old: any) => {
+      queryClient.setQueryData<PaginatedMessages>(messagingKeys.messages(selectedRoomId), (old) => {
         if (old) {
+          if (old.content.some((m) => m.messageId === newMessage.messageId)) {
+            return old;
+          }
           return { ...old, content: [...old.content, newMessage] };
         }
         return { content: [newMessage] };
       });
-      updateRoom(selectedRoomId!, {
+      updateRoom(selectedRoomId, {
         lastMessage: newMessage.content,
         lastMessageSender: user?.firstName ?? 'Support',
-        lastActivity: new Date().toISOString(),
+        lastActivity: dayjs().toISOString(),
       });
     },
   });
@@ -145,7 +165,7 @@ export const useMessaging = () => {
   });
 
   useEffect(() => {
-    if (Boolean(previousRoomIdRef.current)) {
+    if (previousRoomIdRef.current) {
       return;
     }
 

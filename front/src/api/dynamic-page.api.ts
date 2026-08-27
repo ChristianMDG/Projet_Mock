@@ -658,7 +658,27 @@ export type DynamicPageSection =
   | AdditionalInfo
   | ServiceCategories
   | LoyaltyProgram
-  | AdditionalServices;
+  | AdditionalServices
+  | SimpleSearch
+  | KoperativeTypesList;
+
+export interface KoperativeTypesList {
+  id: number;
+  __component: 'page.koperative-types-list';
+  title: string;
+  subtitle?: string;
+  backgroundColor?: string;
+  containerMaxWidth?: ContainerMaxWidth;
+}
+
+export interface SimpleSearch {
+  id: number;
+  __component: 'page.simple-search';
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  image?: StrapiMedia;
+}
 
 export interface DynamicPageBase {
   id: number;
@@ -707,7 +727,7 @@ export interface DynamicPageResponse {
 
 export interface SingleDynamicPageResponse {
   data: DynamicPage;
-  meta: any;
+  meta: StrapiMeta;
 }
 
 // Let the middleware handle population
@@ -767,16 +787,14 @@ export const getSectionByComponent = async (
   locale: string = 'fr',
   slug: string = 'page-template',
 ) => {
-  const response = await cmsAxios.get<StrapiApiResponse>('/dynamic-pages', {
+  const response = await cmsAxios.get<SingleDynamicPageResponse>(`/dynamic-pages/${slug}`, {
     params: {
       locale,
-      'filters[slug][$eq]': slug,
-      'populate[sections][filters][__component][$eq]': component,
-      'populate[sections]': '*',
+      sectionType: component,
     },
   });
 
-  const page = response.data.data[0];
+  const page = response.data.data;
   const section = page?.sections?.[0] ?? null;
 
   return {

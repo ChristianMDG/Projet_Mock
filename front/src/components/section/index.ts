@@ -33,8 +33,9 @@ export { default as DynamicPageCard } from './DynamicPageCard';
 export { default as ServiceCategories } from './ServiceCategories';
 export { default as LoyaltyProgram } from './LoyaltyProgram';
 export { default as AdditionalServices } from './AdditionalServices';
+export { default as SimpleSearch } from './SimpleSearch';
 export { default as LiveRoutePricing } from './LiveRoutePricing';
-export { default as TravelShop } from './TravelShop';
 
 // Export skeleton components
 export * from './skeleton';
+export { default as KoperativeTypesList } from './KoperativeTypesList';

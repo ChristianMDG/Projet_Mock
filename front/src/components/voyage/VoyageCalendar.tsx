@@ -18,20 +18,19 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import {
-  ArrowForward as ArrowForwardIcon,
-  ChevronLeft as ChevronLeftIcon,
-  ChevronRight as ChevronRightIcon,
-  Event as EventIcon,
-  Today as TodayIcon,
-} from '@mui/icons-material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import EventIcon from '@mui/icons-material/Event';
+import TodayIcon from '@mui/icons-material/Today';
 import dayjs from '@/utils/dayjs';
 import { useTranslation } from 'react-i18next';
 import { useVoyagesByKoperative } from '@/hooks/voyage.hooks';
 import { Voyage } from '@/models/Voyage';
 import { VoyageStatusEnum } from '@/models/enums';
 import Labels from '@/labelKeys.json';
-import { ButtonTx, StyledIcon } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import ProtectedTx from '@/components/ProtectedTx';
 
 interface VoyageCalendarProps {
@@ -120,6 +119,7 @@ export const VoyageCalendar: React.FC<VoyageCalendarProps> = ({ koperativeId }) 
   const selectedDateVoyages = selectedDate ? getVoyagesForDate(selectedDate) : [];
 
   const weekdaysShort = useMemo(() => {
+    void i18n.language;
     const days = dayjs.weekdaysShort();
     return [...days.slice(1), days[0]];
   }, [i18n.language]);

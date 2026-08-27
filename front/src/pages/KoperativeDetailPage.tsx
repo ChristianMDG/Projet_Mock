@@ -32,7 +32,7 @@ import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import Grid from '@mui/material/Grid';
 import { useParams } from 'react-router-dom';
 import {
-  useKoperative,
+  useKoperativeBySlug,
   useKoperativeChauffeurs,
   useKoperativeCrafters,
   useKoperativeGuichets,
@@ -43,13 +43,15 @@ import { useOperatorsByKoperative } from '@/hooks/user.hooks';
 import { KoperativeStatusEnum } from '@/models/enums';
 import Labels from '@/labelKeys.json';
 import { useTranslation } from 'react-i18next';
-import { KoperativeVerifiedIcon } from '@/components/shared';
-import { KoperativeAvatar, StyledTab } from '@/components/ui';
+import KoperativeVerifiedIcon from '@/components/shared/KoperativeVerifiedIcon';
+import KoperativeAvatar from '@/components/ui/KoperativeAvatar';
+import StyledTab from '@/components/ui/StyledTab';
 import { getStyledTabListSx } from '@/utils/tabStyles';
 import { useAuth } from '@/context/AuthContext';
 import { OperatorForm } from '@/components/operator';
 import ProtectedTx from '@/components/ProtectedTx';
 import SEO from '@/components/shared/SEO';
+import { ROUTES } from '@/constants/routes';
 
 // Lazy load heavy tab components for better performance
 const GuichetList = React.lazy(() => import('./koperativeDetail/GuichetList'));
@@ -92,9 +94,12 @@ const KoperativeDetailPage = () => {
     setTabId(tabId);
   };
 
-  const { id } = useParams();
-  const koperativeId = id ? parseInt(id, 10) : 0;
-  const { data: koperative, isLoading, error } = useKoperative(koperativeId);
+  const { slug } = useParams<{ slug?: string }>();
+  const slugParam = slug?.trim();
+  const { data: koperative, isLoading, error } = useKoperativeBySlug(slugParam);
+
+  const koperativeId = koperative?.id ?? 0;
+
   const { data: operators = [] } = useOperatorsByKoperative(koperativeId);
   const { data: guichets = [], isLoading: guichetsLoading } = useKoperativeGuichets(koperativeId);
   const { data: crafters = [] } = useKoperativeCrafters(koperativeId);
@@ -106,7 +111,7 @@ const KoperativeDetailPage = () => {
 
   if (isLoading || guichetsLoading) return <KoperativeDetailSkeleton />;
 
-  if (error || !koperative)
+  if (error || !koperative || !slugParam)
     return (
       <Box
         sx={{
@@ -131,9 +136,15 @@ const KoperativeDetailPage = () => {
     return 'text.secondary';
   };
 
+  const breadcrumbs = [
+    { name: t(Labels.nav_home), path: ROUTES.home.fr },
+    { name: t(Labels.menu_koperatives), path: ROUTES.koperativesList.fr },
+    { name: koperative.name ?? '' },
+  ];
+
   return (
     <Grid container rowSpacing={1} sx={{ pt: 1, mb: 1 }} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-      <SEO title={koperative.name} description={koperative.description} />
+      <SEO title={koperative.name} description={koperative.description} breadcrumbs={breadcrumbs} />
       <Grid size={{ xs: 12, md: 4 }}>
         <Card sx={{ mx: 'auto', width: 1 }}>
           <CardContent>
@@ -142,7 +153,8 @@ const KoperativeDetailPage = () => {
               <Box>
                 <Typography
                   variant="h4"
-                  color="error.main"
+                  component="h1"
+                  color="error"
                   sx={{ display: 'flex', alignItems: 'center', gap: 0.75, fontWeight: 'bold' }}
                 >
                   {koperative.name}

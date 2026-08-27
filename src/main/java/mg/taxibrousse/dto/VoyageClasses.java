@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class VoyageClasses {
+
     private Koperative koperative;
     private Gare departureGare;
     private Gare arrivalGare;

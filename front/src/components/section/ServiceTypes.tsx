@@ -13,7 +13,7 @@ import {
   type SxProps,
   type Theme,
 } from '@mui/material';
-import { Info } from '@mui/icons-material';
+import Info from '@mui/icons-material/Info';
 import type { FeatureItem, ServiceItem, ServiceTypes as ServiceTypesType } from '@/api/dynamic-page.api';
 
 interface ServiceTypesProps {

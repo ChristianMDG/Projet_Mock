@@ -7,7 +7,17 @@ export interface UserStatistics {
   inactiveVoyageurs: number;
   connectedWebSocketUsers: number;
   connectedUsernames: string[];
+  connectedGuichetUsers: number;
+  connectedGuichetUsernames: string[];
   totalSessions: number;
+}
+
+export interface DailyConnectionStats {
+  date: string;
+  uniqueSenderIds: number;
+  totalConnections: number;
+  uniqueGuichetConnections: number;
+  totalGuichetConnections: number;
 }
 
 export interface PageResponse<T> {
@@ -41,5 +51,10 @@ export const fetchVoyageurs = async (
 
 export const toggleVoyageurStatus = async (id: number): Promise<Voyageur> => {
   const { data } = await api.put<Voyageur>(`/user-statistics/voyageurs/${id}/toggle-status`);
+  return data;
+};
+
+export const fetchDailyConnections = async (days: number): Promise<DailyConnectionStats[]> => {
+  const { data } = await api.get<DailyConnectionStats[]>(`/user-statistics/daily-connections?days=${days}`);
   return data;
 };

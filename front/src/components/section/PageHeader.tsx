@@ -10,7 +10,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ header }) => {
   return (
     <Container maxWidth="lg" sx={{ pt: 4, px: '0 !important' }}>
       <Box sx={{ textAlign: 'center', mb: 4 }}>
-        <Typography variant="h2" component="h2" gutterBottom color="primary">
+        <Typography variant="h2" component="h1" gutterBottom color="primary">
           {header.title}
         </Typography>
         {header.description && (

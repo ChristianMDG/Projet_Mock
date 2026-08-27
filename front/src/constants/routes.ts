@@ -100,9 +100,9 @@ export const ROUTES: Record<string, LocalizedPath> = {
     en: '/en/cooperatives',
   },
   koperativeDetail: {
-    mg: '/koperativa/:id',
-    fr: '/fr/cooperatives/:id',
-    en: '/en/cooperatives/:id',
+    mg: '/koperativa/:slug',
+    fr: '/fr/cooperatives/:slug',
+    en: '/en/cooperatives/:slug',
   },
   koperativeCreate: {
     mg: '/koperativa/vaovao',
@@ -120,9 +120,9 @@ export const ROUTES: Record<string, LocalizedPath> = {
     en: '/en/cooperatives/:koperativeId/voyage-scheduler',
   },
   cooperativeInfo: {
-    mg: '/koperativa-fampahalalana/:id',
-    fr: '/fr/cooperative-info/:id',
-    en: '/en/cooperative-info/:id',
+    mg: '/koperativa-fampahalalana/:slug',
+    fr: '/fr/cooperative-info/:slug',
+    en: '/en/cooperative-info/:slug',
   },
 
   // Gares (Stations)
@@ -212,21 +212,31 @@ export const ROUTES: Record<string, LocalizedPath> = {
     en: '/en/operators/booking',
   },
 
-  // Contracts
-  contratsList: {
-    mg: '/fifanarahana',
-    fr: '/fr/contrats',
-    en: '/en/contracts',
+  // Shop (E-commerce)
+  shop: {
+    mg: '/tsena',
+    fr: '/fr/boutique',
+    en: '/en/shop',
   },
-  contratCreate: {
-    mg: '/fifanarahana/vaovao',
-    fr: '/fr/contrats/nouveau',
-    en: '/en/contracts/new',
+  shopProduct: {
+    mg: '/tsena/:slug',
+    fr: '/fr/boutique/:slug',
+    en: '/en/shop/:slug',
   },
-  contratEdit: {
-    mg: '/fifanarahana/:id/hanova',
-    fr: '/fr/contrats/:id/modifier',
-    en: '/en/contracts/:id/edit',
+  shopCheckout: {
+    mg: '/tsena/kaomandy',
+    fr: '/fr/boutique/commande',
+    en: '/en/shop/checkout',
+  },
+  shopPaymentSuccess: {
+    mg: '/tsena/fandoavana/fahombiazana',
+    fr: '/fr/boutique/paiement/succes',
+    en: '/en/shop/payment/success',
+  },
+  shopPaymentCancel: {
+    mg: '/tsena/fandoavana/nofoanana',
+    fr: '/fr/boutique/paiement/annule',
+    en: '/en/shop/payment/cancel',
   },
 };
 
@@ -258,8 +268,10 @@ export type LocalizedRouteKey = keyof typeof ROUTES;
  * Helper functions for dynamic route generation with localization
  */
 export const generateRoute = {
-  koperativeDetail: (id: string | number, language = 'mg') =>
-    ROUTES.koperativeDetail[language].replace(':id', String(id)),
+  koperativeDetail: (slug: string | number, language = 'mg') => {
+    const route = ROUTES.koperativeDetail[language];
+    return route.replace(':slug', String(slug));
+  },
 
   koperativeEdit: (id: string | number, language = 'mg') => ROUTES.koperativeEdit[language].replace(':id', String(id)),
 
@@ -267,16 +279,16 @@ export const generateRoute = {
 
   gareEdit: (id: string | number, language = 'mg') => ROUTES.gareEdit[language].replace(':id', String(id)),
 
-  contratEdit: (id: string | number, language = 'mg') => ROUTES.contratEdit[language].replace(':id', String(id)),
-
   voyageScheduler: (koperativeId: string | number, language = 'mg') =>
     ROUTES.koperativeVoyageScheduler[language].replace(':koperativeId', String(koperativeId)),
 
   reservationsByVoyage: (voyageId: string | number, language = 'mg') =>
     ROUTES.reservationsByVoyage[language].replace(':voyageId', String(voyageId)),
 
-  cooperativeInfo: (id: string | number, language = 'mg') =>
-    ROUTES.cooperativeInfo[language].replace(':id', String(id)),
+  cooperativeInfo: (slug: string | number, language = 'mg') => {
+    const route = ROUTES.cooperativeInfo[language];
+    return route.replace(':slug', String(slug));
+  },
 
   dynamicPage: (slug: string, language = 'mg') => ROUTES.dynamicPage[language].replace(':slug', slug),
 
@@ -285,6 +297,8 @@ export const generateRoute = {
 
   paymentSuccess: (voyageId: string | number, language = 'mg') =>
     ROUTES.paymentSuccess[language].replace(':voyageId', String(voyageId)),
+
+  shopProduct: (slug: string, language = 'mg') => ROUTES.shopProduct[language].replace(':slug', slug),
 };
 
 /**

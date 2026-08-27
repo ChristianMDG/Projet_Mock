@@ -12,7 +12,7 @@ import {
   type SxProps,
   type Theme,
 } from '@mui/material';
-import { Star } from '@mui/icons-material';
+import Star from '@mui/icons-material/Star';
 import { Icon } from '@/shared/IconMapper';
 import type {
   ServiceCategories as ServiceCategoriesType,

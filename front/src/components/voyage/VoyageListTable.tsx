@@ -18,18 +18,17 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import {
-  Delete as DeleteIcon,
-  Edit as EditIcon,
-  LocationOn as LocationIcon,
-  MoreVert as MoreVertIcon,
-  Person as PersonIcon,
-  Schedule as ScheduleIcon,
-  Visibility as ViewIcon,
-} from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import LocationIcon from '@mui/icons-material/LocationOn';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import PersonIcon from '@mui/icons-material/Person';
+import ScheduleIcon from '@mui/icons-material/Schedule';
+import ViewIcon from '@mui/icons-material/Visibility';
 
 import dayjs from 'dayjs';
-import { KoperativeVerifiedIcon, VehicleIcon } from '@/components/shared';
+import KoperativeVerifiedIcon from '@/components/shared/KoperativeVerifiedIcon';
+import VehicleIcon from '@/components/shared/VehicleIcon';
 import { useTranslation } from 'react-i18next';
 import { useDeleteVoyage } from '@/hooks/voyage.hooks';
 import { Voyage } from '@/types';

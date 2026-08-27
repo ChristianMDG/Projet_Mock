@@ -101,4 +101,10 @@ public class ColisService implements IColisService {
     public List<Colis> findByVoyageId(Long voyageId) {
         return colisRepository.findByVoyageId(voyageId).stream().map(Colis::fromEntity).toList();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Colis> findFilteredByVoyageId(Long voyageId, String search) {
+        return colisRepository.findFilteredByVoyageId(voyageId, search.trim()).stream().map(Colis::fromEntity).toList();
+    }
 }

@@ -1,0 +1,67 @@
+{
+  "collectionName": "components_rental_category_items",
+  "info": {
+    "displayName": "Category Item",
+    "description": "A single vehicle category entry (label, icon, link)",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "default": "Voitures",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 200,
+      "default": "Citadines, berlines et SUV pour tous vos trajets",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "icon": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "default": "DirectionsCar",
+      "description": "Material UI icon name (e.g. DirectionsCar, LocalShipping, AirportShuttle)"
+    },
+    "color": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "primary.main",
+      "description": "Icon/card accent color (e.g. primary.main, secondary.main)"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "imageUrl": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "Alternative image URL if no upload (Unsplash, Cloudinary, etc.)"
+    },
+    "link": {
+      "type": "string",
+      "maxLength": 255,
+      "default": "/voitures",
+      "description": "Internal path or external URL for the category"
+    }
+  }
+}

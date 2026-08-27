@@ -1,8 +1,5 @@
 package mg.taxibrousse.entities.enums;
 
 public enum KoperativeStatusEnum {
-    ACTIVE,
-    CONFIRMED,
-    INACTIVE,
-    SUSPENDED
+    ACTIVE, CONFIRMED, INACTIVE, SUSPENDED
 }

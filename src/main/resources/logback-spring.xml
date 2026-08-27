@@ -5,18 +5,16 @@
     
     <!-- Properties -->
     <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}taxibrousse-api.log}"/>
-    <property name="LOGSTASH_HOST" value="${LOGSTASH_HOST:-logstash}"/>
-    <property name="LOGSTASH_PORT" value="${LOGSTASH_PORT:-5001}"/>
-    
-    <!-- Console Appender -->
+
+    <!-- Console Appender (human-readable for local dev) -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %cyan([%thread]) %yellow(%logger{36}) : %msg%n</pattern>
         </encoder>
     </appender>
-    
-    <!-- File Appender (for production and default profiles) -->
-    <springProfile name="production | default">
+
+    <!-- File Appender (human-readable, for default profile) -->
+    <springProfile name="default">
         <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>${LOG_FILE}</file>
             <encoder>
@@ -29,63 +27,25 @@
             </rollingPolicy>
         </appender>
     </springProfile>
-    
-    <!-- Logstash TCP Appender (only for production) -->
+
+    <!-- JSON File Appender — used in production so Promtail/Loki can parse structured logs
+         from the log file directly, while the console stays human-readable -->
     <springProfile name="production">
-        <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-            <destination>${LOGSTASH_HOST}:${LOGSTASH_PORT}</destination>
-
-            <!-- Reconnection strategy -->
-            <reconnectionDelay>10 seconds</reconnectionDelay>
-
-            <!-- Use ring buffer for async processing -->
-            <ringBufferSize>8192</ringBufferSize>
-
-            <!-- Encoder for JSON output -->
+        <appender name="FILE_JSON" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${LOG_FILE}</file>
             <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-                <!-- Service identification -->
-                <customFields>{"service":"taxibrousse-api","service_type":"spring-boot"}</customFields>
-
-                <!-- Include context information -->
                 <includeMdcKeyName>traceId</includeMdcKeyName>
                 <includeMdcKeyName>spanId</includeMdcKeyName>
-                <includeMdcKeyName>userId</includeMdcKeyName>
-                <includeMdcKeyName>requestId</includeMdcKeyName>
-
-                <!-- Include caller data for better debugging -->
-                <includeCallerData>true</includeCallerData>
-
-                <!-- Include context name -->
-                <includeContext>true</includeContext>
-
-                <!-- Stack trace configuration -->
-                <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
-                    <maxDepthPerThrowable>30</maxDepthPerThrowable>
-                    <maxLength>2048</maxLength>
-                    <shortenedClassNameLength>20</shortenedClassNameLength>
-                    <exclude>^sun\.reflect\..*\.invoke</exclude>
-                    <exclude>^net\.sf\.cglib\.proxy\.MethodProxy\.invoke</exclude>
-                    <rootCauseFirst>true</rootCauseFirst>
-                </throwableConverter>
             </encoder>
-
-            <!-- Keep alive strategy -->
-            <keepAliveDuration>5 minutes</keepAliveDuration>
-
-            <!-- Write timeout -->
-            <writeTimeout>1 minute</writeTimeout>
-        </appender>
-
-        <!-- Async Logstash Appender for non-blocking logging -->
-        <appender name="ASYNC_LOGSTASH" class="ch.qos.logback.classic.AsyncAppender">
-            <appender-ref ref="LOGSTASH"/>
-            <queueSize>512</queueSize>
-            <discardingThreshold>0</discardingThreshold>
-            <includeCallerData>true</includeCallerData>
-            <neverBlock>true</neverBlock>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.gz</fileNamePattern>
+                <maxHistory>7</maxHistory>
+                <totalSizeCap>1GB</totalSizeCap>
+            </rollingPolicy>
         </appender>
     </springProfile>
     
+
     <!-- Spring profiles -->
     <springProfile name="production">
         <!-- Application loggers -->
@@ -108,11 +68,10 @@
         <logger name="org.apache.catalina" level="WARN"/>
         <logger name="org.apache.tomcat" level="WARN"/>
 
-        <!-- Root logger -->
+        <!-- Root logger — human-readable console, JSON file for Promtail/Loki ingestion -->
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
-            <appender-ref ref="FILE"/>
-            <appender-ref ref="ASYNC_LOGSTASH"/>
+            <appender-ref ref="FILE_JSON"/>
         </root>
     </springProfile>
 

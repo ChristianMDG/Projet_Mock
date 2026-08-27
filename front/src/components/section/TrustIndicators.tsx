@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Container, Typography, Card, CardContent, Button, Divider, Stack, Grid } from '@mui/material';
-import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import type { TrustIndicators as TrustIndicatorsType } from '@/api/dynamic-page.api';
 import { Icon } from '@/shared/IconMapper';
 
@@ -14,10 +14,10 @@ const TrustIndicators: React.FC<TrustIndicatorsProps> = ({ section }) => {
 
   if (isHorizontal) {
     return (
-      <Box sx={{ py: 4, bgcolor: section.backgroundColor || 'background.paper' }}>
+      <Box sx={{ py: 4, bgcolor: section.backgroundColor ?? 'background.paper' }}>
         <Container
           sx={{
-            maxWidth: section.containerMaxWidth || 'lg',
+            maxWidth: section.containerMaxWidth ?? 'lg',
           }}
         >
           {section.title && (
@@ -71,10 +71,10 @@ const TrustIndicators: React.FC<TrustIndicatorsProps> = ({ section }) => {
   }
 
   return (
-    <Box sx={{ py: 6, bgcolor: section.backgroundColor || 'background.default' }}>
+    <Box sx={{ py: 6, bgcolor: section.backgroundColor ?? 'background.default' }}>
       <Container
         sx={{
-          maxWidth: section.containerMaxWidth || 'lg',
+          maxWidth: section.containerMaxWidth ?? 'lg',
         }}
       >
         {section.title && (

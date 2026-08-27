@@ -41,9 +41,7 @@ public class RouteController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Route> getRouteById(@PathVariable Long id) {
-        return routeService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return routeService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**
@@ -85,8 +83,6 @@ public class RouteController {
         }
     }
 
-
-
     /**
      * Get all routes
      */
@@ -115,9 +111,7 @@ public class RouteController {
      * Get top active routes by departure ville ID
      */
     @GetMapping("/by-departure-ville/{villeId}")
-    public ResponseEntity<List<Route>> getRoutesByDepartureVilleId(
-            @PathVariable Long villeId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public ResponseEntity<List<Route>> getRoutesByDepartureVilleId(@PathVariable Long villeId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return ResponseEntity.ok(routeService.getRoutesByDepartureVilleId(villeId, date));
     }
 }

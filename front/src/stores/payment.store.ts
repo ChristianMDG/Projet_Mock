@@ -14,6 +14,8 @@ interface PaymentState {
   showPaymentStatus: boolean;
   wsConnected: boolean;
   reservationId: number | null;
+  isPartial: boolean;
+  advanceAmount: number | null;
 
   setPaymentMethodId: (methodId: string) => void;
   setPhoneNumber: (phone: string) => void;
@@ -26,6 +28,8 @@ interface PaymentState {
   setShowPaymentStatus: (show: boolean) => void;
   setWsConnected: (connected: boolean) => void;
   setReservationId: (id: number | null) => void;
+  setIsPartial: (partial: boolean) => void;
+  setAdvanceAmount: (amount: number | null) => void;
 
   resetPaymentForm: () => void;
   resetPaymentFlow: () => void;
@@ -43,6 +47,8 @@ const initialState = {
   showPaymentStatus: false,
   wsConnected: false,
   reservationId: null,
+  isPartial: true,
+  advanceAmount: null,
 };
 
 export const usePaymentStore = create<PaymentState>()(
@@ -61,18 +67,22 @@ export const usePaymentStore = create<PaymentState>()(
       setShowPaymentStatus: show => set({ showPaymentStatus: show }),
       setWsConnected: connected => set({ wsConnected: connected }),
       setReservationId: id => set({ reservationId: id }),
+      setIsPartial: partial => set({ isPartial: partial }),
+      setAdvanceAmount: amount => set({ advanceAmount: amount }),
 
       resetPaymentForm: () =>
         set({
           paymentMethodId: initialState.paymentMethodId,
           phoneNumber: initialState.phoneNumber,
           paymentError: null,
+          advanceAmount: null,
         }),
 
       resetPaymentFlow: () => set(initialState),
     }),
     {
       name: 'payment-storage',
+      skipHydration: true,
     },
   ),
 );

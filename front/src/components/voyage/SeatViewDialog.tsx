@@ -10,8 +10,8 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
-import { KrafterViewer } from '@/components';
+import CloseIcon from '@mui/icons-material/Close';
+import { KrafterViewer } from '@/components/KrafterViewer';
 import { Voyage } from '@/models/Voyage';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';

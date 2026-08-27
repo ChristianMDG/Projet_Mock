@@ -4,6 +4,8 @@ import SockJS from 'sockjs-client';
 import { Message } from '@/api/messaging.api';
 import { customStorage } from '@/utils/customStorage';
 import { getWebSocketUrl } from '@/utils/environment';
+import { useAuthStore } from '@/stores/auth.store';
+import { UserOperator } from '@/models';
 
 export interface TypingIndicator {
   userId: string;
@@ -47,6 +49,10 @@ export const useWebSocket = (callbacks?: WebSocketCallbacks) => {
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const subscriptionsRef = useRef(new Map<string, StompSubscription[]>());
   const callbacksRef = useRef(callbacks);
+
+  // Generate a unique sender ID for this dashboard session (persists for the session)
+  const senderIdRef = useRef(`dashboard-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
+  const userNameRef = useRef('Dashboard Admin');
 
   useEffect(() => {
     callbacksRef.current = callbacks;
@@ -133,7 +139,13 @@ export const useWebSocket = (callbacks?: WebSocketCallbacks) => {
 
     clientRef.current = new Client({
       webSocketFactory: () => new SockJS(wsUrl),
-      connectHeaders: token ? { Authorization: `Bearer ${token}` } : {},
+      connectHeaders: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        'X-Sender-Id': senderIdRef.current,
+        'X-User-Name': userNameRef.current,
+        'X-App-Source': 'dashboard',
+        'X-Is-Guichet': String(!!(useAuthStore.getState().user as UserOperator)?.assignedKoperatives?.length),
+      },
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
@@ -224,6 +236,12 @@ export const useWebSocket = (callbacks?: WebSocketCallbacks) => {
       clientRef.current.publish({
         destination,
         body: typeof body === 'string' ? body : JSON.stringify(body),
+        headers: {
+          'X-Sender-Id': senderIdRef.current,
+          'X-User-Name': userNameRef.current,
+          'X-App-Source': 'dashboard',
+          'X-Is-Guichet': String(!!(useAuthStore.getState().user as UserOperator)?.assignedKoperatives?.length),
+        },
       });
     }
   }, []);

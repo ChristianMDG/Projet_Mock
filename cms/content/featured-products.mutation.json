@@ -1,0 +1,51 @@
+{
+  "description": "Featured Products section mutation for page-template dynamic zone. References 5 products from products.mutation.json by slug. The 'productSlugs' top-level helper is resolved to Strapi product documentIds by populate-shop-content.sh before the relation is attached; populate-all-sections.sh will include the section without the relation if ran alone.",
+  "collection": "api::dynamic-page.dynamic-page",
+  "slug": "page-template",
+  "component": "page.featured-products",
+  "productSlugs": [
+    "vanille-bourbon-premium",
+    "lamba-soie-sauvage",
+    "miel-de-litchi",
+    "poivre-sauvage-tsiperifery",
+    "huile-essentielle-ravintsara"
+  ],
+  "locales": {
+    "fr": {
+      "__component": "page.featured-products",
+      "title": "Produits en vedette de Madagascar",
+      "subtitle": "Découvrez notre sélection de produits authentiques malgaches : vanille bourbon, soie sauvage, miel de litchi et bien plus encore.",
+      "ctaText": "Voir tous les produits",
+      "ctaLink": "/boutique",
+      "layout": "grid",
+      "maxItems": 5,
+      "containerMaxWidth": "lg",
+      "backgroundColor": "background.default",
+      "id": 14
+    },
+    "en": {
+      "__component": "page.featured-products",
+      "title": "Featured Products from Madagascar",
+      "subtitle": "Discover our selection of authentic Malagasy products: Bourbon vanilla, wild silk, litchi honey and much more.",
+      "ctaText": "View all products",
+      "ctaLink": "/shop",
+      "layout": "grid",
+      "maxItems": 5,
+      "containerMaxWidth": "lg",
+      "backgroundColor": "background.default",
+      "id": 16
+    },
+    "mg": {
+      "__component": "page.featured-products",
+      "title": "Vokatra malaza avy any Madagasikara",
+      "subtitle": "Fantaro ny safidinay amin'ny vokatra malagasy tena izy: lavanila bourbon, landibe, tantely litchi sy maro hafa.",
+      "ctaText": "Hijery ny vokatra rehetra",
+      "ctaLink": "/fivarotana",
+      "layout": "grid",
+      "maxItems": 5,
+      "containerMaxWidth": "lg",
+      "backgroundColor": "background.default",
+      "id": 18
+    }
+  }
+}

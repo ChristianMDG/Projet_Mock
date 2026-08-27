@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Card, CardContent, CardMedia, IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { Edit as EditIcon } from '@mui/icons-material';
+import EditIcon from '@mui/icons-material/Edit';
 import { Gare } from '@/types';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';

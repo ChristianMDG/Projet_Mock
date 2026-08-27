@@ -12,7 +12,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { ButtonTx, IconButtonTx } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
+import IconButtonTx from '@/components/ui/IconButtonTx';
 import ProtectedTx from '@/components/ProtectedTx';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -29,6 +30,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import CloseIcon from '@mui/icons-material/Close';
+import { AuthorityEnum } from '@/models/enums';
 
 interface ChauffeurListProps {
   koperativeId: number;
@@ -244,29 +246,31 @@ const ChauffeurList: React.FC<ChauffeurListProps> = ({ koperativeId }) => {
                             }}
                           >
                             {chauffeur.user?.phone && (
-                              <Grid size="auto">
-                                <Grid
-                                  container
-                                  spacing={0.5}
-                                  sx={{
-                                    alignItems: 'center',
-                                  }}
-                                >
-                                  <Grid size="auto">
-                                    <PhoneIcon
-                                      color="action"
-                                      sx={{
-                                        fontSize: 'small',
-                                      }}
-                                    />
-                                  </Grid>
-                                  <Grid size="auto">
-                                    <Typography variant="body2" color="text.secondary">
-                                      {chauffeur.user.phone}
-                                    </Typography>
+                              <ProtectedTx allowedRoles={[AuthorityEnum.ADMIN, AuthorityEnum.OPERATOR]}>
+                                <Grid size="auto">
+                                  <Grid
+                                    container
+                                    spacing={0.5}
+                                    sx={{
+                                      alignItems: 'center',
+                                    }}
+                                  >
+                                    <Grid size="auto">
+                                      <PhoneIcon
+                                        color="action"
+                                        sx={{
+                                          fontSize: 'small',
+                                        }}
+                                      />
+                                    </Grid>
+                                    <Grid size="auto">
+                                      <Typography variant="body2" color="text.secondary">
+                                        {chauffeur.user.phone}
+                                      </Typography>
+                                    </Grid>
                                   </Grid>
                                 </Grid>
-                              </Grid>
+                              </ProtectedTx>
                             )}
                             {chauffeur.licenseNumber && (
                               <Grid size="auto">

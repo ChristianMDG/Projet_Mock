@@ -13,5 +13,10 @@ export { Seat } from './Seat';
 export { SeatGrid } from './SeatGrid';
 export { SeatLegend } from './SeatLegend';
 export { useSeatManagement } from '@/hooks/seat.hooks';
-export { SEAT_LAYOUT, RESPONSIVE_CONFIG } from './constants';
-export type { SeatStatus } from './constants';
+export { SEAT_LAYOUT, RESPONSIVE_CONFIG } from '@/utils/constants';
+export type { SeatStatus } from '@/utils/constants';
+
+// Seat Management Components
+export { default as SeatBooking, SeatBooking as SeatBookingNamed } from './SeatBooking';
+export { SeatManagement } from './SeatManagement';
+export { SeatReservation } from './SeatReservation';

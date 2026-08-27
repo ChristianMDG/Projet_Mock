@@ -1,0 +1,51 @@
+{
+  "collectionName": "components_rental_how_it_works",
+  "info": {
+    "displayName": "How It Works",
+    "description": "Step-by-step guide explaining the rental process to first-time customers",
+    "icon": "layer"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Comment ça marche ?",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "Louez votre véhicule en quelques étapes simples",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "steps": {
+      "type": "component",
+      "repeatable": true,
+      "component": "rental.step-item",
+      "required": true,
+      "min": 2,
+      "max": 6
+    },
+    "backgroundColor": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "background.paper",
+      "description": "Section background color (e.g. background.paper, background.default)"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg"
+    }
+  }
+}

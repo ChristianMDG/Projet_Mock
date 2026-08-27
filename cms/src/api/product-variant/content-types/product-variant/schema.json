@@ -1,0 +1,99 @@
+{
+    "kind": "collectionType",
+    "collectionName": "product_variants",
+    "info": {
+        "singularName": "product-variant",
+        "pluralName": "product-variants",
+        "displayName": "Product Variant",
+        "description": "Variation (size, color, etc.) of a product"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "pluginOptions": {
+        "i18n": {
+            "localized": true
+        }
+    },
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true,
+            "maxLength": 150,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "sku": {
+            "type": "string",
+            "maxLength": 80,
+            "unique": true,
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "attributes": {
+            "type": "json",
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "price": {
+            "type": "decimal",
+            "required": false,
+            "min": 0,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "stockQuantity": {
+            "type": "integer",
+            "default": 0,
+            "min": 0,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "isActive": {
+            "type": "boolean",
+            "default": true,
+            "required": true,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "image": {
+            "type": "media",
+            "multiple": false,
+            "required": false,
+            "allowedTypes": [
+                "images"
+            ],
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "product": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::product.product",
+            "inversedBy": "variants"
+        }
+    }
+}

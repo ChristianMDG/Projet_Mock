@@ -336,6 +336,12 @@ export default {
         // Service Category Item
         'content-manager.components.page.service-category-item.text': 'Texte',
 
+        // Simple Search
+        'content-manager.components.page.simple-search.title': 'Titre',
+        'content-manager.components.page.simple-search.subtitle': 'Sous-titre',
+        'content-manager.components.page.simple-search.description': 'Description',
+        'content-manager.components.page.simple-search.image': 'Image',
+
         // Hero Banner
         'content-manager.content-types.api::hero-content.hero-content.Title': 'Titre',
         'content-manager.content-types.api::hero-content.hero-content.SubTitle': 'Sous-titre',
@@ -378,11 +384,7 @@ export default {
         'content-manager.content-types.api::fokotany.fokotany.fokontany': 'Fokontany',
         'content-manager.content-types.api::fokotany.fokotany.ville': 'Ville',
 
-        // Resource
-        'content-manager.content-types.api::resource.resource.key': 'Clé',
-        'content-manager.content-types.api::resource.resource.fr': 'Français',
-        'content-manager.content-types.api::resource.resource.en': 'Anglais',
-        'content-manager.content-types.api::resource.resource.mg': 'Malgache',
+
 
         // Classe
         'content-manager.content-types.api::classe.classe.name': 'Nom',
@@ -412,6 +414,7 @@ export default {
 
         // Koperative
         'content-manager.content-types.api::koperative.koperative.name': 'Nom',
+        'content-manager.content-types.api::koperative.koperative.slug': 'Slug',
         'content-manager.content-types.api::koperative.koperative.description': 'Description',
         'content-manager.content-types.api::koperative.koperative.address': 'Adresse',
         'content-manager.content-types.api::koperative.koperative.phone': 'Téléphone',
@@ -421,6 +424,7 @@ export default {
         'content-manager.content-types.api::koperative.koperative.website': 'Site web',
         'content-manager.content-types.api::koperative.koperative.logoUrl': 'URL du logo',
         'content-manager.content-types.api::koperative.koperative.status': 'Statut',
+        'content-manager.content-types.api::koperative.koperative.type': 'Type',
         'content-manager.content-types.api::koperative.koperative.proprietaireId': 'Propriétaire (ID)',
         'content-manager.content-types.api::koperative.koperative.guichets': 'Guichets',
         'content-manager.content-types.api::koperative.koperative.crafters': 'Véhicules',
@@ -594,6 +598,107 @@ export default {
         'content-manager.content-types.api::guichet.guichet.isActive': 'Actif',
         'content-manager.content-types.api::guichet.guichet.openingHours': 'Horaires d\'ouverture',
         'content-manager.content-types.api::guichet.guichet.destinations': 'Destinations',
+
+        // Product
+        'content-manager.content-types.api::product.product.name': 'Nom',
+        'content-manager.content-types.api::product.product.slug': 'Slug',
+        'content-manager.content-types.api::product.product.description': 'Description',
+        'content-manager.content-types.api::product.product.shortDescription': 'Description courte',
+        'content-manager.content-types.api::product.product.price': 'Prix',
+        'content-manager.content-types.api::product.product.originalPrice': 'Prix original',
+        'content-manager.content-types.api::product.product.currency': 'Devise',
+        'content-manager.content-types.api::product.product.sku': 'Référence (SKU)',
+        'content-manager.content-types.api::product.product.weight': 'Poids (g)',
+        'content-manager.content-types.api::product.product.dimensions': 'Dimensions',
+        'content-manager.content-types.api::product.product.origin': 'Origine',
+        'content-manager.content-types.api::product.product.images': 'Images',
+        'content-manager.content-types.api::product.product.tags': 'Étiquettes',
+        'content-manager.content-types.api::product.product.specifications': 'Spécifications',
+        'content-manager.content-types.api::product.product.inStock': 'En stock',
+        'content-manager.content-types.api::product.product.stockQuantity': 'Quantité en stock',
+        'content-manager.content-types.api::product.product.rating': 'Note moyenne',
+        'content-manager.content-types.api::product.product.reviewCount': 'Nombre d\'avis',
+        'content-manager.content-types.api::product.product.isActive': 'Actif',
+        'content-manager.content-types.api::product.product.isFeatured': 'Mis en avant',
+        'content-manager.content-types.api::product.product.isNew': 'Nouveau',
+        'content-manager.content-types.api::product.product.isBestSeller': 'Meilleure vente',
+        'content-manager.content-types.api::product.product.category': 'Catégorie',
+        'content-manager.content-types.api::product.product.variants': 'Variantes',
+        'content-manager.content-types.api::product.product.campaigns': 'Campagnes promotionnelles',
+        'content-manager.content-types.api::product.product.seo': 'SEO',
+
+        // Product Category
+        'content-manager.content-types.api::product-category.product-category.name': 'Nom',
+        'content-manager.content-types.api::product-category.product-category.slug': 'Slug',
+        'content-manager.content-types.api::product-category.product-category.description': 'Description',
+        'content-manager.content-types.api::product-category.product-category.icon': 'Icône',
+        'content-manager.content-types.api::product-category.product-category.image': 'Image',
+        'content-manager.content-types.api::product-category.product-category.displayOrder': 'Ordre d\'affichage',
+        'content-manager.content-types.api::product-category.product-category.isActive': 'Active',
+        'content-manager.content-types.api::product-category.product-category.category': 'Catégorie parente',
+        'content-manager.content-types.api::product-category.product-category.products': 'Produits',
+        'content-manager.content-types.api::product-category.product-category.seo': 'SEO',
+
+        // Category (top-level)
+        'content-manager.content-types.api::category.category.name': 'Nom',
+        'content-manager.content-types.api::category.category.description': 'Description',
+        'content-manager.content-types.api::category.category.slug': 'Slug',
+        'content-manager.content-types.api::category.category.isActive': 'Active',
+        'content-manager.content-types.api::category.category.displayOrder': 'Ordre d\'affichage',
+        'content-manager.content-types.api::category.category.subcategories': 'Sous-catégories',
+
+        // Product Variant
+        'content-manager.content-types.api::product-variant.product-variant.name': 'Nom',
+        'content-manager.content-types.api::product-variant.product-variant.sku': 'Référence (SKU)',
+        'content-manager.content-types.api::product-variant.product-variant.attributes': 'Attributs',
+        'content-manager.content-types.api::product-variant.product-variant.price': 'Prix',
+        'content-manager.content-types.api::product-variant.product-variant.stockQuantity': 'Quantité en stock',
+        'content-manager.content-types.api::product-variant.product-variant.isActive': 'Active',
+        'content-manager.content-types.api::product-variant.product-variant.image': 'Image',
+        'content-manager.content-types.api::product-variant.product-variant.product': 'Produit',
+
+        // Promotional Campaign
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.name': 'Nom',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.slug': 'Slug',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.description': 'Description',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.discountType': 'Type de remise',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.discountValue': 'Valeur de la remise',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.code': 'Code promo',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.startDate': 'Date de début',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.endDate': 'Date de fin',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.usageLimit': 'Limite d\'utilisation',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.usageCount': 'Nombre d\'utilisations',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.minOrderAmount': 'Montant minimum de commande',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.image': 'Image',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.isActive': 'Active',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.products': 'Produits',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.categories': 'Catégories',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.seo': 'SEO',
+
+        // Shop Configuration
+        'content-manager.content-types.api::shop-configuration.shop-configuration.currency': 'Devise',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.taxRate': 'Taux de taxe',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.shippingFlatRate': 'Frais de livraison forfaitaires',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.freeShippingThreshold': 'Seuil livraison gratuite',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.lowStockThreshold': 'Seuil de stock faible',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.enableWishlist': 'Activer la liste de souhaits',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.enableReviews': 'Activer les avis',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.enableGuestCheckout': 'Activer le paiement invité',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.supportEmail': 'E-mail du support',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.supportPhone': 'Téléphone du support',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.logo': 'Logo',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.bannerText': 'Texte de bannière',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.termsUrl': 'URL des CGV',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.returnPolicyUrl': 'URL de la politique de retour',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.isActive': 'Active',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.seo': 'SEO',
+
+        // Promotion Banner (shop)
+        'content-manager.content-types.api::promotion-banner.promotion-banner.ctaText': 'Texte du bouton',
+        'content-manager.content-types.api::promotion-banner.promotion-banner.ctaLink': 'Lien du bouton',
+        'content-manager.content-types.api::promotion-banner.promotion-banner.startDate': 'Date de début',
+        'content-manager.content-types.api::promotion-banner.promotion-banner.endDate': 'Date de fin',
+        'content-manager.content-types.api::promotion-banner.promotion-banner.campaign': 'Campagne',
       },
       en: {
         // Page Header
@@ -963,11 +1068,7 @@ export default {
         'content-manager.content-types.api::fokotany.fokotany.fokontany': 'Fokontany',
         'content-manager.content-types.api::fokotany.fokotany.ville': 'City',
 
-        // Resource
-        'content-manager.content-types.api::resource.resource.key': 'Key',
-        'content-manager.content-types.api::resource.resource.fr': 'French',
-        'content-manager.content-types.api::resource.resource.en': 'English',
-        'content-manager.content-types.api::resource.resource.mg': 'Malagasy',
+
 
         // Classe
         'content-manager.content-types.api::classe.classe.name': 'Name',
@@ -997,6 +1098,7 @@ export default {
 
         // Koperative
         'content-manager.content-types.api::koperative.koperative.name': 'Name',
+        'content-manager.content-types.api::koperative.koperative.slug': 'Slug',
         'content-manager.content-types.api::koperative.koperative.description': 'Description',
         'content-manager.content-types.api::koperative.koperative.address': 'Address',
         'content-manager.content-types.api::koperative.koperative.phone': 'Phone',
@@ -1006,6 +1108,7 @@ export default {
         'content-manager.content-types.api::koperative.koperative.website': 'Website',
         'content-manager.content-types.api::koperative.koperative.logoUrl': 'Logo URL',
         'content-manager.content-types.api::koperative.koperative.status': 'Status',
+        'content-manager.content-types.api::koperative.koperative.type': 'Type',
         'content-manager.content-types.api::koperative.koperative.proprietaireId': 'Owner (ID)',
         'content-manager.content-types.api::koperative.koperative.guichets': 'Counters',
         'content-manager.content-types.api::koperative.koperative.crafters': 'Vehicles',
@@ -1179,6 +1282,107 @@ export default {
         'content-manager.content-types.api::guichet.guichet.isActive': 'Active',
         'content-manager.content-types.api::guichet.guichet.openingHours': 'Opening hours',
         'content-manager.content-types.api::guichet.guichet.destinations': 'Destinations',
+
+        // Product
+        'content-manager.content-types.api::product.product.name': 'Name',
+        'content-manager.content-types.api::product.product.slug': 'Slug',
+        'content-manager.content-types.api::product.product.description': 'Description',
+        'content-manager.content-types.api::product.product.shortDescription': 'Short description',
+        'content-manager.content-types.api::product.product.price': 'Price',
+        'content-manager.content-types.api::product.product.originalPrice': 'Original price',
+        'content-manager.content-types.api::product.product.currency': 'Currency',
+        'content-manager.content-types.api::product.product.sku': 'SKU',
+        'content-manager.content-types.api::product.product.weight': 'Weight (g)',
+        'content-manager.content-types.api::product.product.dimensions': 'Dimensions',
+        'content-manager.content-types.api::product.product.origin': 'Origin',
+        'content-manager.content-types.api::product.product.images': 'Images',
+        'content-manager.content-types.api::product.product.tags': 'Tags',
+        'content-manager.content-types.api::product.product.specifications': 'Specifications',
+        'content-manager.content-types.api::product.product.inStock': 'In stock',
+        'content-manager.content-types.api::product.product.stockQuantity': 'Stock quantity',
+        'content-manager.content-types.api::product.product.rating': 'Rating',
+        'content-manager.content-types.api::product.product.reviewCount': 'Review count',
+        'content-manager.content-types.api::product.product.isActive': 'Active',
+        'content-manager.content-types.api::product.product.isFeatured': 'Featured',
+        'content-manager.content-types.api::product.product.isNew': 'New',
+        'content-manager.content-types.api::product.product.isBestSeller': 'Best seller',
+        'content-manager.content-types.api::product.product.category': 'Category',
+        'content-manager.content-types.api::product.product.variants': 'Variants',
+        'content-manager.content-types.api::product.product.campaigns': 'Promotional campaigns',
+        'content-manager.content-types.api::product.product.seo': 'SEO',
+
+        // Product Category
+        'content-manager.content-types.api::product-category.product-category.name': 'Name',
+        'content-manager.content-types.api::product-category.product-category.slug': 'Slug',
+        'content-manager.content-types.api::product-category.product-category.description': 'Description',
+        'content-manager.content-types.api::product-category.product-category.icon': 'Icon',
+        'content-manager.content-types.api::product-category.product-category.image': 'Image',
+        'content-manager.content-types.api::product-category.product-category.displayOrder': 'Display order',
+        'content-manager.content-types.api::product-category.product-category.isActive': 'Active',
+        'content-manager.content-types.api::product-category.product-category.category': 'Parent category',
+        'content-manager.content-types.api::product-category.product-category.products': 'Products',
+        'content-manager.content-types.api::product-category.product-category.seo': 'SEO',
+
+        // Category (top-level)
+        'content-manager.content-types.api::category.category.name': 'Name',
+        'content-manager.content-types.api::category.category.description': 'Description',
+        'content-manager.content-types.api::category.category.slug': 'Slug',
+        'content-manager.content-types.api::category.category.isActive': 'Active',
+        'content-manager.content-types.api::category.category.displayOrder': 'Display order',
+        'content-manager.content-types.api::category.category.subcategories': 'Subcategories',
+
+        // Product Variant
+        'content-manager.content-types.api::product-variant.product-variant.name': 'Name',
+        'content-manager.content-types.api::product-variant.product-variant.sku': 'SKU',
+        'content-manager.content-types.api::product-variant.product-variant.attributes': 'Attributes',
+        'content-manager.content-types.api::product-variant.product-variant.price': 'Price',
+        'content-manager.content-types.api::product-variant.product-variant.stockQuantity': 'Stock quantity',
+        'content-manager.content-types.api::product-variant.product-variant.isActive': 'Active',
+        'content-manager.content-types.api::product-variant.product-variant.image': 'Image',
+        'content-manager.content-types.api::product-variant.product-variant.product': 'Product',
+
+        // Promotional Campaign
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.name': 'Name',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.slug': 'Slug',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.description': 'Description',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.discountType': 'Discount type',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.discountValue': 'Discount value',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.code': 'Promo code',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.startDate': 'Start date',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.endDate': 'End date',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.usageLimit': 'Usage limit',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.usageCount': 'Usage count',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.minOrderAmount': 'Minimum order amount',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.image': 'Image',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.isActive': 'Active',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.products': 'Products',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.categories': 'Categories',
+        'content-manager.content-types.api::promotional-campaign.promotional-campaign.seo': 'SEO',
+
+        // Shop Configuration
+        'content-manager.content-types.api::shop-configuration.shop-configuration.currency': 'Currency',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.taxRate': 'Tax rate',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.shippingFlatRate': 'Shipping flat rate',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.freeShippingThreshold': 'Free shipping threshold',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.lowStockThreshold': 'Low-stock threshold',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.enableWishlist': 'Enable wishlist',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.enableReviews': 'Enable reviews',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.enableGuestCheckout': 'Enable guest checkout',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.supportEmail': 'Support email',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.supportPhone': 'Support phone',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.logo': 'Logo',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.bannerText': 'Banner text',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.termsUrl': 'Terms URL',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.returnPolicyUrl': 'Return policy URL',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.isActive': 'Active',
+        'content-manager.content-types.api::shop-configuration.shop-configuration.seo': 'SEO',
+
+        // Promotion Banner (shop)
+        'content-manager.content-types.api::promotion-banner.promotion-banner.ctaText': 'CTA text',
+        'content-manager.content-types.api::promotion-banner.promotion-banner.ctaLink': 'CTA link',
+        'content-manager.content-types.api::promotion-banner.promotion-banner.startDate': 'Start date',
+        'content-manager.content-types.api::promotion-banner.promotion-banner.endDate': 'End date',
+        'content-manager.content-types.api::promotion-banner.promotion-banner.campaign': 'Campaign',
       },
     },
   },

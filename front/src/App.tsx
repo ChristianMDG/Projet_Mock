@@ -1,21 +1,26 @@
-import React, { Suspense, useEffect } from 'react';
-import { Box, Container, CssBaseline, ThemeProvider } from '@mui/material';
+import React, { useEffect } from 'react';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { TFunction, i18n } from 'i18next';
 import { appTheme } from './themes/appTheme';
 import { ROUTES, syncLanguageFromPath } from '@/constants';
 import { useLanguageSync } from '@/hooks/language-preference.hooks';
-import type { LayoutProps } from './types/app.types';
-import { getMainContentStyles } from './types/layout.utils';
-import BasicHeader from './shared/BasicHeader';
-import { ScrollToTop, PageLoader } from './components/shared';
-import BasicFooter from '@/shared/BasicFooter';
-import { SectionProvider } from '@/context';
-import { MessengerChat } from '@/components/ui';
+import { useGoogleAnalytics, useGlobalInteractionTracking } from '@/hooks/google-analytics.hook';
+import ScrollToTop from '@/components/shared/ScrollToTop';
+import { RootLayout } from './shared';
+import { useAuthStore } from '@/stores/auth.store';
+import { useMessagingStore } from '@/stores/messaging.store';
+import useVoyageSearchStore from '@/stores/voyage-search.store';
+import { useVoyagePageStore } from '@/stores/voyage.store';
+import { useCartStore } from '@/stores/cart.store';
+import { usePaymentStore } from '@/stores/payment.store';
+import { useSeatSelectionStore } from '@/stores/seat-selection.store';
+import { useCheckoutStore } from '@/stores/checkout.store';
+import { useGuestReservationStore } from '@/stores/guest-reservation.store';
 
+// Direct page imports to match SSR and prevent hydration mismatch
 import HomePage from './pages/HomePage';
 import KoperativePage from './pages/KoperativePage';
 import KoperativeDetailPage from './pages/KoperativeDetailPage';
@@ -24,8 +29,7 @@ import GarePage from './pages/GarePage';
 import GareDetailPage from './pages/GareDetailPage';
 import { OperatorPage } from './pages/OperatorPage';
 import OperatorBookingPage from './pages/OperatorBookingPage';
-import ContratPage from './pages/ContratPage';
-import ContratFormPage from './pages/ContratFormPage';
+
 import LoginPage from './pages/LoginPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import VoyageSchedulerPage from './pages/SchedulerPage';
@@ -38,23 +42,19 @@ import VoyageWeeklyPage from './pages/VoyageWeeklyPage';
 import ListDynamicPage from './pages/ListDynamicPage';
 import DynamicPage from './pages/DynamicPage';
 import KoperativeInfoPage from './pages/KoperativeInfoPage';
-
-const AppLayout: React.FC<LayoutProps & { t: TFunction; i18n: i18n }> = ({ children, t, i18n }) => (
-  <Box>
-    <BasicHeader />
-    <Container component="main" maxWidth="xl" sx={getMainContentStyles}>
-      {children}
-    </Container>
-    <BasicFooter t={t} i18n={i18n} />
-    <MessengerChat />
-  </Box>
-);
+import ShopPage from './pages/ShopPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import CheckoutPage from './pages/CheckoutPage';
+import ShopPaymentSuccessPage from './pages/ShopPaymentSuccessPage';
+import ShopPaymentCancelPage from './pages/ShopPaymentCancelPage';
 
 const allLanguages = ['mg', 'fr', 'en'];
-const routeConfig = [
-  { key: 'home', path: ROUTES.home, element: <HomePage /> },
+const standaloneRouteConfig = [
   { key: 'login', path: ROUTES.login, element: <LoginPage /> },
   { key: 'resetPassword', path: ROUTES.resetPassword, element: <ResetPasswordPage /> },
+];
+const routeConfig = [
+  { key: 'home', path: ROUTES.home, element: <HomePage /> },
   { key: 'koperativesList', path: ROUTES.koperativesList, element: <KoperativePage /> },
   { key: 'koperativeDetail', path: ROUTES.koperativeDetail, element: <KoperativeDetailPage /> },
   { key: 'koperativeVoyageScheduler', path: ROUTES.koperativeVoyageScheduler, element: <VoyageSchedulerPage /> },
@@ -70,13 +70,16 @@ const routeConfig = [
   { key: 'payment', path: ROUTES.payment, element: <PaymentPage /> },
   { key: 'paymentSuccess', path: ROUTES.paymentSuccess, element: <PaymentSuccessPage /> },
   { key: 'reservationConfirmation', path: ROUTES.reservationConfirmation, element: <ReservationConfirmationPage /> },
-  { key: 'contratsList', path: ROUTES.contratsList, element: <ContratPage /> },
-  { key: 'contratCreate', path: ROUTES.contratCreate, element: <ContratFormPage /> },
-  { key: 'contratEdit', path: ROUTES.contratEdit, element: <ContratFormPage /> },
+
   { key: 'pageInformations', path: ROUTES.pageInformations, element: <ListDynamicPage /> },
   { key: 'dynamicPage', path: ROUTES.dynamicPage, element: <DynamicPage /> },
   { key: 'accountDetail', path: ROUTES.accountDetail, element: <AccountDetailPage /> },
   { key: 'cooperativeInfo', path: ROUTES.cooperativeInfo, element: <KoperativeInfoPage /> },
+  { key: 'shop', path: ROUTES.shop, element: <ShopPage /> },
+  { key: 'shopCheckout', path: ROUTES.shopCheckout, element: <CheckoutPage /> },
+  { key: 'shopPaymentSuccess', path: ROUTES.shopPaymentSuccess, element: <ShopPaymentSuccessPage /> },
+  { key: 'shopPaymentCancel', path: ROUTES.shopPaymentCancel, element: <ShopPaymentCancelPage /> },
+  { key: 'shopProduct', path: ROUTES.shopProduct, element: <ProductDetailPage /> },
 ];
 
 const SSRSafeNavigate: React.FC<{ to: string; replace?: boolean }> = ({ to, replace }) => {
@@ -90,8 +93,24 @@ const SSRSafeNavigate: React.FC<{ to: string; replace?: boolean }> = ({ to, repl
 const App: React.FC<{ initialMode?: 'light' | 'dark' }> = ({ initialMode }) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
+  const hydrateAuth = useAuthStore(state => state.hydrate);
+  const initNavigatorRoom = useMessagingStore(state => state.initNavigatorRoom);
 
   useLanguageSync();
+  useGoogleAnalytics();
+  useGlobalInteractionTracking();
+
+  useEffect(() => {
+    hydrateAuth();
+    initNavigatorRoom();
+    void useVoyageSearchStore.persist.rehydrate();
+    void useVoyagePageStore.persist.rehydrate();
+    void useCartStore.persist.rehydrate();
+    void usePaymentStore.persist.rehydrate();
+    void useSeatSelectionStore.persist.rehydrate();
+    void useCheckoutStore.persist.rehydrate();
+    void useGuestReservationStore.persist.rehydrate();
+  }, [hydrateAuth, initNavigatorRoom]);
 
   // Sync i18n language with URL path (mg has no prefix, fr/en have prefix)
   useEffect(() => {
@@ -102,34 +121,37 @@ const App: React.FC<{ initialMode?: 'light' | 'dark' }> = ({ initialMode }) => {
     <ThemeProvider theme={appTheme} defaultMode={initialMode}>
       <CssBaseline />
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
-        <SectionProvider>
-          <Routes>
-            <Route
-              path="/*"
-              element={
-                <AppLayout t={t} i18n={i18n}>
-                  <ScrollToTop />
-                  <Suspense fallback={<PageLoader fullScreen />}>
-                    <Routes>
-                      {/* Generate all localized routes */}
-                      {allLanguages.flatMap(lang =>
-                        routeConfig.map(({ key, path, element }) => (
-                          <Route key={`${key}-${lang}`} path={path[lang]} element={element} />
-                        )),
-                      )}
+        <Routes>
+          {/* Standalone auth routes (no header/footer) */}
+          {allLanguages.flatMap(lang =>
+            standaloneRouteConfig.map(({ key, path, element }) => (
+              <Route key={`${key}-${lang}`} path={path[lang]} element={element} />
+            )),
+          )}
 
-                      {/* Root redirect */}
-                      <Route path="/" element={<SSRSafeNavigate to={ROUTES.home[i18n.language]} replace />} />
+          <Route
+            path="/*"
+            element={
+              <RootLayout t={t} i18n={i18n}>
+                <ScrollToTop />
+                <Routes>
+                  {/* Generate all localized routes */}
+                  {allLanguages.flatMap(lang =>
+                    routeConfig.map(({ key, path, element }) => (
+                      <Route key={`${key}-${lang}`} path={path[lang]} element={element} />
+                    )),
+                  )}
 
-                      {/* Fallback */}
-                      <Route path="*" element={<SSRSafeNavigate to={ROUTES.home[i18n.language]} replace />} />
-                    </Routes>
-                  </Suspense>
-                </AppLayout>
-              }
-            />
-          </Routes>
-        </SectionProvider>
+                  {/* Root redirect */}
+                  <Route path="/" element={<SSRSafeNavigate to={ROUTES.home[i18n.language]} replace />} />
+
+                  {/* Fallback */}
+                  <Route path="*" element={<SSRSafeNavigate to={ROUTES.home[i18n.language]} replace />} />
+                </Routes>
+              </RootLayout>
+            }
+          />
+        </Routes>
       </LocalizationProvider>
     </ThemeProvider>
   );

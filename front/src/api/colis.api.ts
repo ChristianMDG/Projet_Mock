@@ -52,7 +52,7 @@ export const deleteColis = async (id: number): Promise<void> => {
 };
 
 // FILTER colis (optional, if you have search/filter endpoint)
-export const findFilteredColis = async (filters: Record<string, any>): Promise<Colis[]> => {
+export const findFilteredColis = async (filters: Record<string, unknown>): Promise<Colis[]> => {
   const { data } = await axios.get<Colis[]>(`${API_URL}/filtered`, {
     params: filters,
   });

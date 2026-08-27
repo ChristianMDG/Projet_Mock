@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, Card, CardContent, Chip, Grid, Typography, type SxProps, type Theme } from '@mui/material';
 import ImageMedia from '@/components/shared/ImageMedia';
-import { Search } from '@mui/icons-material';
+import Search from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { useReservation } from '@/hooks/reservation.hook';

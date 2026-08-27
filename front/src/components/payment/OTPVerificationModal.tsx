@@ -76,7 +76,7 @@ const OTPVerificationModal: React.FC<OTPVerificationModalProps> = ({ open, onClo
   const handleResendOTP = () => {
     setResendCountdown(RESEND_COOLDOWN);
     setAttempts(0);
-    console.log('Resending OTP to:', phoneNumber);
+    console.warn('Resending OTP to:', phoneNumber);
   };
 
   const formatPhoneNumber = (phone: string) => {

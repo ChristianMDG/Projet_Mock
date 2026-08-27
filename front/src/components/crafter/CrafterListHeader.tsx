@@ -1,11 +1,10 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { Add as AddIcon } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
 
-import { ButtonTx } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
 import Labels from '@/labelKeys.json';
-
 interface CrafterListHeaderProps {
   t: (key: string) => string;
   onCreateCrafter: () => void;

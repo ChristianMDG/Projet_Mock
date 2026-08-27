@@ -1,24 +1,61 @@
 import React from 'react';
-import { Box, Card, CardContent, Stack, Typography, Divider, Chip } from '@mui/material';
-import { WorkspacePremium } from '@mui/icons-material';
+import { Box, Card, CardContent, Stack, Typography, Divider, Chip, Button, Slider } from '@mui/material';
+import WorkspacePremium from '@mui/icons-material/WorkspacePremium';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { Voyage } from '@/models/Voyage';
 import { Seat } from '@/models/Seat';
 import { useCurrencyFormatter } from '@/utils/currency.utils';
 import { formatDateTime } from '@/utils/reservation-display.utils';
-import { KoperativeVerifiedIcon } from '../shared';
-import { TaxibrousseRedIcon } from '..';
+import { calculateDefaultAdvanceAmount, getMinAdvancePerSeat } from '@/utils/reservation.utils';
+import KoperativeVerifiedIcon from '@/components/shared/KoperativeVerifiedIcon';
+import TaxibrousseRedIcon from '@/components/ui/TaxibrousseRedIcon';
+import { trackEvent } from '@/hooks/google-analytics.hook';
+import VoyageTypeChip from '@/components/voyage/VoyageTypeChip';
 
 interface SelectedSeatsProps {
   selectedSeats: Seat[];
   voyage: Voyage;
   guichetPhone?: string;
+  discountAmount?: number;
+  isPartial?: boolean;
+  onPartialChange?: (checked: boolean) => void;
+  advanceAmount?: number;
+  onAdvanceAmountChange?: (amount: number) => void;
 }
 
-export const SelectedSeats: React.FC<SelectedSeatsProps> = ({ selectedSeats, voyage, guichetPhone }) => {
+export const SelectedSeats: React.FC<SelectedSeatsProps> = ({
+  selectedSeats,
+  voyage,
+  guichetPhone,
+  discountAmount = 0,
+  isPartial = true,
+  onPartialChange,
+  advanceAmount,
+  onAdvanceAmountChange,
+}) => {
   const { t, i18n } = useTranslation();
   const { formatAriary } = useCurrencyFormatter();
+
+  const originalAmount = selectedSeats.length * voyage.pricePerSeat;
+  const seatTotal = Math.max(originalAmount - discountAmount, 0);
+
+  const minAdvance = Math.min(
+    seatTotal,
+    getMinAdvancePerSeat(voyage.pricePerSeat, voyage.pourcentageMinimumAvance) * selectedSeats.length,
+  );
+  const maxAdvance = seatTotal;
+  const currentAdvanceAmount =
+    advanceAmount ??
+    calculateDefaultAdvanceAmount(
+      seatTotal,
+      voyage.pricePerSeat,
+      selectedSeats.length,
+      voyage.pourcentageMinimumAvance,
+    );
+
+  const serviceFee = seatTotal * 0.05;
+  const totalWithFee = currentAdvanceAmount + serviceFee;
 
   return (
     <Card sx={{ mb: 3, mt: 1 }}>
@@ -56,25 +93,28 @@ export const SelectedSeats: React.FC<SelectedSeatsProps> = ({ selectedSeats, voy
               }}
             >
               {voyage.koperative?.name && (
-                <Typography
-                  variant="body1"
-                  color="text.secondary"
-                  sx={{
-                    alignItems: 'center',
-                    display: 'flex',
-                  }}
-                >
-                  <Box
-                    component="span"
-                    color="text.primary"
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Typography
+                    variant="body1"
+                    color="text.secondary"
                     sx={{
-                      fontWeight: 700,
+                      alignItems: 'center',
+                      display: 'flex',
                     }}
                   >
-                    {voyage.koperative.name}
-                  </Box>
-                  <KoperativeVerifiedIcon koperative={voyage.koperative} />
-                </Typography>
+                    <Box
+                      component="span"
+                      color="text.primary"
+                      sx={{
+                        fontWeight: 700,
+                      }}
+                    >
+                      {voyage.koperative.name}
+                    </Box>
+                    <KoperativeVerifiedIcon koperative={voyage.koperative} />
+                  </Typography>
+                  {voyage?.typeVoyage && <VoyageTypeChip type={voyage.typeVoyage} />}
+                </Box>
               )}
               {voyage.departureGare?.name && (
                 <Typography variant="body2" color="text.secondary">
@@ -202,17 +242,147 @@ export const SelectedSeats: React.FC<SelectedSeatsProps> = ({ selectedSeats, voy
               >
                 {selectedSeats.length} {t(Labels.crafter_seats)} × {formatAriary(voyage.pricePerSeat)}
               </Typography>
-              <Typography
-                variant="body1"
-                color="primary.main"
-                sx={{
-                  fontWeight: 700,
-                }}
-              >
-                {formatAriary(selectedSeats.length * voyage.pricePerSeat)}
-              </Typography>
+              {discountAmount > 0 ? (
+                <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end', alignItems: 'center' }}>
+                  <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
+                    {formatAriary(originalAmount)}
+                  </Typography>
+                  <Typography variant="body1" color="primary" sx={{ fontWeight: 700 }}>
+                    {formatAriary(seatTotal)}
+                  </Typography>
+                </Stack>
+              ) : (
+                <Typography
+                  variant="body1"
+                  color="primary"
+                  sx={{
+                    fontWeight: 700,
+                  }}
+                >
+                  {formatAriary(seatTotal)}
+                </Typography>
+              )}
             </Box>
           </Stack>
+
+          {/* Payment Type Selection (Avance vs Intégral) & 5% Service Fee */}
+          {(onPartialChange || isPartial) && (
+            <>
+              <Divider />
+              <Stack spacing={1.5}>
+                <Typography variant="body2" sx={{ fontWeight: 700, color: 'text.primary' }}>
+                  {t(Labels.payment_option)}
+                </Typography>
+                {onPartialChange && (
+                  <Stack direction="row" spacing={1.5} sx={{ width: '100%' }}>
+                    <Button
+                      variant={isPartial ? 'contained' : 'outlined'}
+                      fullWidth
+                      onClick={() => {
+                        trackEvent('payment_mode_selected', 'Payment', 'Advance');
+                        onPartialChange(true);
+                      }}
+                      sx={{
+                        borderRadius: 3,
+                        fontWeight: isPartial ? 800 : 600,
+                        borderWidth: isPartial ? 0 : 2,
+                        '&:hover': { borderWidth: isPartial ? 0 : 2 },
+                      }}
+                    >
+                      {t(Labels.payment_option_advance)}
+                    </Button>
+                    <Button
+                      variant={isPartial ? 'outlined' : 'contained'}
+                      fullWidth
+                      onClick={() => {
+                        trackEvent('payment_mode_selected', 'Payment', '100% Full');
+                        onPartialChange(false);
+                      }}
+                      sx={{
+                        borderRadius: 3,
+                        fontWeight: isPartial ? 600 : 800,
+                        borderWidth: isPartial ? 2 : 0,
+                        '&:hover': { borderWidth: isPartial ? 2 : 0 },
+                      }}
+                    >
+                      {t(Labels.payment_option_full)}
+                    </Button>
+                  </Stack>
+                )}
+
+                {isPartial && (
+                  <Box
+                    sx={{
+                      bgcolor: theme =>
+                        theme.palette.mode === 'light' ? 'rgba(1,22,56,0.03)' : 'rgba(255,255,255,0.03)',
+                      p: 2,
+                      borderRadius: 3,
+                      border: '1px dashed',
+                      borderColor: 'primary.light',
+                    }}
+                  >
+                    <Stack spacing={1}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Typography variant="caption" color="text.secondary">
+                          {t(Labels.payment_option_advance_amount)}
+                        </Typography>
+                        <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                          {formatAriary(currentAdvanceAmount)}
+                        </Typography>
+                      </Box>
+
+                      {onAdvanceAmountChange && minAdvance < maxAdvance && (
+                        <Box sx={{ px: 1, py: 1 }}>
+                          <Slider
+                            value={currentAdvanceAmount}
+                            min={minAdvance}
+                            max={maxAdvance}
+                            step={1000}
+                            onChange={(_, newValue) => onAdvanceAmountChange(newValue as number)}
+                            valueLabelDisplay="auto"
+                            valueLabelFormat={value => formatAriary(value)}
+                          />
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.7rem' }}>
+                              Min: {formatAriary(minAdvance)}
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.7rem' }}>
+                              Max: {formatAriary(maxAdvance)}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      )}
+
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Typography variant="caption" color="text.secondary">
+                          {t(Labels.payment_option_service_fee)}
+                        </Typography>
+                        <Typography variant="caption" color="error" sx={{ fontWeight: 600 }}>
+                          {formatAriary(serviceFee)}
+                        </Typography>
+                      </Box>
+                      <Divider sx={{ my: 0.5 }} />
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 700, color: 'text.primary' }}>
+                          {t(Labels.payment_option_total_now)}
+                        </Typography>
+                        <Typography variant="body1" color="primary" sx={{ fontWeight: 800 }}>
+                          {formatAriary(totalWithFee)}
+                        </Typography>
+                      </Box>
+                      <Typography
+                        variant="caption"
+                        color="text.secondary"
+                        sx={{ fontStyle: 'italic', display: 'block', mt: 0.5 }}
+                      >
+                        * {t(Labels.payment_option_remaining_hint)}
+                      </Typography>
+                    </Stack>
+                  </Box>
+                )}
+              </Stack>
+            </>
+          )}
         </Stack>
       </CardContent>
     </Card>

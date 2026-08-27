@@ -15,7 +15,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import { Koperative } from '@/models/Koperative';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
-import { StyledIcon } from '../ui';
+import StyledIcon from '@/components/ui/StyledIcon';
 
 interface KoperativeAutocompleteProps {
   value: Koperative | null | Koperative[];
@@ -55,6 +55,7 @@ const KoperativeAutocomplete: React.FC<KoperativeAutocompleteProps> = ({
   fetchError,
 }) => {
   const { t } = useTranslation();
+  const fallbackId = useId();
 
   const getKoperativeLabel = (koperative: Koperative) => koperative?.name ?? '';
   const filter = createFilterOptions<Koperative>();
@@ -77,10 +78,10 @@ const KoperativeAutocomplete: React.FC<KoperativeAutocompleteProps> = ({
 
   return (
     <Autocomplete<Koperative, boolean, false, false>
-      id={providedId ?? `koperative-autocomplete-${useId()}`}
+      id={providedId ?? `koperative-autocomplete-${fallbackId}`}
       multiple={multiple}
       value={value}
-      onChange={(_, newValue) => onChange(newValue as any)}
+      onChange={(_, newValue) => onChange(newValue)}
       options={koperatives}
       filterOptions={customFilterOptions}
       getOptionLabel={getKoperativeLabel}
@@ -104,7 +105,7 @@ const KoperativeAutocomplete: React.FC<KoperativeAutocompleteProps> = ({
       }}
       renderOption={(props, koperative) => (
         <MenuItem disabled={koperative.id === 0} {...props} key={koperative.id}>
-          <ListItemIcon>
+          <ListItemIcon sx={{ minWidth: 36 }}>
             <StyledIcon icon={BusinessIcon} />
           </ListItemIcon>
           <ListItemText primary={getKoperativeLabel(koperative)} />
@@ -116,23 +117,23 @@ const KoperativeAutocomplete: React.FC<KoperativeAutocompleteProps> = ({
           label={label}
           placeholder={placeholder}
           required={required}
-          error={error || !!fetchError}
+          error={error || Boolean(fetchError)}
           helperText={fetchError ? t(Labels.error_loading_voyages) : helperText}
           slotProps={{
             ...params.slotProps,
             input: {
-              ...params.slotProps.input,
+              ...params.slotProps?.input,
               startAdornment: StartIcon ? (
                 <InputAdornment position="start">
                   <StyledIcon icon={StartIcon} />
                 </InputAdornment>
               ) : (
-                params.slotProps.input.startAdornment
+                params.slotProps?.input?.startAdornment
               ),
               endAdornment: (
                 <>
                   {isLoading && <CircularProgress color="inherit" size={20} />}
-                  {params.slotProps.input.endAdornment}
+                  {params.slotProps?.input?.endAdornment}
                 </>
               ),
             },

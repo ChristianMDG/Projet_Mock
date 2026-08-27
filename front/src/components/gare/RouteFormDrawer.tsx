@@ -14,9 +14,12 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Close as CloseIcon, Route as RouteIcon, Save as SaveIcon } from '@mui/icons-material';
-import { ButtonTx, StyledIcon } from '@/components/ui';
-import { GareAutocomplete } from '@/components/shared';
+import CloseIcon from '@mui/icons-material/Close';
+import RouteIcon from '@mui/icons-material/Route';
+import SaveIcon from '@mui/icons-material/Save';
+import ButtonTx from '@/components/ui/ButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
+import GareAutocomplete from '@/components/shared/GareAutocomplete';
 import ProtectedTx from '@/components/ProtectedTx';
 import { useCreateOrUpdateRoute } from '@/hooks/route.hooks';
 import { useGares } from '@/hooks/gare.hooks';
@@ -188,7 +191,7 @@ const RouteFormDrawer: React.FC<RouteFormDrawerProps> = ({
             </Box>
           }
         />
-        <CardContent sx={{ flex: 1, overflow: 'auto' }}>
+        <CardContent sx={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
           {error && (
             <Alert severity="error" sx={{ mb: 2 }}>
               {error}
@@ -245,6 +248,7 @@ const RouteFormDrawer: React.FC<RouteFormDrawerProps> = ({
                 onChange={handleInputChange('estimatedDurationHours')}
                 disabled={loading}
                 type="number"
+                placeholder="2.5"
                 slotProps={{
                   htmlInput: {
                     min: 0,
@@ -263,6 +267,7 @@ const RouteFormDrawer: React.FC<RouteFormDrawerProps> = ({
                 onChange={handleInputChange('distanceKm')}
                 disabled={loading}
                 type="number"
+                placeholder="150"
                 slotProps={{
                   htmlInput: {
                     min: 0,
@@ -281,6 +286,7 @@ const RouteFormDrawer: React.FC<RouteFormDrawerProps> = ({
                 onChange={handleInputChange('fraisTaxibrousse')}
                 disabled={loading}
                 type="number"
+                placeholder="5000"
                 slotProps={{
                   htmlInput: {
                     min: 0,
@@ -306,6 +312,7 @@ const RouteFormDrawer: React.FC<RouteFormDrawerProps> = ({
                 onChange={handleInputChange('fraisKoperative')}
                 disabled={loading}
                 type="number"
+                placeholder="3000"
                 slotProps={{
                   htmlInput: {
                     min: 0,

@@ -6,6 +6,7 @@ import mg.taxibrousse.models.Colis;
 import java.util.List;
 
 public interface IColisService {
+
     Colis save(Colis colis);
 
     Colis findById(Long id);
@@ -23,4 +24,6 @@ public interface IColisService {
     List<Colis> findByKoperativeId(Long koperativeId);
 
     List<Colis> findByVoyageId(Long voyageId);
+
+    List<Colis> findFilteredByVoyageId(Long voyageId, String search);
 }

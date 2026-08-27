@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class KoperativeWeeklySummary {
+
     private Long id;
     private String name;
     private String status;
@@ -24,22 +25,10 @@ public class KoperativeWeeklySummary {
 
     public static KoperativeWeeklySummary from(List<VoyageEntity> voyages) {
         KoperativeEntity kop = voyages.get(0).getKoperative();
-        BigDecimal minPrice = voyages.stream()
-            .map(VoyageEntity::getPricePerSeat)
-            .min(BigDecimal::compareTo)
-            .orElse(BigDecimal.ZERO);
+        BigDecimal minPrice = voyages.stream().map(VoyageEntity::getPricePerSeat).min(BigDecimal::compareTo).orElse(BigDecimal.ZERO);
 
-        List<String> classNames = kop.getClasses() != null
-            ? kop.getClasses().stream().map(c -> c.getName()).sorted().toList()
-            : List.of();
+        List<String> classNames = kop.getClasses() != null ? kop.getClasses().stream().map(c -> c.getName()).sorted().toList() : List.of();
 
-        return new KoperativeWeeklySummary(
-            kop.getId(),
-            kop.getName(),
-            kop.getStatus().name(),
-            minPrice,
-            voyages.size(),
-            classNames
-        );
+        return new KoperativeWeeklySummary(kop.getId(), kop.getName(), kop.getStatus().name(), minPrice, voyages.size(), classNames);
     }
 }

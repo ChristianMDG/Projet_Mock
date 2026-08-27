@@ -1,62 +1,32 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  getOperators,
-  getOperatorById,
-  assignGareToOperator,
-  assignKoperativesToOperator,
-  type OperatorFilters,
-} from '@/api/operateur.api';
-import { getGuichetsByGare } from '@/api/koperative.api';
-import type { GuichetWithKoperative } from '@/types/koperative.types';
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
+import { searchOperateurs, updateOperateur } from '@/api/operateur.api';
+import type { UserOperator, OperateurFilters } from '@/types/operateur.types';
+import { useOperateurStore } from '@/stores/operateur.store';
 
 export const operateurKeys = {
-  all: ['operators'] as const,
-  list: (filters?: OperatorFilters) => ['operators', 'list', filters] as const,
-  detail: (id: number) => ['operators', id] as const,
+  all: ['operateurs'] as const,
+  lists: () => [...operateurKeys.all, 'list'] as const,
+  list: (filters: OperateurFilters, page: number, size: number) =>
+    [...operateurKeys.lists(), { filters, page, size }] as const,
 };
 
-export function useOperators(filters?: OperatorFilters) {
-  return useQuery({
-    queryKey: operateurKeys.list(filters),
-    queryFn: () => getOperators(filters),
-  });
-}
+export const useOperateurs = (page = 0, size = 15) => {
+  const { filters } = useOperateurStore();
 
-export function useOperatorDetail(id: number) {
   return useQuery({
-    queryKey: operateurKeys.detail(id),
-    queryFn: () => getOperatorById(id),
-    enabled: !!id,
+    queryKey: operateurKeys.list(filters, page, size),
+    queryFn: () => searchOperateurs(filters, page, size),
+    staleTime: 30000,
+    placeholderData: keepPreviousData,
   });
-}
+};
 
-export function useAssignGareToOperator() {
+export const useUpdateOperateur = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ operatorId, gareId, koperativeId }: { operatorId: number; gareId: number; koperativeId?: number }) =>
-      assignGareToOperator(operatorId, gareId, koperativeId),
+    mutationFn: ({ id, operator }: { id: number; operator: UserOperator }) => updateOperateur(id, operator),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: operateurKeys.all });
     },
   });
-}
-
-export function useGuichetsByGare(gareId: number | null) {
-  return useQuery<GuichetWithKoperative[]>({
-    queryKey: ['guichets', 'gare', gareId],
-    queryFn: () => getGuichetsByGare(gareId!),
-    enabled: gareId != null,
-    staleTime: 1000 * 60 * 5,
-  });
-}
-
-export function useAssignKoperativesToOperator() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({ operatorId, koperativeIds }: { operatorId: number; koperativeIds: number[] }) =>
-      assignKoperativesToOperator(operatorId, koperativeIds),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: operateurKeys.all });
-    },
-  });
-}
+};

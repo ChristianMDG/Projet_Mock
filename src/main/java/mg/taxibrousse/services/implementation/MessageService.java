@@ -35,7 +35,7 @@ public class MessageService implements IMessageService {
     @Transactional
     public MessageEntity sendMessage(SendMessageRequest request, String senderId, String senderName) {
         String messageId = UUID.randomUUID().toString();
-        
+
         MessageEntity message = new MessageEntity();
         message.setMessageId(messageId);
         message.setRoomId(request.getRoomId());
@@ -46,17 +46,17 @@ public class MessageService implements IMessageService {
         message.setMetadata(request.getMetadata());
         message.setReplyToMessageId(request.getReplyToMessageId());
         message.setDeliveredAt(LocalDateTime.now());
-        
+
         MessageEntity savedMessage = messageRepository.save(message);
-        
+
         // Update chat room's last message
         chatRoomService.updateLastMessage(request.getRoomId(), request.getContent(), senderName);
-        
+
         // Broadcast message to room subscribers
         broadcastMessage(savedMessage);
-        
+
         log.info("Message sent: {} in room: {} by: {}", messageId, request.getRoomId(), senderId);
-        
+
         return savedMessage;
     }
 
@@ -69,16 +69,14 @@ public class MessageService implements IMessageService {
     public Page<Message> getMessagesInRoom(String roomId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<MessageEntity> messagesPage = messageRepository.findByRoomIdOrderByCreatedAtAsc(roomId, pageable);
-        
+
         return messagesPage.map(Message::fromEntity);
     }
 
     @Override
     public List<Message> getRecentMessages(String roomId, LocalDateTime since) {
         List<MessageEntity> messages = messageRepository.findByRoomIdAndCreatedAtAfterOrderByCreatedAtAsc(roomId, since);
-        return messages.stream()
-                .map(Message::fromEntity)
-                .collect(Collectors.toList());
+        return messages.stream().map(Message::fromEntity).collect(Collectors.toList());
     }
 
     @Override
@@ -91,7 +89,7 @@ public class MessageService implements IMessageService {
     public void markRoomAsRead(String roomId, String userId) {
         int updatedCount = messageRepository.markRoomMessagesAsRead(roomId, userId, LocalDateTime.now());
         log.debug("Marked {} messages as read in room: {} for user: {}", updatedCount, roomId, userId);
-        
+
         // Broadcast read receipt
         broadcastReadReceipt(roomId, userId);
     }
@@ -106,7 +104,7 @@ public class MessageService implements IMessageService {
                 message.setIsRead(true);
                 message.setReadAt(LocalDateTime.now());
                 messageRepository.save(message);
-                
+
                 // Broadcast read receipt
                 broadcastReadReceipt(message.getRoomId(), userId);
             }
@@ -121,14 +119,14 @@ public class MessageService implements IMessageService {
     @Override
     public void broadcastMessage(MessageEntity message) {
         Message messageModel = Message.fromEntity(message);
-        
+
         // Broadcast to room topic
         messagingTemplate.convertAndSend("/topic/room/" + message.getRoomId(), messageModel);
-        
+
         // Broadcast to dashboard for admin monitoring
         if (messageModel.getType() != MessageType.SYSTEM)
             messagingTemplate.convertAndSend("/topic/admin/messages", messageModel);
-        
+
         log.debug("Broadcasted message {} to room {}", message.getMessageId(), message.getRoomId());
     }
 
@@ -142,7 +140,7 @@ public class MessageService implements IMessageService {
     public void broadcastUserJoined(String roomId, String userId, String userName) {
         UserEvent event = new UserEvent("user_joined", userId, userName);
         messagingTemplate.convertAndSend("/topic/room/" + roomId + "/events", event);
-        
+
         // Notify dashboard
         messagingTemplate.convertAndSend("/topic/admin/user-events", event);
     }
@@ -151,7 +149,7 @@ public class MessageService implements IMessageService {
     public void broadcastUserLeft(String roomId, String userId, String userName) {
         UserEvent event = new UserEvent("user_left", userId, userName);
         messagingTemplate.convertAndSend("/topic/room/" + roomId + "/events", event);
-        
+
         // Notify dashboard
         messagingTemplate.convertAndSend("/topic/admin/user-events", event);
     }
@@ -169,13 +167,13 @@ public class MessageService implements IMessageService {
         Optional<MessageEntity> messageOpt = messageRepository.findByMessageId(messageId);
         if (messageOpt.isPresent()) {
             MessageEntity message = messageOpt.get();
-            
+
             // Only allow sender to delete their own messages
             if (message.getSenderId().equals(userId)) {
                 message.setContent("[Message deleted]");
                 message.setType(MessageType.SYSTEM);
                 messageRepository.save(message);
-                
+
                 // Broadcast the deletion
                 broadcastMessage(message);
             }
@@ -192,9 +190,12 @@ public class MessageService implements IMessageService {
     }
 
     // Helper classes for WebSocket events
-    private record TypingIndicator(String userId, boolean isTyping) {}
-    
-    private record UserEvent(String type, String userId, String userName) {}
-    
-    private record ReadReceipt(String userId, LocalDateTime readAt) {}
+    private record TypingIndicator(String userId, boolean isTyping) {
+    }
+
+    private record UserEvent(String type, String userId, String userName) {
+    }
+
+    private record ReadReceipt(String userId, LocalDateTime readAt) {
+    }
 }

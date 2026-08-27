@@ -10,30 +10,50 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
+  IconButton,
   LinearProgress,
   Radio,
   RadioGroup,
+  Stack,
   SwipeableDrawer,
   Switch,
   TextField,
   Typography,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { ButtonTx, StyledIcon } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import ProtectedTx from '@/components/ProtectedTx';
-import { Close as CloseIcon, Save as SaveIcon } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import RemoveIcon from '@mui/icons-material/Remove';
+import SaveIcon from '@mui/icons-material/Save';
 import { Crafter } from '@/models/Crafter';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/context/AuthContext';
 import Labels from '@/labelKeys.json';
 import { useCloudinaryUpload } from '@/hooks/cloudinary.hook';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { Box } from '@mui/system';
 import { useKoperative } from '@/hooks/koperative.hooks';
 import { SeatGrid } from '@/components/seats/SeatGrid';
-import { DEFAULT_CONFIG_NAME, DEFAULT_SEAT_CAPACITY, getSeatCapacity } from '@/utils/seat.utils';
+import {
+  buildSeatConfig,
+  countUsableSeats,
+  countVisibleSeats,
+  cycleSeatState,
+  DEFAULT_CONFIG_NAME,
+  getDefaultSeatConfig,
+  getSeatCapacity,
+  isNonEditableSeat,
+  SEAT_GRID_LIMITS,
+  updateSeatInConfig,
+} from '@/utils/seat.utils';
 import dayjs, { Dayjs } from 'dayjs';
-import { SeatConfig } from '@/types/type.props';
-import { VehicleIcon as CrafterIcon } from '@/components/shared';
+import { CrafterConfig, SeatConfig } from '@/types/type.props';
+import { AuthorityEnum } from '@/models/enums';
+import CrafterIcon from '@/components/shared/VehicleIcon';
 
 interface CrafterFormProps {
   open: boolean;
@@ -47,7 +67,16 @@ interface CrafterFormProps {
   onSubmit: (crafter: Partial<Crafter>) => Promise<void>;
 }
 
+const resolveInitialSeatConfig = (initialData?: Partial<Crafter>): CrafterConfig => {
+  const provided = initialData?.seatConfig;
+  if (provided && typeof provided === 'object' && Array.isArray(provided.seats)) {
+    return provided;
+  }
+  return getDefaultSeatConfig(initialData?.configName ?? DEFAULT_CONFIG_NAME);
+};
+
 const getInitialFormData = (initialData?: Partial<Crafter>) => {
+  const seatConfig = resolveInitialSeatConfig(initialData);
   return {
     registrationNumber: initialData?.registrationNumber ?? '',
     model: initialData?.model ?? '',
@@ -55,8 +84,9 @@ const getInitialFormData = (initialData?: Partial<Crafter>) => {
     isActive: initialData?.isActive ?? true,
     dateVisite: initialData?.dateVisite ? dayjs(initialData.dateVisite) : null,
     photo: initialData?.photo ?? undefined,
-    seatCapacity: initialData?.seatCapacity ?? DEFAULT_SEAT_CAPACITY,
+    seatCapacity: countVisibleSeats(seatConfig),
     configName: initialData?.configName ?? DEFAULT_CONFIG_NAME,
+    seatConfig,
   };
 };
 
@@ -71,6 +101,7 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
   error = null,
 }) => {
   const { t } = useTranslation();
+  const { user } = useAuth();
   const { upload: uploadPhoto } = useCloudinaryUpload('crafters');
   const { data: koperative } = useKoperative(koperativeId);
 
@@ -85,6 +116,9 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
 
   const isCreateMode = useMemo(() => mode === 'create', [mode]);
   const isEditMode = useMemo(() => mode === 'edit', [mode]);
+  const isReadOnly = !user?.authorities?.some(role =>
+    [AuthorityEnum.ADMIN, AuthorityEnum.OPERATOR].includes(role.name as AuthorityEnum),
+  );
 
   const handleInputChange = useCallback(
     (field: keyof typeof form) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +143,47 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
   const handleConfigChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const configName = event.target.value;
     const seatCapacity = getSeatCapacity(configName);
-    setForm(prev => ({ ...prev, configName, seatCapacity }));
+    const seatConfig = getDefaultSeatConfig(configName);
+    setForm(prev => ({ ...prev, configName, seatCapacity, seatConfig }));
+  }, []);
+
+  const handleRowsChange = useCallback((delta: number) => {
+    setForm(prev => {
+      const nextRows = Math.min(
+        SEAT_GRID_LIMITS.MAX_ROWS,
+        Math.max(SEAT_GRID_LIMITS.MIN_ROWS, prev.seatConfig.rows + delta),
+      );
+      if (nextRows === prev.seatConfig.rows) return prev;
+      const seatConfig = buildSeatConfig(nextRows, prev.seatConfig.columns, prev.seatConfig);
+      return { ...prev, seatConfig, seatCapacity: seatConfig.totalSeats };
+    });
+  }, []);
+
+  const handleColumnsChange = useCallback((delta: number) => {
+    setForm(prev => {
+      const nextCols = Math.min(
+        SEAT_GRID_LIMITS.MAX_COLUMNS,
+        Math.max(SEAT_GRID_LIMITS.MIN_COLUMNS, prev.seatConfig.columns + delta),
+      );
+      if (nextCols === prev.seatConfig.columns) return prev;
+      const seatConfig = buildSeatConfig(prev.seatConfig.rows, nextCols, prev.seatConfig);
+      return { ...prev, seatConfig, seatCapacity: seatConfig.totalSeats };
+    });
+  }, []);
+
+  const handleResetSeatConfig = useCallback(() => {
+    setForm(prev => {
+      const seatConfig = getDefaultSeatConfig(prev.configName);
+      return { ...prev, seatConfig, seatCapacity: countVisibleSeats(seatConfig) };
+    });
+  }, []);
+
+  const handleSeatEdit = useCallback((seat: SeatConfig) => {
+    if (isNonEditableSeat(seat)) return;
+    setForm(prev => {
+      const seatConfig = updateSeatInConfig(prev.seatConfig, seat.id, cycleSeatState(seat));
+      return { ...prev, seatConfig, seatCapacity: seatConfig.totalSeats };
+    });
   }, []);
 
   const getSeatStatus = useCallback(() => 'available' as const, []);
@@ -124,6 +198,12 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
       }) as Crafter,
     [form.seatCapacity, form.configName],
   );
+
+  const visibleSeatsCount = useMemo(() => countUsableSeats(form.seatConfig), [form.seatConfig]);
+  const canDecreaseRows = form.seatConfig.rows > SEAT_GRID_LIMITS.MIN_ROWS;
+  const canIncreaseRows = form.seatConfig.rows < SEAT_GRID_LIMITS.MAX_ROWS;
+  const canDecreaseColumns = form.seatConfig.columns > SEAT_GRID_LIMITS.MIN_COLUMNS;
+  const canIncreaseColumns = form.seatConfig.columns < SEAT_GRID_LIMITS.MAX_COLUMNS;
 
   const handlePhotoUpload = async (file: File) => {
     setPhotoUploading(true);
@@ -223,9 +303,9 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
                 onChange={handleInputChange('registrationNumber')}
                 disabled={loading}
                 placeholder="ABC-123-DEF"
+                slotProps={{ input: { readOnly: isReadOnly } }}
               />
             </Grid>
-
             <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 fullWidth
@@ -235,9 +315,9 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
                 onChange={handleInputChange('model')}
                 disabled={loading}
                 placeholder={t(Labels.crafter_form_model_placeholder)}
+                slotProps={{ input: { readOnly: isReadOnly } }}
               />
             </Grid>
-
             <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 fullWidth
@@ -255,7 +335,6 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
                 }}
               />
             </Grid>
-
             <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 fullWidth
@@ -264,17 +343,17 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
                 value={form.kilometrage}
                 onChange={handleInputChange('kilometrage')}
                 disabled={loading}
-                slotProps={{ htmlInput: { min: 0 } }}
+                placeholder="120000"
+                slotProps={{ htmlInput: { min: 0 }, input: { readOnly: isReadOnly } }}
                 helperText={t(Labels.crafter_form_kilometrage_helper)}
               />
             </Grid>
-
             <Grid size={{ xs: 12, sm: 6 }}>
               <DatePicker
                 label={t(Labels.crafter_date_visite)}
                 value={form.dateVisite}
                 onChange={handleDateChange}
-                disabled={loading}
+                disabled={loading || isReadOnly}
                 timezone="Indian/Antananarivo"
                 slotProps={{
                   textField: {
@@ -284,7 +363,6 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
                 }}
               />
             </Grid>
-
             <Grid size={{ xs: 12, sm: 6 }}>
               <Box
                 sx={{
@@ -299,14 +377,13 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
                     <Switch
                       checked={form.isActive ?? true}
                       onChange={handleSwitchChange('isActive')}
-                      disabled={loading}
+                      disabled={loading || isReadOnly}
                     />
                   }
                   label={t(Labels.crafter_is_active)}
                 />
               </Box>
             </Grid>
-
             <Grid size={12}>
               <TextField
                 fullWidth
@@ -316,14 +393,13 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
                 helperText={t(Labels.crafter_form_koperative_helper)}
               />
             </Grid>
-
             <Grid size={12}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <ButtonTx
                   variant="outlined"
                   component="label"
                   startIcon={<PhotoCameraIcon />}
-                  disabled={loading || photoUploading}
+                  disabled={loading || photoUploading || isReadOnly}
                   sx={{
                     alignSelf: 'flex-start',
                   }}
@@ -359,8 +435,6 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
                 )}
               </Box>
               <Divider sx={{ my: 2 }} />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 8 }} offset={{ sm: 2 }}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 {t(Labels.crafter_seat_configuration_title)}
               </Typography>
@@ -370,23 +444,95 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
                     value="10places.json"
                     control={<Radio />}
                     label={t(Labels.crafter_seat_configuration_12_places)}
-                    disabled={loading}
+                    disabled={loading || isReadOnly}
                   />
                   <FormControlLabel
                     value="18places.json"
                     control={<Radio />}
                     label={t(Labels.crafter_seat_configuration_20_places)}
-                    disabled={loading}
+                    disabled={loading || isReadOnly}
                   />
                   <FormControlLabel
                     value="22places.json"
                     control={<Radio />}
                     label={t(Labels.crafter_seat_configuration_22_places)}
-                    disabled={loading}
+                    disabled={loading || isReadOnly}
                   />
                 </RadioGroup>
               </FormControl>
-              <SeatGrid crafter={previewCrafter} getSeatStatus={getSeatStatus} onSeatClick={handleSeatClick} readonly />
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={2}
+                sx={{ mb: 2, alignItems: { xs: 'stretch', sm: 'center' } }}
+              >
+                <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                  <Typography variant="body2" sx={{ minWidth: 70 }}>
+                    {t(Labels.crafter_form_seat_grid_rows)}
+                  </Typography>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleRowsChange(-1)}
+                    disabled={loading || isReadOnly || !canDecreaseRows}
+                  >
+                    <RemoveIcon fontSize="small" />
+                  </IconButton>
+                  <Typography variant="body1" sx={{ minWidth: 24, textAlign: 'center', fontWeight: 600 }}>
+                    {form.seatConfig.rows}
+                  </Typography>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleRowsChange(1)}
+                    disabled={loading || isReadOnly || !canIncreaseRows}
+                  >
+                    <AddIcon fontSize="small" />
+                  </IconButton>
+                </Stack>
+                <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                  <Typography variant="body2" sx={{ minWidth: 70 }}>
+                    {t(Labels.crafter_form_seat_grid_columns)}
+                  </Typography>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleColumnsChange(-1)}
+                    disabled={loading || isReadOnly || !canDecreaseColumns}
+                  >
+                    <RemoveIcon fontSize="small" />
+                  </IconButton>
+                  <Typography variant="body1" sx={{ minWidth: 24, textAlign: 'center', fontWeight: 600 }}>
+                    {form.seatConfig.columns}
+                  </Typography>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleColumnsChange(1)}
+                    disabled={loading || isReadOnly || !canIncreaseColumns}
+                  >
+                    <AddIcon fontSize="small" />
+                  </IconButton>
+                </Stack>
+                <ButtonTx
+                  variant="outlined"
+                  size="small"
+                  startIcon={<RefreshIcon />}
+                  onClick={handleResetSeatConfig}
+                  disabled={loading || isReadOnly}
+                >
+                  {t(Labels.crafter_form_seat_grid_reset)}
+                </ButtonTx>
+              </Stack>
+              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
+                {t(Labels.crafter_form_seat_grid_helper)}
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
+                {t(Labels.crafter_form_seat_grid_visible_count, { count: visibleSeatsCount })}
+              </Typography>
+              <SeatGrid
+                crafter={previewCrafter}
+                config={form.seatConfig}
+                getSeatStatus={getSeatStatus}
+                onSeatClick={handleSeatClick}
+                editMode
+                onSeatEdit={handleSeatEdit}
+              />
             </Grid>
           </Grid>
         </CardContent>
@@ -406,7 +552,7 @@ const CrafterForm: React.FC<CrafterFormProps> = ({
             <ButtonTx
               onClick={handleSubmit}
               variant="contained"
-              disabled={loading || !isFormValid}
+              disabled={loading || !isFormValid || isReadOnly}
               startIcon={loading ? <CircularProgress size={20} /> : <SaveIcon />}
               sx={{ flex: 1 }}
             >

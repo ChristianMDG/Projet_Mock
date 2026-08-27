@@ -10,10 +10,12 @@ import {
   EventSeat,
   AltRoute,
   BarChart,
-  DirectionsBus,
-  Business,
   People,
   Category,
+  ManageAccounts,
+  Facebook,
+  Percent,
+  AccountBalance,
 } from '@mui/icons-material';
 import { Stack, Chip } from '@mui/material';
 
@@ -50,9 +52,7 @@ export default function DashboardLayout() {
   });
 
   useEffect(() => {
-    if (!user) {
-      setSession(null);
-    } else {
+    if (user) {
       setSession({
         user: {
           name: `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || 'User',
@@ -60,6 +60,8 @@ export default function DashboardLayout() {
           image: user.photo?.url ?? '',
         },
       });
+    } else {
+      setSession(null);
     }
   }, [user]);
 
@@ -117,11 +119,6 @@ export default function DashboardLayout() {
         title: t(Labels.sidebar_group_operations),
       },
       {
-        segment: 'voyages',
-        title: t(Labels.sidebar_voyages),
-        icon: <DirectionsBus />,
-      },
-      {
         segment: 'reservation',
         title: t(Labels.sidebar_reservations),
         icon: <EventSeat />,
@@ -139,11 +136,6 @@ export default function DashboardLayout() {
         title: t(Labels.sidebar_group_administration),
       },
       {
-        segment: 'koperatives',
-        title: t(Labels.sidebar_koperatives),
-        icon: <Business />,
-      },
-      {
         segment: 'users',
         title: t(Labels.sidebar_users),
         icon: <People />,
@@ -151,12 +143,22 @@ export default function DashboardLayout() {
       {
         segment: 'operateur',
         title: t(Labels.sidebar_operateur),
-        icon: <People />,
+        icon: <ManageAccounts />,
       },
       {
         segment: 'classes',
         title: t(Labels.sidebar_classes),
         icon: <Category />,
+      },
+      {
+        segment: 'commissions',
+        title: t(Labels.sidebar_commissions),
+        icon: <Percent />,
+      },
+      {
+        segment: 'finance',
+        title: t(Labels.sidebar_finance),
+        icon: <AccountBalance />,
       },
       {
         kind: 'divider',
@@ -169,6 +171,11 @@ export default function DashboardLayout() {
         segment: 'analytics',
         title: t(Labels.sidebar_analytics),
         icon: <BarChart />,
+      },
+      {
+        segment: 'facebook',
+        title: t(Labels.sidebar_facebook),
+        icon: <Facebook />,
       },
     ],
     [t, totalUnreadCount]

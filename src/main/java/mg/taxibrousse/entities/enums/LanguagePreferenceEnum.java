@@ -5,7 +5,7 @@ package mg.taxibrousse.entities.enums;
  * Used to store the preferred UI language for each user.
  */
 public enum LanguagePreferenceEnum {
-    FR,  // Français
-    EN,  // English
-    MG   // Malagasy
+    FR, // Français
+    EN, // English
+    MG // Malagasy
 }

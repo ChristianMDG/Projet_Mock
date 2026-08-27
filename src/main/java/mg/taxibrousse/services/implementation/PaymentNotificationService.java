@@ -22,18 +22,17 @@ public class PaymentNotificationService implements IPaymentNotificationService {
     private final SimpMessagingTemplate messagingTemplate;
     private final StringRedisTemplate redisTemplate;
     private final ObjectMapper objectMapper;
-    
+
     private static final String PAYMENT_STATUS_CACHE_PREFIX = "payment:status:";
     private static final long CACHE_EXPIRATION_HOURS = 1;
 
     @Override
     public void sendPaymentNotification(String roomId, PaymentNotification notification) {
         var destination = USER_PAYMENT_QUEUE_PREFIX + roomId;
-        
+
         messagingTemplate.convertAndSend(destination, notification);
-        
-        log.info("Sent payment notification to room {}: transaction={}, status={}", 
-                roomId, notification.getTransactionReference(), notification.getStatus());
+
+        log.info("Sent payment notification to room {}: transaction={}, status={}", roomId, notification.getTransactionReference(), notification.getStatus());
     }
 
     @Override
@@ -49,7 +48,7 @@ public class PaymentNotificationService implements IPaymentNotificationService {
         }
 
         messagingTemplate.convertAndSend(destination, notification);
-        
+
         log.info("Broadcasted payment update for transaction {}: status={}", transactionReference, notification.getStatus());
     }
 

@@ -9,18 +9,20 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AirtelCallbackRequest {
+
     private String hash;
     private Transaction transaction;
 
     @Getter
     @Setter
     public static class Transaction {
+
         private String id;
         private String message;
 
         @JsonProperty("status_code")
         private String statusCode;
-        
+
         @JsonProperty("airtel_money_id")
         private String airtelMoneyId;
     }

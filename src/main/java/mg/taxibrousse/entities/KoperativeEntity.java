@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mg.taxibrousse.entities.enums.KoperativeStatusEnum;
+import mg.taxibrousse.entities.enums.KoperativeTypeEnum;
+import mg.taxibrousse.models.Koperative;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -12,7 +15,9 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "koperative", indexes = {
-    @Index(name = "idx_koperative_status", columnList = "status")
+    @Index(name = "idx_koperative_status", columnList = "status"),
+    @Index(name = "idx_koperative_type", columnList = "type"),
+    @Index(name = "idx_koperative_slug", columnList = "slug")
 })
 @Entity(name = "Koperative")
 @NoArgsConstructor
@@ -20,6 +25,9 @@ public class KoperativeEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
+    private String slug;
 
     @Column(length = 500)
     private String description;
@@ -54,6 +62,10 @@ public class KoperativeEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private KoperativeStatusEnum status = KoperativeStatusEnum.ACTIVE;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "varchar(255) default 'COOP'")
+    private KoperativeTypeEnum type = KoperativeTypeEnum.COOP;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private UserInfoEntity proprietaire;
 
@@ -78,7 +90,7 @@ public class KoperativeEntity extends BaseEntity {
     @ManyToMany
     private Set<VilleEntity> villes;
 
-    @OneToMany(mappedBy = "koperative", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "koperative", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<ClasseEntity> classes;
 
     @Override
@@ -87,5 +99,17 @@ public class KoperativeEntity extends BaseEntity {
         if (status == null) {
             status = KoperativeStatusEnum.ACTIVE;
         }
+        if (type == null) {
+            type = KoperativeTypeEnum.COOP;
+        }
+        email = StringUtils.hasText(email) ? email : null;
+        slug = StringUtils.hasText(slug) ? slug : Koperative.toSlug(name);
+    }
+
+    @Override
+    protected void onUpdate() {
+        super.onUpdate();
+        email = StringUtils.hasText(email) ? email : null;
+        slug = StringUtils.hasText(slug) ? slug : Koperative.toSlug(name);
     }
 }

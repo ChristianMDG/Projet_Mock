@@ -19,11 +19,12 @@ interface SeatSelectionState {
   removeSelectedSeat: (voyageId: number, seatId: number) => void;
   clearSelectedSeats: (voyageId: number) => void;
   reset: () => void;
+  getDisplayAvailableSeats: (voyageId: number, availableSeats: number) => number;
 }
 
 export const useSeatSelectionStore = create<SeatSelectionState>()(
   persist(
-    set => ({
+    (set, get) => ({
       // Initial state
       expandedVoyageId: null,
       selectedPricingType: null,
@@ -92,9 +93,15 @@ export const useSeatSelectionStore = create<SeatSelectionState>()(
           selectedPricingType: null,
           selectedSeats: {},
         }),
+
+      getDisplayAvailableSeats: (voyageId: number, availableSeats: number) => {
+        const selected = get().selectedSeats[voyageId] ?? [];
+        return Math.max(0, availableSeats - selected.length);
+      },
     }),
     {
       name: 'seat-selection-storage',
+      skipHydration: true,
     },
   ),
 );

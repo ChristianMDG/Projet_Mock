@@ -19,9 +19,11 @@ interface AuthFormFieldsProps {
   loading: boolean;
   showPassword: boolean;
   validationErrors?: ValidationErrors;
+  isGuichet?: boolean;
   onInputChange: (field: keyof (LoginFormData | AccountModel)) => (event: React.ChangeEvent<HTMLInputElement>) => void;
   onPasswordVisibilityToggle: () => void;
   onModeChange: (mode: AuthMode) => void;
+  onGuichetChange?: (checked: boolean) => void;
 }
 
 const AuthFormFields: React.FC<AuthFormFieldsProps> = ({
@@ -30,9 +32,11 @@ const AuthFormFields: React.FC<AuthFormFieldsProps> = ({
   loading,
   showPassword,
   validationErrors = {},
+  isGuichet,
   onInputChange,
   onPasswordVisibilityToggle,
   onModeChange,
+  onGuichetChange,
 }) => {
   switch (mode) {
     case 'login':
@@ -56,10 +60,12 @@ const AuthFormFields: React.FC<AuthFormFieldsProps> = ({
           loading={loading}
           showPassword={showPassword}
           validationErrors={validationErrors}
+          isGuichet={isGuichet}
           onInputChange={
             onInputChange as (field: keyof AccountModel) => (event: React.ChangeEvent<HTMLInputElement>) => void
           }
           onPasswordVisibilityToggle={onPasswordVisibilityToggle}
+          onGuichetChange={onGuichetChange}
         />
       );
     case 'forgot':

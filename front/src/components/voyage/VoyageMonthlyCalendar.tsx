@@ -1,5 +1,6 @@
 import { Box, Button, Grid, IconButton, Paper, Skeleton, Typography, alpha } from '@mui/material';
-import { ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from '@mui/icons-material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import dayjs from '@/utils/dayjs';
@@ -79,6 +80,7 @@ export const VoyageMonthlyCalendar: React.FC<VoyageMonthlyCalendarProps> = ({
   }, [currentMonthDayjs]);
 
   const weekdaysShort = useMemo(() => {
+    void i18n.language;
     const days = dayjs.weekdaysShort();
     return [...days.slice(1), days[0]];
   }, [i18n.language]);
@@ -215,7 +217,7 @@ export const VoyageMonthlyCalendar: React.FC<VoyageMonthlyCalendarProps> = ({
                       <Typography
                         component="span"
                         variant="caption"
-                        color="primary.main"
+                        color="primary"
                         sx={{
                           marginTop: 1,
                           lineHeight: 1,

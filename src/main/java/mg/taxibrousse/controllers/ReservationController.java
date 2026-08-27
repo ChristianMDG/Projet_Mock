@@ -87,23 +87,17 @@ public class ReservationController implements IReservationController {
             }
 
             var updatedReservation = reservationService.processPayment(id, paymentRequest.getAmount());
-            var remainingAmount = Optional.ofNullable(updatedReservation.getFacturation())
-                    .map(Facturation::getRemainingAmount)
-                    .orElse(updatedReservation.getTotalAmount());
+            var remainingAmount = Optional.ofNullable(updatedReservation.getFacturation()).map(Facturation::getRemainingAmount).orElse(updatedReservation.getTotalAmount());
 
-            var message = remainingAmount.compareTo(BigDecimal.ZERO) <= 0
-                    ? "payment_completed_successfully"
-                    : "payment_partial_success";
+            var message = remainingAmount.compareTo(BigDecimal.ZERO) <= 0 ? "payment_completed_successfully" : "payment_partial_success";
 
             return ResponseEntity.ok(createSuccessResponse(updatedReservation, remainingAmount, message));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(createErrorResponse(e.getMessage()));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(createErrorResponse("reservation_not_found"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(createErrorResponse("reservation_not_found"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(createErrorResponse("payment_processing_failed"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(createErrorResponse("payment_processing_failed"));
         }
     }
 
@@ -132,12 +126,7 @@ public class ReservationController implements IReservationController {
     @Override
     public ResponseEntity<Page<Reservation>> searchReservations(@RequestBody ReservationSearchRequest request) {
         var pageable = PageRequest.of(request.getPage(), request.getSize());
-        Page<Reservation> reservations = reservationService.findAllPageable(
-                request.getStatus(),
-                request.getPhoneNumber(),
-                request.getBookingReference(),
-                pageable
-        );
+        Page<Reservation> reservations = reservationService.findAllPageable(request.getStatus(), request.getPhoneNumber(), request.getBookingReference(), request.getPaymentStatus(), pageable);
         return ResponseEntity.ok(reservations);
     }
 
@@ -166,9 +155,7 @@ public class ReservationController implements IReservationController {
     }
 
     @Override
-    public ResponseEntity<List<Reservation>> getGuestReservations(
-            @RequestParam(required = false) String phoneNumber,
-            @RequestParam(required = false) String idNumber) {
+    public ResponseEntity<List<Reservation>> getGuestReservations(@RequestParam(required = false) String phoneNumber, @RequestParam(required = false) String idNumber) {
         List<Reservation> reservations = reservationService.findByPhoneNumberOrIdNumber(phoneNumber, idNumber);
         return ResponseEntity.ok(reservations);
     }
@@ -188,4 +175,5 @@ public class ReservationController implements IReservationController {
     public ResponseEntity<Reservation> attachVoyageur(@PathVariable Long id, @RequestParam Long voyageurId) {
         return ResponseEntity.ok(reservationService.attachVoyageur(id, voyageurId));
     }
+
 }

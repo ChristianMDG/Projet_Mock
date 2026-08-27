@@ -11,6 +11,7 @@ import mg.taxibrousse.entities.enums.ChatRoomType;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateChatRoomRequest {
+
     private ChatRoomType type;
     private String title;
     private String[] participantIds;

@@ -8,12 +8,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.jdbc.JdbcRepositoriesAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.TimeZone;
 
@@ -21,8 +22,9 @@ import static org.springframework.data.web.config.EnableSpringDataWebSupport.Pag
 
 @EnableAsync
 @EnableCaching
+@EnableScheduling
 @SpringBootApplication(exclude = {JdbcRepositoriesAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class})
-@EntityScan(basePackages = {"mg.taxibrousse.entities", "mg.taxibrousse.batch.model"})
+@EntityScan(basePackages = {"mg.taxibrousse.entities"})
 @EnableJpaRepositories(basePackages = {"mg.taxibrousse.repositories"})
 @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO)
 public class TaxibrousseApplication {

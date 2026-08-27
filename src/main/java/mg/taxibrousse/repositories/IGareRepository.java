@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IGareRepository extends JpaRepository<GareEntity, Long> {
+
     @EntityGraph(attributePaths = {"ville", "photos"})
     Optional<GareEntity> findWithDetailsById(Long id);
 
@@ -23,12 +24,7 @@ public interface IGareRepository extends JpaRepository<GareEntity, Long> {
                 AND (:isClosed IS NULL OR g.isClosed = :isClosed)
                 AND ((:koperativeName IS NULL OR :koperativeName = '') OR LOWER(k.name) LIKE CONCAT('%', LOWER(:koperativeName), '%'))
             """)
-    List<GareEntity> findGares(
-            @Param("villeIds") List<Long> villeIds,
-            @Param("koperativeName") String koperativeName,
-            @Param("name") String name,
-            @Param("isClosed") Boolean isClosed
-    );
+    List<GareEntity> findGares(@Param("villeIds") List<Long> villeIds, @Param("koperativeName") String koperativeName, @Param("name") String name, @Param("isClosed") Boolean isClosed);
 
     List<GareEntity> findByVilleId(Long villeId);
 

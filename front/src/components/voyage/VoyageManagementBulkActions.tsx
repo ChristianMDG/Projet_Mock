@@ -14,12 +14,10 @@ import {
   Select,
   Typography,
 } from '@mui/material';
-import {
-  Cancel as CancelIcon,
-  FileDownload as ExportIcon,
-  Pause as DeactivateIcon,
-  PlayArrow as ActivateIcon,
-} from '@mui/icons-material';
+import CancelIcon from '@mui/icons-material/Cancel';
+import ExportIcon from '@mui/icons-material/FileDownload';
+import DeactivateIcon from '@mui/icons-material/Pause';
+import ActivateIcon from '@mui/icons-material/PlayArrow';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { VoyageStatusEnum } from '../../models/enums';

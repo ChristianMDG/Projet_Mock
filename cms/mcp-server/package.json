@@ -1,0 +1,30 @@
+{
+    "name": "taxibrousse-cms-mcp-server",
+    "version": "0.1.0",
+    "private": true,
+    "description": "MCP (Model Context Protocol) server exposing Taxibrousse Strapi CMS operations to AI assistants.",
+    "type": "module",
+    "main": "dist/index.js",
+    "bin": {
+        "taxibrousse-cms-mcp": "dist/index.js"
+    },
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "tsx src/index.ts"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.0.4",
+        "axios": "^1.7.9",
+        "form-data": "^4.0.1",
+        "zod": "^3.23.8"
+    },
+    "devDependencies": {
+        "@types/node": "^22.10.2",
+        "tsx": "^4.19.2",
+        "typescript": "^5.7.2"
+    },
+    "engines": {
+        "node": ">=20.0.0"
+    }
+}

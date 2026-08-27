@@ -1,0 +1,59 @@
+{
+  "paymentMethods": [
+    {
+      "name": "MVola",
+      "slug": "mvola",
+      "operator": "MVola",
+      "phonePrefix": "034",
+      "paymentMethodEnum": "MVOLA",
+      "identifier": "mvola",
+      "isActive": true,
+      "sortOrder": 1,
+      "descriptions": {
+        "fr": "Paiement sécurisé via MVola. Disponible pour tous les numéros commençant par 034.",
+        "en": "Secure payment via MVola. Available for all numbers starting with 034.",
+        "mg": "Fandoavam-bola azo antoka amin'ny alalan'ny MVola. Ho an'ny laharana manomboka amin'ny 034."
+      },
+      "logoNotes": "Upload official MVola/Telma logo (red branding, 200x200px PNG)"
+    },
+    {
+      "name": "Airtel Money",
+      "slug": "airtel-money",
+      "operator": "Airtel",
+      "phonePrefix": "033",
+      "paymentMethodEnum": "AIRTEL_MONEY",
+      "identifier": "airtel-money",
+      "isActive": true,
+      "sortOrder": 2,
+      "descriptions": {
+        "fr": "Paiement rapide et sécurisé via Airtel Money. Disponible pour tous les numéros commençant par 033.",
+        "en": "Fast and secure payment via Airtel Money. Available for all numbers starting with 033.",
+        "mg": "Fandoavam-bola haingana sy azo antoka amin'ny alalan'ny Airtel Money. Ho an'ny laharana manomboka amin'ny 033."
+      },
+      "logoNotes": "Upload official Airtel Money logo (red color scheme, 200x200px PNG)"
+    },
+    {
+      "name": "Orange Money",
+      "slug": "orange-money",
+      "operator": "Orange",
+      "phonePrefix": "032",
+      "paymentMethodEnum": "ORANGE_MONEY",
+      "identifier": "orange-money",
+      "isActive": true,
+      "sortOrder": 3,
+      "descriptions": {
+        "fr": "Paiement simple et sécurisé via Orange Money. Disponible pour tous les numéros commençant par 032.",
+        "en": "Simple and secure payment via Orange Money. Available for all numbers starting with 032.",
+        "mg": "Fandoavam-bola tsotra sy azo antoka amin'ny alalan'ny Orange Money. Ho an'ny laharana manomboka amin'ny 032."
+      },
+      "logoNotes": "Upload official Orange Money logo (orange color scheme, 200x200px PNG)"
+    }
+  ],
+  "instructions": {
+    "setup": "See PAYMENT_METHODS_SETUP.md for complete instructions",
+    "adminUrl": "http://localhost:1337/admin",
+    "contentPath": "Content Manager → Payment Method → Create new entry",
+    "logoUpload": "Upload logo during entry creation - will be automatically stored in Cloudinary",
+    "localization": "Create French entry first, then add English and Malagasy localizations"
+  }
+}

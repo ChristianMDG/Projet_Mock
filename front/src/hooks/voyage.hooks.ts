@@ -1,4 +1,4 @@
-import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import dayjs from '@/utils/dayjs';
 import {
   checkResourceAvailability,
@@ -7,6 +7,7 @@ import {
   findAvailableVoyages,
   findFilteredVoyages,
   findGroupedVoyages,
+  findGroupedVoyagesByKoperative,
   generateRecurringInstances,
   getScheduledVoyagesByGare,
   getScheduledVoyagesByGares,
@@ -47,6 +48,7 @@ export const voyageKeys = {
   koperative: (id: number) => [...voyageKeys.all, 'koperative', id] as const,
   filtered: (filter: VoyageFilter) => [...voyageKeys.all, 'filtered', filter] as const,
   grouped: (filter: VoyageFilter) => [...voyageKeys.all, 'grouped', filter] as const,
+  groupedKoperative: (filter: VoyageFilter) => [...voyageKeys.all, 'groupedKoperative', filter] as const,
   scheduled: (gareIds: number[]) => [...voyageKeys.all, 'scheduled', gareIds] as const,
   available: (departureId: number, arrivalId: number, date: string) =>
     [...voyageKeys.all, 'available', departureId, arrivalId, date] as const,
@@ -124,7 +126,9 @@ export function useVoyage(id: number) {
     queryKey: voyageKeys.detail(id),
     queryFn: () => getVoyage(id),
     enabled: !!id,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 10 * 1000, // 10 seconds
+    refetchOnWindowFocus: true,
+    refetchOnMount: 'always',
   });
 }
 
@@ -134,7 +138,9 @@ export function useVoyageByReservationId(reservationId?: number) {
     queryKey: voyageKeys.byReservation(reservationId!),
     queryFn: () => getVoyageByReservationId(reservationId!),
     enabled: !!reservationId,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 10 * 1000,
+    refetchOnWindowFocus: true,
+    refetchOnMount: 'always',
   });
 }
 
@@ -144,7 +150,9 @@ export function useAvailableVoyages(departureGareId?: number, arrivalGareId?: nu
     queryKey: voyageKeys.available(departureGareId!, arrivalGareId!, departureDate!),
     queryFn: () => findAvailableVoyages(departureGareId!, arrivalGareId!, departureDate!),
     enabled: !!departureGareId && !!arrivalGareId && !!departureDate,
-    staleTime: 2 * 60 * 1000, // 2 minutes for availability data
+    staleTime: 15 * 1000, // 15 seconds for availability data
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
   });
 }
 
@@ -309,11 +317,23 @@ export function useGroupedVoyages(filter: VoyageFilter) {
   });
 }
 
-// hooks for reservation by traveller Id
-export const useUserPreviousVoyages = (voyageurId: number) => {
-  return useQuery<Voyage[]>({
-    queryKey: ['voyages', 'voyageur', voyageurId],
-    queryFn: () => getUserPreviousVoyages(voyageurId),
+// Fetch pre-grouped voyages from server filtered by koperative
+export function useGroupedVoyagesByKoperative(filter: VoyageFilter) {
+  return useQuery<VoyageClasses[], Error>({
+    queryKey: voyageKeys.groupedKoperative(filter),
+    queryFn: () => findGroupedVoyagesByKoperative(filter),
+    enabled: !!filter.koperativeId,
+    staleTime: CACHE_TIMES.VOYAGE_FILTER,
+  });
+}
+
+// hooks for previous voyages of a traveller (paginated / infinite scroll)
+export const useUserPreviousVoyages = (voyageurId: number, pageSize = 10) => {
+  return useInfiniteQuery({
+    queryKey: ['voyages', 'voyageur', voyageurId, 'previous', pageSize],
+    queryFn: ({ pageParam }) => getUserPreviousVoyages(voyageurId, pageParam as number, pageSize),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => (allPages.length < lastPage.totalPages ? allPages.length : undefined),
     enabled: !!voyageurId,
   });
 };

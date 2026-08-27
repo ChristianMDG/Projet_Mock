@@ -14,14 +14,17 @@ import {
   type SxProps,
   type Theme,
 } from '@mui/material';
-import { AccessTime, LocalOffer, Percent, Star } from '@mui/icons-material';
+import AccessTime from '@mui/icons-material/AccessTime';
+import LocalOffer from '@mui/icons-material/LocalOffer';
+import Percent from '@mui/icons-material/Percent';
+import Star from '@mui/icons-material/Star';
 import AirlineSeatReclineNormalIcon from '@mui/icons-material/AirlineSeatReclineNormal';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { voyageDateUtils } from '@/utils/dayjs';
 import { useReservation } from '@/hooks/reservation.hook';
 import type { PromotionalContent as PromotionalContentType, PromotionItem } from '@/api/dynamic-page.api';
-import { VehicleIcon } from '@/components/shared';
+import VehicleIcon from '@/components/shared/VehicleIcon';
 
 interface PromotionalContentProps {
   section: PromotionalContentType;

@@ -42,6 +42,9 @@ declare module '@mui/material/styles' {
 }
 
 const theme = createTheme({
+  shape: {
+    borderRadius: 8,
+  },
   colorSchemes: {
     light: {
       palette: {
@@ -193,12 +196,78 @@ const theme = createTheme({
         disableRipple: false,
       },
     },
+    MuiTextField: { defaultProps: { size: 'small' } },
+    MuiOutlinedInput: {
+      defaultProps: { size: 'small' },
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+        },
+      },
+    },
+    MuiFilledInput: { defaultProps: { size: 'small' } },
+    MuiInput: { defaultProps: { size: 'small' } },
+    MuiInputBase: { defaultProps: { size: 'small' } },
+    MuiFormControl: { defaultProps: { size: 'small' } },
+    MuiSelect: { defaultProps: { size: 'small' } },
+    MuiAutocomplete: { defaultProps: { size: 'small' } },
+    MuiCheckbox: { defaultProps: { size: 'small' } },
+    MuiRadio: { defaultProps: { size: 'small' } },
+    MuiSwitch: { defaultProps: { size: 'small' } },
+    MuiIconButton: { defaultProps: { size: 'small' } },
+    MuiFab: { defaultProps: { size: 'small' } },
+    MuiToggleButton: { defaultProps: { size: 'small' } },
+    MuiToggleButtonGroup: { defaultProps: { size: 'small' } },
+    MuiTable: { defaultProps: { size: 'small' } },
+    MuiPagination: { defaultProps: { size: 'small' } },
+    MuiButtonGroup: { defaultProps: { size: 'small' } },
+    MuiList: { defaultProps: { dense: true } },
+    MuiListItem: { defaultProps: { dense: true } },
+    MuiMenuItem: { defaultProps: { dense: true } },
+    MuiMenuList: { defaultProps: { dense: true } },
+    MuiAlert: {
+      defaultProps: { variant: 'standard' },
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+        },
+      },
+    },
+    MuiTooltip: { defaultProps: { arrow: true } },
+    MuiToolbar: { defaultProps: { variant: 'dense' } },
+    MuiAvatar: { defaultProps: { sx: { width: 32, height: 32, fontSize: '0.875rem' } } },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+        },
+      },
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          borderRadius: 12,
+        },
+      },
+    },
+    MuiDialogTitle: { styleOverrides: { root: { padding: '12px 16px', fontSize: '1rem' } } },
+    MuiDialogContent: { styleOverrides: { root: { padding: '12px 16px' } } },
+    MuiDialogActions: { styleOverrides: { root: { padding: '8px 12px' } } },
+    MuiCardContent: { styleOverrides: { root: { padding: '12px', '&:last-child': { paddingBottom: '12px' } } } },
     MuiCssBaseline: {
       styleOverrides: {
         body: {
           backgroundColor: 'background.default',
           margin: 0,
         },
+      },
+    },
+    MuiCardHeader: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          padding: '12px 16px',
+          borderBottom: `2px solid ${theme.palette.divider}`,
+        }),
       },
     },
     MuiButton: {
@@ -208,12 +277,13 @@ const theme = createTheme({
           fontWeight: 400,
           fontFamily: '"Inter", sans-serif',
           textTransform: 'none',
-          fontSize: '1.10rem',
-          padding: '8px 20px',
+          fontSize: '0.875rem',
+          padding: '4px 12px',
           letterSpacing: '0.01em',
         },
       },
       defaultProps: {
+        size: 'small',
         disableRipple: false,
         disableElevation: false,
       },
@@ -230,9 +300,10 @@ const theme = createTheme({
         root: ({ theme }) => ({
           fontFamily: '"Inter", sans-serif',
           fontWeight: 400,
-          padding: 14,
+          padding: 8,
+          minHeight: 36,
           textTransform: 'none',
-          fontSize: '1.10rem',
+          fontSize: '0.875rem',
           letterSpacing: '0.01em',
           color: theme.palette.text.primary,
           transition: 'color 0.2s',
@@ -249,6 +320,7 @@ const theme = createTheme({
       },
     },
     MuiChip: {
+      defaultProps: { size: 'small' },
       styleOverrides: {
         root: {
           fontWeight: 500,
@@ -270,13 +342,6 @@ const theme = createTheme({
         },
       },
     },
-    MuiCardHeader: {
-      styleOverrides: {
-        root: ({ theme }) => ({
-          borderBottom: `2px solid ${theme.palette.divider}`,
-        }),
-      },
-    },
     MuiCardActions: {
       styleOverrides: {
         root: ({ theme }) => ({
@@ -292,6 +357,7 @@ const theme = createTheme({
       },
     },
     MuiListItemButton: {
+      defaultProps: { dense: true },
       styleOverrides: {
         root: {
           borderRadius: 4,

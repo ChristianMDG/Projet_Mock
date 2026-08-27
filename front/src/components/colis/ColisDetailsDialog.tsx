@@ -1,17 +1,15 @@
 import React from 'react';
 import { SwipeableDrawer, Typography, Box, Grid, Chip, Card, CardContent, Avatar } from '@mui/material';
-import {
-  Inventory2,
-  PersonOutlined,
-  Phone,
-  Scale,
-  AttachMoney,
-  Description,
-  ArrowForward,
-  CheckCircle,
-  Schedule,
-  Inventory2Outlined,
-} from '@mui/icons-material';
+import Inventory2 from '@mui/icons-material/Inventory2';
+import PersonOutlined from '@mui/icons-material/PersonOutlined';
+import Phone from '@mui/icons-material/Phone';
+import Scale from '@mui/icons-material/Scale';
+import AttachMoney from '@mui/icons-material/AttachMoney';
+import Description from '@mui/icons-material/Description';
+import ArrowForward from '@mui/icons-material/ArrowForward';
+import CheckCircle from '@mui/icons-material/CheckCircle';
+import Schedule from '@mui/icons-material/Schedule';
+import Inventory2Outlined from '@mui/icons-material/Inventory2Outlined';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { Colis } from '@/types';
@@ -80,7 +78,7 @@ const ColisDetailsDialog: React.FC<ColisDetailsDialogProps> = ({ open, onClose, 
     }
   };
 
-  const statusConfig = getStatusConfig(colis.status || '');
+  const statusConfig = getStatusConfig(colis.status ?? '');
 
   return (
     <SwipeableDrawer
@@ -173,7 +171,7 @@ const ColisDetailsDialog: React.FC<ColisDetailsDialogProps> = ({ open, onClose, 
                 </Typography>
                 <Typography
                   variant="subtitle1"
-                  color="primary.main"
+                  color="primary"
                   sx={{
                     fontWeight: '600',
                   }}
@@ -196,7 +194,7 @@ const ColisDetailsDialog: React.FC<ColisDetailsDialogProps> = ({ open, onClose, 
                 </Typography>
                 <Typography
                   variant="subtitle1"
-                  color="primary.main"
+                  color="primary"
                   sx={{
                     fontWeight: '600',
                   }}

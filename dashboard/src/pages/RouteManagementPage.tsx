@@ -11,13 +11,14 @@ import {
   Button,
   Alert,
   LinearProgress,
+  Grid,
 } from '@mui/material';
 import { AltRoute, Search, FilterList, Refresh } from '@mui/icons-material';
 import type { Route } from '@/api/route.api';
 import { useRoutesByVille, useUpdateRoute } from '@/hooks/route.hook';
 import { useVilles } from '@/hooks/ville.hook';
 import { useRouteStore } from '@/stores/route.store';
-import { SectionHeader } from '@/components/shared';
+import { SectionHeader, StyledIcon } from '@/components/shared';
 import VilleSelector from '@/components/VilleSelector';
 import RouteList from '@/components/RouteList';
 import RouteEditForm from '@/components/RouteEditForm';
@@ -114,47 +115,51 @@ export default function RouteManagementPage() {
                 </Button>
               </Box>
 
-              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ alignItems: 'center' }}>
-                <TextField
-                  placeholder={t(Labels.route_search_placeholder)}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  size="small"
-                  fullWidth
-                  slotProps={{
-                    input: {
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Search />
-                        </InputAdornment>
-                      ),
-                    },
-                  }}
-                />
-                <Stack direction="row" spacing={1} sx={{ minWidth: { sm: 'auto' } }}>
-                  <Chip
-                    label={t(Labels.route_filter_all)}
-                    variant={statusFilter === 'all' ? 'filled' : 'outlined'}
-                    color={statusFilter === 'all' ? 'primary' : 'default'}
-                    onClick={() => setStatusFilter('all')}
-                    sx={{ cursor: 'pointer' }}
+              <Grid container spacing={2} sx={{ alignItems: 'center' }}>
+                <Grid size={{ xs: 12, sm: 'grow' }}>
+                  <TextField
+                    placeholder={t(Labels.route_search_placeholder)}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    size="small"
+                    fullWidth
+                    slotProps={{
+                      input: {
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <StyledIcon icon={Search} />
+                          </InputAdornment>
+                        ),
+                      },
+                    }}
                   />
-                  <Chip
-                    label={t(Labels.route_filter_active)}
-                    variant={statusFilter === 'active' ? 'filled' : 'outlined'}
-                    color={statusFilter === 'active' ? 'success' : 'default'}
-                    onClick={() => setStatusFilter('active')}
-                    sx={{ cursor: 'pointer' }}
-                  />
-                  <Chip
-                    label={t(Labels.route_filter_inactive)}
-                    variant={statusFilter === 'inactive' ? 'filled' : 'outlined'}
-                    color={statusFilter === 'inactive' ? 'default' : 'default'}
-                    onClick={() => setStatusFilter('inactive')}
-                    sx={{ cursor: 'pointer' }}
-                  />
-                </Stack>
-              </Stack>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 'auto' }}>
+                  <Stack direction="row" spacing={1}>
+                    <Chip
+                      label={t(Labels.route_filter_all)}
+                      variant={statusFilter === 'all' ? 'filled' : 'outlined'}
+                      color={statusFilter === 'all' ? 'primary' : 'default'}
+                      onClick={() => setStatusFilter('all')}
+                      sx={{ cursor: 'pointer' }}
+                    />
+                    <Chip
+                      label={t(Labels.route_filter_active)}
+                      variant={statusFilter === 'active' ? 'filled' : 'outlined'}
+                      color={statusFilter === 'active' ? 'success' : 'default'}
+                      onClick={() => setStatusFilter('active')}
+                      sx={{ cursor: 'pointer' }}
+                    />
+                    <Chip
+                      label={t(Labels.route_filter_inactive)}
+                      variant={statusFilter === 'inactive' ? 'filled' : 'outlined'}
+                      color={statusFilter === 'inactive' ? 'default' : 'default'}
+                      onClick={() => setStatusFilter('inactive')}
+                      sx={{ cursor: 'pointer' }}
+                    />
+                  </Stack>
+                </Grid>
+              </Grid>
 
               {(searchQuery || statusFilter !== 'all') && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

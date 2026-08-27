@@ -5,15 +5,16 @@ import KoperativeFilterForm from './koperative/KoperativeFilterForm';
 import { useTopKoperatives, useKoperativesCount } from '@/hooks/koperative.hooks';
 import { KoperativeFilter } from '@/types/type.util';
 import { Koperative } from '@/types';
-import KoperativeFormDrawer from './koperativeDetail/KoperativeFormDrawer';
 import useKoperativePageStore from '@/stores/koperative.store';
 import KoperativeGrid from '@/components/koperative/KoperativeGrid';
-import KoperativeList from '@/components/koperative/KoperativeList';
 import ViewToggle from '@/components/koperative/ViewToggle';
 import KoperativeBanner from '@/components/banner/KoperativeBanner';
-import { Section } from '@/components/section';
+import Section from '@/components/section/Section';
+
+import KoperativeFormDrawer from './koperativeDetail/KoperativeFormDrawer';
+import KoperativeList from '@/components/koperative/KoperativeList';
 import { SECTION_TYPES } from '@/constants';
-import { HydrationSafe } from '@/components/shared';
+import HydrationSafe from '@/components/shared/HydrationSafe';
 import SEO from '@/components/shared/SEO';
 
 import { useTranslation } from 'react-i18next';
@@ -56,9 +57,9 @@ const KoperativePage = () => {
       setKoperativeForm({});
     },
     handleSelectKoperative: (k: Koperative) => {
-      if (k.id) {
+      if (k.slug) {
         setSelectedId(k.id);
-        navigate(generateRoute.koperativeDetail(k.id, i18n.language));
+        navigate(generateRoute.koperativeDetail(k.slug, i18n.language));
       }
     },
     setKoperativeFilter: (filter: Partial<KoperativeFilter>) => {

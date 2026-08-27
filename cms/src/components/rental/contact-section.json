@@ -1,0 +1,84 @@
+{
+  "collectionName": "components_rental_contact_sections",
+  "info": {
+    "displayName": "Rental Contact Section",
+    "description": "Contact details and assistance channels for the rental service (phone, email, address, hours)",
+    "icon": "phone"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "default": "Contactez-nous",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 300,
+      "default": "Notre équipe est disponible pour répondre à toutes vos questions",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "assistancePhone": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "+261 34 00 123 45",
+      "description": "24/7 breakdown assistance phone number"
+    },
+    "servicePhone": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "+261 20 22 123 45",
+      "description": "Customer service phone number"
+    },
+    "email": {
+      "type": "email",
+      "default": "contact@taxibrousse-location.mg"
+    },
+    "address": {
+      "type": "text",
+      "maxLength": 300,
+      "default": "Analakely, Antananarivo 101, Madagascar",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "openingHours": {
+      "type": "string",
+      "maxLength": 200,
+      "default": "Lun - Sam : 08:00 - 18:00",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "showContactForm": {
+      "type": "boolean",
+      "default": true,
+      "description": "Display the contact form alongside the details"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "background.paper",
+      "description": "Section background color (e.g. background.paper, background.default)"
+    },
+    "containerMaxWidth": {
+      "type": "enumeration",
+      "enum": ["xs", "sm", "md", "lg", "xl"],
+      "default": "lg"
+    }
+  }
+}

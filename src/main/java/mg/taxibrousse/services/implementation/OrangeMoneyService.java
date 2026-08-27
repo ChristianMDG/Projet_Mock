@@ -33,10 +33,10 @@ import static java.text.MessageFormat.format;
  * <p>
  * Key features:
  * <ul>
- *   <li>WebPay API integration with OAuth2 authentication</li>
- *   <li>Real-time WebSocket notifications to clients</li>
- *   <li>Secure notifToken verification for callbacks</li>
- *   <li>Transaction tracking and status management</li>
+ * <li>WebPay API integration with OAuth2 authentication</li>
+ * <li>Real-time WebSocket notifications to clients</li>
+ * <li>Secure notifToken verification for callbacks</li>
+ * <li>Transaction tracking and status management</li>
  * </ul>
  * </p>
  *
@@ -58,15 +58,8 @@ public class OrangeMoneyService extends PaymentService implements IOrangeMoneySe
     private volatile OrangeMoneyTokenResponse cachedToken;
     private final Object tokenLock = new Object();
 
-    public OrangeMoneyService(
-            OrangeMoneyApiConfig config,
-            HttpClient httpClient,
-            ObjectMapper objectMapper,
-            StringRedisTemplate redisTemplate,
-            IReservationService reservationService,
-            IPaymentTransactionService paymentTransactionService,
-            IPaymentTransactionRepository paymentTransactionRepository,
-            IFacturationService facturationService,
+    public OrangeMoneyService(OrangeMoneyApiConfig config, HttpClient httpClient, ObjectMapper objectMapper, StringRedisTemplate redisTemplate, IReservationService reservationService,
+            IPaymentTransactionService paymentTransactionService, IPaymentTransactionRepository paymentTransactionRepository, IFacturationService facturationService,
             IPaymentNotificationService paymentNotificationService) {
         super(reservationService, paymentTransactionService, paymentTransactionRepository, facturationService, paymentNotificationService);
         this.config = config;
@@ -78,10 +71,9 @@ public class OrangeMoneyService extends PaymentService implements IOrangeMoneySe
     @Override
     @Transactional
     public PaymentTransaction initPayment(PaymentRequest request) throws IOException, InterruptedException {
-        log.info("Initiating Orange Money payment for reservation: {}, amount: {}", request.getReservationId(), request.getAmount());
+        log.info("Initiating Orange Money payment for payable type: {}, id: {}, amount: {}", request.getPayableType(), request.getPayableId(), request.getAmount());
 
-        var facturationId = facturationService.getOrCreateFacturation(request.getReservationId());
-        var transaction = createTransaction(facturationId, request);
+        var transaction = bootstrapTransaction(request);
         var transactionId = transaction.getId();
         var orderId = transaction.getTransactionReference();
 
@@ -92,16 +84,11 @@ public class OrangeMoneyService extends PaymentService implements IOrangeMoneySe
 
             if (omResponse.isCreated()) {
                 var updatedTransaction = updateTransactionWithPayment(transactionId, omResponse.getPayToken());
-                redisTemplate.opsForValue().set(
-                    NOTIF_TOKEN_PREFIX + omResponse.getNotifToken(), 
-                    orderId, 
-                    NOTIF_TOKEN_EXPIRATION_HOURS, 
-                    java.util.concurrent.TimeUnit.HOURS
-                );
+                redisTemplate.opsForValue().set(NOTIF_TOKEN_PREFIX + omResponse.getNotifToken(), orderId, NOTIF_TOKEN_EXPIRATION_HOURS, java.util.concurrent.TimeUnit.HOURS);
 
                 var responseTransaction = PaymentTransaction.fromEntity(updatedTransaction);
                 responseTransaction.setPaymentUrl(omResponse.getPaymentUrl());
-                
+
                 return responseTransaction;
             } else {
                 throw new PaymentException("PAYMENT_INIT_FAILED", omResponse.getMessage());
@@ -121,7 +108,7 @@ public class OrangeMoneyService extends PaymentService implements IOrangeMoneySe
         if (orderId != null) {
             redisTemplate.delete(NOTIF_TOKEN_PREFIX + notifToken);
         }
-        
+
         if (orderId == null) {
             log.error("Unable to identify order for notifToken: {}", notifToken);
             throw new PaymentException("ORDER_NOT_FOUND", "Unable to identify order for notification");
@@ -154,11 +141,7 @@ public class OrangeMoneyService extends PaymentService implements IOrangeMoneySe
         }
 
         var token = getAuthToken();
-        var statusRequest = OrangeMoneyStatusRequest.builder()
-                .orderId(entity.getTransactionReference())
-                .amount(entity.getAmount().toString())
-                .payToken(entity.getServerCorrelationId())
-                .build();
+        var statusRequest = OrangeMoneyStatusRequest.builder().orderId(entity.getTransactionReference()).amount(entity.getAmount().toString()).payToken(entity.getServerCorrelationId()).build();
 
         var statusResponse = checkTransactionStatus(statusRequest, token);
         log.info("Orange Money status for {}: {}", transactionReference, statusResponse.getStatus());
@@ -168,7 +151,6 @@ public class OrangeMoneyService extends PaymentService implements IOrangeMoneySe
 
         return PaymentTransaction.fromEntity(entity);
     }
-
 
     /* -- Private helpers --- */
 
@@ -204,10 +186,11 @@ public class OrangeMoneyService extends PaymentService implements IOrangeMoneySe
         return OrangeMoneyPaymentRequest.fromPayment(request, config, orderId);
     }
 
-    private OrangeMoneyPaymentResponse initiateWebPayment(OrangeMoneyPaymentRequest request, String token)
-            throws IOException, InterruptedException {
+    private OrangeMoneyPaymentResponse initiateWebPayment(OrangeMoneyPaymentRequest request, String token) throws IOException, InterruptedException {
 
         var requestBody = objectMapper.writeValueAsString(request);
+        log.info("Initiating Orange Money WebPay request to URL: {}, Payload: {}", config.getWebPaymentUrl(), requestBody);
+
         var httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(config.getWebPaymentUrl()))
                 .header("Authorization", token)
@@ -225,13 +208,10 @@ public class OrangeMoneyService extends PaymentService implements IOrangeMoneySe
         }
 
         // Return a failed response with error details
-        return OrangeMoneyPaymentResponse.builder()
-                .message(format("Payment initiation failed: {0}", response.body()))
-                .build();
+        return OrangeMoneyPaymentResponse.builder().message(format("Payment initiation failed: {0}", response.body())).build();
     }
 
-    private OrangeMoneyStatusResponse checkTransactionStatus(OrangeMoneyStatusRequest request, String token)
-            throws IOException, InterruptedException {
+    private OrangeMoneyStatusResponse checkTransactionStatus(OrangeMoneyStatusRequest request, String token) throws IOException, InterruptedException {
 
         var requestBody = objectMapper.writeValueAsString(request);
         var httpRequest = HttpRequest.newBuilder()
@@ -253,7 +233,6 @@ public class OrangeMoneyService extends PaymentService implements IOrangeMoneySe
         throw new IOException(format("Status check failed: {0} - {1}", response.statusCode(), response.body()));
     }
 
-
     @Transactional
     protected PaymentTransactionEntity updateTransactionWithPayment(Long transactionId, String payToken) {
         var entity = findTransactionById(transactionId);
@@ -271,5 +250,12 @@ public class OrangeMoneyService extends PaymentService implements IOrangeMoneySe
             case "CANCELLED" -> PaymentTransactionStatusEnum.CANCELLED;
             default -> PaymentTransactionStatusEnum.FAILED;
         };
+    }
+
+    // Visible for testing
+    public void clearCache() {
+        synchronized (tokenLock) {
+            this.cachedToken = null;
+        }
     }
 }

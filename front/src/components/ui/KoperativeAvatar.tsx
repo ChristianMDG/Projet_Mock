@@ -7,9 +7,28 @@ interface KoperativeAvatarProps {
   name?: string | null;
   size?: number;
   sx?: SxProps<Theme>;
+  isSelected?: boolean;
 }
 
-export const KoperativeAvatar: React.FC<KoperativeAvatarProps> = ({ logoUrl, name, size = 64, sx }) => {
+export const KoperativeAvatar: React.FC<KoperativeAvatarProps> = ({
+  logoUrl,
+  name,
+  size = 64,
+  sx,
+  isSelected = false,
+}) => {
+  const hasLogo = Boolean(logoUrl);
+
+  const bgcolor = isSelected
+    ? hasLogo
+      ? 'background.paper'
+      : 'primary.contrastText'
+    : hasLogo
+      ? 'grey.100'
+      : 'primary.main';
+
+  const color = isSelected ? (hasLogo ? 'text.primary' : 'primary.main') : hasLogo ? 'inherit' : 'primary.contrastText';
+
   return (
     <Avatar
       src={logoUrl ?? undefined}
@@ -17,8 +36,8 @@ export const KoperativeAvatar: React.FC<KoperativeAvatarProps> = ({ logoUrl, nam
       sx={{
         width: size,
         height: size,
-        bgcolor: logoUrl ? 'grey.100' : 'primary.main',
-        color: logoUrl ? 'inherit' : 'primary.contrastText',
+        bgcolor,
+        color,
         ...sx,
       }}
     >

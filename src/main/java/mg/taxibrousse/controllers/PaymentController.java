@@ -30,7 +30,7 @@ public class PaymentController implements IPaymentController {
     // MVola endpoints
     @Override
     public ResponseEntity<PaymentTransaction> initiateMVolaPayment(PaymentRequest paymentRequest) throws IOException, InterruptedException {
-        log.info("Initiating MVola payment for reservation: {}, amount: {}", paymentRequest.getReservationId(), paymentRequest.getAmount());
+        log.info("Initiating MVola payment for payableId: {}, amount: {}", paymentRequest.getPayableId(), paymentRequest.getAmount());
         var transaction = mvolaService.initPayment(paymentRequest);
         return ResponseEntity.ok(transaction);
     }
@@ -38,15 +38,9 @@ public class PaymentController implements IPaymentController {
     @Override
     public ResponseEntity<Void> handleMVolaCallback(MVolaCallbackRequest callbackRequest) {
         try {
-            log.info("Received MVola callback - body: {}", objectMapper
-                    .writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(callbackRequest));
+            log.info("Received MVola callback - body: {}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(callbackRequest));
 
-            mvolaService.handleCallback(
-                callbackRequest.getServerCorrelationId(),
-                callbackRequest.getTransactionStatus(),
-                "MVOLA"
-            );
+            mvolaService.handleCallback(callbackRequest.getServerCorrelationId(), callbackRequest.getTransactionStatus(), "MVOLA");
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             log.error("Error handling MVola callback for correlationId: {}", callbackRequest.getServerCorrelationId(), e);
@@ -81,32 +75,27 @@ public class PaymentController implements IPaymentController {
     // Orange Money endpoints
     @Override
     public ResponseEntity<PaymentTransaction> initiateOrangeMoneyPayment(PaymentRequest paymentRequest) throws IOException, InterruptedException {
-        log.info("Initiating Orange Money payment for reservation: {}, amount: {}", paymentRequest.getReservationId(), paymentRequest.getAmount());
+        log.info("Initiating Orange Money payment for payableId: {}, amount: {}", paymentRequest.getPayableId(), paymentRequest.getAmount());
         return ResponseEntity.ok(orangeMoneyService.initPayment(paymentRequest));
     }
 
     /**
      * Handle Orange Money payment notification callback.
+     *
      * @param callbackRequest Callback payload from Orange Money
      * @return 200 OK if processed successfully, 400 if missing data, 500 on error
      */
     @Override
     public ResponseEntity<Void> handleOrangeMoneyCallback(OrangeMoneyCallbackRequest callbackRequest, String orderIdParam) {
         try {
-            log.info("Received Orange Money callback - orderIdParam: {}, body: {}", orderIdParam, objectMapper
-                    .writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(callbackRequest));
+            log.info("Received Orange Money callback - orderIdParam: {}, body: {}", orderIdParam, objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(callbackRequest));
 
             if (orderIdParam == null) {
                 log.error("Orange Money callback received without order_id query parameter");
                 return ResponseEntity.badRequest().build();
             }
 
-            orangeMoneyService.handleCallback(
-                orderIdParam,
-                callbackRequest.getStatus(),
-                callbackRequest.getNotifToken()
-            );
+            orangeMoneyService.handleCallback(orderIdParam, callbackRequest.getStatus(), callbackRequest.getNotifToken());
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             log.error("Error handling Orange Money callback for orderId: {}", orderIdParam, e);
@@ -141,7 +130,7 @@ public class PaymentController implements IPaymentController {
     // Airtel Money endpoints
     @Override
     public ResponseEntity<PaymentTransaction> initiateAirtelMoneyPayment(PaymentRequest paymentRequest) throws IOException, InterruptedException {
-        log.info("Initiating Airtel Money payment for reservation: {}, amount: {}", paymentRequest.getReservationId(), paymentRequest.getAmount());
+        log.info("Initiating Airtel Money payment for payableId: {}, amount: {}", paymentRequest.getPayableId(), paymentRequest.getAmount());
         var transaction = airtelMoneyService.initPayment(paymentRequest);
         return ResponseEntity.ok(transaction);
     }
@@ -149,20 +138,14 @@ public class PaymentController implements IPaymentController {
     @Override
     public ResponseEntity<Void> handleAirtelMoneyCallback(AirtelCallbackRequest callbackRequest) {
         try {
-            log.info("Received Airtel callback - body: {}", objectMapper
-                    .writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(callbackRequest));
+            log.info("Received Airtel callback - body: {}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(callbackRequest));
 
             if (callbackRequest == null || callbackRequest.getTransaction() == null) {
                 log.error("Invalid Airtel callback payload");
                 return ResponseEntity.badRequest().build();
             }
 
-            airtelMoneyService.handleCallback(
-                callbackRequest.getTransaction().getId(),
-                callbackRequest.getTransaction().getStatusCode(),
-                "AIRTEL"
-            );
+            airtelMoneyService.handleCallback(callbackRequest.getTransaction().getId(), callbackRequest.getTransaction().getStatusCode(), "AIRTEL");
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             log.error("Error handling Airtel callback", e);

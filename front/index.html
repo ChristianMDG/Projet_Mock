@@ -8,17 +8,71 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta
+      name="description"
+      content="Taxibrousse.mg - La plateforme de réservation de taxi-brousse en ligne à Madagascar. Réservez vos billets facilement et en toute sécurité."
+    />
     <meta name="facebook-domain-verification" content="k4ly0jj1conab2r5v0grvmxqdicuf3" />
+    <meta name="google-adsense-account" content="ca-pub-3157969200061862" />
+
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://res.cloudinary.com" rel="preconnect" crossorigin />
+    <link href="https://cms.taxibrousse.mg" rel="preconnect" crossorigin />
+    <link href="https://api.taxibrousse.mg" rel="preconnect" crossorigin />
+
+    <link href="https://connect.facebook.net" rel="dns-prefetch" />
+    <link href="https://www.googletagmanager.com" rel="dns-prefetch" />
+
     <link
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     <title>Taxibrousse</title>
+    <!-- Facebook Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '2006212383345769');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Facebook Pixel Code -->
   </head>
 
   <body>
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=2006212383345769&ev=PageView&noscript=1"
+      />
+    </noscript>
     <div id="root"><!--ssr-outlet--></div>
     <script src="/src/entry-client.tsx" type="module"></script>
   </body>

@@ -17,7 +17,12 @@ public class Guichet extends BaseDto<GuichetEntity> {
 
     private String name;
     private String phones;
+    private String smsPhone;
+    private String numeroMvola;
+    private String numeroAirtelMoney;
+    private String numeroOrangeMoney;
     private Boolean isActive;
+    private Boolean paymentAutomatique;
     private String openingHours;
 
     private Gare gare;
@@ -41,23 +46,22 @@ public class Guichet extends BaseDto<GuichetEntity> {
         model.setBaseDto(entity);
         model.setName(entity.getName());
         model.setPhones(entity.getPhones());
+        model.setSmsPhone(entity.getSmsPhone());
+        model.setNumeroMvola(entity.getNumeroMvola());
+        model.setNumeroAirtelMoney(entity.getNumeroAirtelMoney());
+        model.setNumeroOrangeMoney(entity.getNumeroOrangeMoney());
         model.setIsActive(entity.getIsActive());
+        model.setPaymentAutomatique(entity.getPaymentAutomatique());
         model.setOpeningHours(entity.getOpeningHours());
         model.setGare(Gare.fromEntity(entity.getGare()));
-        model.setKoperative(
-                entity.getKoperative() != null ? Koperative.fromEntity(entity.getKoperative(), false) : null
-        );
+        model.setKoperative(entity.getKoperative() != null ? Koperative.fromEntity(entity.getKoperative(), false) : null);
 
         if (includeOperateurs) {
-            model.setOperateurs(
-                    BaseDto.mapEntities(entity.getOperateurs(), operateur -> UserOperator.fromEntity(operateur, false))
-            );
+            model.setOperateurs(BaseDto.mapEntities(entity.getOperateurs(), operateur -> UserOperator.fromEntity(operateur, false)));
         }
 
         if (includeDestinations) {
-            model.setDestinations(
-                    BaseDto.mapEntities(entity.getDestinations(), Gare::fromEntity)
-            );
+            model.setDestinations(BaseDto.mapEntities(entity.getDestinations(), Gare::fromEntity));
         }
 
         return model;
@@ -70,7 +74,12 @@ public class Guichet extends BaseDto<GuichetEntity> {
                 .updatedAt(entity.getUpdatedAt())
                 .name(entity.getName())
                 .phones(entity.getPhones())
+                .smsPhone(entity.getSmsPhone())
+                .numeroMvola(entity.getNumeroMvola())
+                .numeroAirtelMoney(entity.getNumeroAirtelMoney())
+                .numeroOrangeMoney(entity.getNumeroOrangeMoney())
                 .isActive(entity.getIsActive())
+                .paymentAutomatique(entity.getPaymentAutomatique())
                 .openingHours(entity.getOpeningHours());
     }
 
@@ -84,7 +93,12 @@ public class Guichet extends BaseDto<GuichetEntity> {
         setBaseEntity(entity);
         entity.setName(name);
         entity.setPhones(phones);
+        entity.setSmsPhone(smsPhone);
+        entity.setNumeroMvola(numeroMvola);
+        entity.setNumeroAirtelMoney(numeroAirtelMoney);
+        entity.setNumeroOrangeMoney(numeroOrangeMoney);
         entity.setIsActive(Boolean.TRUE.equals(isActive));
+        entity.setPaymentAutomatique(Boolean.TRUE.equals(paymentAutomatique));
         entity.setOpeningHours(openingHours);
         entity.setGare(gare != null ? gare.toEntity() : null);
         entity.setKoperative(koperative != null ? koperative.toEntity() : null);

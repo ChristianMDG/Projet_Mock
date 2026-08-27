@@ -1,0 +1,497 @@
+{
+    "description": "Produits AmbondronA – 16 produits artisanaux et alimentaires malgaches. Chaque entrée a un 'categorySlug' + 'sellerSlug' résolus par le script populate en documentIds avant POST/PUT. Les images sont à uploader via Strapi Admin Media Library (Cloudinary).",
+    "collection": "api::product.product",
+    "data": [
+        {
+            "name": "Vanille Bourbon Premium",
+            "slug": "vanille-bourbon-premium",
+            "shortDescription": "Vanille bourbon de Madagascar - 100g",
+            "description": "Vanille bourbon de Madagascar, récoltée à la main dans la région SAVA. Qualité premium, gousses charnues et parfumées. Idéale pour la pâtisserie et l'arôme naturel. Nos gousses sont séchées au soleil pendant 6 mois selon la méthode traditionnelle de Bourbon.",
+            "price": 45000,
+            "originalPrice": 55000,
+            "currency": "MGA",
+            "sku": "VAN-BOURB-100",
+            "weight": 100,
+            "origin": "Antalaha, Région SAVA",
+            "categorySlug": "epicerie",
+            "sellerSlug": "epices-du-sava",
+            "tags": ["vanille", "épices", "premium", "SAVA"],
+            "specifications": [
+                { "label": "Poids net", "value": "100g" },
+                { "label": "Variété", "value": "Bourbon (Vanilla planifolia)" },
+                { "label": "Grade", "value": "Gourmet – Taux de vanilline > 2%" },
+                { "label": "Origine", "value": "Antalaha, Région SAVA" },
+                { "label": "Conservation", "value": "24 mois à l'abri de la lumière" }
+            ],
+            "inStock": true,
+            "stockQuantity": 150,
+            "rating": 4.8,
+            "reviewCount": 124,
+            "isActive": true,
+            "isFeatured": true,
+            "isBestSeller": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Premium Bourbon Vanilla", "shortDescription": "Madagascar Bourbon vanilla – 100g", "description": "Hand-harvested Madagascar Bourbon vanilla from the SAVA region. Premium grade, plump and fragrant pods. Sun-cured for 6 months following the traditional Bourbon method." },
+                "mg": { "name": "Lavanila Bourbon Premium", "shortDescription": "Lavanila bourbon avy any Madagasikara - 100g", "description": "Lavanila bourbon notsongaina tanana any amin'ny faritra SAVA. Kalitao ambony indrindra, mamofona tsara. Maina amin'ny masoandro henemana araka ny fomba nentim-paharazana." }
+            }
+        },
+        {
+            "name": "Lamba Soie Sauvage",
+            "slug": "lamba-soie-sauvage",
+            "shortDescription": "Lamba en soie sauvage (landibe) tissé à la main",
+            "description": "Lamba traditionnel en soie sauvage landibe tissé à la main sur les hauts plateaux. Motifs ancestraux de l'Imerina. Chaque pièce est unique et porte le savoir-faire des tisserandes. Le landibe est récolté dans les forêts de l'Imerina et tissé sur des métiers à tisser traditionnels.",
+            "price": 180000,
+            "currency": "MGA",
+            "sku": "LAM-SOIE-001",
+            "origin": "Hauts Plateaux, Imerina",
+            "categorySlug": "textiles-malgaches",
+            "sellerSlug": "soie-tradition",
+            "tags": ["soie", "landibe", "lamba", "artisanat", "imerina"],
+            "specifications": [
+                { "label": "Matière", "value": "100% Soie sauvage landibe" },
+                { "label": "Dimensions", "value": "200cm x 120cm" },
+                { "label": "Technique", "value": "Tissage à la main sur métier traditionnel" },
+                { "label": "Origine", "value": "Hauts Plateaux, Imerina" }
+            ],
+            "inStock": true,
+            "stockQuantity": 25,
+            "rating": 4.9,
+            "reviewCount": 67,
+            "isActive": true,
+            "isFeatured": true,
+            "isNew": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Wild Silk Lamba", "shortDescription": "Hand-woven wild silk lamba (landibe)", "description": "Traditional lamba made of hand-woven wild silk (landibe) from the Imerina highlands. Ancestral patterns, each piece unique – a century-old craft tradition." },
+                "mg": { "name": "Lamba Landibe", "shortDescription": "Lamba landibe tenomina tanana", "description": "Lamba nentim-paharazana nataon'ny landibe notenomina tanana any amin'ny faritra avo Imerina. Samy hafa tsirairay." }
+            }
+        },
+        {
+            "name": "Panier Raphia Tressé",
+            "slug": "panier-raphia-tresse",
+            "shortDescription": "Panier raphia artisanal – Grande taille",
+            "description": "Panier artisanal en raphia naturel tressé, fabriqué par les artisans de la côte Est. Résistant et léger, parfait pour les courses ou comme sac de plage. Teintures végétales naturelles à base de plantes locales.",
+            "price": 35000,
+            "originalPrice": 42000,
+            "currency": "MGA",
+            "sku": "PAN-RAPH-LG",
+            "origin": "Côte Est, Brickaville",
+            "categorySlug": "artisanat",
+            "sellerSlug": "cote-est-bio",
+            "tags": ["raphia", "panier", "artisanat", "naturel"],
+            "specifications": [
+                { "label": "Matière", "value": "Raphia naturel tressé, teintures végétales" },
+                { "label": "Dimensions", "value": "40cm x 35cm x 25cm" },
+                { "label": "Capacité", "value": "Environ 20 litres" }
+            ],
+            "inStock": true,
+            "stockQuantity": 80,
+            "rating": 4.5,
+            "reviewCount": 89,
+            "isActive": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Woven Raffia Basket", "shortDescription": "Artisanal raffia basket – Large", "description": "Hand-woven raffia basket made by East Coast artisans. Sturdy yet light, perfect for shopping or as a beach bag. Natural plant dyes." },
+                "mg": { "name": "Sobika Rafia", "shortDescription": "Sobika rafia lehibe", "description": "Sobika rafia vita an-tanana avy amin'ny mpanao asa tanana ao amin'ny morontsiraka Atsinanana. Mafy sy maivana." }
+            }
+        },
+        {
+            "name": "Miel de Litchi",
+            "slug": "miel-de-litchi",
+            "shortDescription": "Miel pur de litchi – 500ml",
+            "description": "Miel pur monofloral de litchi récolté dans les plantations de Tamatave (Toamasina). Saveur douce et fruitée, riche en antioxydants. Conditionné de manière artisanale sans additifs. Récolte saisonnière limitée (janvier–mars).",
+            "price": 25000,
+            "currency": "MGA",
+            "sku": "MIE-LITC-500",
+            "weight": 500,
+            "origin": "Toamasina (Tamatave)",
+            "categorySlug": "epicerie",
+            "sellerSlug": "cote-est-bio",
+            "tags": ["miel", "litchi", "naturel", "bio"],
+            "specifications": [
+                { "label": "Contenance", "value": "500ml" },
+                { "label": "Type", "value": "Miel monofloral de litchi" },
+                { "label": "Conditionnement", "value": "Sans additifs, non chauffé, non filtré" },
+                { "label": "Récolte", "value": "Saisonnière – janvier à mars" }
+            ],
+            "inStock": true,
+            "stockQuantity": 200,
+            "rating": 4.7,
+            "reviewCount": 156,
+            "isActive": true,
+            "isFeatured": true,
+            "isBestSeller": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Lychee Honey", "shortDescription": "Pure lychee honey – 500ml", "description": "Pure monofloral lychee honey harvested from Toamasina plantations. Sweet and fruity, rich in antioxidants. Artisanal packaging, no additives. Seasonal harvest (January–March)." },
+                "mg": { "name": "Tantely Letchi", "shortDescription": "Tantely madio letchi – 500ml", "description": "Tantely madio monofloral avy amin'ny voninkazo letchi any Toamasina. Mamy sy manitra, feno antioxidant. Voaangona isan-taona (janoary–marsa)." }
+            }
+        },
+        {
+            "name": "Sculpture Palissandre",
+            "slug": "sculpture-palissandre",
+            "shortDescription": "Sculpture en palissandre – Famille de lémuriens sifaka",
+            "description": "Sculpture décorative en bois de palissandre (rosewood), sculptée à la main par les artisans d'Ambositra. Représentation de la faune endémique de Madagascar – famille de lémuriens sifaka en position de saut. Finition laquée naturelle.",
+            "price": 95000,
+            "currency": "MGA",
+            "sku": "SCU-PALI-LEM",
+            "origin": "Ambositra, Région Amoron'i Mania",
+            "categorySlug": "artisanat",
+            "sellerSlug": "artisans-ambositra",
+            "tags": ["palissandre", "sculpture", "lémuriens", "décoration", "bois"],
+            "specifications": [
+                { "label": "Matière", "value": "Palissandre massif (Dalbergia sp.)" },
+                { "label": "Hauteur", "value": "25cm" },
+                { "label": "Finition", "value": "Laquée naturelle, poli main" },
+                { "label": "Artisan", "value": "Maître sculpteur d'Ambositra" }
+            ],
+            "inStock": true,
+            "stockQuantity": 15,
+            "rating": 4.6,
+            "reviewCount": 42,
+            "isActive": true,
+            "isNew": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Rosewood Sculpture", "shortDescription": "Rosewood sculpture – Sifaka lemur family", "description": "Hand-carved decorative sculpture in solid rosewood by Ambositra artisans. Depicts a family of sifaka lemurs in flight. Natural lacquer finish." },
+                "mg": { "name": "Sary Hazo Palissandra", "shortDescription": "Sary hazo palissandra – Gidro sifaka", "description": "Sary haingom-panaka vita tanana amin'ny hazo palissandra nataon'ny mpanao asa tanana any Ambositra. Maneho fianakaviana gidro sifaka mibitika." }
+            }
+        },
+        {
+            "name": "Poivre Sauvage Tsiperifery",
+            "slug": "poivre-sauvage-tsiperifery",
+            "shortDescription": "Poivre Tsiperifery sauvage – 50g",
+            "description": "Poivre sauvage Tsiperifery (Piper borbonense), variété endémique cueillie à la main dans les forêts humides de l'est de Madagascar. Notes boisées, florales et légèrement citronnées. Rare et très recherché par les chefs du monde entier.",
+            "price": 38000,
+            "currency": "MGA",
+            "sku": "POI-TSIP-50",
+            "weight": 50,
+            "origin": "Forêts humides de l'Est, région Vatovavy",
+            "categorySlug": "epicerie",
+            "sellerSlug": "epices-du-sava",
+            "tags": ["poivre", "tsiperifery", "épices", "rare", "endémique"],
+            "specifications": [
+                { "label": "Poids net", "value": "50g" },
+                { "label": "Espèce", "value": "Piper borbonense (Tsiperifery)" },
+                { "label": "Cueillette", "value": "Sauvage, à la main" },
+                { "label": "Profil aromatique", "value": "Boisé, floral, légèrement citronné" }
+            ],
+            "inStock": true,
+            "stockQuantity": 60,
+            "rating": 4.9,
+            "reviewCount": 78,
+            "isActive": true,
+            "isFeatured": true,
+            "isBestSeller": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Wild Tsiperifery Pepper", "shortDescription": "Wild Tsiperifery pepper – 50g", "description": "Endemic wild Tsiperifery pepper (Piper borbonense) hand-picked in Madagascar's eastern rainforests. Woody, floral and slightly citrusy notes. Rare and prized by starred chefs worldwide." },
+                "mg": { "name": "Dipoavatra Tsiperifery", "shortDescription": "Dipoavatra Tsiperifery – 50g", "description": "Dipoavatra Tsiperifery (Piper borbonense) mitombo ho azy, notsongaina tanana any amin'ny alan'ny atsinanana. Manitra hazo, voninkazo ary kely citron." }
+            }
+        },
+        {
+            "name": "Sac de Voyage Rabane",
+            "slug": "sac-voyage-rabane",
+            "shortDescription": "Sac de voyage en rabane naturelle renforcée",
+            "description": "Grand sac de voyage en rabane naturelle renforcée, fabriqué à Antsirabe. Poignées en cuir tressé. Spacieux et robuste, idéal pour les trajets en taxi-brousse. Motifs géométriques traditionnels.",
+            "price": 65000,
+            "currency": "MGA",
+            "sku": "SAC-RAB-VOY",
+            "origin": "Antsirabe, Région Vakinankaratra",
+            "categorySlug": "artisanat",
+            "sellerSlug": "malagasy-tresors",
+            "tags": ["sac", "rabane", "voyage", "artisanat"],
+            "specifications": [
+                { "label": "Matière", "value": "Rabane renforcée + poignées cuir tressé" },
+                { "label": "Dimensions", "value": "55cm x 35cm x 30cm" },
+                { "label": "Fermeture", "value": "Lanière de cuir" }
+            ],
+            "inStock": true,
+            "stockQuantity": 40,
+            "rating": 4.3,
+            "reviewCount": 34,
+            "isActive": true,
+            "isNew": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Raffia Travel Bag", "shortDescription": "Natural reinforced raffia travel bag", "description": "Large natural reinforced raffia travel bag made in Antsirabe. Braided leather handles. Spacious and sturdy, ideal for taxi-brousse trips." },
+                "mg": { "name": "Kitapo Fitondrana Rabane", "shortDescription": "Kitapo fitondrana rabane voloina", "description": "Kitapo fitondrana rabane vita any Antsirabe, mafy ary malalaka. Mifanentana amin'ny dia taxi-brousse." }
+            }
+        },
+        {
+            "name": "Café Arabica Bourbon",
+            "slug": "cafe-arabica-bourbon",
+            "shortDescription": "Café arabica bourbon torréfié artisanal – 250g",
+            "description": "Café arabica bourbon cultivé en altitude dans les collines de la Haute Matsiatra. Torréfaction artisanale à petits lots, notes chocolatées et caramélisées. Issu de l'agriculture biologique sans pesticides. Mouture disponible sur demande.",
+            "price": 22000,
+            "currency": "MGA",
+            "sku": "CAF-ARAB-250",
+            "weight": 250,
+            "origin": "Haute Matsiatra, région de Fianarantsoa",
+            "categorySlug": "epicerie",
+            "sellerSlug": "malagasy-tresors",
+            "tags": ["café", "arabica", "bourbon", "bio", "Fianarantsoa"],
+            "specifications": [
+                { "label": "Poids net", "value": "250g" },
+                { "label": "Variété", "value": "Arabica Bourbon Pointu" },
+                { "label": "Altitude", "value": "1 200 – 1 800m" },
+                { "label": "Torréfaction", "value": "Artisanale, moyen-corsé" }
+            ],
+            "inStock": true,
+            "stockQuantity": 300,
+            "rating": 4.4,
+            "reviewCount": 201,
+            "isActive": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Bourbon Arabica Coffee", "shortDescription": "Artisanal roasted Bourbon Arabica – 250g", "description": "Arabica Bourbon coffee grown at altitude in the Haute Matsiatra hills. Small-batch artisanal roasting, chocolate and caramel notes. Organic, pesticide-free." },
+                "mg": { "name": "Kafe Arabica Bourbon", "shortDescription": "Kafe voaendy Arabica Bourbon – 250g", "description": "Kafe Arabica Bourbon avy any Haute Matsiatra, amboariny kely tsirairay, tsiro tsokololava sy karamela." }
+            }
+        },
+        {
+            "name": "Huile Essentielle de Ravintsara",
+            "slug": "huile-essentielle-ravintsara",
+            "shortDescription": "Huile essentielle Ravintsara 100% pure – 10ml",
+            "description": "Huile essentielle de Ravintsara (Cinnamomum camphora ct cinéole) 100% pure et naturelle, distillée à la vapeur d'eau dans les forêts de l'est de Madagascar. Reconnue pour ses propriétés antivirales, immunostimulantes et expectorantes.",
+            "price": 18000,
+            "originalPrice": 22000,
+            "currency": "MGA",
+            "sku": "HE-RAV-10",
+            "weight": 15,
+            "origin": "Forêts de l'Est, Région Atsinanana",
+            "categorySlug": "soin-visage",
+            "sellerSlug": "cote-est-bio",
+            "tags": ["huile essentielle", "ravintsara", "naturel", "immunité"],
+            "specifications": [
+                { "label": "Contenance", "value": "10ml" },
+                { "label": "Plante", "value": "Cinnamomum camphora ct cinéole" },
+                { "label": "Partie distillée", "value": "Feuilles" },
+                { "label": "Pureté", "value": "100% pure, sans solvant" }
+            ],
+            "inStock": true,
+            "stockQuantity": 120,
+            "rating": 4.8,
+            "reviewCount": 93,
+            "isActive": true,
+            "isFeatured": true,
+            "isBestSeller": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Ravintsara Essential Oil", "shortDescription": "100% pure Ravintsara essential oil – 10ml", "description": "100% pure and natural Ravintsara (Cinnamomum camphora ct cineole) essential oil, steam-distilled in Madagascar's eastern forests. Known for antiviral and immune-boosting properties." },
+                "mg": { "name": "Menaka manitra Ravintsara", "shortDescription": "Menaka manitra Ravintsara madio 100% – 10ml", "description": "Menaka manitra Ravintsara madio 100% avy any amin'ny alan'ny Atsinanana. Mahasoa amin'ny aretina loto ary manamafy ny hery miarovam-batana." }
+            }
+        },
+        {
+            "name": "Nappe Brodée Antaimoro",
+            "slug": "nappe-brodee-antaimoro",
+            "shortDescription": "Nappe papier Antaimoro brodée à la main – 150x100cm",
+            "description": "Nappe de table brodée à la main sur papier Antaimoro d'Ambalavao. Le papier Antaimoro est fabriqué à partir d'écorce d'avoha selon une technique ancestrale du XVe siècle. Inclusions florales naturelles (fougères, pétales séchés). Pièce unique.",
+            "price": 120000,
+            "currency": "MGA",
+            "sku": "NAP-ANTM-150",
+            "origin": "Ambalavao, Région Haute Matsiatra",
+            "categorySlug": "artisanat",
+            "sellerSlug": "artisans-ambositra",
+            "tags": ["antaimoro", "papier artisanal", "broderie", "décoration"],
+            "specifications": [
+                { "label": "Matière", "value": "Papier Antaimoro (écorce d'avoha)" },
+                { "label": "Dimensions", "value": "150cm x 100cm" },
+                { "label": "Technique", "value": "Broderie main sur papier végétal" },
+                { "label": "Inclusions", "value": "Florales naturelles séchées" }
+            ],
+            "inStock": true,
+            "stockQuantity": 10,
+            "rating": 4.7,
+            "reviewCount": 28,
+            "isActive": true,
+            "isNew": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Embroidered Antaimoro Tablecloth", "shortDescription": "Hand-embroidered Antaimoro paper tablecloth – 150x100cm", "description": "Hand-embroidered tablecloth on Antaimoro paper from Ambalavao. Made from avoha bark using a 15th-century ancestral technique. Natural dried floral inclusions. Unique piece." },
+                "mg": { "name": "Tahiry voarary Antaimoro", "shortDescription": "Taratasy Antaimoro voarary tanana – 150x100cm", "description": "Tahiry voarary tanana amin'ny taratasy Antaimoro avy any Ambalavao. Vita amin'ny sompitra avoha araka ny fomba taloha. Pejy tokana tsirairay." }
+            }
+        },
+        {
+            "name": "Rhum Arrangé Vanille-Cannelle",
+            "slug": "rhum-arrange-vanille-cannelle",
+            "shortDescription": "Rhum arrangé artisanal vanille-cannelle – 70cl",
+            "description": "Rhum arrangé artisanal macéré pendant 6 mois avec de la vanille bourbon de Madagascar et de la cannelle Cinnamomum zeylanicum. Produit à Nosy Be. 35% vol. Arômes riches et complexes, idéal en digestif.",
+            "price": 48000,
+            "originalPrice": 55000,
+            "currency": "MGA",
+            "sku": "RHM-ARR-70",
+            "weight": 1100,
+            "origin": "Nosy Be, Région Diana",
+            "categorySlug": "boissons",
+            "sellerSlug": "malagasy-tresors",
+            "tags": ["rhum", "arrangé", "vanille", "cannelle", "Nosy Be"],
+            "specifications": [
+                { "label": "Contenance", "value": "70cl" },
+                { "label": "Degré", "value": "35% vol." },
+                { "label": "Macération", "value": "6 mois" },
+                { "label": "Ingrédients", "value": "Rhum blanc, vanille bourbon, cannelle Zeylanicum" }
+            ],
+            "inStock": true,
+            "stockQuantity": 45,
+            "rating": 4.6,
+            "reviewCount": 87,
+            "isActive": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Vanilla-Cinnamon Arranged Rum", "shortDescription": "Artisanal vanilla-cinnamon arranged rum – 70cl", "description": "Artisanal arranged rum macerated for 6 months with Madagascar Bourbon vanilla and Cinnamomum zeylanicum cinnamon. Produced in Nosy Be. 35% vol. Rich and complex, perfect as a digestif." },
+                "mg": { "name": "Rhum Arrangé Lavanila-Kanelina", "shortDescription": "Rhum arrangé lavanila-kanelina – 70cl", "description": "Rhum arrangé vita tanana miaraka amin'ny lavanila bourbon sy kanelina malagasy. Notendrena 6 volana any Nosy Be." }
+            }
+        },
+        {
+            "name": "Sel Rose de l'Onilahy",
+            "slug": "sel-rose-onilahy",
+            "shortDescription": "Sel marin rose artisanal – 200g",
+            "description": "Sel marin rose non raffiné récolté à la main dans les salines naturelles de l'Onilahy, au sud de Madagascar. Sa teinte rosée est due à la concentration en minéraux. Texture croquante unique, idéal en finition sur les viandes grillées.",
+            "price": 15000,
+            "currency": "MGA",
+            "sku": "SEL-ROSE-200",
+            "weight": 200,
+            "origin": "Onilahy, Région Atsimo-Andrefana (Toliara)",
+            "categorySlug": "epicerie",
+            "sellerSlug": "epices-du-sava",
+            "tags": ["sel", "sel rose", "gourmet", "minéraux"],
+            "specifications": [
+                { "label": "Poids net", "value": "200g" },
+                { "label": "Type", "value": "Sel marin non raffiné, non iodé" },
+                { "label": "Teneur en NaCl", "value": "~97%" },
+                { "label": "Usage recommandé", "value": "Finition, plats grillés" }
+            ],
+            "inStock": true,
+            "stockQuantity": 180,
+            "rating": 4.5,
+            "reviewCount": 64,
+            "isActive": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Onilahy Pink Salt", "shortDescription": "Artisanal pink sea salt – 200g", "description": "Unrefined hand-harvested pink sea salt from the natural salt pans of the Onilahy river in southern Madagascar. Unique crunchy texture, ideal as a finishing salt for grilled meats." },
+                "mg": { "name": "Sira Mena Onilahy", "shortDescription": "Sira mena vita tanana – 200g", "description": "Sira mena tsy voanadiova voaangona tanana any amin'ny fitondrana sira Onilahy any atsimon'i Madagasikara. Mandrindrina tsara, tsara amin'ny hena voadona." }
+            }
+        },
+        {
+            "name": "Beurre de Karité Malagasy",
+            "slug": "beurre-karite-malagasy",
+            "shortDescription": "Beurre de karité brut non raffiné – 150g",
+            "description": "Beurre de karité brut, récolté et transformé artisanalement dans le nord de Madagascar. Hydratant naturel intensif pour peau et cheveux. Non raffiné, riche en acides gras et vitamines A et E. Texture onctueuse, odeur légèrement fumée caractéristique.",
+            "price": 28000,
+            "currency": "MGA",
+            "sku": "KAR-BRUT-150",
+            "weight": 150,
+            "origin": "Région Diana, Nord de Madagascar",
+            "categorySlug": "soin-visage",
+            "sellerSlug": "cote-est-bio",
+            "tags": ["karité", "soin", "naturel", "hydratant"],
+            "specifications": [
+                { "label": "Poids net", "value": "150g" },
+                { "label": "Type", "value": "Brut, non raffiné, non désodorisé" },
+                { "label": "Vitamines", "value": "A, E, F" },
+                { "label": "Usage", "value": "Peau, cheveux, lèvres" }
+            ],
+            "inStock": true,
+            "stockQuantity": 90,
+            "rating": 4.7,
+            "reviewCount": 112,
+            "isActive": true,
+            "isFeatured": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Malagasy Shea Butter", "shortDescription": "Raw unrefined shea butter – 150g", "description": "Raw shea butter, artisanally harvested and processed in northern Madagascar. Intensive natural moisturizer for skin and hair. Unrefined, rich in fatty acids and vitamins A and E." },
+                "mg": { "name": "Menaka Karite Malagasy", "shortDescription": "Menaka karite tena, tsy voanadiova – 150g", "description": "Menaka karite tena vita tanana any amin'ny faritra Diana. Mampitombo orana ny hoditra sy volo, feno vitamina A sy E." }
+            }
+        },
+        {
+            "name": "Chapeau Panama Malagasy",
+            "slug": "chapeau-panama-malagasy",
+            "shortDescription": "Chapeau soleil tressé en fibres de satrana",
+            "description": "Chapeau de soleil tressé en fibres de satrana, version malagasy du Panama. Fabriqué par les artisans de Morondava. Léger, aéré et élégant. Protection solaire naturelle. Bandeau réglable pour toutes les têtes.",
+            "price": 42000,
+            "currency": "MGA",
+            "sku": "CHP-PAN-SAT",
+            "origin": "Morondava, Région Menabe",
+            "categorySlug": "vetements-femme",
+            "sellerSlug": "malagasy-tresors",
+            "tags": ["chapeau", "satrana", "voyage", "soleil", "artisanat"],
+            "specifications": [
+                { "label": "Matière", "value": "Fibres de satrana tressées à la main" },
+                { "label": "Taille", "value": "Unique – Bandeau réglable" },
+                { "label": "Protection", "value": "Naturelle anti-UV" }
+            ],
+            "inStock": true,
+            "stockQuantity": 55,
+            "rating": 4.4,
+            "reviewCount": 46,
+            "isActive": true,
+            "isNew": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Malagasy Panama Hat", "shortDescription": "Hand-woven satrana sun hat", "description": "Sun hat woven from satrana fibres, the Malagasy take on the Panama hat. Made by Morondava artisans. Light, breathable and elegant. Adjustable band for all head sizes." },
+                "mg": { "name": "Satroka Panama Malagasy", "shortDescription": "Satroka satrana tenomina tanana", "description": "Satroka fiaro-masoandro vita amin'ny satrana tenomina tanana any Morondava. Maivana, mamelombelona ary tsara tarehy." }
+            }
+        },
+        {
+            "name": "Savon Artisanal Ylang-Ylang",
+            "slug": "savon-artisanal-ylang-ylang",
+            "shortDescription": "Savon surgras ylang-ylang de Nosy Be – 100g",
+            "description": "Savon saponifié à froid, enrichi en huile essentielle d'ylang-ylang de Nosy Be. Surgras 7% pour un soin nourrissant. Doux pour les peaux sensibles. Sans parabens, sans sulfates, sans colorants artificiels.",
+            "price": 12000,
+            "currency": "MGA",
+            "sku": "SAV-YLAN-100",
+            "weight": 100,
+            "origin": "Nosy Be, Région Diana",
+            "categorySlug": "soin-visage",
+            "sellerSlug": "cote-est-bio",
+            "tags": ["savon", "ylang-ylang", "naturel", "Nosy Be"],
+            "specifications": [
+                { "label": "Poids", "value": "100g" },
+                { "label": "Méthode", "value": "Saponification à froid" },
+                { "label": "Surgras", "value": "7%" },
+                { "label": "Sans", "value": "Parabens, sulfates, colorants artificiels" }
+            ],
+            "inStock": true,
+            "stockQuantity": 200,
+            "rating": 4.6,
+            "reviewCount": 138,
+            "isActive": true,
+            "isBestSeller": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Artisan Ylang-Ylang Soap", "shortDescription": "Nosy Be ylang-ylang superfatted soap – 100g", "description": "Cold-process soap enriched with Nosy Be ylang-ylang essential oil. 7% superfat for nourishing care. Gentle on sensitive skin. No parabens, no sulfates, no artificial dyes." },
+                "mg": { "name": "Savony Ylang-Ylang vita tanana", "shortDescription": "Savony ylang-ylang any Nosy Be – 100g", "description": "Savony vita amin'ny saponifikasiona mangatsiaka misy menaka manitra ylang-ylang any Nosy Be. Tsy misy paraben sy colorant artifisialy." }
+            }
+        },
+        {
+            "name": "Trousse de Toilette Rabane",
+            "slug": "trousse-toilette-rabane",
+            "shortDescription": "Trousse de toilette en rabane – Compact",
+            "description": "Trousse de toilette en rabane tissée avec doublure imperméable en polyester. Fermeture éclair YKK. Design compact et pratique, parfait pour le voyage. Motifs géométriques traditionnels teints à la main à Antsirabe.",
+            "price": 28000,
+            "currency": "MGA",
+            "sku": "TRO-RAB-CMP",
+            "origin": "Antsirabe, Région Vakinankaratra",
+            "categorySlug": "artisanat",
+            "sellerSlug": "malagasy-tresors",
+            "tags": ["trousse", "rabane", "voyage", "artisanat"],
+            "specifications": [
+                { "label": "Matière", "value": "Rabane tissée + doublure polyester imperméable" },
+                { "label": "Dimensions", "value": "22cm x 12cm x 10cm" },
+                { "label": "Fermeture", "value": "Éclair YKK" }
+            ],
+            "inStock": true,
+            "stockQuantity": 70,
+            "rating": 4.2,
+            "reviewCount": 29,
+            "isActive": true,
+            "isNew": true,
+            "locale": "fr",
+            "localizations": {
+                "en": { "name": "Raffia Toiletry Bag", "shortDescription": "Compact raffia toiletry bag", "description": "Woven raffia toiletry bag with waterproof polyester lining. YKK zipper. Compact and practical, perfect for travel. Traditional geometric motifs hand-dyed in Antsirabe." },
+                "mg": { "name": "Kitapo fakoram-pitaovana Rabane", "shortDescription": "Kitapo rabane – Kely", "description": "Kitapo fakoram-pitaovana rabane misy lamba polyester tsy mandray rano. Zipper YKK. Kely sy mora entina dia." }
+            }
+        }
+    ]
+}

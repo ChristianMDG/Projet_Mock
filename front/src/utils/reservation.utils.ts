@@ -50,3 +50,27 @@ export const generateBookingReference = (): string => {
 export const formatBookingDate = (date?: dayjs.Dayjs): string => {
   return (date ?? dayjs().tz('Indian/Antananarivo')).toISOString();
 };
+
+/**
+ * Gets the minimum advance amount per seat based on the price per seat (fare) and pourcentageMinimumAvance
+ */
+export const getMinAdvancePerSeat = (pricePerSeat: number, pourcentageMinimumAvance: number = 0): number => {
+  if (pourcentageMinimumAvance > 0) {
+    return (pricePerSeat * pourcentageMinimumAvance) / 100;
+  }
+  return pricePerSeat >= 80000 ? 25000 : 15000;
+};
+
+/**
+ * Calculates the default advance amount (50% of total, clamped and rounded to 1000 Ariary)
+ */
+export const calculateDefaultAdvanceAmount = (
+  seatTotal: number,
+  pricePerSeat: number,
+  seatCount: number,
+  pourcentageMinimumAvance: number = 0,
+): number => {
+  const minAdvance = Math.min(seatTotal, getMinAdvancePerSeat(pricePerSeat, pourcentageMinimumAvance) * seatCount);
+  const maxAdvance = seatTotal;
+  return Math.max(minAdvance, Math.min(Math.round((seatTotal * 0.5) / 1000) * 1000, maxAdvance));
+};

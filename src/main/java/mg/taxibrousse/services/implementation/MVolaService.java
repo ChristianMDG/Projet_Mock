@@ -14,33 +14,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.List;
 
 @Service
 @Slf4j
 public class MVolaService extends PaymentService implements IMVolaService {
+
     private final MVolaApiConfig config;
     private final MVolaApiClient apiClient;
 
     private volatile MVolaTokenResponse cachedToken;
     private final Object tokenLock = new Object();
 
-    public MVolaService(
-            MVolaApiConfig config,
-            MVolaApiClient apiClient,
-            IReservationService reservationService,
-            IPaymentTransactionService paymentTransactionService,
-            IPaymentTransactionRepository paymentTransactionRepository,
-            IFacturationService facturationService,
-            IPaymentNotificationService paymentNotificationService) {
-        super(
-            reservationService, 
-            paymentTransactionService, 
-            paymentTransactionRepository, 
-            facturationService, 
-            paymentNotificationService
-        );
+    public MVolaService(MVolaApiConfig config, MVolaApiClient apiClient, IReservationService reservationService, IPaymentTransactionService paymentTransactionService,
+            IPaymentTransactionRepository paymentTransactionRepository, IFacturationService facturationService, IPaymentNotificationService paymentNotificationService) {
+        super(reservationService, paymentTransactionService, paymentTransactionRepository, facturationService, paymentNotificationService);
         this.config = config;
         this.apiClient = apiClient;
     }
@@ -48,16 +36,12 @@ public class MVolaService extends PaymentService implements IMVolaService {
     @Override
     @Transactional
     public PaymentTransaction initPayment(PaymentRequest request) throws IOException, InterruptedException {
-        var facturationId = facturationService.getOrCreateFacturation(request.getReservationId());
-        var transaction = createTransaction(facturationId, request);
+        var transaction = bootstrapTransaction(request);
         var transactionId = transaction.getId();
 
         try {
             var requestPayload = buildPaymentRequest(request, transaction.getTransactionReference());
-            var response = apiClient.post(
-                getAuthToken(), config.getPaymentUrl(),
-                requestPayload, MVolaPaymentResponse.class
-            );
+            var response = apiClient.post(getAuthToken(), config.getPaymentUrl(), requestPayload, MVolaPaymentResponse.class);
 
             var updatedTransaction = updateTransactionWithCorrelation(transactionId, response.getServerCorrelationId());
 
@@ -124,16 +108,12 @@ public class MVolaService extends PaymentService implements IMVolaService {
         return MVolaPaymentRequest.builder()
                 .amount(request.getAmount().toString())
                 .currency("Ar")
-                .descriptionText(MessageFormat.format("Paiement reservation Taxibrousse {0}", request.getReservationId()))
+                .descriptionText(request.getDescription())
                 .requestingOrganisationTransactionReference(transactionReference)
                 .originalTransactionReference(transactionReference)
                 .debitParty(List.of(Party.msisdn(request.getPhoneNumber())))
                 .creditParty(List.of(Party.msisdn(config.getCreditPartyMsisdn())))
-                .metadata(List.of(
-                        Metadata.partnerName(config.getPartnerName()),
-                        Metadata.foreignCurrency("MGA"),
-                        Metadata.amountForeignCurrency(request.getAmount().toString())
-                ))
+                .metadata(List.of(Metadata.partnerName(config.getPartnerName()), Metadata.foreignCurrency("MGA"), Metadata.amountForeignCurrency(request.getAmount().toString())))
                 .build();
     }
 
@@ -152,5 +132,12 @@ public class MVolaService extends PaymentService implements IMVolaService {
             case "CANCELLED" -> PaymentTransactionStatusEnum.CANCELLED;
             default -> PaymentTransactionStatusEnum.FAILED;
         };
+    }
+
+    // Visible for testing
+    public void clearCache() {
+        synchronized (tokenLock) {
+            this.cachedToken = null;
+        }
     }
 }

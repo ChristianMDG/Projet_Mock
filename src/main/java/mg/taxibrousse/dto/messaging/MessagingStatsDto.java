@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessagingStatsDto {
+
     private Long totalActiveRooms;
     private Long totalMessages;
     private Long unreadMessages;

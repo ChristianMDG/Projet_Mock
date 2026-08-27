@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Card, CardContent, Chip, Grid, Typography } from '@mui/material';
-import { ButtonTx } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PhoneIcon from '@mui/icons-material/Phone';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -12,6 +12,7 @@ import { Guichet } from '@/types';
 import Labels from '@/labelKeys.json';
 import GuichetPng from '@/assets/Guichet.png';
 import ProtectedTx from '@/components/ProtectedTx';
+import { AuthorityEnum } from '@/models/enums';
 
 interface GuichetCardProps {
   guichet: Guichet;
@@ -117,17 +118,17 @@ const GuichetCard: React.FC<GuichetCardProps> = ({ guichet, isDeleting, t, onEdi
               {(guichet.phones || guichet.openingHours) && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, my: 0.5, flexWrap: 'wrap' }}>
                   {guichet.phones && (
-                    <Typography
-                      variant="body2"
-                      color="text.primary"
-                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                    >
-                      <PhoneIcon fontSize="inherit" />
-                      {guichet.phones}
-                    </Typography>
-                  )}
-                  {guichet.phones && guichet.openingHours && (
-                    <FiberManualRecordIcon sx={{ fontSize: 8, color: 'text.secondary' }} />
+                    <ProtectedTx allowedRoles={[AuthorityEnum.ADMIN, AuthorityEnum.OPERATOR]}>
+                      <Typography
+                        variant="body2"
+                        color="text.primary"
+                        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                      >
+                        <PhoneIcon fontSize="inherit" />
+                        {guichet.phones}
+                      </Typography>
+                      {guichet.openingHours && <FiberManualRecordIcon sx={{ fontSize: 8, color: 'text.secondary' }} />}
+                    </ProtectedTx>
                   )}
                   {guichet.openingHours && (
                     <Typography variant="body2" color="primary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -137,31 +138,33 @@ const GuichetCard: React.FC<GuichetCardProps> = ({ guichet, isDeleting, t, onEdi
                   )}
                 </Box>
               )}
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap', my: 0.5 }}>
-                <PersonIcon sx={{ fontSize: 16, color: 'primary.main', flexShrink: 0 }} />
-                {guichet.operateurs?.length ? (
-                  guichet.operateurs.map((operateur, index) => (
-                    <Chip
-                      key={`${guichet.id}-${operateur.id}-${index}`}
-                      label={
-                        operateur.firstName && operateur.lastName
-                          ? `${operateur.firstName} ${operateur.lastName}`
-                          : (operateur.phone ?? operateur.email ?? 'N/A')
-                      }
-                      size="small"
-                      sx={{
-                        bgcolor: 'grey.100',
-                        color: 'primary.main',
-                        height: 24,
-                      }}
-                    />
-                  ))
-                ) : (
-                  <Typography variant="body2" color="text.secondary">
-                    {t(Labels.operator_page_no_operators)}
-                  </Typography>
-                )}
-              </Box>
+              <ProtectedTx allowedRoles={[AuthorityEnum.ADMIN, AuthorityEnum.OPERATOR]}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap', my: 0.5 }}>
+                  <PersonIcon sx={{ fontSize: 16, color: 'primary.main', flexShrink: 0 }} />
+                  {guichet.operateurs?.length ? (
+                    guichet.operateurs.map((operateur, index) => (
+                      <Chip
+                        key={`${guichet.id}-${operateur.id}-${index}`}
+                        label={
+                          operateur.firstName && operateur.lastName
+                            ? `${operateur.firstName} ${operateur.lastName}`
+                            : (operateur.phone ?? operateur.email ?? 'N/A')
+                        }
+                        size="small"
+                        sx={{
+                          bgcolor: 'grey.100',
+                          color: 'primary.main',
+                          height: 24,
+                        }}
+                      />
+                    ))
+                  ) : (
+                    <Typography variant="body2" color="text.secondary">
+                      {t(Labels.operator_page_no_operators)}
+                    </Typography>
+                  )}
+                </Box>
+              </ProtectedTx>
               {guichet.gare?.name && (
                 <Typography
                   variant="caption"

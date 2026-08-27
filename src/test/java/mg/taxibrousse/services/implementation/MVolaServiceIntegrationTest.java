@@ -2,6 +2,7 @@ package mg.taxibrousse.services.implementation;
 
 import mg.taxibrousse.HttpRequest.MVolaApiClient;
 import mg.taxibrousse.config.TestRedisConfig;
+import mg.taxibrousse.dto.PayableType;
 import mg.taxibrousse.dto.PaymentRequest;
 import mg.taxibrousse.dto.mvola.MVolaPaymentResponse;
 import mg.taxibrousse.dto.mvola.MVolaTokenResponse;
@@ -75,10 +76,23 @@ class MVolaServiceIntegrationTest {
         koperative.setName("Test Koperative");
         entityManager.persist(koperative);
 
+        ChauffeurEntity chauffeur = new ChauffeurEntity();
+        chauffeur.setLicenseNumber("LIC-TEST-001");
+        chauffeur.setKoperative(koperative);
+        entityManager.persist(chauffeur);
+
+        CrafterEntity crafter = new CrafterEntity();
+        crafter.setRegistrationNumber("REG-TEST-001");
+        crafter.setKoperative(koperative);
+        entityManager.persist(crafter);
+
         voyage = new VoyageEntity();
         voyage.setKoperative(koperative);
+        voyage.setChauffeur(chauffeur);
+        voyage.setCrafter(crafter);
         voyage.setDepartureTime(LocalDateTime.now().plusDays(1));
         voyage.setPricePerSeat(new BigDecimal("25000.00"));
+        voyage.setPriceKoperative(new BigDecimal("25000.00"));
         voyage.setAvailableSeats(20);
         entityManager.persist(voyage);
 
@@ -87,19 +101,25 @@ class MVolaServiceIntegrationTest {
         reservation.setBookingReference("BK-TEST-001");
         reservation.setStatus(ReservationStatusEnum.PENDING_PAYMENT);
         reservation.setTotalAmount(new BigDecimal("50000.00"));
+        reservation.setSeatCount(2);
         entityManager.persist(reservation);
+
+        CommissionEntity commission = new CommissionEntity();
+        commission.setKoperative(koperative);
+        commission.setMinAmount(new BigDecimal("500.00"));
+        commission.setMaxAmount(new BigDecimal("99999.00"));
+        commission.setFrais(new BigDecimal("5000.00"));
+        entityManager.persist(commission);
 
         entityManager.flush();
 
         // Default mock: apiClient.authenticate returns a valid token
-        var tokenResponse = MVolaTokenResponse.builder()
-                .accessToken("test-token-123")
-                .tokenType("Bearer")
-                .expiresIn(3600)
-                .scope("EXT_INT_MVOLA_SCOPE")
-                .createdAt(Instant.now())
-                .build();
+        var tokenResponse = MVolaTokenResponse.builder().accessToken("test-token-123").tokenType("Bearer").expiresIn(3600).scope("EXT_INT_MVOLA_SCOPE").createdAt(Instant.now()).build();
         when(apiClient.authenticate(MVolaTokenResponse.class)).thenReturn(tokenResponse);
+
+        if (mVolaService instanceof MVolaService) {
+            ((MVolaService) mVolaService).clearCache();
+        }
     }
 
     // =========================================================================
@@ -113,16 +133,12 @@ class MVolaServiceIntegrationTest {
         @DisplayName("Should create facturation and transaction, then call MVola API")
         void initPayment_happyPath() throws Exception {
             // Arrange
-            var mvolaResponse = MVolaPaymentResponse.builder()
-                    .status("PENDING")
-                    .serverCorrelationId("corr-12345")
-                    .notificationMethod("CALLBACK")
-                    .build();
-            when(apiClient.post(anyString(), anyString(), any(), eq(MVolaPaymentResponse.class)))
-                    .thenReturn(mvolaResponse);
+            var mvolaResponse = MVolaPaymentResponse.builder().status("PENDING").serverCorrelationId("corr-12345").notificationMethod("CALLBACK").build();
+            when(apiClient.post(anyString(), anyString(), any(), eq(MVolaPaymentResponse.class))).thenReturn(mvolaResponse);
 
             var request = PaymentRequest.builder()
-                    .reservationId(reservation.getId())
+                    .payableId(reservation.getId())
+                    .payableType(PayableType.RESERVATION)
                     .amount(new BigDecimal("50000.00"))
                     .phoneNumber("0343500001")
                     .operatorName("MVOLA")
@@ -167,15 +183,12 @@ class MVolaServiceIntegrationTest {
             entityManager.persist(existingFacturation);
             entityManager.flush();
 
-            var mvolaResponse = MVolaPaymentResponse.builder()
-                    .status("PENDING")
-                    .serverCorrelationId("corr-67890")
-                    .build();
-            when(apiClient.post(anyString(), anyString(), any(), eq(MVolaPaymentResponse.class)))
-                    .thenReturn(mvolaResponse);
+            var mvolaResponse = MVolaPaymentResponse.builder().status("PENDING").serverCorrelationId("corr-67890").build();
+            when(apiClient.post(anyString(), anyString(), any(), eq(MVolaPaymentResponse.class))).thenReturn(mvolaResponse);
 
             var request = PaymentRequest.builder()
-                    .reservationId(reservation.getId())
+                    .payableId(reservation.getId())
+                    .payableType(PayableType.RESERVATION)
                     .amount(new BigDecimal("50000.00"))
                     .phoneNumber("0343500001")
                     .operatorName("MVOLA")
@@ -187,9 +200,7 @@ class MVolaServiceIntegrationTest {
             // Assert - should not create a second facturation
             assertThat(result).isNotNull();
             var allFacturations = facturationRepository.findAll();
-            long reservationFacturations = allFacturations.stream()
-                    .filter(f -> f.getReservation().getId().equals(reservation.getId()))
-                    .count();
+            long reservationFacturations = allFacturations.stream().filter(f -> f.getReservation().getId().equals(reservation.getId())).count();
             assertThat(reservationFacturations).isEqualTo(1);
         }
 
@@ -197,27 +208,23 @@ class MVolaServiceIntegrationTest {
         @DisplayName("Should mark transaction as FAILED when MVola API throws")
         void initPayment_apiFailure_marksTransactionFailed() throws Exception {
             // Arrange
-            when(apiClient.post(anyString(), anyString(), any(), eq(MVolaPaymentResponse.class)))
-                    .thenThrow(new IOException("MVola API error: 500 Internal Server Error"));
+            when(apiClient.post(anyString(), anyString(), any(), eq(MVolaPaymentResponse.class))).thenThrow(new IOException("MVola API error: 500 Internal Server Error"));
 
             var request = PaymentRequest.builder()
-                    .reservationId(reservation.getId())
+                    .payableId(reservation.getId())
+                    .payableType(PayableType.RESERVATION)
                     .amount(new BigDecimal("50000.00"))
                     .phoneNumber("0343500001")
                     .operatorName("MVOLA")
                     .build();
 
             // Act & Assert
-            assertThatThrownBy(() -> mVolaService.initPayment(request))
-                    .isInstanceOf(IOException.class)
-                    .hasMessageContaining("MVola API error");
+            assertThatThrownBy(() -> mVolaService.initPayment(request)).isInstanceOf(IOException.class).hasMessageContaining("MVola API error");
 
             // Verify the transaction was created and marked as FAILED
             var transactions = paymentTransactionRepository.findAll();
             assertThat(transactions).isNotEmpty();
-            var failedTx = transactions.stream()
-                    .filter(tx -> tx.getStatus() == PaymentTransactionStatusEnum.FAILED)
-                    .findFirst();
+            var failedTx = transactions.stream().filter(tx -> tx.getStatus() == PaymentTransactionStatusEnum.FAILED).findFirst();
             assertThat(failedTx).isPresent();
         }
 
@@ -225,17 +232,10 @@ class MVolaServiceIntegrationTest {
         @DisplayName("Should throw PaymentException for non-existent reservation")
         void initPayment_invalidReservation_throwsException() {
             // Arrange
-            var request = PaymentRequest.builder()
-                    .reservationId(99999L)
-                    .amount(new BigDecimal("50000.00"))
-                    .phoneNumber("0343500001")
-                    .operatorName("MVOLA")
-                    .build();
+            var request = PaymentRequest.builder().payableId(99999L).payableType(PayableType.RESERVATION).amount(new BigDecimal("50000.00")).phoneNumber("0343500001").operatorName("MVOLA").build();
 
             // Act & Assert
-            assertThatThrownBy(() -> mVolaService.initPayment(request))
-                    .isInstanceOf(PaymentException.class)
-                    .hasMessageContaining("Reservation not found");
+            assertThatThrownBy(() -> mVolaService.initPayment(request)).isInstanceOf(PaymentException.class).hasMessageContaining("Reservation not found");
         }
     }
 
@@ -249,6 +249,7 @@ class MVolaServiceIntegrationTest {
         private PaymentTransactionEntity createTestTransaction(PaymentTransactionStatusEnum status, String correlationId) {
             var facturation = new FacturationEntity();
             facturation.setReservation(reservation);
+            reservation.setFacturation(facturation);
             facturation.setInvoiceNumber("INV-CB-" + System.nanoTime());
             facturation.setAmount(reservation.getTotalAmount());
             facturation.setTaxAmount(BigDecimal.ZERO);
@@ -283,11 +284,15 @@ class MVolaServiceIntegrationTest {
             mVolaService.handleCallback("corr-success-1", "COMPLETED", "Transaction completed");
 
             // Assert
+            entityManager.flush();
             entityManager.clear();
             var updated = paymentTransactionRepository.findByServerCorrelationId("corr-success-1").orElseThrow();
             assertThat(updated.getStatus()).isEqualTo(PaymentTransactionStatusEnum.COMPLETED);
             assertThat(updated.getOperatorResponse()).isEqualTo("Transaction completed");
             assertThat(updated.getCompletedAt()).isNotNull();
+
+            assertThat(updated.getFacturation()).isNotNull();
+            assertThat(updated.getFacturation().getCommission()).isEqualByComparingTo(new BigDecimal("10000.00"));
 
             verify(paymentNotificationService).broadcastPaymentUpdate(eq(tx.getTransactionReference()), any());
         }
@@ -302,6 +307,7 @@ class MVolaServiceIntegrationTest {
             mVolaService.handleCallback("corr-cancel-1", "CANCELLED", "User cancelled");
 
             // Assert
+            entityManager.flush();
             entityManager.clear();
             var updated = paymentTransactionRepository.findByServerCorrelationId("corr-cancel-1").orElseThrow();
             assertThat(updated.getStatus()).isEqualTo(PaymentTransactionStatusEnum.CANCELLED);
@@ -321,6 +327,7 @@ class MVolaServiceIntegrationTest {
             mVolaService.handleCallback("corr-terminal-1", "FAILED", "Should be ignored");
 
             // Assert
+            entityManager.flush();
             entityManager.clear();
             var unchanged = paymentTransactionRepository.findByServerCorrelationId("corr-terminal-1").orElseThrow();
             assertThat(unchanged.getStatus()).isEqualTo(PaymentTransactionStatusEnum.COMPLETED);
@@ -388,6 +395,7 @@ class MVolaServiceIntegrationTest {
             // Arrange
             var facturation = new FacturationEntity();
             facturation.setReservation(reservation);
+            reservation.setFacturation(facturation);
             facturation.setInvoiceNumber("INV-POLL-" + System.nanoTime());
             facturation.setAmount(reservation.getTotalAmount());
             facturation.setTaxAmount(BigDecimal.ZERO);
@@ -410,12 +418,8 @@ class MVolaServiceIntegrationTest {
             entityManager.flush();
 
             // Mock the MVola status API
-            var statusResponse = MVolaPaymentResponse.builder()
-                    .status("COMPLETED")
-                    .serverCorrelationId("corr-poll-1")
-                    .build();
-            when(apiClient.get(anyString(), anyString(), eq(MVolaPaymentResponse.class)))
-                    .thenReturn(statusResponse);
+            var statusResponse = MVolaPaymentResponse.builder().status("COMPLETED").serverCorrelationId("corr-poll-1").build();
+            when(apiClient.get(anyString(), anyString(), eq(MVolaPaymentResponse.class))).thenReturn(statusResponse);
 
             // Act
             PaymentTransaction result = mVolaService.checkAndUpdateTransactionStatus("TXB-POLL-001");
@@ -433,6 +437,7 @@ class MVolaServiceIntegrationTest {
             // Arrange
             var facturation = new FacturationEntity();
             facturation.setReservation(reservation);
+            reservation.setFacturation(facturation);
             facturation.setInvoiceNumber("INV-NOCORR-" + System.nanoTime());
             facturation.setAmount(reservation.getTotalAmount());
             facturation.setTaxAmount(BigDecimal.ZERO);
@@ -455,9 +460,7 @@ class MVolaServiceIntegrationTest {
             entityManager.flush();
 
             // Act & Assert
-            assertThatThrownBy(() -> mVolaService.checkAndUpdateTransactionStatus("TXB-NOCORR-001"))
-                    .isInstanceOf(PaymentException.class)
-                    .hasMessageContaining("no server correlation ID");
+            assertThatThrownBy(() -> mVolaService.checkAndUpdateTransactionStatus("TXB-NOCORR-001")).isInstanceOf(PaymentException.class).hasMessageContaining("no server correlation ID");
         }
     }
 }

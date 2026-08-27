@@ -1,0 +1,96 @@
+{
+    "collectionName": "components_page_shop_promotions",
+    "info": {
+        "displayName": "Shop Promotions",
+        "description": "Shop promotional banner section (CTA with image and optional campaign)",
+        "icon": "bullhorn"
+    },
+    "options": {},
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true,
+            "maxLength": 200,
+            "default": "Promotions en cours",
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "subtitle": {
+            "type": "string",
+            "maxLength": 300,
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "description": {
+            "type": "richtext",
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "image": {
+            "type": "media",
+            "multiple": false,
+            "required": false,
+            "allowedTypes": [
+                "images"
+            ]
+        },
+        "ctaText": {
+            "type": "string",
+            "maxLength": 80,
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "ctaLink": {
+            "type": "string",
+            "maxLength": 255,
+            "required": false
+        },
+        "layout": {
+            "type": "enumeration",
+            "enum": [
+                "banner",
+                "split",
+                "overlay",
+                "carousel"
+            ],
+            "default": "banner",
+            "required": true
+        },
+        "backgroundColor": {
+            "type": "string",
+            "maxLength": 50,
+            "default": "background.default"
+        },
+        "containerMaxWidth": {
+            "type": "enumeration",
+            "enum": [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl"
+            ],
+            "default": "lg"
+        },
+        "campaigns": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::promotional-campaign.promotional-campaign"
+        }
+    }
+}

@@ -1,0 +1,676 @@
+{
+    "description": "Shop products (13 entries). Slugs preserved for frontend compatibility against CMS.",
+    "collection": "api::product.product",
+    "data": [
+        {
+            "name": "Vanille Bourbon Premium",
+            "slug": "vanille-bourbon-premium",
+            "shortDescription": "Vanille bourbon de Madagascar - 100g",
+            "description": "Vanille bourbon de Madagascar, récoltée à la main dans la région SAVA. Qualité premium, gousses charnues et parfumées. Idéale pour la pâtisserie et l'arôme naturel. Nos gousses sont séchées au soleil pendant 6 mois selon la méthode traditionnelle.",
+            "price": 45000,
+            "originalPrice": 55000,
+            "currency": "MGA",
+            "sku": "VAN-BOURB-100",
+            "weight": 100,
+            "origin": "Région SAVA",
+            "categorySlug": "ambondrona",
+            "images": [
+                "https://images.unsplash.com/photo-1611241893603-3c359704e0ee?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "vanille",
+                "épices",
+                "premium"
+            ],
+            "specifications": [
+                {
+                    "label": "Poids net",
+                    "value": "100g"
+                },
+                {
+                    "label": "Variété",
+                    "value": "Bourbon (Vanilla planifolia)"
+                },
+                {
+                    "label": "Grade",
+                    "value": "Gourmet – Taux de vanilline > 2%"
+                },
+                {
+                    "label": "Origine",
+                    "value": "Antalaha, Région SAVA"
+                },
+                {
+                    "label": "Conservation",
+                    "value": "24 mois à l'abri de la lumière"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 150,
+            "rating": 4.8,
+            "reviewCount": 124,
+            "isActive": true,
+            "isFeatured": true,
+            "isNew": false,
+            "isBestSeller": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Premium Bourbon Vanilla",
+                    "shortDescription": "Madagascar Bourbon vanilla – 100g",
+                    "description": "Hand-harvested Madagascar Bourbon vanilla from the SAVA region. Premium grade, plump and fragrant pods. Sun-cured for 6 months following traditional methods."
+                },
+                "mg": {
+                    "name": "Lavanila Bourbon Premium",
+                    "shortDescription": "Lavanila bourbon avy any Madagasikara - 100g",
+                    "description": "Lavanila bourbon notsongaina tanana any amin'ny faritra SAVA. Kalitao ambony indrindra, mamofona tsara."
+                }
+            }
+        },
+        {
+            "name": "Lamba Soie Sauvage",
+            "slug": "lamba-soie-sauvage",
+            "shortDescription": "Lamba en soie sauvage tissée main",
+            "description": "Lamba traditionnel en soie sauvage tissée à la main. Motifs ancestraux des hauts plateaux. Chaque pièce est unique et porte le savoir-faire des tisserandes. Le landibe (soie sauvage) est récolté dans les forêts de l'Imerina et tissé sur des métiers traditionnels.",
+            "price": 180000,
+            "currency": "MGA",
+            "sku": "LAM-SOIE-001",
+            "origin": "Hauts Plateaux",
+            "categorySlug": "mode",
+            "images": [
+                "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "soie",
+                "tradition",
+                "artisanat"
+            ],
+            "specifications": [
+                {
+                    "label": "Matière",
+                    "value": "100% Soie sauvage landibe"
+                },
+                {
+                    "label": "Dimensions",
+                    "value": "200cm x 120cm"
+                },
+                {
+                    "label": "Technique",
+                    "value": "Tissage à la main sur métier traditionnel"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 25,
+            "rating": 4.9,
+            "reviewCount": 67,
+            "isActive": true,
+            "isFeatured": true,
+            "isNew": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Wild Silk Lamba",
+                    "shortDescription": "Hand-woven wild silk lamba",
+                    "description": "Traditional lamba made of hand-woven wild silk. Ancestral highland patterns, unique piece by piece."
+                },
+                "mg": {
+                    "name": "Lamba Landibe",
+                    "shortDescription": "Lamba landibe tenomina tanana",
+                    "description": "Lamba nentim-paharazana nataon'ny landibe notenomina tanana."
+                }
+            }
+        },
+        {
+            "name": "Panier Raphia Tressé",
+            "slug": "panier-raphia-tresse",
+            "shortDescription": "Panier raphia artisanal – Grande taille",
+            "description": "Panier artisanal en raphia tressé, fabriqué par les artisans de la côte Est. Résistant et léger, parfait pour les courses ou comme sac de plage. Teintures naturelles à base de plantes locales.",
+            "price": 35000,
+            "originalPrice": 42000,
+            "currency": "MGA",
+            "sku": "PAN-RAPH-LG",
+            "origin": "Côte Est",
+            "categorySlug": "ambondrona",
+            "images": [
+                "https://images.unsplash.com/photo-1530973428-5bf2db2e4d71?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "raphia",
+                "panier",
+                "artisanat"
+            ],
+            "specifications": [
+                {
+                    "label": "Matière",
+                    "value": "Raphia naturel tressé"
+                },
+                {
+                    "label": "Dimensions",
+                    "value": "40cm x 35cm x 25cm"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 80,
+            "rating": 4.5,
+            "reviewCount": 89,
+            "isActive": true,
+            "isFeatured": false,
+            "isNew": false,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Woven Raffia Basket",
+                    "shortDescription": "Artisanal raffia basket – Large",
+                    "description": "Hand-woven raffia basket made by East Coast artisans. Sturdy yet light, perfect for shopping or as a beach bag."
+                },
+                "mg": {
+                    "name": "Sobika Rafia",
+                    "shortDescription": "Sobika rafia lehibe",
+                    "description": "Sobika rafia vita an-tanana avy amin'ny mpanao asa tanana ao amin'ny morontsiraka Atsinanana."
+                }
+            }
+        },
+        {
+            "name": "Sculpture Palissandre",
+            "slug": "sculpture-palissandre",
+            "shortDescription": "Sculpture en palissandre - Lémuriens",
+            "description": "Sculpture décorative en bois de palissandre, sculptée à la main par les artisans d'Ambositra. Représentation de la faune endémique de Madagascar – famille de lémuriens sifaka.",
+            "price": 95000,
+            "currency": "MGA",
+            "sku": "SCU-PALI-LEM",
+            "origin": "Ambositra",
+            "categorySlug": "ambondrona",
+            "images": [
+                "https://images.unsplash.com/photo-1544967082-d9d25d867d66?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "bois",
+                "sculpture",
+                "décoration"
+            ],
+            "specifications": [
+                {
+                    "label": "Matière",
+                    "value": "Palissandre massif"
+                },
+                {
+                    "label": "Hauteur",
+                    "value": "25cm"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 15,
+            "rating": 4.6,
+            "reviewCount": 42,
+            "isActive": true,
+            "isFeatured": false,
+            "isNew": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Rosewood Sculpture",
+                    "shortDescription": "Rosewood sculpture – Lemurs",
+                    "description": "Hand-carved decorative sculpture in rosewood by Ambositra artisans. Depicts a family of sifaka lemurs."
+                },
+                "mg": {
+                    "name": "Sary Hazo Palissandra",
+                    "shortDescription": "Sary hazo palissandra – Gidro",
+                    "description": "Sary haingom-panaka vita tanana amin'ny hazo palissandra."
+                }
+            }
+        },
+        {
+            "name": "Poivre Sauvage Tsiperifery",
+            "slug": "poivre-sauvage-tsiperifery",
+            "shortDescription": "Poivre Tsiperifery sauvage - 50g",
+            "description": "Poivre sauvage Tsiperifery, une variété endémique cueillie dans les forêts de Madagascar. Notes boisées et florales uniques. Rare et recherché par les chefs étoilés du monde entier.",
+            "price": 38000,
+            "currency": "MGA",
+            "sku": "POI-TSIP-50",
+            "weight": 50,
+            "origin": "Forêts humides de l'Est",
+            "categorySlug": "ambondrona",
+            "images": [
+                "https://images.unsplash.com/photo-1531315396756-905d68d21b56?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "poivre",
+                "épices",
+                "rare"
+            ],
+            "specifications": [
+                {
+                    "label": "Poids net",
+                    "value": "50g"
+                },
+                {
+                    "label": "Espèce",
+                    "value": "Tsiperifery (Piper borbonense)"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 60,
+            "rating": 4.9,
+            "reviewCount": 78,
+            "isActive": true,
+            "isFeatured": true,
+            "isNew": false,
+            "isBestSeller": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Wild Tsiperifery Pepper",
+                    "shortDescription": "Wild Tsiperifery pepper – 50g",
+                    "description": "Endemic wild pepper from Madagascar's forests. Unique woody and floral notes. Rare and sought-after by starred chefs."
+                },
+                "mg": {
+                    "name": "Dipoavatra Tsiperifery",
+                    "shortDescription": "Dipoavatra Tsiperifery - 50g",
+                    "description": "Dipoavatra mitombo ho azy any amin'ny alan'i Madagasikara."
+                }
+            }
+        },
+        {
+            "name": "Sac de Voyage Rabane",
+            "slug": "sac-voyage-rabane",
+            "shortDescription": "Sac de voyage en rabane naturelle",
+            "description": "Grand sac de voyage en rabane naturelle renforcée. Poignées en cuir tressé. Spacieux et robuste, idéal pour les trajets en taxi-brousse.",
+            "price": 65000,
+            "currency": "MGA",
+            "sku": "SAC-RAB-VOY",
+            "origin": "Antsirabe",
+            "categorySlug": "mode",
+            "images": [
+                "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "voyage",
+                "sac",
+                "rabane"
+            ],
+            "specifications": [
+                {
+                    "label": "Matière",
+                    "value": "Rabane renforcée + cuir"
+                },
+                {
+                    "label": "Dimensions",
+                    "value": "55cm x 35cm x 30cm"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 40,
+            "rating": 4.3,
+            "reviewCount": 34,
+            "isActive": true,
+            "isFeatured": false,
+            "isNew": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Raffia Travel Bag",
+                    "shortDescription": "Natural raffia travel bag",
+                    "description": "Large natural reinforced raffia travel bag. Woven leather handles. Spacious and sturdy, ideal for taxi-brousse trips."
+                },
+                "mg": {
+                    "name": "Kitapo Fitondrana Rabane",
+                    "shortDescription": "Kitapo fitondrana rabane",
+                    "description": "Kitapo fitondrana rabane voloina, mafy ary malalaka."
+                }
+            }
+        },
+        {
+            "name": "Huile Essentielle de Ravintsara",
+            "slug": "huile-essentielle-ravintsara",
+            "shortDescription": "Huile essentielle Ravintsara - 10ml",
+            "description": "Huile essentielle de Ravintsara 100% pure, distillée à la vapeur d'eau. Reconnue pour ses propriétés antivirales et immunitaires.",
+            "price": 18000,
+            "originalPrice": 22000,
+            "currency": "MGA",
+            "sku": "HE-RAV-10",
+            "weight": 15,
+            "origin": "Forêts de l'Est",
+            "categorySlug": "beaute",
+            "images": [
+                "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "huile essentielle",
+                "ravintsara",
+                "santé"
+            ],
+            "specifications": [
+                {
+                    "label": "Contenance",
+                    "value": "10ml"
+                },
+                {
+                    "label": "Plante",
+                    "value": "Cinnamomum camphora"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 120,
+            "rating": 4.8,
+            "reviewCount": 93,
+            "isActive": true,
+            "isFeatured": true,
+            "isNew": false,
+            "isBestSeller": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Ravintsara Essential Oil",
+                    "shortDescription": "Ravintsara essential oil - 10ml",
+                    "description": "100% pure Ravintsara essential oil, steam-distilled. Recognized for its antiviral and immune-boosting properties."
+                },
+                "mg": {
+                    "name": "Menaka manitra Ravintsara",
+                    "shortDescription": "Menaka manitra Ravintsara - 10ml",
+                    "description": "Menaka manitra Ravintsara madio 100%."
+                }
+            }
+        },
+        {
+            "name": "Nappe Brodée Antaimoro",
+            "slug": "nappe-brodee-antaimoro",
+            "shortDescription": "Nappe papier Antaimoro brodée - 150x100cm",
+            "description": "Nappe de table brodée à la main sur papier Antaimoro. Le papier Antaimoro est fabriqué à partir d'écorce d'avoha selon une technique ancestrale. Inclusions florales naturelles.",
+            "price": 120000,
+            "currency": "MGA",
+            "sku": "NAP-ANTM-150",
+            "origin": "Ambalavao",
+            "categorySlug": "ambondrona",
+            "images": [
+                "https://images.unsplash.com/photo-1597423244036-ef5020e83f3c?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "antaimoro",
+                "papier",
+                "décoration"
+            ],
+            "specifications": [
+                {
+                    "label": "Matière",
+                    "value": "Papier Antaimoro (écorce d'avoha)"
+                },
+                {
+                    "label": "Dimensions",
+                    "value": "150cm x 100cm"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 10,
+            "rating": 4.7,
+            "reviewCount": 28,
+            "isActive": true,
+            "isFeatured": false,
+            "isNew": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Embroidered Antaimoro Tablecloth",
+                    "shortDescription": "Embroidered Antaimoro paper tablecloth - 150x100cm",
+                    "description": "Handmade embroidered tablecloth on Antaimoro paper. Made from avoha bark using an ancestral technique with natural floral inclusions."
+                },
+                "mg": {
+                    "name": "Tahiry voarary Antaimoro",
+                    "shortDescription": "Taratasy Antaimoro voarary - 150x100cm",
+                    "description": "Tahiry voarary tanana amin'ny taratasy Antaimoro."
+                }
+            }
+        },
+        {
+            "name": "Sel Rose de l'Onilahy",
+            "slug": "sel-rose-onilahy",
+            "shortDescription": "Sel rose artisanal - 200g",
+            "description": "Sel rose artisanal récolté dans les salines de l'Onilahy, au sud de Madagascar. Riche en minéraux, texture croquante unique.",
+            "price": 15000,
+            "currency": "MGA",
+            "sku": "SEL-ROSE-200",
+            "weight": 200,
+            "origin": "Toliara, Onilahy",
+            "categorySlug": "ambondrona",
+            "images": [
+                "https://images.unsplash.com/photo-1518843875459-f738682238a6?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "sel",
+                "gourmet",
+                "artisanal"
+            ],
+            "specifications": [
+                {
+                    "label": "Poids net",
+                    "value": "200g"
+                },
+                {
+                    "label": "Type",
+                    "value": "Sel marin non raffiné"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 180,
+            "rating": 4.5,
+            "reviewCount": 64,
+            "isActive": true,
+            "isFeatured": false,
+            "isNew": false,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Onilahy Pink Salt",
+                    "shortDescription": "Artisanal pink salt - 200g",
+                    "description": "Artisanal pink salt harvested in the Onilahy salt pans in southern Madagascar. Mineral-rich with unique crunchy texture."
+                },
+                "mg": {
+                    "name": "Sira Mena Onilahy",
+                    "shortDescription": "Sira mena vita tanana - 200g",
+                    "description": "Sira mena avy any amin'ny fitondrana sira Onilahy any atsimon'i Madagasikara."
+                }
+            }
+        },
+        {
+            "name": "Beurre de Karité Malagasy",
+            "slug": "beurre-karite-malagasy",
+            "shortDescription": "Beurre de karité brut - 150g",
+            "description": "Beurre de karité brut, récolté et transformé artisanalement. Hydratant naturel pour peau et cheveux. Non raffiné, riche en vitamines A et E.",
+            "price": 28000,
+            "currency": "MGA",
+            "sku": "KAR-BRUT-150",
+            "weight": 150,
+            "origin": "Nord de Madagascar",
+            "categorySlug": "beaute",
+            "images": [
+                "https://images.unsplash.com/photo-1596568571177-154e64b5a5b8?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "karité",
+                "soin",
+                "naturel"
+            ],
+            "specifications": [
+                {
+                    "label": "Poids net",
+                    "value": "150g"
+                },
+                {
+                    "label": "Type",
+                    "value": "Brut, non raffiné"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 90,
+            "rating": 4.7,
+            "reviewCount": 112,
+            "isActive": true,
+            "isFeatured": true,
+            "isNew": false,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Malagasy Shea Butter",
+                    "shortDescription": "Raw shea butter - 150g",
+                    "description": "Raw shea butter, artisanally harvested and processed. Natural moisturizer for skin and hair, rich in vitamins A and E."
+                },
+                "mg": {
+                    "name": "Menaka Karite Malagasy",
+                    "shortDescription": "Menaka karite tena - 150g",
+                    "description": "Menaka karite tena vita tanana."
+                }
+            }
+        },
+        {
+            "name": "Chapeau Panama Malagasy",
+            "slug": "chapeau-panama-malagasy",
+            "shortDescription": "Chapeau soleil tressé satrana",
+            "description": "Chapeau de soleil tressé en fibres de satrana, version malagasy du Panama. Léger, aéré et élégant. Protection solaire naturelle.",
+            "price": 42000,
+            "currency": "MGA",
+            "sku": "CHP-PAN-SAT",
+            "origin": "Morondava",
+            "categorySlug": "mode",
+            "images": [
+                "https://images.unsplash.com/photo-1521369909029-2afed882baaa?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "chapeau",
+                "soleil",
+                "voyage"
+            ],
+            "specifications": [
+                {
+                    "label": "Matière",
+                    "value": "Fibres de satrana tressées"
+                },
+                {
+                    "label": "Taille",
+                    "value": "Unique – Bandeau réglable"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 55,
+            "rating": 4.4,
+            "reviewCount": 46,
+            "isActive": true,
+            "isFeatured": false,
+            "isNew": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Malagasy Panama Hat",
+                    "shortDescription": "Woven satrana sun hat",
+                    "description": "Sun hat woven from satrana fibers, the Malagasy take on the Panama hat. Light, breathable and elegant."
+                },
+                "mg": {
+                    "name": "Satroka Panama Malagasy",
+                    "shortDescription": "Satroka satrana voly",
+                    "description": "Satroka fiaro-masoandro vita amin'ny satrana."
+                }
+            }
+        },
+        {
+            "name": "Savon Artisanal Ylang-Ylang",
+            "slug": "savon-artisanal-ylang-ylang",
+            "shortDescription": "Savon surgras ylang-ylang - 100g",
+            "description": "Savon saponifié à froid, enrichi en huile essentielle d'ylang-ylang de Nosy Be. Surgras 7%, doux pour les peaux sensibles.",
+            "price": 12000,
+            "currency": "MGA",
+            "sku": "SAV-YLAN-100",
+            "weight": 100,
+            "origin": "Nosy Be",
+            "categorySlug": "beaute",
+            "images": [
+                "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "savon",
+                "ylang-ylang",
+                "bio"
+            ],
+            "specifications": [
+                {
+                    "label": "Poids",
+                    "value": "100g"
+                },
+                {
+                    "label": "Méthode",
+                    "value": "Saponification à froid"
+                },
+                {
+                    "label": "Surgras",
+                    "value": "7%"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 200,
+            "rating": 4.6,
+            "reviewCount": 138,
+            "isActive": true,
+            "isFeatured": false,
+            "isNew": false,
+            "isBestSeller": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Artisan Ylang-Ylang Soap",
+                    "shortDescription": "Ylang-ylang superfatted soap - 100g",
+                    "description": "Cold-process soap enriched with Nosy Be ylang-ylang essential oil. 7% superfat, gentle on sensitive skin."
+                },
+                "mg": {
+                    "name": "Savony Ylang-Ylang vita tanana",
+                    "shortDescription": "Savony vita tanana ylang-ylang - 100g",
+                    "description": "Savony vita amin'ny saponifikasiona mangatsiaka misy menaka manitra ylang-ylang."
+                }
+            }
+        },
+        {
+            "name": "Trousse de Toilette Rabane",
+            "slug": "trousse-toilette-rabane",
+            "shortDescription": "Trousse de toilette rabane – Compact",
+            "description": "Trousse de toilette en rabane tissée avec doublure imperméable. Fermeture éclair YKK. Design compact parfait pour le voyage. Motifs géométriques teints à la main.",
+            "price": 28000,
+            "currency": "MGA",
+            "sku": "TRO-RAB-CMP",
+            "origin": "Antsirabe",
+            "categorySlug": "mode",
+            "images": [
+                "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=400&h=300&fit=crop"
+            ],
+            "tags": [
+                "trousse",
+                "voyage",
+                "rabane"
+            ],
+            "specifications": [
+                {
+                    "label": "Matière",
+                    "value": "Rabane tissée + doublure imperméable"
+                },
+                {
+                    "label": "Dimensions",
+                    "value": "22cm x 12cm x 10cm"
+                }
+            ],
+            "inStock": true,
+            "stockQuantity": 70,
+            "rating": 4.2,
+            "reviewCount": 29,
+            "isActive": true,
+            "isFeatured": false,
+            "isNew": true,
+            "locale": "fr",
+            "localizations": {
+                "en": {
+                    "name": "Raffia Toiletry Bag",
+                    "shortDescription": "Compact raffia toiletry bag",
+                    "description": "Woven raffia toiletry bag with waterproof lining. YKK zipper. Compact design perfect for travel."
+                },
+                "mg": {
+                    "name": "Kitapo fakoram-pitaovana Rabane",
+                    "shortDescription": "Kitapo rabane - Kely",
+                    "description": "Kitapo fakoram-pitaovana rabane misy lamba tsy mandray rano."
+                }
+            }
+        }
+    ]
+}

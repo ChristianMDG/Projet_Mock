@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Box, Card, CardContent, CardHeader, LinearProgress, Typography } from '@mui/material';
-import { ButtonTx, StyledIcon } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import { KoperativeFilterProps } from '@/types/type.props';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,8 +14,10 @@ import { useKoperatives } from '@/hooks/koperative.hooks';
 import VilleAutocomplete from '@/components/shared/VilleAutocomplete';
 import KoperativeAutocomplete from '@/components/shared/KoperativeAutocomplete';
 import { Koperative } from '@/models/Koperative';
-import { HydrationSafe, VehicleIcon } from '@/components/shared';
+import HydrationSafe from '@/components/shared/HydrationSafe';
+import VehicleIcon from '@/components/shared/VehicleIcon';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { trackEvent } from '@/hooks/google-analytics.hook';
 
 const KoperativeFilterForm: FC<KoperativeFilterProps> = ({
   filter,
@@ -53,7 +56,10 @@ const KoperativeFilterForm: FC<KoperativeFilterProps> = ({
               id="koperative-filter-ville"
               multiple
               value={filter.ville ?? []}
-              onChange={(value: Ville[]) => setKoperativeFilter({ ville: value })}
+              onChange={(value: Ville[]) => {
+                trackEvent('filter_koperatives', 'Koperative', 'Filter by City');
+                setKoperativeFilter({ ville: value });
+              }}
               label={t(Labels.koperative_filter_by_city)}
               placeholder={t(Labels.koperative_filter_by_city)}
               startIcon={LocationOnIcon}
@@ -63,7 +69,10 @@ const KoperativeFilterForm: FC<KoperativeFilterProps> = ({
             <KoperativeAutocomplete
               id="koperative-filter-name"
               value={koperatives.find(k => k.name === filter.name) ?? null}
-              onChange={value => setKoperativeFilter({ name: (value as Koperative)?.name ?? '' })}
+              onChange={value => {
+                trackEvent('filter_koperatives', 'Koperative', 'Filter by Name');
+                setKoperativeFilter({ name: (value as Koperative)?.name ?? '' });
+              }}
               label={t(Labels.koperative_filter_by_name)}
               placeholder={t(Labels.koperative_filter_by_name)}
               startIcon={VehicleIcon}

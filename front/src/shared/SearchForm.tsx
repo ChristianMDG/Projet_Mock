@@ -3,8 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import {
   Button,
-  Card,
-  CardContent,
   Collapse,
   FormControl,
   Grid,
@@ -12,7 +10,6 @@ import {
   MenuItem,
   Select,
   ToggleButton,
-  Typography,
   useMediaQuery,
   Paper,
 } from '@mui/material';
@@ -28,26 +25,30 @@ import TripOriginIcon from '@mui/icons-material/TripOrigin';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import SwapVillesButton from '@/components/shared/SwapVillesButton';
-import SearchColisForm from '@/shared/SearchColisForm';
+import { OrderList, GuestOrderSearch } from '@/components/order';
 import GuestReservationList from '@/components/reservation/GuestReservationList';
 
-import { StyledTab, TaxibrousseRedIcon } from '@/components/ui';
+import StyledTab from '@/components/ui/StyledTab';
+import TaxibrousseRedIcon from '@/components/ui/TaxibrousseRedIcon';
 import { getStyledTabListSx } from '@/utils/tabStyles';
 
 import { DatePicker } from '@mui/x-date-pickers';
 
-import { VilleAutocomplete } from '@/components/shared';
+import VilleAutocomplete from '@/components/shared/VilleAutocomplete';
 import KoperativeAutocomplete from '@/components/shared/KoperativeAutocomplete';
 import { useKoperatives } from '@/hooks/koperative.hooks';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
+import { useAuthStore } from '@/stores/auth.store';
 import { useVoyageSearchStore } from '@/stores/voyage-search.store';
 import { Koperative } from '@/models/Koperative';
 import { ROUTES } from '@/constants/routes';
 import dayjs, { voyageDateUtils } from '@/utils/dayjs';
 import { useVoyageSearchUrl } from '@/hooks/useVoyageSearchUrl';
 import { useDetectedVille } from '@/hooks/ville.hooks';
-import { Business } from '@mui/icons-material';
+import Business from '@mui/icons-material/Business';
+import { mergeDatePickerSlotProps } from '@/utils/datePickerUtils';
+import { trackEvent } from '@/hooks/google-analytics.hook';
 
 interface SearchFormProps {
   navigateOnSearch?: boolean;
@@ -55,8 +56,8 @@ interface SearchFormProps {
 
 export default function SearchForm({ navigateOnSearch = true }: SearchFormProps) {
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { isAuthenticated } = useAuthStore();
+
   const [mounted, setMounted] = useState(false);
   const isMobileQuery = useMediaQuery(theme => theme.breakpoints.down('sm'), {
     defaultMatches: false,
@@ -65,6 +66,9 @@ export default function SearchForm({ navigateOnSearch = true }: SearchFormProps)
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Use false during SSR to match server render
   const isMobile = mounted ? isMobileQuery : false;
@@ -78,20 +82,11 @@ export default function SearchForm({ navigateOnSearch = true }: SearchFormProps)
 
   const { detectedVille } = useDetectedVille();
 
-  const [showColisForm] = useState(false);
   const [tabId, setTabId] = useState('koperativa');
   const [isSwapping, setIsSwapping] = useState(false);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
-  const [userHasToggledAdvanced, setUserHasToggledAdvanced] = useState(false);
   const [datePickerOpen, setDatePickerOpen] = useState(false);
   const { buildUrlQuery } = useVoyageSearchUrl();
-
-  // Auto-show advanced options when both cities are selected (only if user hasn't manually toggled)
-  useEffect(() => {
-    if (fromVille && toVille && !userHasToggledAdvanced) {
-      setShowAdvancedOptions(true);
-    }
-  }, [fromVille, toVille, userHasToggledAdvanced]);
 
   // Pre-select departure city from geolocation if not already set
   useEffect(() => {
@@ -100,7 +95,6 @@ export default function SearchForm({ navigateOnSearch = true }: SearchFormProps)
   }, [detectedVille, fromVille, setSearchParams]);
 
   const handleToggleAdvancedOptions = () => {
-    setUserHasToggledAdvanced(true);
     setShowAdvancedOptions(!showAdvancedOptions);
   };
 
@@ -120,6 +114,8 @@ export default function SearchForm({ navigateOnSearch = true }: SearchFormProps)
 
   const handleSearch = () => {
     if (fromVille && toVille) {
+      trackEvent('search_voyages_clicked', 'Search', `${fromVille.name} → ${toVille.name}`);
+
       setSearchParams({
         error: null,
         searchResults: [],
@@ -186,6 +182,7 @@ export default function SearchForm({ navigateOnSearch = true }: SearchFormProps)
                   label={t(Labels.voyage_search_from_city)}
                   placeholder={t(Labels.ui_label_city_departure)}
                   startIcon={TripOriginIcon}
+                  excludeVille={toVille}
                 />
               </Grid>
               <Grid size={{ xs: 12, sm: 6, md: 4 }}>
@@ -196,6 +193,7 @@ export default function SearchForm({ navigateOnSearch = true }: SearchFormProps)
                   label={t(Labels.voyage_search_to_city)}
                   placeholder={t(Labels.ui_label_city_destination)}
                   startIcon={LocationOnIcon}
+                  excludeVille={fromVille}
                 />
               </Grid>
               <Grid
@@ -216,6 +214,7 @@ export default function SearchForm({ navigateOnSearch = true }: SearchFormProps)
                   value="advanced"
                   selected={showAdvancedOptions}
                   onChange={handleToggleAdvancedOptions}
+                  aria-label="Options avancées"
                   sx={{
                     height: '56px',
                     width: '76px',
@@ -240,18 +239,12 @@ export default function SearchForm({ navigateOnSearch = true }: SearchFormProps)
                     onOpen={() => setDatePickerOpen(true)}
                     onClose={() => setDatePickerOpen(false)}
                     timezone="Indian/Antananarivo"
-                    slotProps={{
+                    slotProps={mergeDatePickerSlotProps({
                       textField: {
                         id: 'search-departure-date',
-                        fullWidth: true,
                         onClick: () => setDatePickerOpen(!datePickerOpen),
-                        sx: {
-                          '& .MuiPickersInputBase-root': {
-                            borderRadius: 2,
-                          },
-                        },
                       },
-                    }}
+                    })}
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6, md: 4 }}>
@@ -263,6 +256,9 @@ export default function SearchForm({ navigateOnSearch = true }: SearchFormProps)
                       value={passengers}
                       label={t(Labels.voyage_search_passengers)}
                       onChange={e => setSearchParams({ passengers: e.target.value as number })}
+                      inputProps={{
+                        id: 'search-passengers-input',
+                      }}
                     >
                       {Array.from({ length: 10 }, (_, i) => i + 1).map(num => (
                         <MenuItem key={num} value={num}>
@@ -275,7 +271,7 @@ export default function SearchForm({ navigateOnSearch = true }: SearchFormProps)
                 <Grid
                   size={{ xs: 12, sm: 12, md: 4 }}
                   sx={{
-                    display: { xs: 'none', md: 'block' },
+                    display: { md: 'block' },
                   }}
                 >
                   <KoperativeAutocomplete
@@ -294,52 +290,32 @@ export default function SearchForm({ navigateOnSearch = true }: SearchFormProps)
             <Grid
               container
               size={12}
-              spacing={3}
+              spacing={2}
               direction="row"
               sx={{
-                justifyContent: 'right',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                mt: 1,
               }}
             >
-              <Button
-                fullWidth={isMobile}
-                size="large"
-                variant="contained"
-                endIcon={<FindInPageIcon />}
-                onClick={handleSearch}
-              >
-                {t(Labels.button_search_voyages)}
-              </Button>
+              <Grid size={{ xs: 12, md: 'auto' }} sx={{ ml: { md: 'auto' } }}>
+                <Button
+                  fullWidth={isMobile}
+                  size="large"
+                  variant="contained"
+                  endIcon={<FindInPageIcon />}
+                  onClick={handleSearch}
+                  aria-label={t(Labels.button_search_voyages) ?? 'Rechercher'}
+                >
+                  {t(Labels.button_search_voyages)}
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </Paper>
       </TabPanel>
       <TabPanel sx={{ padding: 0 }} value="colis">
-        {showColisForm ? (
-          <SearchColisForm />
-        ) : (
-          <Card>
-            <CardContent sx={{ textAlign: 'center', py: 6 }}>
-              <DatasetIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-              <Grid
-                container
-                spacing={1}
-                sx={{
-                  alignItems: 'center',
-                  flexDirection: 'column',
-                }}
-              >
-                <Grid>
-                  <Typography variant="h6">{t(Labels.search_colis_coming_soon_title)}</Typography>
-                </Grid>
-                <Grid>
-                  <Typography variant="body2" color="text.secondary">
-                    {t(Labels.search_colis_coming_soon_description)}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        )}
+        {isAuthenticated ? <OrderList /> : <GuestOrderSearch />}
       </TabPanel>
       <TabPanel sx={{ padding: 0 }} value="reservations">
         <GuestReservationList />

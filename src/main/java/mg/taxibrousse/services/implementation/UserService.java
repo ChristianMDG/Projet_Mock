@@ -46,19 +46,15 @@ public class UserService implements IUserService {
     @Override
     public void updateUser(UserDetails user) {
         switch (user) {
-            case UserOperatorEntity userOperatorEntity ->
-                userRepository.save(userOperatorEntity);
-            case VoyageurEntity voyageurEntity ->
-                voyageurRepository.save(voyageurEntity);
-            default ->
-                throw new IllegalArgumentException(user.getClass().getName() + "Unsupported user type: ");
+            case UserOperatorEntity userOperatorEntity -> userRepository.save(userOperatorEntity);
+            case VoyageurEntity voyageurEntity -> voyageurRepository.save(voyageurEntity);
+            default -> throw new IllegalArgumentException(user.getClass().getName() + "Unsupported user type: ");
         }
     }
 
     @Override
     public void deleteUser(String username) {
-        UserInfoEntity user = userInfoRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
+        UserInfoEntity user = userInfoRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
 
         if (user instanceof UserOperatorEntity) {
             userRepository.deleteUserDetailsByUsername(username);
@@ -94,18 +90,15 @@ public class UserService implements IUserService {
     @Transactional
     public void createUser(UserDetails user) {
         switch (user) {
-            case UserOperatorEntity userOperatorEntity ->
-                userRepository.save(userOperatorEntity);
-            case VoyageurEntity voyageurEntity ->
-                voyageurRepository.save(voyageurEntity);
-            default ->
-                throw new IllegalArgumentException("Unsupported user type: " + user.getClass().getName());
+            case UserOperatorEntity userOperatorEntity -> userRepository.save(userOperatorEntity);
+            case VoyageurEntity voyageurEntity -> voyageurRepository.save(voyageurEntity);
+            default -> throw new IllegalArgumentException("Unsupported user type: " + user.getClass().getName());
         }
     }
 
     @Override
     public String forgotPassword(String phone) {
-        if (phone == null || phone.isBlank()) 
+        if (phone == null || phone.isBlank())
             return "error_phone_required";
 
         String normalizedPhone = PhoneUtils.normalizePhone(phone);
@@ -124,13 +117,11 @@ public class UserService implements IUserService {
     public String resetPassword(String phone, String otp, String newPassword) {
         String normalizedPhone = PhoneUtils.normalizePhone(phone);
         if (otpService.verifyOtp(normalizedPhone, otp)) {
-            return userInfoRepository.findByUsername(normalizedPhone)
-                .map(user -> {
-                    user.setPassword(passwordEncoder.encode(newPassword));
-                    updateUser(user);
-                    return SUCCESS_PASSWORD_RESET;
-                })
-                .orElse(ERROR_USER_NOT_FOUND);
+            return userInfoRepository.findByUsername(normalizedPhone).map(user -> {
+                user.setPassword(passwordEncoder.encode(newPassword));
+                updateUser(user);
+                return SUCCESS_PASSWORD_RESET;
+            }).orElse(ERROR_USER_NOT_FOUND);
         }
         return ERROR_INVALID_OTP;
     }
@@ -138,12 +129,10 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public String updateLanguagePreference(String username, LanguagePreferenceEnum language) {
-        return userInfoRepository.findByUsername(username)
-            .map(user -> {
-                user.setLanguagePreference(language);
-                updateUser(user);
-                return SUCCESS_LANGUAGE_UPDATED;
-            })
-            .orElse(ERROR_USER_NOT_FOUND);
+        return userInfoRepository.findByUsername(username).map(user -> {
+            user.setLanguagePreference(language);
+            updateUser(user);
+            return SUCCESS_LANGUAGE_UPDATED;
+        }).orElse(ERROR_USER_NOT_FOUND);
     }
 }

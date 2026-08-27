@@ -17,6 +17,7 @@ export const useVoyageWeeklyLogic = () => {
   const passengers = useVoyageSearchStore(state => state.passengers);
   const searchResults = useVoyageSearchStore(state => state.searchResults);
   const availableKoperatives = useVoyageSearchStore(state => state.availableKoperatives);
+  const departureTimeGroup = useVoyageSearchStore(state => state.departureTimeGroup);
 
   // Stable action references using individual selectors to avoid object recreation
   const setLoading = useVoyageSearchStore(state => state.setLoading);
@@ -24,6 +25,7 @@ export const useVoyageWeeklyLogic = () => {
   const setKoperativeId = useVoyageSearchStore(state => state.setKoperativeId);
   const setSearchResults = useVoyageSearchStore(state => state.setSearchResults);
   const setAvailableKoperatives = useVoyageSearchStore(state => state.setAvailableKoperatives);
+  const setDepartureTimeGroup = useVoyageSearchStore(state => state.setDepartureTimeGroup);
 
   // Search query for voyages
   const searchQuery = useMemo(() => {
@@ -31,11 +33,10 @@ export const useVoyageWeeklyLogic = () => {
       departureVilleId: fromVille?.id,
       arrivalVilleId: toVille?.id,
       departureDate: departureDate ? departureDate.tz('Indian/Antananarivo', true).format('YYYY-MM-DD') : '',
-      koperativeId: koperativeId ?? undefined,
       language: i18n.language,
       passengers: passengers,
     };
-  }, [fromVille?.id, toVille?.id, departureDate, koperativeId, i18n.language, passengers]);
+  }, [fromVille?.id, toVille?.id, departureDate, i18n.language, passengers]);
 
   const weeklyQuery = useWeeklyVoyageResults(searchQuery);
   const selectedTab = useMemo(() => Number(departureDate.format('YYYYMMDD')), [departureDate]);
@@ -45,9 +46,7 @@ export const useVoyageWeeklyLogic = () => {
       const selectedDay = weeklyQuery.data.weeklyResults.find(day => day.resultId === selectedTab);
 
       setSearchResults(selectedDay?.voyages ?? []);
-      if (!Boolean(koperativeId)) {
-        setAvailableKoperatives(selectedDay?.koperatives ?? []);
-      }
+      setAvailableKoperatives(selectedDay?.koperatives ?? []);
       setLoading(false);
     }
   }, [
@@ -66,17 +65,18 @@ export const useVoyageWeeklyLogic = () => {
       if (selectedDay) {
         setDepartureDate(dayjs(selectedDay.date));
         setSearchResults(selectedDay.voyages ?? []);
+        setDepartureTimeGroup(null);
       }
     },
-    [weeklyQuery.data, setDepartureDate, setSearchResults],
+    [weeklyQuery.data, setDepartureDate, setSearchResults, setDepartureTimeGroup],
   );
 
   const handleKoperativeChange = useCallback(
-    (event: { target: { value: string } }) => {
-      const value = event.target.value;
-      setKoperativeId(value && value !== '' ? Number(value) : null);
+    (koperativeIdToSelect: number | null) => {
+      setKoperativeId(koperativeIdToSelect);
+      setDepartureTimeGroup(null);
     },
-    [setKoperativeId],
+    [setKoperativeId, setDepartureTimeGroup],
   );
 
   return {
@@ -86,6 +86,7 @@ export const useVoyageWeeklyLogic = () => {
     toVille,
     departureDate,
     koperativeId,
+    departureTimeGroup,
     searchResults,
     availableKoperatives,
     // Hook results
@@ -94,5 +95,6 @@ export const useVoyageWeeklyLogic = () => {
     handleTabChange,
     handleKoperativeChange,
     setKoperativeId,
+    setDepartureTimeGroup,
   };
 };

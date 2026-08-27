@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AirtelPaymentResponse {
+
     @JsonProperty("data")
     private AirtelPaymentData data;
 

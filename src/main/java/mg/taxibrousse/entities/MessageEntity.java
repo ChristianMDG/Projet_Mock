@@ -12,11 +12,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Table(name = "messages", indexes = {
-    @Index(name = "idx_room_id_created_at", columnList = "roomId, createdAt"),
-    @Index(name = "idx_sender_id_created_at", columnList = "senderId, createdAt"),
-    @Index(name = "idx_unread_messages", columnList = "isRead, roomId")
-})
+@Table(name = "messages", indexes = {@Index(name = "idx_room_id_created_at", columnList = "roomId, createdAt"), @Index(name = "idx_sender_id_created_at", columnList = "senderId, createdAt"),
+        @Index(name = "idx_unread_messages", columnList = "isRead, roomId")})
 @Entity(name = "Message")
 @NoArgsConstructor
 public class MessageEntity extends BaseEntity {

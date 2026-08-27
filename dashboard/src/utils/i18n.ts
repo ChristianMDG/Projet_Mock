@@ -4,7 +4,7 @@ import { initReactI18next } from 'react-i18next';
 import fr from '@/locales/fr.json';
 import mg from '@/locales/mg.json';
 
-const savedLang = localStorage.getItem('dashboard-lang') ?? 'fr';
+const savedLang = typeof window !== 'undefined' ? (localStorage.getItem('dashboard-lang') ?? 'fr') : 'fr';
 
 i18n.use(initReactI18next).init({
   resources: {

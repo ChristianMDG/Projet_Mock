@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface ICloudinaryRepository extends JpaRepository<CloudinaryEntity, Long> {
+
     Boolean existsByPublicId(String publicId);
 
     Optional<CloudinaryEntity> findByPublicId(String publicId);

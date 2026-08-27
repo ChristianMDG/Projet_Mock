@@ -5,10 +5,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import mg.taxibrousse.entities.UserAccountEntity;
-import mg.taxibrousse.entities.UserOperatorEntity;
 
 import java.util.List;
 import java.util.Objects;
+import org.springframework.util.StringUtils;
 
 @Setter
 @Getter
@@ -29,7 +29,6 @@ public class UserAccount extends BaseDto<UserAccountEntity> {
         }
 
         model.setAuthorities(entity.getAuthorities().stream().map(Authority::fromEntity).toList());
-
         return model;
     }
 
@@ -51,9 +50,15 @@ public class UserAccount extends BaseDto<UserAccountEntity> {
         return builder;
     }
 
+    public static UserAccount fromEntityLight(UserAccountEntity entity) {
+        return toBuilder(entity).build();
+    }
+
     protected void setBaseUserAccountFields(UserAccountEntity entity) {
         setBaseEntity(entity);
-        entity.setUsername(username);
+        if (StringUtils.hasText(username)) {
+            entity.setUsername(username);
+        }
         entity.setAdmin(isAdmin);
     }
 
@@ -70,7 +75,7 @@ public class UserAccount extends BaseDto<UserAccountEntity> {
 
     @Override
     public UserAccountEntity toEntity(UserAccountEntity entity) {
-        entity = Objects.requireNonNullElse(entity, new UserOperatorEntity());
+        entity = Objects.requireNonNullElseGet(entity, UserAccountEntity::new);
         setBaseUserAccountFields(entity);
         return entity;
     }

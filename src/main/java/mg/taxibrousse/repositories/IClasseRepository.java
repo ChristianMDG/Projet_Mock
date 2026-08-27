@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface IClasseRepository extends JpaRepository<ClasseEntity, Long> {
+
     List<ClasseEntity> findByKoperativeId(Long koperativeId);
 }

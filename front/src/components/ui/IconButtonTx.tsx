@@ -17,9 +17,13 @@ interface IconButtonTxProps extends IconButtonProps {
 
 const IconButtonTx: React.FC<IconButtonTxProps> = React.memo(
   ({ children, allowedRoles = [AuthorityEnum.ADMIN, AuthorityEnum.GUICHET, AuthorityEnum.KOPERATIVE], ...props }) => {
-    const { user, isAuthenticated } = useAuth();
+    const { user, isAuthenticated, isGuichetAndInactive } = useAuth();
 
     if (!isAuthenticated) {
+      return <></>;
+    }
+
+    if (isGuichetAndInactive) {
       return <></>;
     }
 

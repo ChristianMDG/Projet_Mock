@@ -10,6 +10,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ErrorResponse {
+
     private String error;
     private String message;
     private int status;

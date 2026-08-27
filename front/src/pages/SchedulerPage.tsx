@@ -1,11 +1,9 @@
 import React from 'react';
 import { Alert, Box, Card, CardContent, Container, Grid, LinearProgress, Typography } from '@mui/material';
-import {
-  Assessment as StatsIcon,
-  CalendarToday as CalendarIcon,
-  List as ListIcon,
-  Schedule as ScheduleIcon,
-} from '@mui/icons-material';
+import StatsIcon from '@mui/icons-material/Assessment';
+import CalendarIcon from '@mui/icons-material/CalendarToday';
+import ListIcon from '@mui/icons-material/List';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useKoperative } from '@/hooks/koperative.hooks';

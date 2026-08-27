@@ -1,12 +1,12 @@
-import { Client, IMessage } from '@stomp/stompjs';
+import { Client, IFrame, IMessage } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { Message } from '@/models/Message';
-import { useAuthStore } from '@/stores';
+import { useAuthStore } from '@/stores/auth.store';
 import { initNavigatorRoom } from '@/utils/messaging.utils';
 
 export interface WebSocketMessage {
   type: 'message' | 'typing' | 'user_event' | 'read_receipt';
-  data: any;
+  data: Message | TypingIndicator | UserEvent | ReadReceipt;
 }
 
 export interface TypingIndicator {
@@ -32,7 +32,7 @@ export class WebSocketService {
   private maxReconnectAttempts = 5;
   private reconnectTimeout: NodeJS.Timeout | null = null;
 
-  private subscriptions: Map<string, any> = new Map();
+  private subscriptions: Map<string, { unsubscribe: () => void }> = new Map();
 
   private onConnectedCallback?: () => void;
   private onDisconnectedCallback?: () => void;
@@ -40,11 +40,9 @@ export class WebSocketService {
   private onTypingCallback?: (roomId: string, indicator: TypingIndicator) => void;
   private onUserEventCallback?: (roomId: string, event: UserEvent) => void;
   private onReadReceiptCallback?: (roomId: string, receipt: ReadReceipt) => void;
-  private onErrorCallback?: (error: any) => void;
+  private onErrorCallback?: (error: IFrame | Error) => void;
 
-  constructor() {
-    this.setupClient();
-  }
+  constructor() {}
 
   private setupClient() {
     const wsUrl = `${import.meta.env.VITE_TAXIBROUSSE_URL}/ws`;
@@ -58,11 +56,7 @@ export class WebSocketService {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         'X-Sender-Id': navigatorRoom.senderId,
         'X-User-Name': navigatorRoom.userName ?? 'Anonymous User',
-      },
-      debug: (str: string) => {
-        if (import.meta.env.DEV) {
-          console.log('[WebSocket Debug]:', str);
-        }
+        'X-Is-Guichet': String(!!useAuthStore.getState().user?.assignedKoperatives?.length),
       },
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
@@ -78,11 +72,11 @@ export class WebSocketService {
     return {
       'X-Sender-Id': navigatorRoom.senderId,
       'X-User-Name': navigatorRoom.userName ?? 'Anonymous User',
+      'X-Is-Guichet': String(!!useAuthStore.getState().user?.assignedKoperatives?.length),
     };
   }
 
   private onConnect() {
-    console.log('[WebSocket] Connected to messaging server');
     this.isConnected = true;
     this.reconnectAttempts = 0;
 
@@ -95,7 +89,6 @@ export class WebSocketService {
   }
 
   private onDisconnect() {
-    console.log('[WebSocket] Disconnected from messaging server');
     this.isConnected = false;
     this.onDisconnectedCallback?.();
 
@@ -103,7 +96,6 @@ export class WebSocketService {
     if (canReconnect) {
       this.reconnectAttempts++;
       const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 30000);
-      console.log(`[WebSocket] Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts})`);
 
       this.reconnectTimeout = setTimeout(() => {
         if (!this.isConnected) this.connect();
@@ -111,22 +103,23 @@ export class WebSocketService {
     }
   }
 
-  private onStompError(frame: any) {
+  private onStompError(frame: IFrame) {
     console.error('[WebSocket] STOMP Error:', frame);
     this.onErrorCallback?.(frame);
   }
 
   public connect() {
-    if (!this.client) this.setupClient();
-    if (this.client && !this.isConnected) {
-      console.log('[WebSocket] Connecting to messaging server...');
+    if (this.client) {
+      if (this.isConnected) return;
       this.client.activate();
+    } else {
+      this.setupClient();
+      this.connect();
     }
   }
 
   public disconnect() {
     if (this.client && this.isConnected) {
-      console.log('[WebSocket] Disconnecting from messaging server...');
       this.subscriptions.forEach(subscription => subscription.unsubscribe());
       this.subscriptions.clear();
       this.client.deactivate();
@@ -187,8 +180,6 @@ export class WebSocketService {
           receiptsSub.unsubscribe();
         },
       });
-
-      console.log(`[WebSocket] Subscribed to room: ${roomId}`);
     }
   }
 
@@ -199,7 +190,6 @@ export class WebSocketService {
     if (subscription) {
       subscription.unsubscribe();
       this.subscriptions.delete(subscriptionKey);
-      console.log(`[WebSocket] Unsubscribed from room: ${roomId}`);
     }
   }
 
@@ -267,7 +257,7 @@ export class WebSocketService {
     this.onReadReceiptCallback = callback;
   }
 
-  public onError(callback: (error: any) => void) {
+  public onError(callback: (error: IFrame | Error) => void) {
     this.onErrorCallback = callback;
   }
 

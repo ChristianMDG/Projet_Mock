@@ -16,13 +16,15 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Clear as ClearIcon, FilterList as FilterIcon } from '@mui/icons-material';
+import ClearIcon from '@mui/icons-material/Clear';
+import FilterIcon from '@mui/icons-material/FilterList';
 import { DatePicker } from '@mui/x-date-pickers';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { useKoperatives } from '../../hooks/koperative.hooks';
 import { useGares } from '../../hooks/gare.hooks';
 import { VoyageManagementFilters as FilterType } from '../../stores/voyage-management.store';
+import { mergeDatePickerSlotProps } from '@/utils/datePickerUtils';
 import { VoyageStatusEnum } from '../../models/enums';
 import { Koperative } from '../../models/Koperative';
 import { Gare } from '../../models/Gare';
@@ -164,13 +166,12 @@ const VoyageManagementFilters: React.FC<VoyageManagementFiltersProps> = ({
                 })
               }
               timezone="Indian/Antananarivo"
-              slotProps={{
+              slotProps={mergeDatePickerSlotProps({
                 textField: {
                   size: 'small',
-                  fullWidth: true,
                   variant: 'outlined',
                 },
-              }}
+              })}
             />
           </Grid>
 
@@ -184,13 +185,12 @@ const VoyageManagementFilters: React.FC<VoyageManagementFiltersProps> = ({
                 })
               }
               timezone="Indian/Antananarivo"
-              slotProps={{
+              slotProps={mergeDatePickerSlotProps({
                 textField: {
                   size: 'small',
-                  fullWidth: true,
                   variant: 'outlined',
                 },
-              }}
+              })}
             />
           </Grid>
 

@@ -1,0 +1,101 @@
+{
+    "kind": "collectionType",
+    "collectionName": "koperative_partners",
+    "info": {
+        "singularName": "koperative-partner",
+        "pluralName": "koperative-partners",
+        "displayName": "Koperative Partner",
+        "description": "Transport cooperative partner for shop deliveries"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "pluginOptions": {
+        "i18n": {
+            "localized": true
+        }
+    },
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true,
+            "maxLength": 180,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "slug": {
+            "type": "uid",
+            "targetField": "name",
+            "required": true,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "initials": {
+            "type": "string",
+            "required": false,
+            "maxLength": 10,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "location": {
+            "type": "string",
+            "required": false,
+            "maxLength": 160,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "routes": {
+            "type": "json",
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "description": {
+            "type": "text",
+            "required": false,
+            "maxLength": 500,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "logo": {
+            "type": "media",
+            "multiple": false,
+            "required": false,
+            "allowedTypes": [
+                "images"
+            ],
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        },
+        "isActive": {
+            "type": "boolean",
+            "default": true,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": false
+                }
+            }
+        }
+    }
+}

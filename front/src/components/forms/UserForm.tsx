@@ -18,13 +18,12 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { ButtonTx, StyledIcon } from '@/components/ui';
-import {
-  Close as CloseIcon,
-  Person as PersonIcon,
-  PhotoCamera as PhotoCameraIcon,
-  Save as SaveIcon,
-} from '@mui/icons-material';
+import ButtonTx from '@/components/ui/ButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
+import CloseIcon from '@mui/icons-material/Close';
+import PersonIcon from '@mui/icons-material/Person';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import SaveIcon from '@mui/icons-material/Save';
 import { useUpdateUserAccount, useUserConnected } from '@/hooks/user.hooks';
 import { useCloudinaryUpload } from '@/hooks/cloudinary.hook';
 import { useTranslation } from 'react-i18next';
@@ -242,6 +241,7 @@ const UserForm: React.FC<UserFormProps> = ({ initialData, onClose }) => {
               label={t(Labels.operator_form_phone_label)}
               value={form.phone ?? ''}
               onChange={handleChange('phone')}
+              required
               disabled={loading}
               placeholder={t(Labels.operator_form_phone_placeholder)}
             />

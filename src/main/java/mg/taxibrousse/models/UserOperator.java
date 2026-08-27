@@ -81,8 +81,8 @@ public class UserOperator extends UserInfo {
         entity.setGuichets(BaseDto.toIdentities(GuichetEntity.class, guichets));
         entity.setDepartureGare(BaseDto.toIdentity(GareEntity.class, departureGare));
         entity.setAssignedKoperatives(BaseDto.toIdentities(KoperativeEntity.class, assignedKoperatives) != null
-            ? new java.util.HashSet<>(BaseDto.toIdentities(KoperativeEntity.class, assignedKoperatives))
-            : null);
+                ? new java.util.HashSet<>(BaseDto.toIdentities(KoperativeEntity.class, assignedKoperatives))
+                : null);
         return entity;
     }
 

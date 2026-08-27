@@ -1,5 +1,8 @@
 import { Seat } from '@/models/Seat';
-import { SeatConfig } from '@/types/type.props';
+import { CrafterConfig, SeatConfig } from '@/types/type.props';
+import config10places from '@/10places.json';
+import config18places from '@/18places.json';
+import config22places from '@/22places.json';
 
 /**
  * Seat configuration utilities
@@ -72,12 +75,93 @@ export const getConfigNameByCapacity = (capacity: number): string | null => {
  */
 export const mapSeatsToSeatConfigs = (seats?: Seat[]): SeatConfig[] =>
   seats?.map(seat => {
+    const pos = seat?.position ?? '';
     return {
-      id: Number(seat.seatNum),
-      row: seat.position.charAt(0),
-      column: Number.parseInt(seat.position.slice(1)),
-      position: seat.position,
+      id: seat?.seatNum ? Number(seat.seatNum) : 0,
+      row: pos ? pos.charAt(0) : '',
+      column: pos ? (Number.parseInt(pos.slice(1)) ?? 0) : 0,
+      position: pos,
       disable: false,
       hide: false,
     };
   }) ?? [];
+
+export const SEAT_GRID_LIMITS = {
+  MIN_ROWS: 1,
+  MAX_ROWS: 8,
+  MIN_COLUMNS: 1,
+  MAX_COLUMNS: 6,
+} as const;
+
+const DEFAULT_CONFIG_MAP: Record<string, CrafterConfig> = {
+  '10places.json': config10places as CrafterConfig,
+  '18places.json': config18places as CrafterConfig,
+  '22places.json': config22places as CrafterConfig,
+};
+
+export const getDefaultSeatConfig = (configName?: string): CrafterConfig => {
+  const fileName = configName ?? DEFAULT_CONFIG_NAME;
+  return DEFAULT_CONFIG_MAP[fileName] ?? DEFAULT_CONFIG_MAP[DEFAULT_CONFIG_NAME];
+};
+
+export const DRIVER_SEAT_POSITION = 'A1';
+export const NON_EDITABLE_SEAT_POSITIONS: readonly string[] = ['A1', 'A2'];
+
+export const isNonEditableSeat = (seat?: Pick<SeatConfig, 'position'>): boolean =>
+  !!seat?.position && NON_EDITABLE_SEAT_POSITIONS.includes(seat.position);
+
+export const countVisibleSeats = (config: CrafterConfig): number =>
+  config.seats.flat().filter(seat => !seat.hide).length;
+
+export const countUsableSeats = (config: CrafterConfig): number =>
+  config.seats.flat().filter(seat => !seat.hide && !seat.disable).length;
+
+export const buildSeatConfig = (rows: number, columns: number, previous?: CrafterConfig): CrafterConfig => {
+  const seats: SeatConfig[][] = [];
+  let id = 1;
+  for (let r = 0; r < rows; r++) {
+    const rowLetter = String.fromCharCode(65 + r);
+    const rowSeats: SeatConfig[] = [];
+    for (let c = 1; c <= columns; c++) {
+      const previousSeat = previous?.seats[r]?.[c - 1];
+      rowSeats.push({
+        id,
+        row: rowLetter,
+        column: c,
+        hide: previousSeat?.hide ?? false,
+        disable: previousSeat?.disable ?? false,
+        position: `${rowLetter}${c}`,
+      });
+      id++;
+    }
+    seats.push(rowSeats);
+  }
+  const config: CrafterConfig = {
+    configType: `${rows}x${columns}`,
+    rows,
+    columns,
+    totalSeats: 0,
+    seats,
+  };
+  config.totalSeats = countVisibleSeats(config);
+  return config;
+};
+
+export const cycleSeatState = (seat: SeatConfig): Pick<SeatConfig, 'hide' | 'disable'> => {
+  const isEnabled = !seat.hide && !seat.disable;
+  const isHidden = seat.hide && !seat.disable;
+  if (isEnabled) return { hide: true, disable: false };
+  if (isHidden) return { hide: false, disable: true };
+  return { hide: false, disable: false };
+};
+
+export const updateSeatInConfig = (
+  config: CrafterConfig,
+  seatId: number,
+  patch: Pick<SeatConfig, 'hide' | 'disable'>,
+): CrafterConfig => {
+  const seats = config.seats.map(row => row.map(seat => (seat.id === seatId ? { ...seat, ...patch } : seat)));
+  const next: CrafterConfig = { ...config, seats };
+  next.totalSeats = countVisibleSeats(next);
+  return next;
+};

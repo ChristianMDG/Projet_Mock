@@ -33,10 +33,7 @@ public class AuthorityController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AuthorityEntity> updateAuthority(
-        @PathVariable Long id,
-        @RequestBody AuthorityEntity authority
-    ) {
+    public ResponseEntity<AuthorityEntity> updateAuthority(@PathVariable Long id, @RequestBody AuthorityEntity authority) {
         authority.setId(id);
         return ResponseEntity.ok(authorityService.save(authority));
     }

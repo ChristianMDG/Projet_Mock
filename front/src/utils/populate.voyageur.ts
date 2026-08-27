@@ -6,7 +6,5 @@ export const populateVoyageur = (voyageur: Voyageur): UserFormData => ({
   firstName: voyageur.firstName ?? '',
   lastName: voyageur.lastName ?? '',
   phone: voyageur.phone ?? '',
-  email: voyageur.email ?? '',
   idNumber: voyageur.idNumber ?? '',
-  address: voyageur.address ?? '',
 });

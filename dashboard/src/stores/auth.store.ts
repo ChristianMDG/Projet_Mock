@@ -5,17 +5,28 @@ import { UserInfo } from '@/models';
 const TOKEN_KEY = 'authToken';
 const USER_KEY = 'authUser';
 
-const getStoredToken = (): string | null => localStorage.getItem(TOKEN_KEY);
+const isBrowser = typeof window !== 'undefined';
 
-const getStoredUser = (): UserInfo | null => {
-  const data = localStorage.getItem(USER_KEY);
-  return data ? JSON.parse(data) : null;
+const getStoredToken = (): string | null => {
+  if (isBrowser) return localStorage.getItem(TOKEN_KEY);
+  return null;
 };
 
+const getStoredUser = (): UserInfo | null => {
+  if (isBrowser) {
+    const data = localStorage.getItem(USER_KEY);
+    if (data) return JSON.parse(data);
+  }
+  return null;
+};
+
+const initialToken = getStoredToken();
+const initialUser = getStoredUser();
+
 export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  token: null,
-  isAuthenticated: false,
+  user: initialUser,
+  token: initialToken,
+  isAuthenticated: Boolean(initialToken),
   isLoading: false,
 
   hydrate: () => {
@@ -59,6 +70,6 @@ export const useAuthStore = create<AuthState>((set) => ({
 }));
 
 // Hydrate on load
-if (typeof window !== 'undefined') {
+if (isBrowser) {
   queueMicrotask(() => useAuthStore.getState().hydrate());
 }

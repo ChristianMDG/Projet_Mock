@@ -1,5 +1,9 @@
 import React from 'react';
-import { Edit, List, Inventory2, Delete } from '@mui/icons-material';
+import Edit from '@mui/icons-material/Edit';
+import List from '@mui/icons-material/List';
+import Search from '@mui/icons-material/Search';
+import Inventory2 from '@mui/icons-material/Inventory2';
+import Delete from '@mui/icons-material/Delete';
 import {
   Button,
   Card,
@@ -8,13 +12,15 @@ import {
   Box,
   Typography,
   CircularProgress,
+  InputAdornment,
+  TextField,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
 } from '@mui/material';
-import { useColisByVoyage, useDeleteColis } from '@/hooks/colis.hooks';
+import { useColisByVoyage, useDeleteColis, useFilteredColis } from '@/hooks/colis.hooks';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { Colis } from '@/types';
@@ -28,10 +34,18 @@ interface ColisListProps {
 
 const ColisList: React.FC<ColisListProps> = ({ handleAddColis, voyageId, handleEditColis, handleViewColis }) => {
   const { t } = useTranslation();
-  const { data: colis = [], isLoading } = useColisByVoyage(voyageId);
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const { data: voyageColis = [], isLoading: voyageColisLoading } = useColisByVoyage(voyageId);
+  const { data: searchedColis = [], isLoading: searchedColisLoading } = useFilteredColis({
+    ...(searchTerm.trim() ? { voyageId, search: searchTerm.trim() } : {}),
+  });
   const deleteMutation = useDeleteColis();
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
   const [colisToDelete, setColisToDelete] = React.useState<Colis | null>(null);
+  const hasSearchTerm = Boolean(searchTerm.trim());
+  const colis = hasSearchTerm ? searchedColis : voyageColis;
+  const isLoading = hasSearchTerm ? searchedColisLoading : voyageColisLoading;
+  const undeliveredColis = colis.filter(item => item.status !== 'DELIVERED');
 
   const handleDeleteClick = (colis: Colis) => {
     setColisToDelete(colis);
@@ -72,14 +86,18 @@ const ColisList: React.FC<ColisListProps> = ({ handleAddColis, voyageId, handleE
     );
   }
 
-  if (colis.length === 0) {
+  if (undeliveredColis.length === 0) {
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 6, textAlign: 'center' }}>
         <Typography variant="h6" sx={{ mb: 1 }}>
-          {t(Labels.colis_list_no_colis)}
+          {t(colis.length > 0 ? Labels.colis_list_no_undelivered_colis : Labels.colis_list_no_colis)}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 400 }}>
-          {t(Labels.colis_list_no_colis_description)}
+          {t(
+            colis.length > 0
+              ? Labels.colis_list_no_undelivered_colis_description
+              : Labels.colis_list_no_colis_description,
+          )}
         </Typography>
         <Button variant="contained" color="primary" startIcon={<Inventory2 />} onClick={handleAddColis} sx={{ mt: 2 }}>
           {t(Labels.colis_list_add_button)}
@@ -90,16 +108,31 @@ const ColisList: React.FC<ColisListProps> = ({ handleAddColis, voyageId, handleE
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <TextField
+        placeholder={t(Labels.search_colis_placeholder)}
+        value={searchTerm}
+        onChange={event => setSearchTerm(event.target.value)}
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          },
+        }}
+        fullWidth
+      />
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="body2" color="text.secondary">
-          {t(Labels.colis_list_total)}: <strong>{colis.length}</strong>
+          {t(Labels.colis_list_total)}: <strong>{undeliveredColis.length}</strong>
         </Typography>
         <Button variant="contained" color="primary" startIcon={<Inventory2 />} onClick={handleAddColis}>
           {t(Labels.colis_list_add_button)}
         </Button>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        {colis.map((item: Colis) => (
+        {undeliveredColis.map((item: Colis) => (
           <Card key={item.id} sx={{ '&:hover': { boxShadow: 3 }, transition: 'box-shadow 0.3s' }}>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 2 }}>
@@ -113,7 +146,7 @@ const ColisList: React.FC<ColisListProps> = ({ handleAddColis, voyageId, handleE
                     >
                       {item.senderName} -&gt; {item.recipientName}
                     </Typography>
-                    <Chip label={item.status} color={getStatusColor(item.status || '')} size="small" />
+                    <Chip label={item.status} color={getStatusColor(item.status ?? '')} size="small" />
                   </Box>
                   <Typography variant="body2" color="text.secondary">
                     {item.description}

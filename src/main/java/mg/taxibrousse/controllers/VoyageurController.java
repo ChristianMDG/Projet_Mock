@@ -14,10 +14,7 @@ public class VoyageurController {
     private final IVoyageurService voyageurService;
 
     @GetMapping("/search")
-    public ResponseEntity<Voyageur> searchVoyageur(
-        @RequestParam(required = false) String phone,
-        @RequestParam(required = false) String idNumber
-    ) {
+    public ResponseEntity<Voyageur> searchVoyageur(@RequestParam(required = false) String phone, @RequestParam(required = false) String idNumber) {
         if (phone == null && idNumber == null) {
             return ResponseEntity.badRequest().build();
         }

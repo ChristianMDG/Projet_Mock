@@ -49,13 +49,20 @@ export interface Voyage {
   id: number;
   departureCity?: string;
   arrivalCity?: string;
-  departureDate?: string;
+  departureTime?: string;
+  pricePerSeat?: number;
+  priceKoperative?: number;
+  koperative?: { id: number; name?: string; logoUrl?: string; phone?: string };
+  departureGare?: { id: number; name?: string; ville?: { id: number; name?: string } };
+  arrivalGare?: { id: number; name?: string; ville?: { id: number; name?: string } };
 }
 
-// Seat interface
+// Seat interface (matches Spring Seat DTO returned by /api/reservations/voyage/{id})
 export interface Seat {
   id: number;
-  seatNumber: string;
+  seatNum?: string;
+  seatStatus?: string;
+  position?: string;
 }
 
 // Facturation (Billing) interface
@@ -65,6 +72,18 @@ export interface Facturation {
   paidAmount: number;
   remainingAmount: number;
   paymentStatus: PaymentStatusEnum;
+  paymentMethodIdentifier?: string;
+  paymentPhoneNumber?: string;
+  paymentReference?: string;
+  paymentDate?: string;
+  advanceAmount?: number;
+  commission?: number;
+  fraisRetrait?: number;
+  fraisTransfert?: number;
+  fraisTotal?: number;
+  fraisTransaction?: number;
+  commissionSeats?: number;
+  commissionFee?: number;
 }
 
 // Main Reservation interface
@@ -73,6 +92,7 @@ export interface Reservation {
   voyage?: Voyage;
   voyageur?: Voyageur;
   seats?: Seat[];
+  seatCount?: number;
   bookingReference: string;
   status: ReservationStatusEnum;
   bookingDate: string;

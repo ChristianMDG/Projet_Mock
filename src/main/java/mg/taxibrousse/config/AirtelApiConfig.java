@@ -8,6 +8,7 @@ import static java.text.MessageFormat.format;
 @Getter
 @Configuration
 public class AirtelApiConfig {
+
     @Value("${airtelmoney.client-id}")
     private String clientId;
 

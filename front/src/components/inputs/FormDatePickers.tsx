@@ -1,6 +1,7 @@
 import { DatePicker, DateTimePicker } from '@mui/x-date-pickers';
 import { useField, useFormikContext } from 'formik';
 import dayjs, { DATE_FORMATS } from '@/utils/dayjs';
+import { mergeDatePickerSlotProps } from '@/utils/datePickerUtils';
 
 interface FormDateTimePickerProps {
   name: string;
@@ -31,15 +32,15 @@ export function FormDateTimePicker({
       onChange={value => setFieldValue(name, value?.tz('Indian/Antananarivo').format(DATE_FORMATS.DATETIME_API) ?? '')}
       disabled={disabled}
       timezone="Indian/Antananarivo"
-      slotProps={{
+      slotProps={mergeDatePickerSlotProps({
         textField: {
           fullWidth,
           variant,
           error: meta.touched && !!meta.error,
           helperText: meta.touched && meta.error ? meta.error : helperText,
-          required: required,
+          required,
         },
-      }}
+      })}
     />
   );
 }
@@ -73,15 +74,15 @@ export function FormDatePicker({
       onChange={value => setFieldValue(name, value?.tz('Indian/Antananarivo').format(DATE_FORMATS.DATE_API) ?? '')}
       disabled={disabled}
       timezone="Indian/Antananarivo"
-      slotProps={{
+      slotProps={mergeDatePickerSlotProps({
         textField: {
           fullWidth,
           variant,
           error: meta.touched && !!meta.error,
           helperText: meta.touched && meta.error ? meta.error : helperText,
-          required: required,
+          required,
         },
-      }}
+      })}
     />
   );
 }

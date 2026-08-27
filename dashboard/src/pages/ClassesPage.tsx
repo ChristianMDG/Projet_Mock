@@ -33,6 +33,8 @@ interface ClasseFormState {
   koperativeId: number | '';
 }
 
+type ClasseFormErrors = Partial<Record<keyof ClasseFormState, string>>;
+
 const emptyForm: ClasseFormState = { name: '', description: '', koperativeId: '' };
 
 export default function ClassesPage() {
@@ -47,7 +49,7 @@ export default function ClassesPage() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Classe | null>(null);
   const [form, setForm] = useState<ClasseFormState>(emptyForm);
-  const [formErrors, setFormErrors] = useState<Partial<ClasseFormState>>({});
+  const [formErrors, setFormErrors] = useState<ClasseFormErrors>({});
 
   const [deleteTarget, setDeleteTarget] = useState<Classe | null>(null);
 
@@ -83,32 +85,35 @@ export default function ClassesPage() {
   };
 
   const validate = (): boolean => {
-    const errors: Partial<ClasseFormState> = {};
-    if (!form.name.trim()) errors.name = t(Labels.classe_name_required);
-    if (form.koperativeId === '') errors.koperativeId = t(Labels.classe_koperative_required) as never;
+    const errors: ClasseFormErrors = {};
+    if (form.name.trim() === '') errors.name = t(Labels.classe_name_required);
+    if (form.koperativeId === '') errors.koperativeId = t(Labels.classe_koperative_required);
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
   const handleSave = async () => {
-    if (!validate()) return;
-    const payload = {
-      name: form.name.trim(),
-      description: form.description.trim() || undefined,
-      koperativeId: form.koperativeId as number,
-    };
-    if (editing) {
-      await updateClasse.mutateAsync({ id: editing.id!, payload });
-    } else {
-      await createClasse.mutateAsync(payload);
+    if (validate()) {
+      if (form.koperativeId === '') return;
+      const payload = {
+        name: form.name.trim(),
+        description: form.description.trim() || undefined,
+        koperativeId: form.koperativeId,
+      };
+      if (editing?.id) {
+        await updateClasse.mutateAsync({ id: editing.id, payload });
+      } else {
+        await createClasse.mutateAsync(payload);
+      }
+      closeDialog();
     }
-    closeDialog();
   };
 
   const handleDeleteConfirm = async () => {
-    if (!deleteTarget) return;
-    await deleteClasse.mutateAsync(deleteTarget.id!);
-    setDeleteTarget(null);
+    if (deleteTarget?.id) {
+      await deleteClasse.mutateAsync(deleteTarget.id);
+      setDeleteTarget(null);
+    }
   };
 
   const isMutating = createClasse.isPending || updateClasse.isPending || deleteClasse.isPending;
@@ -226,7 +231,7 @@ export default function ClassesPage() {
           columns={columns}
           data={classes}
           state={{ isLoading: isFetching && classes.length === 0 }}
-          initialState={{ pagination: { pageIndex: 0, pageSize: 20 }, density: 'compact' }}
+          initialState={{ density: 'compact', pagination: { pageIndex: 0, pageSize: 20 } }}
           renderEmptyRowsFallback={() => (
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 120 }}>
               {t(Labels.classe_no_data)}
@@ -264,8 +269,8 @@ export default function ClassesPage() {
               label={t(Labels.classe_field_koperative)}
               value={form.koperativeId}
               onChange={(e) => setForm((f) => ({ ...f, koperativeId: Number(e.target.value) }))}
-              error={!!formErrors.koperativeId}
-              helperText={formErrors.koperativeId as string}
+              error={Boolean(formErrors.koperativeId)}
+              helperText={formErrors.koperativeId}
               required
               fullWidth
               size="small"

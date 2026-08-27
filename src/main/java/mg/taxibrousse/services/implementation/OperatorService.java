@@ -1,6 +1,7 @@
 package mg.taxibrousse.services.implementation;
 
 import lombok.RequiredArgsConstructor;
+import mg.taxibrousse.dto.OperateurSearchRequest;
 import mg.taxibrousse.entities.BaseEntity;
 import mg.taxibrousse.entities.CloudinaryEntity;
 import mg.taxibrousse.entities.GuichetEntity;
@@ -11,6 +12,11 @@ import mg.taxibrousse.models.UserOperator;
 import mg.taxibrousse.repositories.*;
 import mg.taxibrousse.services.IOperatorService;
 import mg.taxibrousse.utils.PhoneUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import org.springframework.data.domain.Sort;
 
 @Service
 @RequiredArgsConstructor
@@ -41,23 +48,17 @@ public class OperatorService implements IOperatorService {
      */
     @Override
     @Transactional
+    @CacheEvict(value = {"operators", "guichets"}, allEntries = true)
     public void assignGuichets(UserOperatorEntity operatorEntity) {
         List<GuichetEntity> previouslyAssignedGuichets = operatorEntity.getId() != null && operatorEntity.getId() > 0
-            ? operatorRepository.findGuichetsByUserOperatorId(operatorEntity.getId())
-            : List.of();
-        var requestedGuichets = guichetRepository.findAllById(
-            operatorEntity.getGuichets().stream().map(BaseEntity::getId).toList()
-        );
+                ? operatorRepository.findGuichetsByUserOperatorId(operatorEntity.getId())
+                : List.of();
+        var requestedGuichets = guichetRepository.findAllById(operatorEntity.getGuichets().stream().map(BaseEntity::getId).toList());
 
         operatorEntity.setGuichets(new HashSet<>());
         for (GuichetEntity guichet : requestedGuichets) {
             operatorEntity.getGuichets().add(guichet);
-            if (
-                guichet
-                    .getOperateurs()
-                    .stream()
-                    .noneMatch(op -> op.getId().equals(operatorEntity.getId()))
-            ) {
+            if (guichet.getOperateurs().stream().noneMatch(op -> op.getId().equals(operatorEntity.getId()))) {
                 guichet.getOperateurs().add(operatorEntity);
             }
         }
@@ -74,28 +75,35 @@ public class OperatorService implements IOperatorService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "operators", key = "#id", unless = "#result == null")
     public UserOperator findById(Long id) {
         return operatorRepository.findById(id).map(UserOperator::fromEntity).orElse(null);
     }
 
     @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "operators", key = "'all'")
     public List<UserOperator> findAll() {
         return operatorRepository.findAllOperators().stream().map(UserOperator::fromEntity).toList();
     }
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "operators", key = "'koperative-' + #koperativeId")
     public List<UserOperator> findByKoperativeId(Long koperativeId) {
         return operatorRepository.findByKoperativeId(koperativeId).stream().map(UserOperator::fromEntity).toList();
     }
 
     @Override
     @Transactional
+    @CacheEvict(value = "operators", allEntries = true)
     public void deleteById(Long id) {
         operatorRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = "operators", allEntries = true)
     public UserOperator save(UserOperator operator) {
         return UserOperator.fromEntity(operatorRepository.save(operator.toEntity()));
     }
@@ -111,36 +119,55 @@ public class OperatorService implements IOperatorService {
     @Override
     @Transactional(readOnly = true)
     public List<UserOperator> searchOperators(String search, Long koperativeId, Boolean isActive, Long gareId) {
-        return operatorRepository.findByFilterCriteria(search, koperativeId, isActive, gareId)
-                .stream()
-                .map(entity -> UserOperator.fromEntity(entity, true))
-                .toList();
+        OperateurSearchRequest req = new OperateurSearchRequest();
+        req.setSearch(search);
+        req.setKoperativeId(koperativeId);
+        req.setIsActive(isActive);
+        req.setGareId(gareId);
+        return findAllPageable(req, Pageable.unpaged()).getContent();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<UserOperator> findAllPageable(OperateurSearchRequest request, Pageable pageable) {
+        Sort defaultSort = Sort.by(Sort.Direction.DESC, "createdAt");
+        Pageable sortedPageable;
+        if (pageable.getSort().isSorted()) {
+            sortedPageable = pageable;
+        } else if (pageable.isPaged()) {
+            sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), defaultSort);
+        } else {
+            sortedPageable = Pageable.unpaged(defaultSort);
+        }
+
+        return operatorRepository.findAllPageable(request, sortedPageable).map(entity -> UserOperator.fromEntity(entity, true));
     }
 
     @Override
     @Transactional
+    @CacheEvict(value = {"operators", "guichets"}, allEntries = true)
     public String saveOperatorAccount(UserOperator model, AuthorityEnum... authorities) {
         String normalizedPhone = PhoneUtils.normalizePhone(model.getPhone());
-        if (!PhoneUtils.isValidMadagascarPhone(normalizedPhone)) 
+        if (!PhoneUtils.isValidMadagascarPhone(normalizedPhone))
             return ERROR_INVALID_PHONE;
-        if (userOperatorRepository.existsByUsernameAndIdNot(model.getUsername(), model.getId())) 
+        if (userOperatorRepository.existsByUsernameAndIdNot(model.getUsername(), model.getId()))
             return ERROR_PHONE_TAKEN;
 
         try {
             var account = model.toEntity(userOperatorRepository.findById(model.getId()).orElse(new UserOperatorEntity()));
-            
-            if (model.getPhoto() != null) 
+
+            if (model.getPhoto() != null)
                 account.setPhoto(saveCloudinaryEntity(model.getPhoto()));
-            if (model.getId() == 0) 
+            if (model.getId() == 0)
                 setupNewAccount(account, model, prepareAuthorities(authorities));
 
-            if (model.hasPassword()) 
+            if (model.hasPassword())
                 account.setPassword(passwordEncoder.encode(model.getPassword()));
-            if (model.getId() > 0 && !model.isWithKoperative() && !model.hasKoperative()) 
+            if (model.getId() > 0 && !model.isWithKoperative() && !model.hasKoperative())
                 account.setKoperative(null);
 
             var userInfo = userOperatorRepository.save(account);
-            if (model.isWithKoperative() && model.hasKoperative()) 
+            if (model.isWithKoperative() && model.hasKoperative())
                 assignGuichets(userInfo);
 
             return SUCCESS_USER_CREATED;
@@ -152,29 +179,21 @@ public class OperatorService implements IOperatorService {
     @Override
     @Transactional(readOnly = true)
     public UserOperator findByUsername(String username) {
-        return userOperatorRepository.findByUsernameWithGuichets(username)
-            .map(entity -> UserOperator.fromEntity(entity, true))
-            .orElse(null);
+        return userOperatorRepository.findByUsernameWithGuichets(username).map(entity -> UserOperator.fromEntity(entity, true)).orElse(null);
     }
 
     private CloudinaryEntity saveCloudinaryEntity(Cloudinary cloudinary) {
         CloudinaryEntity entity = cloudinary.toEntity();
-        return cloudinaryRepository.existsByPublicId(entity.getPublicId())
-            ? cloudinaryRepository.findByPublicId(entity.getPublicId()).orElse(null)
-            : cloudinaryRepository.save(entity);
+        return cloudinaryRepository.existsByPublicId(entity.getPublicId()) ? cloudinaryRepository.findByPublicId(entity.getPublicId()).orElse(null) : cloudinaryRepository.save(entity);
     }
 
     private AuthorityEnum[] prepareAuthorities(AuthorityEnum... authorities) {
-        return (authorities == null || authorities.length == 0) 
-            ? new AuthorityEnum[]{AuthorityEnum.USER} 
-            : authorities;
+        return (authorities == null || authorities.length == 0) ? new AuthorityEnum[]{AuthorityEnum.USER} : authorities;
     }
 
     private void setupNewAccount(UserOperatorEntity account, UserOperator model, AuthorityEnum[] authorities) {
         account.setAdmin(Arrays.stream(authorities).anyMatch(auth -> auth == AuthorityEnum.ADMIN));
-        account.setAuthorities(authorityRepository.findByNameIn(
-            Arrays.stream(authorities).map(AuthorityEnum::getName).toList()
-        ));
+        account.setAuthorities(authorityRepository.findByNameIn(Arrays.stream(authorities).map(AuthorityEnum::getName).toList()));
 
         if (model.isCreation() || model.hasPassword()) {
             account.setPassword(passwordEncoder.encode(model.getPassword()));

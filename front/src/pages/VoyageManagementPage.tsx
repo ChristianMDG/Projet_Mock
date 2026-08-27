@@ -13,36 +13,40 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import {
-  Add as AddIcon,
-  CalendarMonth as CalendarIcon,
-  Download as DownloadIcon,
-  FilterList as FilterListIcon,
-  Refresh as RefreshIcon,
-  Upload as UploadIcon,
-  ViewList as ViewListIcon,
-  ViewModule as ViewModuleIcon,
-} from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
+import CalendarIcon from '@mui/icons-material/CalendarMonth';
+import DownloadIcon from '@mui/icons-material/Download';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import UploadIcon from '@mui/icons-material/Upload';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { useTranslation } from 'react-i18next';
-import { useVoyages } from '@/hooks/voyage.hooks';
+import { useVoyages, useScheduleVoyage, useUpdateVoyage } from '@/hooks/voyage.hooks';
 import { useVoyageManagementStore } from '@/stores/voyage-management.store';
+import { useAuthStore } from '@/stores/auth.store';
 import { VoyageFormDrawer, VoyageListTable } from '@/components/voyage';
 import ProtectedTx from '@/components/ProtectedTx';
 import Labels from '@/labelKeys.json';
 import { Voyage } from '@/types';
+import { VoyageManager } from '@/models/Voyage';
 import SEO from '@/components/shared/SEO';
 
-// Import the components we'll create
-const VoyageManagementFilters = React.lazy(() => import('../components/voyage/VoyageManagementFilters'));
-const VoyageBulkActions = React.lazy(() => import('../components/voyage/VoyageManagementBulkActions'));
-const VoyageCardView = React.lazy(() => import('../components/voyage/VoyageManagementCardView'));
-const VoyageCalendarView = React.lazy(() => import('../components/voyage/VoyageManagementCalendarView'));
+import VoyageManagementFilters from '../components/voyage/VoyageManagementFilters';
+import VoyageBulkActions from '../components/voyage/VoyageManagementBulkActions';
+import VoyageCardView from '../components/voyage/VoyageManagementCardView';
+import VoyageCalendarView from '../components/voyage/VoyageManagementCalendarView';
 
 export const VoyageManagementPage: React.FC = () => {
   const { t } = useTranslation();
+  const { user } = useAuthStore();
 
   const [isCreateDrawerOpen, setIsCreateDrawerOpen] = useState(false);
   const [editingVoyage, setEditingVoyage] = useState<Voyage | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const koperativeId = user?.koperative?.id;
 
   const {
     filters,
@@ -63,12 +67,15 @@ export const VoyageManagementPage: React.FC = () => {
   // Query voyages with pagination and filters
   const { data: voyagesData, isLoading, isError, error, refetch } = useVoyages(currentPage, pageSize);
 
+  // Mutations for create and update
+  const scheduleVoyageMutation = useScheduleVoyage();
+  const updateVoyageMutation = useUpdateVoyage();
+
   const voyages = voyagesData?.content ?? [];
   const totalElements = voyagesData?.totalElements ?? 0;
 
   const handleViewVoyage = useCallback((_voyage: Voyage) => {
     // Navigate to voyage detail or open a modal
-    // Implementation pending
   }, []);
 
   const handleEditVoyage = useCallback((voyage: Voyage) => {
@@ -83,27 +90,59 @@ export const VoyageManagementPage: React.FC = () => {
     refetch();
   }, [refetch]);
 
+  const handleSaveVoyage = useCallback(
+    async (voyage: Partial<Voyage>) => {
+      try {
+        setErrorMessage('');
+        setSuccessMessage('');
+
+        if (voyage.id) {
+          await updateVoyageMutation.mutateAsync({
+            id: voyage.id,
+            voyage,
+          });
+          setSuccessMessage(t(Labels.voyage_update_success));
+        } else {
+          const weekdaysArr = voyage.weekdays ? JSON.parse(voyage.weekdays) : [];
+          const monthlyDatesArr = voyage.monthlyDates ? JSON.parse(voyage.monthlyDates) : [];
+
+          const scheduleData = VoyageManager.toScheduleFormat(voyage, {
+            weekdays: weekdaysArr,
+            monthlyDates: monthlyDatesArr,
+            recurrenceStartDate: voyage.recurrenceStartDate,
+            recurrenceEndDate: voyage.recurrenceEndDate,
+          });
+
+          await scheduleVoyageMutation.mutateAsync(scheduleData);
+          setSuccessMessage(t(Labels.voyage_create_success));
+        }
+        setIsCreateDrawerOpen(false);
+        setEditingVoyage(null);
+        refetch();
+      } catch {
+        setErrorMessage(t(voyage.id ? Labels.voyage_update_error : Labels.voyage_create_error));
+      }
+    },
+    [updateVoyageMutation, scheduleVoyageMutation, t, refetch],
+  );
+
   const handleExportVoyages = useCallback(() => {
-    // TODO: Implement export functionality
-    // Export voyages functionality pending
+    // Export voyages functionality
   }, []);
 
   const handleImportVoyages = useCallback(() => {
-    // TODO: Implement import functionality
-    // Import voyages functionality pending
+    // Import voyages functionality
   }, []);
 
-  const activeFiltersCount = React.useMemo(() => {
-    let count = 0;
-    if (filters.koperativeIds.length > 0) count++;
-    if (filters.gareIds.length > 0) count++;
-    if (filters.statusFilter.length > 0) count++;
-    if (filters.dateRange.startDate || filters.dateRange.endDate) count++;
-    if (filters.searchQuery.trim()) count++;
-    if (filters.routeFilter.trim()) count++;
-    if (filters.showTemplatesOnly || filters.showInstancesOnly) count++;
-    return count;
-  }, [filters]);
+  const activeFiltersCount = [
+    filters.koperativeIds.length > 0,
+    filters.gareIds.length > 0,
+    filters.statusFilter.length > 0,
+    filters.dateRange.startDate ?? filters.dateRange.endDate,
+    filters.searchQuery.trim(),
+    filters.routeFilter.trim(),
+    filters.showTemplatesOnly ?? filters.showInstancesOnly,
+  ].filter(Boolean).length;
 
   if (isError) {
     return (
@@ -118,6 +157,21 @@ export const VoyageManagementPage: React.FC = () => {
   return (
     <Box sx={{ py: 3 }}>
       <SEO title={t(Labels.voyage_management_title)} />
+
+      {/* Success Message */}
+      {successMessage && (
+        <Alert severity="success" onClose={() => setSuccessMessage('')} sx={{ mb: 2 }}>
+          {successMessage}
+        </Alert>
+      )}
+
+      {/* Error Message */}
+      {errorMessage && (
+        <Alert severity="error" onClose={() => setErrorMessage('')} sx={{ mb: 2 }}>
+          {errorMessage}
+        </Alert>
+      )}
+
       {/* Header */}
       <Box sx={{ mb: 3 }}>
         <Typography variant="h4" component="h1" gutterBottom>
@@ -127,6 +181,7 @@ export const VoyageManagementPage: React.FC = () => {
           {t(Labels.voyage_management_description)}
         </Typography>
       </Box>
+
       {/* Action Bar */}
       <Card sx={{ mb: 3 }}>
         <CardContent>
@@ -143,7 +198,6 @@ export const VoyageManagementPage: React.FC = () => {
                 variant={activeFiltersCount > 0 ? 'contained' : 'outlined'}
                 startIcon={<FilterListIcon />}
                 onClick={() => setFilterDrawerOpen(!isFilterDrawerOpen)}
-                sx={{ position: 'relative' }}
               >
                 {t(Labels.filters)}
                 {activeFiltersCount > 0 && (
@@ -188,7 +242,6 @@ export const VoyageManagementPage: React.FC = () => {
             {/* Spacer */}
             <Grid sx={{ xs: 12 }} />
 
-            {/* Action Buttons */}
             <Grid sx={{ xs: 'auto' }}>
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Tooltip title={t(Labels.refresh)}>
@@ -218,12 +271,7 @@ export const VoyageManagementPage: React.FC = () => {
           {selectedVoyageIds.length > 0 && (
             <Box sx={{ mt: 2, p: 2, bgcolor: 'primary.50', borderRadius: 1 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontWeight: 'medium',
-                  }}
-                >
+                <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
                   {selectedVoyageIds.length} {t(Labels.voyages_selected)}
                 </Typography>
 
@@ -256,18 +304,17 @@ export const VoyageManagementPage: React.FC = () => {
       </Card>
       {/* Loading indicator */}
       {isLoading && <LinearProgress sx={{ mb: 2 }} />}
+
       {/* Main Content */}
       <Grid container spacing={3}>
         {/* Filters Panel */}
         {isFilterDrawerOpen && (
           <Grid sx={{ xs: 12, lg: 3 }}>
-            <React.Suspense fallback={<div>Loading filters...</div>}>
-              <VoyageManagementFilters
-                filters={filters}
-                onFiltersChange={newFilters => setFilters(newFilters)}
-                onClearFilters={resetFilters}
-              />
-            </React.Suspense>
+            <VoyageManagementFilters
+              filters={filters}
+              onFiltersChange={newFilters => setFilters(newFilters)}
+              onClearFilters={resetFilters}
+            />
           </Grid>
         )}
 
@@ -285,34 +332,31 @@ export const VoyageManagementPage: React.FC = () => {
           )}
 
           {viewMode === 'card' && (
-            <React.Suspense fallback={<div>Loading card view...</div>}>
-              <VoyageCardView
-                voyages={voyages}
-                isLoading={isLoading}
-                onVoyageEdit={handleEditVoyage}
-                onVoyageView={handleViewVoyage}
-                selectedVoyageIds={selectedVoyageIds}
-                onVoyageSelect={toggleVoyageSelection}
-                onVoyageDelete={handleViewVoyage} // TODO: Implement delete
-              />
-            </React.Suspense>
+            <VoyageCardView
+              voyages={voyages}
+              isLoading={isLoading}
+              onVoyageEdit={handleEditVoyage}
+              onVoyageView={handleViewVoyage}
+              selectedVoyageIds={selectedVoyageIds}
+              onVoyageSelect={toggleVoyageSelection}
+              onVoyageDelete={handleViewVoyage}
+            />
           )}
 
           {viewMode === 'calendar' && (
-            <React.Suspense fallback={<div>Loading calendar...</div>}>
-              <VoyageCalendarView
-                voyages={voyages}
-                isLoading={isLoading}
-                onVoyageEdit={handleEditVoyage}
-                onVoyageView={handleViewVoyage}
-                onVoyageDelete={handleViewVoyage}
-                selectedVoyageIds={selectedVoyageIds}
-                onVoyageSelect={toggleVoyageSelection}
-              />
-            </React.Suspense>
+            <VoyageCalendarView
+              voyages={voyages}
+              isLoading={isLoading}
+              onVoyageEdit={handleEditVoyage}
+              onVoyageView={handleViewVoyage}
+              onVoyageDelete={handleViewVoyage}
+              selectedVoyageIds={selectedVoyageIds}
+              onVoyageSelect={toggleVoyageSelection}
+            />
           )}
         </Grid>
       </Grid>
+
       {/* Floating Action Button */}
       <ProtectedTx allowedRoles={['ADMIN', 'KOPERATIVE', 'GUICHET']}>
         <Fab
@@ -322,7 +366,7 @@ export const VoyageManagementPage: React.FC = () => {
           sx={{
             position: 'fixed',
             bottom: 24,
-            right: 24,
+            right: 96,
             zIndex: 1000,
           }}
         >
@@ -331,33 +375,25 @@ export const VoyageManagementPage: React.FC = () => {
       </ProtectedTx>
       {/* Create/Edit Voyage Drawer */}
       <VoyageFormDrawer
-        open={isCreateDrawerOpen || !!editingVoyage}
+        open={isCreateDrawerOpen || Boolean(editingVoyage)}
         onClose={() => {
           setIsCreateDrawerOpen(false);
           setEditingVoyage(null);
         }}
         voyage={editingVoyage}
-        onSubmit={_voyage => {
-          // Handle voyage creation/update
-          // Save voyage functionality pending
-          setIsCreateDrawerOpen(false);
-          setEditingVoyage(null);
-          refetch();
-        }}
+        onSubmit={handleSaveVoyage}
+        isLoading={scheduleVoyageMutation.isPending || updateVoyageMutation.isPending}
+        koperativeId={koperativeId}
       />
       {/* Bulk Actions Dialog */}
-      <React.Suspense fallback={null}>
-        <VoyageBulkActions
-          selectedCount={selectedVoyageIds.length}
-          onBulkCancel={clearSelection}
-          onBulkActivate={clearSelection}
-          onBulkDeactivate={clearSelection}
-          onBulkExport={() => {
-            /* Export functionality pending */
-          }}
-          onBulkStatusChange={() => clearSelection()}
-        />
-      </React.Suspense>
+      <VoyageBulkActions
+        selectedCount={selectedVoyageIds.length}
+        onBulkCancel={clearSelection}
+        onBulkActivate={clearSelection}
+        onBulkDeactivate={clearSelection}
+        onBulkExport={() => {}}
+        onBulkStatusChange={() => clearSelection()}
+      />
     </Box>
   );
 };

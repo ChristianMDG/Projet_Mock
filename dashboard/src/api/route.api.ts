@@ -29,6 +29,11 @@ export const getRoutesByVille = async (villeId: number): Promise<Route[]> => {
   return response.data;
 };
 
+export const listAllRoutes = async (): Promise<Route[]> => {
+  const response = await api.get<Route[]>('/routes');
+  return response.data;
+};
+
 export const createOrUpdateRoute = async (route: Partial<Route>): Promise<Route> => {
   const response = await api.post<Route>('/routes', route);
   return response.data;

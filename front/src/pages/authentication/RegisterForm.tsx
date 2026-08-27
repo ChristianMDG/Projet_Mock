@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Box,
   FormControl,
   Grid,
   IconButton,
@@ -8,9 +7,16 @@ import {
   InputLabel,
   OutlinedInput,
   TextField,
+  Typography,
 } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { PhoneInput } from '@/components/shared';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import LockOutlined from '@mui/icons-material/LockOutlined';
+import PersonOutlined from '@mui/icons-material/PersonOutlined';
+import BadgeOutlined from '@mui/icons-material/BadgeOutlined';
+import PhoneInput from '@/components/shared/PhoneInput';
+import AccountTypeTabs from '@/components/ui/AccountTypeTabs';
+import StyledIcon from '@/components/ui/StyledIcon';
 import type { AccountModel } from '@/types/auth.types';
 import Labels from '@/labelKeys.json';
 import { useTranslation } from 'react-i18next';
@@ -29,8 +35,10 @@ interface RegisterFormProps {
   loading: boolean;
   showPassword: boolean;
   validationErrors?: ValidationErrors;
+  isGuichet?: boolean;
   onInputChange: (field: keyof AccountModel) => (event: React.ChangeEvent<HTMLInputElement>) => void;
   onPasswordVisibilityToggle: () => void;
+  onGuichetChange?: (checked: boolean) => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({
@@ -38,8 +46,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   loading,
   showPassword,
   validationErrors = {},
+  isGuichet = false,
   onInputChange,
   onPasswordVisibilityToggle,
+  onGuichetChange,
 }) => {
   const { t } = useTranslation();
 
@@ -53,9 +63,20 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
           onChange={onInputChange('lastName')}
           disabled={loading}
           required
+          placeholder="Rakoto"
           error={!!validationErrors.lastName}
           helperText={validationErrors.lastName}
           size="medium"
+          margin="dense"
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <StyledIcon icon={PersonOutlined} fontSize="small" />
+                </InputAdornment>
+              ),
+            },
+          }}
         />
       </Grid>
       <Grid size={{ xs: 12 }}>
@@ -66,9 +87,44 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
           onChange={onInputChange('firstName')}
           disabled={loading}
           required
+          placeholder="Jean"
           error={!!validationErrors.firstName}
           helperText={validationErrors.firstName}
           size="medium"
+          margin="dense"
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <StyledIcon icon={PersonOutlined} fontSize="small" />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
+      </Grid>
+      <Grid size={{ xs: 12 }}>
+        <TextField
+          fullWidth
+          label={t(Labels.id_number)}
+          value={form.idNumber ?? ''}
+          onChange={onInputChange('idNumber')}
+          disabled={loading}
+          required
+          placeholder="101 234 567 890"
+          error={!!validationErrors.idNumber}
+          helperText={validationErrors.idNumber}
+          size="medium"
+          margin="dense"
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <StyledIcon icon={BadgeOutlined} fontSize="small" />
+                </InputAdornment>
+              ),
+            },
+          }}
         />
       </Grid>
       <Grid size={{ xs: 12 }}>
@@ -87,33 +143,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
         />
       </Grid>
       <Grid size={{ xs: 12 }}>
-        <TextField
-          fullWidth
-          label={t(Labels.id_number)}
-          value={form.idNumber ?? ''}
-          onChange={onInputChange('idNumber')}
-          disabled={loading}
-          error={!!validationErrors.idNumber}
-          helperText={validationErrors.idNumber}
-          size="medium"
-        />
-      </Grid>
-      <Grid size={{ xs: 12 }}>
-        <TextField
-          fullWidth
-          label={t(Labels.ui_userinfo_email)}
-          type="email"
-          value={form.email}
-          onChange={onInputChange('email')}
-          disabled={loading}
-          error={!!validationErrors.email}
-          helperText={validationErrors.email}
-          size="medium"
-        />
-      </Grid>
-      <Grid size={{ xs: 12 }}>
         <FormControl fullWidth variant="outlined" error={!!validationErrors.password}>
-          <InputLabel htmlFor="password">{t(Labels.authform_password)}</InputLabel>
+          <InputLabel htmlFor="password" required>
+            {t(Labels.authform_password)}
+          </InputLabel>
           <OutlinedInput
             id="password"
             type={showPassword ? 'text' : 'password'}
@@ -123,6 +156,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             required
             autoComplete="new-password"
             size="medium"
+            placeholder="••••••••"
+            startAdornment={
+              <InputAdornment position="start">
+                <StyledIcon icon={LockOutlined} fontSize="small" />
+              </InputAdornment>
+            }
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -138,9 +177,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             label={t(Labels.authform_password)}
           />
           {validationErrors.password && (
-            <Box sx={{ color: 'error.main', fontSize: '0.75rem', mt: 0.5, ml: 2 }}>{validationErrors.password}</Box>
+            <Typography variant="caption" sx={{ color: 'error.main', mt: 0.5, ml: 2 }}>
+              {validationErrors.password}
+            </Typography>
           )}
         </FormControl>
+      </Grid>
+      <Grid size={{ xs: 12 }}>
+        <AccountTypeTabs isGuichet={isGuichet} onGuichetChange={onGuichetChange} disabled={loading} />
       </Grid>
     </Grid>
   );

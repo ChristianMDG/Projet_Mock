@@ -4,7 +4,7 @@ import { Box, Divider, List, ListItem, ListItemText, Paper, Typography } from '@
 import Grid from '@mui/material/Grid';
 import ListItemButton from '@mui/material/ListItemButton';
 import EditIcon from '@mui/icons-material/Edit';
-import { IconButtonTx } from '@/components/ui';
+import IconButtonTx from '@/components/ui/IconButtonTx';
 import { useKoperativesByVoyageurId } from '@/hooks/koperative.hooks';
 import { Koperative, Ville } from '@/types';
 import { useTranslation } from 'react-i18next';
@@ -30,8 +30,8 @@ const AccountFavoritesKoperativeList: React.FC<AccountFavoritesKoperativeListPro
   const navigate = useNavigate();
 
   const handleSelectKoperative = (k: Koperative) => {
-    if (k.id) {
-      navigate(generateRoute.koperativeDetail(k.id, i18n.language));
+    if (k.slug) {
+      navigate(generateRoute.koperativeDetail(k.slug, i18n.language));
     }
   };
 

@@ -6,7 +6,8 @@ import ImageMedia from '@/components/shared/ImageMedia';
 import RichText from '@/components/shared/RichText';
 import WelcomeMessage from '@/components/shared/WelcomeMessage';
 import { useWelcomeMessageVisible } from '@/hooks/auth.hooks';
-import HeroLoadingSkeleton, { HERO_DIMENSIONS } from '@/skeleton/HeroLoadingSkeleton';
+import HeroLoadingSkeleton from '@/skeleton/HeroLoadingSkeleton';
+import { HERO_DIMENSIONS } from '@/constants/hero.constants';
 import MissingContent from '@/components/shared/MissingContent';
 
 const HeroContent: React.FC = () => {
@@ -34,7 +35,12 @@ const HeroContent: React.FC = () => {
   return (
     <HeroSectionContainer component="section" aria-label={Title} sx={HERO_DIMENSIONS}>
       <HeroBackgroundContainer>
-        <ImageMedia media={Image} variant="card" />
+        <ImageMedia
+          media={Image}
+          variant="card"
+          responsivePreset="banner"
+          sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
       </HeroBackgroundContainer>
 
       <HeroContentPanel component="article">
@@ -63,7 +69,7 @@ const HeroContent: React.FC = () => {
               {SubTitle}
             </Typography>
             {Destination && (
-              <Typography variant="h6" sx={{ mb: 1, color: 'secondary.light', fontWeight: 500 }}>
+              <Typography variant="h6" component="h4" sx={{ mb: 1, color: 'secondary.light', fontWeight: 500 }}>
                 {Destination}
               </Typography>
             )}

@@ -14,11 +14,17 @@ import {
   ListItemAvatar,
   Divider,
   Badge,
+  SpeedDial,
+  SpeedDialIcon,
+  SpeedDialAction,
+  SvgIcon,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import SmsIcon from '@mui/icons-material/Sms';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { FaFacebookMessenger } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import { useMessenger } from '@/hooks/messenger.hook';
@@ -32,6 +38,7 @@ const formatTime = (date: Date) => {
 const MessengerChat: React.FC = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const [isDialOpen, setIsDialOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [message, setMessage] = useState('');
   const { messages, roomId, sendMessage, markAsRead } = useMessenger();
@@ -99,7 +106,7 @@ const MessengerChat: React.FC = () => {
               padding: 2,
               display: 'flex',
               alignItems: 'center',
-              gap: 2,
+              gap: 1.5,
             }}
           >
             <Badge
@@ -117,15 +124,18 @@ const MessengerChat: React.FC = () => {
                 />
               }
             >
-              <Avatar sx={{ bgcolor: 'secondary.main', color: 'primary.main' }}>
-                <SupportAgentIcon />
+              <Avatar sx={{ bgcolor: 'secondary.main', color: 'primary.main', width: 36, height: 36 }}>
+                <SupportAgentIcon fontSize="small" />
               </Avatar>
             </Badge>
             <Typography variant="body2" sx={{ opacity: 0.9 }}>
               {t(Labels.messenger_status)}
             </Typography>
-            <IconButton size="small" onClick={handleToggle} sx={{ color: 'inherit' }}>
-              <CloseIcon />
+
+            <Box sx={{ flex: 1 }} />
+
+            <IconButton size="small" onClick={handleToggle} sx={{ color: 'inherit', ml: 0.5 }}>
+              <CloseIcon fontSize="small" />
             </IconButton>
           </Box>
 
@@ -245,48 +255,112 @@ const MessengerChat: React.FC = () => {
         </Paper>
       </Fade>
 
-      {/* Floating Action Button */}
+      {/* Floating Action Button / SpeedDial */}
       <Zoom in={isMounted}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          {!isOpen && (
-            <Fade in={!isOpen}>
-              <Paper
-                elevation={4}
-                sx={{
-                  px: 1,
-                  borderRadius: 4,
+          {isOpen ? (
+            <Fab
+              color="primary"
+              aria-label="Close"
+              onClick={handleToggle}
+              sx={{
+                border: 2,
+                boxShadow: 4,
+                borderColor: 'secondary.main',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                },
+                transition: 'all 0.2s ease-in-out',
+              }}
+            >
+              <CloseIcon />
+            </Fab>
+          ) : (
+            <SpeedDial
+              ariaLabel={t(Labels.chat_contact_options)}
+              icon={<SpeedDialIcon icon={<SmsIcon />} />}
+              onClose={() => setIsDialOpen(false)}
+              onOpen={() => setIsDialOpen(true)}
+              open={isDialOpen}
+              direction="up"
+              FabProps={{
+                color: 'primary',
+                sx: {
+                  border: 2,
                   boxShadow: 4,
-                  border: '2px solid',
-                  borderColor: 'primary.main',
+                  borderColor: 'secondary.main',
+                  '&:hover': {
+                    transform: 'scale(1.05)',
+                  },
+                  transition: 'all 0.2s ease-in-out',
+                },
+              }}
+            >
+              <SpeedDialAction
+                icon={<SmsIcon color="primary" />}
+                slotProps={{
+                  tooltip: { title: t(Labels.messenger_open_chat), open: true },
+                  staticTooltipLabel: {
+                    sx: {
+                      bgcolor: 'text.primary',
+                      color: 'background.paper',
+                      fontWeight: 500,
+                      boxShadow: 2,
+                      fontSize: '0.75rem',
+                      px: 1,
+                      py: 0.5,
+                    },
+                  },
                 }}
-              >
-                <Typography
-                  variant="button"
-                  sx={{
-                    fontSize: 13,
-                  }}
-                >
-                  {t(Labels.messenger_support_label)}
-                </Typography>
-              </Paper>
-            </Fade>
+                onClick={() => {
+                  setIsDialOpen(false);
+                  handleToggle();
+                }}
+              />
+              <SpeedDialAction
+                icon={<WhatsAppIcon sx={{ color: '#25D366' }} />}
+                slotProps={{
+                  tooltip: { title: t(Labels.chat_whatsapp), open: true },
+                  staticTooltipLabel: {
+                    sx: {
+                      bgcolor: 'text.primary',
+                      color: 'background.paper',
+                      fontWeight: 500,
+                      boxShadow: 2,
+                      fontSize: '0.75rem',
+                      px: 1,
+                      py: 0.5,
+                    },
+                  },
+                }}
+                onClick={() => {
+                  setIsDialOpen(false);
+                  window.open('https://wa.me/261374107562', '_blank');
+                }}
+              />
+              <SpeedDialAction
+                icon={<SvgIcon component={FaFacebookMessenger} inheritViewBox sx={{ color: '#0084FF' }} />}
+                slotProps={{
+                  tooltip: { title: t(Labels.chat_messenger), open: true },
+                  staticTooltipLabel: {
+                    sx: {
+                      bgcolor: 'text.primary',
+                      color: 'background.paper',
+                      fontWeight: 500,
+                      boxShadow: 2,
+                      fontSize: '0.75rem',
+                      px: 1,
+                      py: 0.5,
+                    },
+                  },
+                }}
+                onClick={() => {
+                  setIsDialOpen(false);
+                  window.open('https://m.me/61570079625295', '_blank');
+                }}
+              />
+            </SpeedDial>
           )}
-          <Fab
-            color="primary"
-            aria-label={t(Labels.messenger_open_chat)}
-            onClick={handleToggle}
-            sx={{
-              border: 2,
-              boxShadow: 4,
-              borderColor: 'secondary.main',
-              '&:hover': {
-                transform: 'scale(1.05)',
-              },
-              transition: 'all 0.2s ease-in-out',
-            }}
-          >
-            {isOpen ? <CloseIcon /> : <SmsIcon />}
-          </Fab>
         </Box>
       </Zoom>
     </Box>

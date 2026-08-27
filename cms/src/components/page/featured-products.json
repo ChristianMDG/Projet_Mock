@@ -1,0 +1,84 @@
+{
+    "collectionName": "components_page_featured_products",
+    "info": {
+        "displayName": "Featured Products",
+        "description": "Section highlighting selected shop products",
+        "icon": "shopping-cart"
+    },
+    "options": {},
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true,
+            "maxLength": 200,
+            "default": "Produits en vedette",
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "subtitle": {
+            "type": "string",
+            "maxLength": 300,
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "ctaText": {
+            "type": "string",
+            "maxLength": 80,
+            "required": false,
+            "pluginOptions": {
+                "i18n": {
+                    "localized": true
+                }
+            }
+        },
+        "ctaLink": {
+            "type": "string",
+            "maxLength": 255,
+            "required": false
+        },
+        "layout": {
+            "type": "enumeration",
+            "enum": [
+                "grid",
+                "carousel",
+                "list"
+            ],
+            "default": "grid",
+            "required": true
+        },
+        "maxItems": {
+            "type": "integer",
+            "default": 8,
+            "min": 1,
+            "max": 24
+        },
+        "backgroundColor": {
+            "type": "string",
+            "maxLength": 50,
+            "default": "background.default"
+        },
+        "containerMaxWidth": {
+            "type": "enumeration",
+            "enum": [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl"
+            ],
+            "default": "lg"
+        },
+        "products": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::product.product"
+        }
+    }
+}

@@ -100,8 +100,10 @@ export const findFilteredVoyages = async (filter: VoyageFilter) => {
   return data;
 };
 
-export const getUserPreviousVoyages = async (voyageurId: number) => {
-  const { data } = await axios.get<Voyage[]>(`${API_URL}/previous/${voyageurId}`);
+export const getUserPreviousVoyages = async (voyageurId: number, page = 0, size = 10) => {
+  const { data } = await axios.get<PaginatedResponse<Voyage>>(`${API_URL}/previous/${voyageurId}`, {
+    params: { page, size },
+  });
   return data;
 };
 
@@ -126,5 +128,10 @@ export const getMonthlyResults = async (filter: MonthlyVoyageFilter) => {
 
 export const findGroupedVoyages = async (filter: VoyageFilter) => {
   const { data } = await axios.get<VoyageClasses[]>(`${API_URL}/filtered/grouped`, { params: filter });
+  return data;
+};
+
+export const findGroupedVoyagesByKoperative = async (filter: VoyageFilter) => {
+  const { data } = await axios.get<VoyageClasses[]>(`${API_URL}/filtered/grouped/koperative`, { params: filter });
   return data;
 };

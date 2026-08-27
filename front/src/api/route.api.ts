@@ -56,12 +56,6 @@ export const getAvailableDestinations = async (gareId: number) => {
 export const deleteRoute = async (id: number) => {
   await api.delete(`/routes/${id}`);
 };
-
-export const getRoutesByVille = async (villeId: number) => {
-  const response = await api.get<Route[]>(`/routes/ville/${villeId}`);
-  return response.data;
-};
-
 /**
  * Get active routes by departure gare ID (Top frequency)
  */

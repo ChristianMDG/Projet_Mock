@@ -7,3 +7,4 @@ export { default as MobileHeader } from './MobileHeader';
 export { default as SocialLogin } from './SocialLogin';
 export { default as TermsAndPrivacy } from './TermsAndPrivacy';
 export { default as AuthenticationPage } from './AuthenticationPage';
+export { default as AuthLayout } from './AuthLayout';

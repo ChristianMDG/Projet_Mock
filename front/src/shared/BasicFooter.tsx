@@ -1,12 +1,16 @@
 import React from 'react';
 import { Avatar, Box, Button, Container, Divider, Grid, IconButton, Link, Typography } from '@mui/material';
-import { Email, Facebook, LocationOn, Phone } from '@mui/icons-material';
-import { TaxibrousseRedIcon } from '@/components/ui';
+import Email from '@mui/icons-material/Email';
+import Facebook from '@mui/icons-material/Facebook';
+import LocationOn from '@mui/icons-material/LocationOn';
+import Phone from '@mui/icons-material/Phone';
+import TaxibrousseRedIcon from '@/components/ui/TaxibrousseRedIcon';
 import { TFunction, i18n } from 'i18next';
 import Labels from '@/labelKeys.json';
 import { ROUTES } from '@/constants/routes';
-import { ProtectedTx } from '@/components';
-import { useSectionContext } from '@/context';
+import ProtectedTx from '@/components/ProtectedTx';
+import { useSectionByComponent } from '@/hooks/dynamic-page.hooks';
+import { AuthorityEnum } from '@/models/enums';
 import { SECTION_TYPES } from '@/constants/section.types';
 import type { PaymentSection } from '@/api/dynamic-page.api';
 import dayjs from '@/utils/dayjs';
@@ -18,8 +22,8 @@ interface BasicFooterProps {
 
 const BasicFooter: React.FC<BasicFooterProps> = ({ t, i18n }) => {
   const currentYear = dayjs().year();
-  const { getSectionByType } = useSectionContext();
-  const { paymentMethods: paymentMethods } = getSectionByType<PaymentSection>(SECTION_TYPES.PAYMENT_SECTION) ?? {};
+  const { data } = useSectionByComponent(SECTION_TYPES.PAYMENT_SECTION);
+  const paymentMethods = (data?.data as PaymentSection)?.paymentMethods;
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -49,7 +53,6 @@ const BasicFooter: React.FC<BasicFooterProps> = ({ t, i18n }) => {
           size="small"
           variant="outlined"
           onClick={scrollToTop}
-          aria-label={t(Labels.footer_scroll_to_top)}
           sx={{
             position: 'absolute',
             right: { xs: 16, md: 32 },
@@ -60,7 +63,7 @@ const BasicFooter: React.FC<BasicFooterProps> = ({ t, i18n }) => {
             borderColor: 'divider',
           }}
         >
-          GO <TaxibrousseRedIcon sx={{ width: 32 }} />
+          {t(Labels.footer_scroll_to_top)} <TaxibrousseRedIcon sx={{ width: 32 }} />
         </Button>
 
         <Grid container spacing={4}>
@@ -68,6 +71,7 @@ const BasicFooter: React.FC<BasicFooterProps> = ({ t, i18n }) => {
           <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
             <Typography
               variant="h6"
+              component="h2"
               gutterBottom
               sx={{
                 fontWeight: 'bold',
@@ -82,9 +86,11 @@ const BasicFooter: React.FC<BasicFooterProps> = ({ t, i18n }) => {
               <Link href={ROUTES.reservationsList[i18n.language]} color="inherit" underline="hover">
                 {t(Labels.footer_check_in)}
               </Link>
-              <Link href={ROUTES.voyagesList[i18n.language]} color="inherit" underline="hover">
-                {t(Labels.footer_trip_status)}
-              </Link>
+              <ProtectedTx allowedRoles={[AuthorityEnum.ADMIN, AuthorityEnum.KOPERATIVE, AuthorityEnum.GUICHET]}>
+                <Link href={ROUTES.voyagesList[i18n.language]} color="inherit" underline="hover">
+                  {t(Labels.footer_trip_status)}
+                </Link>
+              </ProtectedTx>
               <Link href={ROUTES.bookingRates[i18n.language]} color="inherit" underline="hover">
                 {t(Labels.footer_travel_requirements)}
               </Link>
@@ -95,6 +101,7 @@ const BasicFooter: React.FC<BasicFooterProps> = ({ t, i18n }) => {
           <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
             <Typography
               variant="h6"
+              component="h2"
               gutterBottom
               sx={{
                 fontWeight: 'bold',
@@ -122,6 +129,7 @@ const BasicFooter: React.FC<BasicFooterProps> = ({ t, i18n }) => {
           <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
             <Typography
               variant="h6"
+              component="h2"
               gutterBottom
               sx={{
                 fontWeight: 'bold',
@@ -146,6 +154,7 @@ const BasicFooter: React.FC<BasicFooterProps> = ({ t, i18n }) => {
           <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
             <Typography
               variant="h6"
+              component="h2"
               gutterBottom
               sx={{
                 fontWeight: 'bold',
@@ -173,6 +182,7 @@ const BasicFooter: React.FC<BasicFooterProps> = ({ t, i18n }) => {
           <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
             <Typography
               variant="h6"
+              component="h2"
               gutterBottom
               sx={{
                 fontWeight: 'bold',
@@ -200,7 +210,7 @@ const BasicFooter: React.FC<BasicFooterProps> = ({ t, i18n }) => {
                     fontSize: 'small',
                   }}
                 />
-                +261 33 47 603 20
+                033 47 603 20
               </Typography>
             </ProtectedTx>
             <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>

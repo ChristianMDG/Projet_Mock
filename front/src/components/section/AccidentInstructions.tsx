@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Container, Typography, Card, CardContent, Alert, Chip, Stack, Divider, Grid } from '@mui/material';
-import { Phone as PhoneIcon } from '@mui/icons-material';
+import PhoneIcon from '@mui/icons-material/Phone';
 import type { AccidentInstructions as AccidentInstructionsType } from '@/api/dynamic-page.api';
 import { Icon } from '@/shared/IconMapper';
 
@@ -19,13 +19,13 @@ const AccidentInstructions: React.FC<AccidentInstructionsProps> = ({ section }) 
   const sortedInstructions = [...section.instructions].sort((a, b) => a.step - b.step);
 
   return (
-    <Box sx={{ py: 6, bgcolor: section.backgroundColor || '#fff3e0' }}>
+    <Box sx={{ py: 6, bgcolor: section.backgroundColor ?? '#fff3e0' }}>
       <Container
         sx={{
-          maxWidth: section.containerMaxWidth || 'lg',
+          maxWidth: section.containerMaxWidth ?? 'lg',
         }}
       >
-        <Typography variant="h4" gutterBottom align="center" color="error.main">
+        <Typography variant="h4" gutterBottom align="center" color="error">
           {section.title}
         </Typography>
         {section.subtitle && (

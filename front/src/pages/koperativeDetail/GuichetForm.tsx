@@ -12,17 +12,18 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { ButtonTx, StyledIcon } from '@/components/ui';
+import ButtonTx from '@/components/ui/ButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import ProtectedTx from '@/components/ProtectedTx';
-import { GareAutocomplete, VilleAutocomplete } from '@/components/shared';
-import {
-  Close as CloseIcon,
-  Info,
-  LocationOn,
-  People,
-  Save as SaveIcon,
-  Store as StoreIcon,
-} from '@mui/icons-material';
+import { useAuth } from '@/context/AuthContext';
+import GareAutocomplete from '@/components/shared/GareAutocomplete';
+import VilleAutocomplete from '@/components/shared/VilleAutocomplete';
+import CloseIcon from '@mui/icons-material/Close';
+import Info from '@mui/icons-material/Info';
+import LocationOn from '@mui/icons-material/LocationOn';
+import People from '@mui/icons-material/People';
+import SaveIcon from '@mui/icons-material/Save';
+import StoreIcon from '@mui/icons-material/Store';
 import GuichetDestinations from './GuichetDestinations';
 import { useCreateGuichet, useUpdateGuichet } from '@/hooks/guichet.hooks';
 import { useGares } from '@/hooks/gare.hooks';
@@ -35,6 +36,7 @@ import Grid from '@mui/material/Grid';
 import CardActions from '@mui/material/CardActions';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import useGuichetFormStore from '@/stores/guichet-form.store';
+import { AuthorityEnum } from '@/models/enums';
 
 // Types and Interfaces
 interface GuichetFormProps {
@@ -47,6 +49,7 @@ interface GuichetFormProps {
 
 const GuichetForm: React.FC<GuichetFormProps> = ({ open, onClose, koperativeId, initialData, mode }) => {
   const { t } = useTranslation();
+  const { user } = useAuth();
 
   // ===== ZUSTAND STATE =====
   const { formData, selectedVille, loading, error, updateFormData, setSelectedVille, setLoading, setError, resetForm } =
@@ -146,7 +149,12 @@ const GuichetForm: React.FC<GuichetFormProps> = ({ open, onClose, koperativeId, 
         koperative: formData.koperative!,
         operateurs: formData.operateurs?.map((op: UserOperator) => ({ id: op.id }) as UserOperator) ?? [],
         phones: formData.phones?.trim() ?? undefined,
+        smsPhone: formData.smsPhone?.trim() ?? undefined,
+        numeroMvola: formData.numeroMvola?.trim() ?? undefined,
+        numeroAirtelMoney: formData.numeroAirtelMoney?.trim() ?? undefined,
+        numeroOrangeMoney: formData.numeroOrangeMoney?.trim() ?? undefined,
         isActive: formData.isActive,
+        paymentAutomatique: formData.paymentAutomatique,
         openingHours: formData.openingHours?.trim() ?? undefined,
       };
 
@@ -193,6 +201,9 @@ const GuichetForm: React.FC<GuichetFormProps> = ({ open, onClose, koperativeId, 
     buttonLabel = t(Labels.button_edit);
   }
   const isEditing = mode === 'edit';
+  const isReadOnly = !user?.authorities?.some(role =>
+    [AuthorityEnum.ADMIN, AuthorityEnum.OPERATOR].includes(role.name as AuthorityEnum),
+  );
   return (
     <SwipeableDrawer
       anchor="bottom"
@@ -251,19 +262,63 @@ const GuichetForm: React.FC<GuichetFormProps> = ({ open, onClose, koperativeId, 
                         required
                         disabled={loading}
                         placeholder={t(Labels.guichet_form_name_placeholder)}
+                        slotProps={{ input: { readOnly: isReadOnly } }}
                       />
                     </Grid>
-                    <Grid size={{ xs: 12 }}>
-                      <TextField
-                        fullWidth
-                        label={t(Labels.guichet_form_phones_label)}
-                        value={formData.phones ?? ''}
-                        onChange={handleInputChange('phones')}
-                        disabled={loading}
-                        placeholder={t(Labels.guichet_form_phones_placeholder)}
-                        helperText={t(Labels.guichet_form_phones_helper)}
-                      />
-                    </Grid>
+                    <ProtectedTx allowedRoles={[AuthorityEnum.ADMIN, AuthorityEnum.OPERATOR]}>
+                      <Grid size={{ xs: 12 }}>
+                        <TextField
+                          fullWidth
+                          label={t(Labels.guichet_form_phones_label)}
+                          value={formData.phones ?? ''}
+                          onChange={handleInputChange('phones')}
+                          disabled={loading}
+                          placeholder={t(Labels.guichet_form_phones_placeholder)}
+                          helperText={t(Labels.guichet_form_phones_helper)}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <TextField
+                          fullWidth
+                          label={t(Labels.guichet_form_sms_phone_label)}
+                          value={formData.smsPhone ?? ''}
+                          onChange={handleInputChange('smsPhone')}
+                          disabled={loading}
+                          placeholder={t(Labels.guichet_form_sms_phone_placeholder)}
+                          helperText={t(Labels.guichet_form_sms_phone_helper)}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <TextField
+                          fullWidth
+                          label={t(Labels.guichet_form_numero_mvola_label)}
+                          value={formData.numeroMvola ?? ''}
+                          onChange={handleInputChange('numeroMvola')}
+                          disabled={loading}
+                          placeholder={t(Labels.guichet_form_numero_mvola_placeholder)}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <TextField
+                          fullWidth
+                          label={t(Labels.guichet_form_numero_airtel_label)}
+                          value={formData.numeroAirtelMoney ?? ''}
+                          onChange={handleInputChange('numeroAirtelMoney')}
+                          disabled={loading}
+                          placeholder={t(Labels.guichet_form_numero_airtel_placeholder)}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <TextField
+                          fullWidth
+                          label={t(Labels.guichet_form_numero_orange_label)}
+                          value={formData.numeroOrangeMoney ?? ''}
+                          onChange={handleInputChange('numeroOrangeMoney')}
+                          disabled={loading}
+                          placeholder={t(Labels.guichet_form_numero_orange_placeholder)}
+                        />
+                      </Grid>
+                    </ProtectedTx>
                     <Grid size={{ xs: 12 }}>
                       <TextField
                         fullWidth
@@ -274,18 +329,31 @@ const GuichetForm: React.FC<GuichetFormProps> = ({ open, onClose, koperativeId, 
                         placeholder={t(Labels.guichet_form_opening_hours_placeholder)}
                         multiline
                         rows={2}
+                        slotProps={{ input: { readOnly: isReadOnly } }}
                       />
                     </Grid>
-                    <Grid size={{ xs: 12 }}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                       <FormControlLabel
                         control={
                           <Switch
                             checked={!!formData.isActive}
                             onChange={handleSwitchChange('isActive')}
-                            disabled={loading}
+                            disabled={loading || isReadOnly}
                           />
                         }
                         label={t(Labels.guichet_form_active_label)}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={!!formData.paymentAutomatique}
+                            onChange={handleSwitchChange('paymentAutomatique')}
+                            disabled={loading || isReadOnly}
+                          />
+                        }
+                        label={t(Labels.guichet_form_is_payment_automatique_label)}
                       />
                     </Grid>
                   </Grid>
@@ -309,7 +377,7 @@ const GuichetForm: React.FC<GuichetFormProps> = ({ open, onClose, koperativeId, 
                         onChange={handleVilleChange}
                         label={t(Labels.guichet_form_city_label)}
                         required
-                        disabled={loading}
+                        disabled={loading || isReadOnly}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
@@ -319,7 +387,7 @@ const GuichetForm: React.FC<GuichetFormProps> = ({ open, onClose, koperativeId, 
                         onChange={handleGareChange}
                         label={t(Labels.guichet_form_station_label)}
                         required
-                        disabled={loading || !selectedVille}
+                        disabled={loading || isReadOnly || !selectedVille}
                         options={filteredGares}
                         isLoading={garesLoading}
                         helperText={!selectedVille ? t(Labels.select_city_first) : ''}
@@ -357,7 +425,7 @@ const GuichetForm: React.FC<GuichetFormProps> = ({ open, onClose, koperativeId, 
                     }}
                     value={selectedOperateurs}
                     onChange={(_, value) => handleOperateursChange(value)}
-                    disabled={loading || operatorsLoading}
+                    disabled={loading || operatorsLoading || isReadOnly}
                     loading={operatorsLoading}
                     isOptionEqualToValue={(option, value) => option.id === value.id}
                     renderInput={params => (
@@ -365,13 +433,15 @@ const GuichetForm: React.FC<GuichetFormProps> = ({ open, onClose, koperativeId, 
                         {...params}
                         label={t(Labels.guichet_form_operators_select)}
                         helperText={t(Labels.guichet_form_operators_helper)}
+                        margin="dense"
                         slotProps={{
+                          ...params.slotProps,
                           input: {
-                            ...(params as any).InputProps,
+                            ...params.slotProps.input,
                             endAdornment: (
                               <>
                                 {operatorsLoading && <CircularProgress size={20} />}
-                                {(params as any).InputProps?.endAdornment}
+                                {params.slotProps.input.endAdornment}
                               </>
                             ),
                           },

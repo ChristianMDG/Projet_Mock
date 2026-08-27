@@ -13,7 +13,10 @@ import {
   type SxProps,
   type Theme,
 } from '@mui/material';
-import { Email, LocationOn, Phone, Facebook } from '@mui/icons-material';
+import Email from '@mui/icons-material/Email';
+import LocationOn from '@mui/icons-material/LocationOn';
+import Phone from '@mui/icons-material/Phone';
+import Facebook from '@mui/icons-material/Facebook';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
 import type { Contact as ContactType, ContactMethod } from '@/api/dynamic-page.api';

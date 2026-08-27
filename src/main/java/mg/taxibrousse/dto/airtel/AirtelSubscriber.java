@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AirtelSubscriber {
+
     private String country;
     private String currency;
     private String msisdn;

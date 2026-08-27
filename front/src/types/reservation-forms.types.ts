@@ -52,9 +52,7 @@ export interface UserFormData {
   firstName: string;
   lastName: string;
   phone: string;
-  email: string;
   idNumber: string;
-  address: string;
 }
 
 /**

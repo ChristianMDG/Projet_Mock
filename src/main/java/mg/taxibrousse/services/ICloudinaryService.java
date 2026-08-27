@@ -5,6 +5,7 @@ import mg.taxibrousse.entities.CloudinaryEntity;
 import java.util.List;
 
 public interface ICloudinaryService {
+
     CloudinaryEntity save(CloudinaryEntity entity);
 
     CloudinaryEntity findById(Long id);
