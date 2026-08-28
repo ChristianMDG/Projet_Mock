@@ -25,7 +25,7 @@ import type { Order } from '@/types/shop.types';
 import { OrderStatusEnum, OrderStatusLabels, OrderStatusChipColors } from '@/types/shop.types';
 import { formatCurrency, formatDateTime } from '@/utils/format';
 import Labels from '@/labelKeys.json';
-
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 interface OrderDetailDialogProps {
   order: Order | null;
   open: boolean;
@@ -110,22 +110,28 @@ export default function OrderDetailDialog({ order, open, onClose }: OrderDetailD
               }}
             >
               <Typography variant="subtitle2" sx={{ flexShrink: 0 }}>
-                Code de récupération :
+                {t(Labels.shop_order_pickup_code)} :
               </Typography>
-              <Typography
-                variant="h6"
-                fontFamily="monospace"
-                letterSpacing={2}
-                sx={{ fontWeight: 700 }}
-              >
+              <Typography variant="h6" fontFamily="monospace" letterSpacing={2} sx={{ fontWeight: 700 }}>
                 {current.pickupCode}
               </Typography>
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={<ContentCopyIcon fontSize="small" />}
+                onClick={() => {
+                  if (current.pickupCode) {
+                    void navigator.clipboard.writeText(current.pickupCode);
+                  }
+                }}
+              >
+                {t(Labels.shop_order_pickup_code_copy)}
+              </Button>
               <Typography variant="caption" color="text.secondary">
-                (à apposer sur le colis / fournir au guichet)
+                {t(Labels.shop_order_pickup_code_hint)}
               </Typography>
             </Stack>
           )}
-
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6 }}>
               <Typography variant="subtitle2">{t(Labels.shop_order_col_customer)}</Typography>
