@@ -1,300 +1,650 @@
 {
-    "description": "Shop product subcategories grouped under top-level categories. Each entry references its parent via category.slug. Primary locale = fr, with en + mg translations. Slugs are unique across the whole collection.",
+    "description": "Sous-catégories Vista France. Chaque entrée référence sa catégorie parent via category.slug.",
     "collection": "api::product-category.product-category",
     "data": [
-        {
-            "name": "Smartphones",
-            "slug": "smartphones",
-            "description": "Téléphones intelligents, accessoires et coques",
-            "icon": "Smartphone",
-            "displayOrder": 1,
-            "isActive": true,
-            "category": { "slug": "newtech-electronique" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Smartphones", "description": "Smartphones, accessories and cases" },
-                "mg": { "name": "Finday", "description": "Finday, fanampiny sy kitapo" }
-            }
-        },
-        {
-            "name": "Ordinateurs portables",
-            "slug": "ordinateurs-portables",
-            "description": "Laptops, ultrabooks et chargeurs",
-            "icon": "Laptop",
-            "displayOrder": 2,
-            "isActive": true,
-            "category": { "slug": "newtech-electronique" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Laptops", "description": "Laptops, ultrabooks and chargers" },
-                "mg": { "name": "Solosaina entina", "description": "Solosaina entina, ultrabook sy charger" }
-            }
-        },
-        {
-            "name": "Audio & Casques",
-            "slug": "audio-casques",
-            "description": "Casques, écouteurs et enceintes Bluetooth",
-            "icon": "Headphones",
-            "displayOrder": 3,
-            "isActive": true,
-            "category": { "slug": "newtech-electronique" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Audio & Headphones", "description": "Headphones, earbuds and Bluetooth speakers" },
-                "mg": { "name": "Feo & Headphones", "description": "Headphones, earbuds sy haino-vaky Bluetooth" }
-            }
-        },
-        {
-            "name": "Gaming",
-            "slug": "gaming",
-            "description": "Consoles, manettes et accessoires gaming",
-            "icon": "SportsEsports",
-            "displayOrder": 4,
-            "isActive": true,
-            "category": { "slug": "newtech-electronique" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Gaming", "description": "Consoles, controllers and gaming accessories" },
-                "mg": { "name": "Lalao", "description": "Console, manette sy fanampin'ny lalao" }
-            }
-        },
-        {
-            "name": "Fournitures de bureau",
-            "slug": "fournitures-bureau",
-            "description": "Stylos, classeurs, papeterie pour le bureau",
-            "icon": "Edit",
-            "displayOrder": 1,
-            "isActive": true,
-            "category": { "slug": "fournitures" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Office Supplies", "description": "Pens, binders and office stationery" },
-                "mg": { "name": "Fitaovam-birao", "description": "Penina, classeur sy taratasin-birao" }
-            }
-        },
-        {
-            "name": "Fournitures scolaires",
-            "slug": "fournitures-scolaires",
-            "description": "Cahiers, sacs, trousses et matériel scolaire",
-            "icon": "School",
-            "displayOrder": 2,
-            "isActive": true,
-            "category": { "slug": "fournitures" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "School Supplies", "description": "Notebooks, bags, pencil cases and school gear" },
-                "mg": { "name": "Fitaovan-tsekoly", "description": "Kahie, kitapo, trousse sy fitaovan-tsekoly" }
-            }
-        },
-        {
-            "name": "Papeterie créative",
-            "slug": "papeterie-creative",
-            "description": "Carnets, stickers et papeterie déco",
-            "icon": "Brush",
-            "displayOrder": 3,
-            "isActive": true,
-            "category": { "slug": "fournitures" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Creative Stationery", "description": "Notebooks, stickers and decorative paper goods" },
-                "mg": { "name": "Taratasy haitao", "description": "Carnet, sticker sy taratasy haingo" }
-            }
-        },
-        {
-            "name": "Cuisine",
-            "slug": "petit-electromenager-cuisine",
-            "description": "Mixeurs, bouilloires, grille-pains et cafetières",
-            "icon": "Kitchen",
-            "displayOrder": 1,
-            "isActive": true,
-            "category": { "slug": "petit-electromenager" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Kitchen", "description": "Blenders, kettles, toasters and coffee makers" },
-                "mg": { "name": "Lakozia", "description": "Blender, ketela, grille-pain sy fanaovana kafe" }
-            }
-        },
-        {
-            "name": "Entretien maison",
-            "slug": "entretien-maison",
-            "description": "Aspirateurs, fers à repasser et nettoyeurs",
-            "icon": "CleaningServices",
-            "displayOrder": 2,
-            "isActive": true,
-            "category": { "slug": "petit-electromenager" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Home Care", "description": "Vacuum cleaners, irons and cleaners" },
-                "mg": { "name": "Fanadiovana trano", "description": "Aspirateur, fer sy fitaovam-panadiovana" }
-            }
-        },
-        {
-            "name": "Soin du visage",
-            "slug": "soin-visage",
-            "description": "Crèmes, sérums et nettoyants visage",
-            "icon": "Face",
-            "displayOrder": 1,
-            "isActive": true,
-            "category": { "slug": "beaute" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Face Care", "description": "Creams, serums and facial cleansers" },
-                "mg": { "name": "Fikarakarana tarehy", "description": "Menaka, sérum sy fanadiovana tarehy" }
-            }
-        },
-        {
-            "name": "Cheveux",
-            "slug": "cheveux",
-            "description": "Shampoings, après-shampoings et soins capillaires",
-            "icon": "ContentCut",
-            "displayOrder": 2,
-            "isActive": true,
-            "category": { "slug": "beaute" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Hair Care", "description": "Shampoos, conditioners and hair treatments" },
-                "mg": { "name": "Volo", "description": "Shampoing, après-shampoing sy fikarakarana volo" }
-            }
-        },
-        {
-            "name": "Maquillage",
-            "slug": "maquillage",
-            "description": "Rouges à lèvres, fards et palettes",
-            "icon": "Spa",
-            "displayOrder": 3,
-            "isActive": true,
-            "category": { "slug": "beaute" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Makeup", "description": "Lipsticks, eyeshadows and palettes" },
-                "mg": { "name": "Fialambika", "description": "Mena-molotra, loko maso sy palette" }
-            }
-        },
-        {
-            "name": "Vêtements femme",
-            "slug": "vetements-femme",
-            "description": "Robes, hauts, pantalons et tenues femme",
-            "icon": "Checkroom",
-            "displayOrder": 1,
-            "isActive": true,
-            "category": { "slug": "mode" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Women's Clothing", "description": "Dresses, tops, pants and women's outfits" },
-                "mg": { "name": "Akanjo vehivavy", "description": "Robe, akanjo ambony, pataloha ho an'ny vehivavy" }
-            }
-        },
-        {
-            "name": "Vêtements homme",
-            "slug": "vetements-homme",
-            "description": "Chemises, pantalons et tenues homme",
-            "icon": "Checkroom",
-            "displayOrder": 2,
-            "isActive": true,
-            "category": { "slug": "mode" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Men's Clothing", "description": "Shirts, pants and men's outfits" },
-                "mg": { "name": "Akanjo lehilahy", "description": "Lobaka, pataloha ho an'ny lehilahy" }
-            }
-        },
-        {
-            "name": "Chaussures",
-            "slug": "chaussures",
-            "description": "Sneakers, sandales et chaussures de ville",
-            "icon": "DirectionsRun",
-            "displayOrder": 3,
-            "isActive": true,
-            "category": { "slug": "mode" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Shoes", "description": "Sneakers, sandals and city shoes" },
-                "mg": { "name": "Kiraro", "description": "Kiraro filalaovana, sandaly sy kiraro tanana" }
-            }
-        },
-        {
-            "name": "Pièces auto",
-            "slug": "pieces-auto",
-            "description": "Pièces détachées, filtres et accessoires auto",
-            "icon": "DirectionsCar",
-            "displayOrder": 1,
-            "isActive": true,
-            "category": { "slug": "auto-moto-vtt" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Car Parts", "description": "Spare parts, filters and car accessories" },
-                "mg": { "name": "Kojakojan'ny fiara", "description": "Kojakoja, filtre sy fanampin'ny fiara" }
-            }
-        },
-        {
-            "name": "Moto",
-            "slug": "moto",
-            "description": "Casques, pièces moto et accessoires",
-            "icon": "TwoWheeler",
-            "displayOrder": 2,
-            "isActive": true,
-            "category": { "slug": "auto-moto-vtt" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Motorbike", "description": "Helmets, motorbike parts and accessories" },
-                "mg": { "name": "Moto", "description": "Aro-loha, kojakoja moto sy fanampiny" }
-            }
-        },
-        {
-            "name": "Vélo & VTT",
-            "slug": "velo-vtt",
-            "description": "Vélos, VTT, pièces et accessoires",
-            "icon": "PedalBike",
-            "displayOrder": 3,
-            "isActive": true,
-            "category": { "slug": "auto-moto-vtt" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Bike & MTB", "description": "Bikes, mountain bikes, parts and accessories" },
-                "mg": { "name": "Bisikileta & VTT", "description": "Bisikileta, VTT, kojakoja sy fanampiny" }
-            }
-        },
-        {
-            "name": "Meubles",
-            "slug": "meubles",
-            "description": "Canapés, tables, chaises et lits",
-            "icon": "Chair",
-            "displayOrder": 1,
-            "isActive": true,
-            "category": { "slug": "maison" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Furniture", "description": "Sofas, tables, chairs and beds" },
-                "mg": { "name": "Fanaka", "description": "Seza lava, latabatra, seza sy fandriana" }
-            }
-        },
-        {
-            "name": "Décoration",
-            "slug": "decoration",
-            "description": "Tableaux, miroirs, vases et objets déco",
-            "icon": "Wallpaper",
-            "displayOrder": 2,
-            "isActive": true,
-            "category": { "slug": "maison" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Decoration", "description": "Wall art, mirrors, vases and decor" },
-                "mg": { "name": "Haingon-trano", "description": "Sary, fitaratra, vazy sy haingon-trano" }
-            }
-        },
-        {
-            "name": "Jardin",
-            "slug": "jardin",
-            "description": "Outils, plantes et mobilier de jardin",
-            "icon": "Yard",
-            "displayOrder": 3,
-            "isActive": true,
-            "category": { "slug": "maison" },
-            "locale": "fr",
-            "localizations": {
-                "en": { "name": "Garden", "description": "Tools, plants and garden furniture" },
-                "mg": { "name": "Zaridaina", "description": "Fitaovana, zavamaniry sy fanaka zaridaina" }
-            }
+      {
+        "name": "Blenders et Extracteurs de Jus",
+        "slug": "blenders-extracteurs-jus",
+        "description": "Blenders, centrifugeuses et extracteurs de jus",
+        "icon": "Blender",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Blenders & Juicers", "description": "Blenders, centrifuges and juice extractors" },
+          "mg": { "name": "Blender & extracteur", "description": "Blender, centrifugeuse ary extracteur jus" }
         }
+      },
+      {
+        "name": "Friteuses et Plaques de Cuisson",
+        "slug": "friteuses-plaques-cuisson",
+        "description": "Friteuses à air, plaques gaz, induction, infrarouge et brûleurs",
+        "icon": "LocalFireDepartment",
+        "displayOrder": 2,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Fryers & Cooktops", "description": "Air fryers, gas, induction and infrared cooktops" },
+          "mg": { "name": "Friteuse & plaques", "description": "Friteuse air, plaques gaz, induction" }
+        }
+      },
+      {
+        "name": "Nettoyage et Lavage",
+        "slug": "nettoyage-lavage",
+        "description": "Aspirateurs, fers à repasser et défroisseurs vapeur",
+        "icon": "CleaningServices",
+        "displayOrder": 3,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Cleaning & Ironing", "description": "Vacuum cleaners, irons and steamers" },
+          "mg": { "name": "Fanadiovana", "description": "Aspirateur, fer repasser ary défroisseur" }
+        }
+      },
+      {
+        "name": "Ventilateurs et Chauffage",
+        "slug": "ventilateurs-chauffage",
+        "description": "Ventilateurs, refroidisseurs d'air et appareils de chauffage",
+        "icon": "Air",
+        "displayOrder": 4,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Fans & Heating", "description": "Fans, air coolers and heaters" },
+          "mg": { "name": "Ventilateur & fanafanana", "description": "Ventilateur, refroidisseur ary chauffage" }
+        }
+      },
+      {
+        "name": "Kit de Beauté",
+        "slug": "kit-beaute",
+        "description": "Rasoirs, tondeuses, sèche-cheveux et fers à lisser",
+        "icon": "ContentCut",
+        "displayOrder": 5,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Beauty Kit", "description": "Shavers, clippers, hair dryers and straighteners" },
+          "mg": { "name": "Kit hatsaram-bika", "description": "Rasoir, tondeuse, sèche-cheveux" }
+        }
+      },
+      {
+        "name": "Bouilloires et Machines à Café",
+        "slug": "bouilloires-machines-cafe",
+        "description": "Bouilloires sans fil et machines à café & expresso",
+        "icon": "Coffee",
+        "displayOrder": 6,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Kettles & Coffee Machines", "description": "Cordless kettles and coffee & espresso machines" },
+          "mg": { "name": "Bouilloire & kafe", "description": "Bouilloire sy machine kafe" }
+        }
+      },
+      {
+        "name": "Lanternes et Torches",
+        "slug": "lanternes-torches",
+        "description": "Lanternes et torches électriques",
+        "icon": "FlashlightOn",
+        "displayOrder": 7,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Lanterns & Torches", "description": "Electric lanterns and torches" },
+          "mg": { "name": "Jiro & torche", "description": "Lanterne ary torche herinaratra" }
+        }
+      },
+      {
+        "name": "Mixeurs et Robots de Cuisine",
+        "slug": "mixeurs-robots-cuisine",
+        "description": "Hachoirs, robots, trancheuses, cuiseurs vapeur, mixeurs plongeants et batteurs",
+        "icon": "Blender",
+        "displayOrder": 8,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Mixers & Food Processors", "description": "Choppers, processors, slicers, steamers and hand mixers" },
+          "mg": { "name": "Mixeur & robot", "description": "Hachoir, robot, trancheuse, cuiseur vapeur" }
+        }
+      },
+      {
+        "name": "Cocottes Minutes",
+        "slug": "cocottes-minutes",
+        "description": "Cocottes en inox, alu et autocuiseurs électriques",
+        "icon": "SoupKitchen",
+        "displayOrder": 9,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Pressure Cookers", "description": "Stainless steel, aluminium and electric pressure cookers" },
+          "mg": { "name": "Cocotte minute", "description": "Cocotte inox, alu ary électrique" }
+        }
+      },
+      {
+        "name": "Cuiseurs à Riz, Pâtes et Pizza",
+        "slug": "cuiseurs-riz-pates-pizza",
+        "description": "Cuiseurs à riz, multicuiseurs, poêles à pizza et machines à pâtes",
+        "icon": "RiceBowl",
+        "displayOrder": 10,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Rice, Pasta & Pizza", "description": "Rice cookers, multicookers, pizza pans and pasta machines" },
+          "mg": { "name": "Cuiseur vary, pasta, pizza", "description": "Cuiseur vary, multicuiseur, machine pasta" }
+        }
+      },
+      {
+        "name": "Hottes",
+        "slug": "hottes",
+        "description": "Hottes en acier inoxydable",
+        "icon": "Kitchen",
+        "displayOrder": 11,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Range Hoods", "description": "Stainless steel range hoods" },
+          "mg": { "name": "Hotte", "description": "Hotte acier inoxydable" }
+        }
+      },
+      {
+        "name": "Sandwich, Grill et Grille-pains",
+        "slug": "sandwich-grill-grille-pains",
+        "description": "Machines à sandwich, grills multifonction et grille-pains",
+        "icon": "BreakfastDining",
+        "displayOrder": 12,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Sandwich, Grill & Toasters", "description": "Sandwich makers, multifunction grills and toasters" },
+          "mg": { "name": "Sandwich, grill, grille-pain", "description": "Machine sandwich, grill ary grille-pain" }
+        }
+      },
+      {
+        "name": "Thermos et Glacières",
+        "slug": "thermos-glacieres",
+        "description": "Thermos, casseroles isothermes et glacières",
+        "icon": "AcUnit",
+        "displayOrder": 13,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Thermos & Coolers", "description": "Thermos, insulated pots and coolers" },
+          "mg": { "name": "Thermos & glacière", "description": "Thermos, casserole isotherme ary glacière" }
+        }
+      },
+      {
+        "name": "Yaourtières et Sorbetières",
+        "slug": "yaourtieres-sorbettieres",
+        "description": "Yaourtières, sorbetières et machines à glaçons",
+        "icon": "Icecream",
+        "displayOrder": 14,
+        "isActive": true,
+        "category": { "slug": "appareils-electromenagers" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Yogurt & Ice Cream Makers", "description": "Yogurt makers, ice cream makers and ice makers" },
+          "mg": { "name": "Yaourtière & sorbetière", "description": "Yaourtière, sorbetière ary machine glaçons" }
+        }
+      },
+      {
+        "name": "Home Cinéma",
+        "slug": "home-cinema",
+        "description": "Systèmes home cinéma 5.1",
+        "icon": "Speaker",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "electroniques" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Home Cinema", "description": "5.1 home cinema systems" },
+          "mg": { "name": "Home cinema", "description": "Home cinema 5.1" }
+        }
+      },
+      {
+        "name": "Accessoires Informatiques",
+        "slug": "accessoires-informatiques",
+        "description": "Casques, claviers, souris, tapis et webcams",
+        "icon": "Computer",
+        "displayOrder": 2,
+        "isActive": true,
+        "category": { "slug": "electroniques" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Computer Accessories", "description": "Headsets, keyboards, mice, pads and webcams" },
+          "mg": { "name": "Fanampin'ny solosaina", "description": "Casque, clavier, souris, tapis, webcam" }
+        }
+      },
+      {
+        "name": "Synthétiseurs et Claviers",
+        "slug": "synthetiseurs-claviers",
+        "description": "Claviers de musique et synthétiseurs",
+        "icon": "Piano",
+        "displayOrder": 3,
+        "isActive": true,
+        "category": { "slug": "electroniques" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Synthesizers & Keyboards", "description": "Music keyboards and synthesizers" },
+          "mg": { "name": "Clavier mozika", "description": "Clavier mozika ary synthétiseur" }
+        }
+      },
+      {
+        "name": "Gamme Solaire",
+        "slug": "gamme-solaire",
+        "description": "Panneaux solaires, convertisseurs et contrôleurs de charge",
+        "icon": "SolarPower",
+        "displayOrder": 4,
+        "isActive": true,
+        "category": { "slug": "electroniques" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Solar Range", "description": "Solar panels, inverters and charge controllers" },
+          "mg": { "name": "Gamme masoandro", "description": "Panneau solaire, convertisseur ary contrôleur" }
+        }
+      },
+      {
+        "name": "Barres de Son",
+        "slug": "barres-de-son",
+        "description": "Barres de son 2.1 et 5.1 avec caisson de basses",
+        "icon": "SpeakerGroup",
+        "displayOrder": 5,
+        "isActive": true,
+        "category": { "slug": "electroniques" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Soundbars", "description": "2.1 and 5.1 soundbars with subwoofer" },
+          "mg": { "name": "Barre de son", "description": "Barre de son 2.1 sy 5.1" }
+        }
+      },
+      {
+        "name": "Enceintes",
+        "slug": "enceintes",
+        "description": "Enceintes portables, de fête, professionnelles et multimédia",
+        "icon": "Speaker",
+        "displayOrder": 6,
+        "isActive": true,
+        "category": { "slug": "electroniques" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Speakers", "description": "Portable, party, pro and multimedia speakers" },
+          "mg": { "name": "Haino-vaky", "description": "Enceinte portable, fête ary pro" }
+        }
+      },
+      {
+        "name": "Télévisions",
+        "slug": "televisions",
+        "description": "Smart TV et TV LED",
+        "icon": "Tv",
+        "displayOrder": 7,
+        "isActive": true,
+        "category": { "slug": "electroniques" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Televisions", "description": "Smart TVs and LED TVs" },
+          "mg": { "name": "Fahitalavitra", "description": "Smart TV ary TV LED" }
+        }
+      },
+      {
+        "name": "Onduleurs et Stabilisateurs",
+        "slug": "onduleurs-stabilisateurs",
+        "description": "Stabilisateurs de tension et onduleurs",
+        "icon": "ElectricalServices",
+        "displayOrder": 8,
+        "isActive": true,
+        "category": { "slug": "electroniques" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Inverters & Stabilizers", "description": "Voltage stabilizers and inverters" },
+          "mg": { "name": "Onduleur & stabilisateur", "description": "Stabilisateur ary onduleur" }
+        }
+      },
+      {
+        "name": "Pèse-personne",
+        "slug": "pese-personne",
+        "description": "Balances de salle de bain",
+        "icon": "MonitorWeight",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "balances" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Bathroom Scales", "description": "Personal bathroom scales" },
+          "mg": { "name": "Mizana olona", "description": "Mizana efitrano fandroana" }
+        }
+      },
+      {
+        "name": "Balances Commerciales",
+        "slug": "balances-commerciales",
+        "description": "Balances poids-prix, pèse-bagage et balances plateforme",
+        "icon": "Scale",
+        "displayOrder": 2,
+        "isActive": true,
+        "category": { "slug": "balances" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Commercial Scales", "description": "Price scales, luggage and platform scales" },
+          "mg": { "name": "Mizana varotra", "description": "Mizana vidiny, entana ary plateforme" }
+        }
+      },
+      {
+        "name": "Congélateurs",
+        "slug": "congelateurs",
+        "description": "Congélateurs coffres et verticaux",
+        "icon": "AcUnit",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "produits-blancs" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Freezers", "description": "Chest and upright freezers" },
+          "mg": { "name": "Congélateur", "description": "Congélateur coffre ary vertical" }
+        }
+      },
+      {
+        "name": "Réfrigérateurs",
+        "slug": "refrigerateurs",
+        "description": "Réfrigérateurs double portes, une porte et vitrés",
+        "icon": "Kitchen",
+        "displayOrder": 2,
+        "isActive": true,
+        "category": { "slug": "produits-blancs" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Refrigerators", "description": "Double-door, single-door and glass-door fridges" },
+          "mg": { "name": "Fridge", "description": "Fridge double portes, une porte ary vitre" }
+        }
+      },
+      {
+        "name": "Réfrigérateurs et Congélateurs Solaires",
+        "slug": "frigo-congelateurs-solaires",
+        "description": "Appareils frigorifiques DC solaires",
+        "icon": "SolarPower",
+        "displayOrder": 3,
+        "isActive": true,
+        "category": { "slug": "produits-blancs" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Solar Fridges & Freezers", "description": "Solar DC refrigeration appliances" },
+          "mg": { "name": "Fridge & congélateur masoandro", "description": "Fitaovana frigo DC masoandro" }
+        }
+      },
+      {
+        "name": "Distributeurs d'Eau Chaude et Froide",
+        "slug": "distributeurs-eau-chaude-froide",
+        "description": "Distributeurs d'eau chaude et froide",
+        "icon": "WaterDrop",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "distributeurs-eau" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Hot & Cold Water Dispensers", "description": "Hot and cold water dispensers" },
+          "mg": { "name": "Mpanome rano mafana sy mangatsiaka", "description": "Distributeur rano mafana sy mangatsiaka" }
+        }
+      },
+      {
+        "name": "Fours Micro-ondes",
+        "slug": "fours-micro-ondes",
+        "description": "Fours micro-ondes",
+        "icon": "Microwave",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "micro-ondes-fours" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Microwave Ovens", "description": "Microwave ovens" },
+          "mg": { "name": "Micro-ondes", "description": "Four micro-ondes" }
+        }
+      },
+      {
+        "name": "Fours Électriques et Encastrables",
+        "slug": "fours-electriques-encastrables",
+        "description": "Fours électriques et fours encastrables",
+        "icon": "Oven",
+        "displayOrder": 2,
+        "isActive": true,
+        "category": { "slug": "micro-ondes-fours" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Electric & Built-in Ovens", "description": "Electric and built-in ovens" },
+          "mg": { "name": "Lafaoro herinaratra", "description": "Lafaoro électrique ary encastrable" }
+        }
+      },
+      {
+        "name": "Générateurs Essence / GPL",
+        "slug": "generateurs-essence-gpl",
+        "description": "Groupes électrogènes essence et GPL",
+        "icon": "Bolt",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "groupes-electrogenes" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Petrol / LPG Generators", "description": "Petrol and LPG generators" },
+          "mg": { "name": "Génerateur essence / GPL", "description": "Groupe électrogène essence sy GPL" }
+        }
+      },
+      {
+        "name": "Groupes Électrogènes Diesel",
+        "slug": "groupes-electrogenes-diesel",
+        "description": "Groupes électrogènes diesel",
+        "icon": "Bolt",
+        "displayOrder": 2,
+        "isActive": true,
+        "category": { "slug": "groupes-electrogenes" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Diesel Generators", "description": "Diesel generators" },
+          "mg": { "name": "Groupe diesel", "description": "Groupe électrogène diesel" }
+        }
+      },
+      {
+        "name": "Coffres Domestiques et Bureau",
+        "slug": "coffres-domestiques-bureau",
+        "description": "Coffres-forts pour la maison et le bureau",
+        "icon": "Lock",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "coffres-forts" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Home & Office Safes", "description": "Home and office safes" },
+          "mg": { "name": "Vata trano sy birao", "description": "Coffre-fort trano ary birao" }
+        }
+      },
+      {
+        "name": "Coffres-forts Hôtel",
+        "slug": "coffres-forts-hotel",
+        "description": "Coffres-forts pour hôtels",
+        "icon": "Lock",
+        "displayOrder": 2,
+        "isActive": true,
+        "category": { "slug": "coffres-forts" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Hotel Safes", "description": "Hotel safes" },
+          "mg": { "name": "Coffre hotely", "description": "Coffre-fort hotely" }
+        }
+      },
+      {
+        "name": "Pompes à Eau à Essence",
+        "slug": "pompes-eau-essence",
+        "description": "Pompes à eau à essence",
+        "icon": "WaterDrop",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "pompes-a-eau" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Petrol Water Pumps", "description": "Petrol water pumps" },
+          "mg": { "name": "Paompy essence", "description": "Paompy rano amin'ny essence" }
+        }
+      },
+      {
+        "name": "Machines à Laver Double Cuve",
+        "slug": "machines-laver-double-cuve",
+        "description": "Machines à laver à double cuve",
+        "icon": "LocalLaundryService",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "machines-a-laver" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Twin-tub Washing Machines", "description": "Twin-tub washing machines" },
+          "mg": { "name": "Machine double cuve", "description": "Machine fanasan-damba double cuve" }
+        }
+      },
+      {
+        "name": "Chauffe-Eau Électrique",
+        "slug": "chauffe-eau-electrique",
+        "description": "Chauffe-eau électriques",
+        "icon": "HotTub",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "chauffe-eau" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Electric Water Heaters", "description": "Electric water heaters" },
+          "mg": { "name": "Chauffe-eau herinaratra", "description": "Chauffe-eau électrique" }
+        }
+      },
+      {
+        "name": "Sacs de Voyage",
+        "slug": "sacs-de-voyage",
+        "description": "Sacs de sport, sacs de voyage à roulettes",
+        "icon": "Work",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "loisirs-et-voyages" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Travel Bags", "description": "Sports bags and wheeled travel bags" },
+          "mg": { "name": "Kitapo dia", "description": "Sac sport ary sac voyage roulettes" }
+        }
+      },
+      {
+        "name": "Sacs à Dos",
+        "slug": "sacs-a-dos",
+        "description": "Sacs à dos mode décontractée, exécutive et génie",
+        "icon": "Backpack",
+        "displayOrder": 2,
+        "isActive": true,
+        "category": { "slug": "loisirs-et-voyages" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Backpacks", "description": "Casual, executive and engineering backpacks" },
+          "mg": { "name": "Sac à dos", "description": "Sac à dos casual, executive ary génie" }
+        }
+      },
+      {
+        "name": "Valises",
+        "slug": "valises",
+        "description": "Valises souples et rigides",
+        "icon": "Luggage",
+        "displayOrder": 3,
+        "isActive": true,
+        "category": { "slug": "loisirs-et-voyages" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Suitcases", "description": "Soft and hard suitcases" },
+          "mg": { "name": "Valise", "description": "Valise soft ary hard" }
+        }
+      },
+      {
+        "name": "Poussettes",
+        "slug": "poussettes",
+        "description": "Poussettes pour bébés",
+        "icon": "ChildFriendly",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "poussettes-puericulture" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Strollers", "description": "Baby strollers" },
+          "mg": { "name": "Poussette", "description": "Poussette zaza" }
+        }
+      },
+      {
+        "name": "Trotteurs et Chaises Hautes",
+        "slug": "trotteurs-chaises-hautes",
+        "description": "Trotteurs, chaises hautes et berceaux",
+        "icon": "Chair",
+        "displayOrder": 2,
+        "isActive": true,
+        "category": { "slug": "poussettes-puericulture" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Walkers & High Chairs", "description": "Walkers, high chairs and cribs" },
+          "mg": { "name": "Trotteur & seza avo", "description": "Trotteur, seza avo ary berceau" }
+        }
+      },
+      {
+        "name": "Bicyclettes / Vélos",
+        "slug": "bicyclettes-velos",
+        "description": "BMX, VTT 12\" à 29\"",
+        "icon": "DirectionsBike",
+        "displayOrder": 1,
+        "isActive": true,
+        "category": { "slug": "sports-et-loisirs" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Bicycles", "description": "BMX and MTB from 12\" to 29\"" },
+          "mg": { "name": "Bisikileta", "description": "BMX ary VTT 12\" ka hatramin'ny 29\"" }
+        }
+      },
+      {
+        "name": "Trottinettes et Skateboards",
+        "slug": "trottinettes-skateboards",
+        "description": "Trottinettes et planches à roulettes",
+        "icon": "Scooter",
+        "displayOrder": 2,
+        "isActive": true,
+        "category": { "slug": "sports-et-loisirs" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Scooters & Skateboards", "description": "Kick scooters and skateboards" },
+          "mg": { "name": "Trottinette & skate", "description": "Trottinette ary planche à roulettes" }
+        }
+      },
+      {
+        "name": "Tricycles pour Enfants",
+        "slug": "tricycles-enfants",
+        "description": "Tricycles et voitures pivotantes pour enfants",
+        "icon": "PedalBike",
+        "displayOrder": 3,
+        "isActive": true,
+        "category": { "slug": "sports-et-loisirs" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Kids Tricycles", "description": "Tricycles and swivel cars for children" },
+          "mg": { "name": "Tricycle zaza", "description": "Tricycle ary voiture pivotante zaza" }
+        }
+      },
+      {
+        "name": "Motos et Voitures Électriques Enfants",
+        "slug": "motos-voitures-electriques-enfants",
+        "description": "Motos et voitures électriques pour enfants, Mega Car",
+        "icon": "ElectricCar",
+        "displayOrder": 4,
+        "isActive": true,
+        "category": { "slug": "sports-et-loisirs" },
+        "locale": "fr",
+        "localizations": {
+          "en": { "name": "Kids Electric Vehicles", "description": "Electric motorcycles and cars for children" },
+          "mg": { "name": "Moto & fiara herinaratra zaza", "description": "Moto ary fiara électrique zaza" }
+        }
+      }
     ]
-}
+  }

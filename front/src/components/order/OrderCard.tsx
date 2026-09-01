@@ -35,9 +35,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, expanded, onToggle }) => {
   const { t, i18n } = useTranslation();
   const hasItems = Boolean(order.items?.length);
   const orderRef = order.orderNumber ? `#${order.orderNumber}` : `#${order.id}`;
-  const createdAt = order.createdAt
-    ? dayjs(order.createdAt).locale(i18n.language).format('D MMMM YYYY')
-    : null;
+  const createdAt = order.createdAt ? dayjs(order.createdAt).locale(i18n.language).format('D MMMM YYYY') : null;
 
   const isDelivered = order.status === OrderStatus.DELIVERED;
   const canPickup =
@@ -55,12 +53,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, expanded, onToggle }) => {
     setLocalError(null);
     const trimmed = code.trim();
     if (!/^\d{6}$/.test(trimmed)) {
-      setLocalError(
-        t(
-          (Labels as Record<string, string>).order_pickup_invalid_format ??
-            'Le code doit contenir exactement 6 chiffres',
-        ),
-      );
+      setLocalError(t(Labels.order_pickup_invalid_format));
       return;
     }
     try {
@@ -68,14 +61,12 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, expanded, onToggle }) => {
       setSuccess(true);
       setCode('');
     } catch {
-      setLocalError(
-        t(
-          (Labels as Record<string, string>).order_pickup_invalid_code ??
-            'Code de récupération invalide',
-        ),
-      );
+      setLocalError(t(Labels.order_pickup_invalid_code));
     }
   };
+
+  const showSuccessAlert = isDelivered || success;
+  const showPickupForm = canPickup && !success;
 
   return (
     <Accordion
@@ -90,10 +81,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, expanded, onToggle }) => {
       <AccordionSummary expandIcon={<ArrowDropDownIcon />} sx={{ px: 2, py: 1 }}>
         <Stack direction="row" sx={{ alignItems: 'center', flexWrap: 'wrap', gap: 1, width: 1 }}>
           <ReceiptIcon sx={{ color: 'primary.main', fontSize: 20 }} />
-          <Typography
-            variant="subtitle2"
-            sx={{ fontWeight: 700, fontFamily: 'monospace', flexGrow: 1 }}
-          >
+          <Typography variant="subtitle2" sx={{ fontWeight: 700, fontFamily: 'monospace', flexGrow: 1 }}>
             {orderRef}
           </Typography>
           <Chip
@@ -124,20 +112,14 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, expanded, onToggle }) => {
           )}
 
           {order.deliveryAddress && (
-            <Stack
-              direction="row"
-              sx={{ justifyContent: 'space-between', alignItems: 'flex-start', gap: 2 }}
-            >
+            <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start', gap: 2 }}>
               <Stack direction="row" sx={{ alignItems: 'center', gap: 0.5 }}>
                 <LocalShippingIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
                 <Typography variant="caption" color="text.secondary">
                   Livraison
                 </Typography>
               </Stack>
-              <Typography
-                variant="caption"
-                sx={{ fontWeight: 600, textAlign: 'right', maxWidth: '60%' }}
-              >
+              <Typography variant="caption" sx={{ fontWeight: 600, textAlign: 'right', maxWidth: '60%' }}>
                 {order.deliveryAddress}
               </Typography>
             </Stack>
@@ -152,36 +134,37 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, expanded, onToggle }) => {
                 </Typography>
               </Stack>
               <Stack spacing={0.5} sx={{ pl: 1 }}>
-                {order.items.map((item) => (
-                  <Stack
-                    key={item.id}
-                    direction="row"
-                    sx={{ justifyContent: 'space-between', alignItems: 'center' }}
-                  >
-                    <Typography variant="caption">
-                      {item.productName} × {item.quantity}
-                    </Typography>
-                    <Typography variant="caption" sx={{ fontWeight: 600 }}>
-                      {item.lineTotal?.toLocaleString(i18n.language)} Ar
-                    </Typography>
-                  </Stack>
-                ))}
+                {order.items.map((item, index) => {
+                  const lineAmount =
+                    item.lineTotal ?? (item.unitPrice && item.quantity ? item.unitPrice * item.quantity : 0);
+                  return (
+                    <Stack
+                      key={item.id ?? index}
+                      direction="row"
+                      sx={{ justifyContent: 'space-between', alignItems: 'center' }}
+                    >
+                      <Typography variant="caption">
+                        {item.productName} × {item.quantity}
+                      </Typography>
+                      <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                        {lineAmount.toLocaleString(i18n.language)} Ar
+                      </Typography>
+                    </Stack>
+                  );
+                })}
               </Stack>
             </Box>
           )}
 
           {/* Statut déjà récupéré / livré */}
-          {(isDelivered || success) && (
+          {showSuccessAlert && (
             <Alert severity="success" icon={<CheckCircleIcon fontSize="inherit" />}>
-              {t(
-                (Labels as Record<string, string>).order_pickup_success ??
-                  'Commande récupérée / livrée',
-              )}
+              {t(Labels.order_pickup_success)}
             </Alert>
           )}
 
           {/* Saisie du code de récupération à 6 chiffres */}
-          {canPickup && !success && (
+          {showPickupForm && (
             <Box
               sx={{
                 p: 1.5,
@@ -192,32 +175,28 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, expanded, onToggle }) => {
               }}
             >
               <Typography variant="subtitle2" gutterBottom>
-                {t(
-                  (Labels as Record<string, string>).order_pickup_code_label ??
-                    'Code de récupération (6 chiffres)',
-                )}
+                {t(Labels.order_pickup_code_label)}
               </Typography>
               <Stack
                 direction={{ xs: 'column', sm: 'row' }}
                 spacing={1}
-                alignItems="flex-start"
+                sx={{ alignItems: 'flex-start' }}
               >
                 <TextField
                   size="small"
                   value={code}
-                  onChange={(e) => {
+                  onChange={e => {
                     const v = e.target.value.replace(/\D/g, '').slice(0, 6);
                     setCode(v);
                     setLocalError(null);
                   }}
-                  placeholder={t(
-                    (Labels as Record<string, string>).order_pickup_code_placeholder ??
-                      '000000',
-                  )}
-                  inputProps={{
-                    inputMode: 'numeric',
-                    maxLength: 6,
-                    pattern: '\\d{6}',
+                  placeholder={t(Labels.order_pickup_code_placeholder)}
+                  slotProps={{
+                    htmlInput: {
+                      inputMode: 'numeric',
+                      maxLength: 6,
+                      pattern: '\\d{6}',
+                    },
                   }}
                   error={Boolean(localError)}
                   helperText={localError}
@@ -229,10 +208,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, expanded, onToggle }) => {
                   onClick={handleValidate}
                   disabled={confirmPickup.isPending || code.length !== 6}
                 >
-                  {t(
-                    (Labels as Record<string, string>).order_pickup_submit ??
-                      'Valider la réception',
-                  )}
+                  {t(Labels.order_pickup_submit)}
                 </Button>
               </Stack>
             </Box>

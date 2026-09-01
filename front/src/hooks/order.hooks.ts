@@ -52,8 +52,7 @@ export function useCreateOrder() {
 export function useUpdateOrderStatus() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, request }: { id: number; request: UpdateOrderStatusRequest }) =>
-      updateOrderStatus(id, request),
+    mutationFn: ({ id, request }: { id: number; request: UpdateOrderStatusRequest }) => updateOrderStatus(id, request),
     onSuccess: async (_data, variables) => {
       await queryClient.invalidateQueries({ queryKey: ORDERS_KEY });
       await queryClient.invalidateQueries({ queryKey: ['order', variables.id] });
@@ -64,8 +63,7 @@ export function useUpdateOrderStatus() {
 export function useInitiateOrderPayment() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, request }: { id: number; request: OrderPaymentRequest }) =>
-      initiateOrderPayment(id, request),
+    mutationFn: ({ id, request }: { id: number; request: OrderPaymentRequest }) => initiateOrderPayment(id, request),
     onSuccess: async (_data, { id }) => {
       await queryClient.invalidateQueries({ queryKey: ['order', id] });
     },
@@ -107,7 +105,7 @@ export function useFailOrderPayment() {
 
 export function useExportOrders() {
   return useMutation<Blob, Error, OrderExportParams | undefined>({
-    mutationFn: (params) => exportOrders(params),
+    mutationFn: params => exportOrders(params),
   });
 }
 

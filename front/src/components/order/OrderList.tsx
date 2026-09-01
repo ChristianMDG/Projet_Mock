@@ -1,13 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-  Alert,
-  Box,
-  CircularProgress,
-  InputAdornment,
-  Paper,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Alert, Box, CircularProgress, InputAdornment, Paper, TextField, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import { useTranslation } from 'react-i18next';
@@ -46,7 +38,7 @@ const OrderList: React.FC = () => {
   const hasItems = orders.length > 0;
 
   const handleToggle = (id: number) => () => {
-    setExpandedId((prev) => (prev === id ? false : id));
+    setExpandedId(prev => (prev === id ? false : id));
   };
 
   return (
@@ -55,18 +47,17 @@ const OrderList: React.FC = () => {
         fullWidth
         size="small"
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        placeholder={t(
-          (Labels as Record<string, string>).order_search_placeholder ??
-            'Rechercher par n° commande, produit…',
-        )}
+        onChange={e => setSearchQuery(e.target.value)}
+        placeholder={t(Labels.order_search_placeholder)}
         sx={{ mb: 2 }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon fontSize="small" color="action" />
-            </InputAdornment>
-          ),
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon fontSize="small" color="action" />
+              </InputAdornment>
+            ),
+          },
         }}
       />
 
@@ -84,7 +75,7 @@ const OrderList: React.FC = () => {
 
       {!isLoading && !isError && hasItems && (
         <Box>
-          {orders.map((order) => (
+          {orders.map(order => (
             <OrderCard
               key={order.id}
               order={order}
