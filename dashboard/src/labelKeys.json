@@ -889,5 +889,10 @@
   "finance_summary_passagers": "finance_summary_passagers",
   "finance_summary_passagers_sub": "finance_summary_passagers_sub",
   "finance_summary_monthly_title": "finance_summary_monthly_title",
-  "finance_summary_monthly_empty": "finance_summary_monthly_empty"
+  "finance_summary_monthly_empty": "finance_summary_monthly_empty",
+  "shop_order_logistics_flow": "shop_order_logistics_flow",
+  "shop_order_status_advance": "shop_order_status_advance",
+  "shop_order_status_free_hint": "shop_order_status_free_hint",
+  "shop_order_status_suggested": "shop_order_status_suggested",
+  "shop_common_copied": "shop_common_copied"
 }

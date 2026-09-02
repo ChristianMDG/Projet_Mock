@@ -423,32 +423,45 @@ public class OrderService implements IOrderService {
     @Override
     @Transactional
     public Order updateStatus(Long orderId, OrderStatusEnum newStatus, String reason, Long adminUserId) {
-        OrderEntity order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
         OrderStatusEnum current = order.getStatus();
         if (current == newStatus) {
             return Order.fromEntity(order);
         }
-        // Admin / guichet peut basculer librement d'un statut à un autre
-        boolean canTransition = Optional.ofNullable(current).map(c -> c.canTransitionTo(newStatus)).orElse(false)
-                || adminUserId != null;
-        if (canTransition) {
-            if (newStatus == OrderStatusEnum.CANCELLED && current == OrderStatusEnum.PENDING) {
-                releaseReservations(order, "order.updateStatus.cancel:" + order.getOrderNumber());
-            }
-
-            Order model = Order.fromEntity(order);
-            model.setPreviousStatus(current);
-            model.setStatus(newStatus);
-            model.setStatusChangedAt(LocalDateTime.now());
-            model.setStatusChangeReason(reason);
-            order = model.toEntity(order);
-
-            OrderEntity saved = orderRepository.save(order);
-            notificationService.notifyStatusChange(saved, current);
-            log.info("Order {} status {} -> {} by admin={}", saved.getOrderNumber(), current, newStatus, adminUserId);
-            return Order.fromEntity(saved);
+        if (newStatus == null) {
+            throw new InvalidOrderStatusTransitionException("Target status is required");
         }
-        throw new InvalidOrderStatusTransitionException("Invalid order status transition: " + current + " -> " + newStatus);
+
+        // Dashboard admin/guichet (adminUserId présent) : passage libre à tout moment.
+        // Sinon : respecter canTransitionTo (API publique / automatismes).
+        boolean allowed = adminUserId != null
+                || Optional.ofNullable(current).map(c -> c.canTransitionTo(newStatus)).orElse(false);
+        if (!allowed) {
+            throw new InvalidOrderStatusTransitionException(
+                    "Invalid order status transition: " + current + " -> " + newStatus);
+        }
+
+        if (newStatus == OrderStatusEnum.CANCELLED
+                && (current == OrderStatusEnum.PENDING || current == OrderStatusEnum.PROCESSING
+                || current == OrderStatusEnum.CONFIRMED)) {
+            releaseReservations(order, "order.updateStatus.cancel:" + order.getOrderNumber());
+        }
+
+        Order model = Order.fromEntity(order);
+        model.setPreviousStatus(current);
+        model.setStatus(newStatus);
+        model.setStatusChangedAt(LocalDateTime.now());
+        model.setStatusChangeReason(
+                (reason != null && !reason.isBlank())
+                        ? reason
+                        : "Status updated by operator");
+        order = model.toEntity(order);
+
+        OrderEntity saved = orderRepository.save(order);
+        notificationService.notifyStatusChange(saved, current);
+        log.info("Order {} status {} -> {} by admin={}", saved.getOrderNumber(), current, newStatus, adminUserId);
+        return Order.fromEntity(saved);
     }
 
     @Override
@@ -459,8 +472,15 @@ public class OrderService implements IOrderService {
         if (order.getStatus() == OrderStatusEnum.DELIVERED) {
             return Order.fromEntity(order);
         }
+        if (order.getStatus() == OrderStatusEnum.CANCELLED) {
+            throw new ShopException("error_invalid_pickup_code", "exception_invalid_pickup_code");
+        }
         String expected = order.getPickupCode();
-        if (expected == null || code == null || !expected.equals(code.trim())) {
+        String provided = code == null ? "" : code.trim();
+        // Strict: exactly 6 digits and exact match with stored pickup code
+        if (expected == null || expected.isBlank()
+                || !provided.matches("\\d{6}")
+                || !expected.equals(provided)) {
             throw new ShopException("error_invalid_pickup_code", "exception_invalid_pickup_code");
         }
         OrderStatusEnum current = order.getStatus();

@@ -371,7 +371,7 @@
   "shop_common_active": "Mavitrika",
   "shop_common_inactive": "Tsy mavitrika",
   "shop_common_status": "Sata",
-  "shop_common_error": "Nisy olana",
+  "shop_common_error": "Nisy olana nitranga",
   "shop_common_empty": "Tsy misy",
   "shop_common_export_csv": "Avoaka CSV",
   "shop_common_export_pdf": "Avoaka PDF",
@@ -898,5 +898,10 @@
   "finance_summary_passagers": "Mpandeha Voavoy",
   "finance_summary_passagers_sub": "amin'ny fifanakalozana vita",
   "finance_summary_monthly_title": "Isam-bolana (5 farany)",
-  "finance_summary_monthly_empty": "Tsy misy angona isam-bolana"
+  "finance_summary_monthly_empty": "Tsy misy angona isam-bolana",
+  "shop_order_logistics_flow": "Fandehanana fanaterana / toby",
+  "shop_order_status_advance": "Miroso amin'ny satatus manaraka",
+  "shop_order_status_free_hint": "Afaka manova satatus amin'ny fotoana rehetra ianao (admin / kountera).",
+  "shop_order_status_suggested": "soso-kevitra",
+  "shop_common_copied": "Voadika"
 }

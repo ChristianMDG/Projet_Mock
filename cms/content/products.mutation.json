@@ -1,5 +1,5 @@
 {
-  "description": "Catalogue produits Vista France (221 références). Prix indicatifs MGA à ajuster. Images placeholder Unsplash.",
+  "description": "Catalogue produits Vista France (221 références). Prix à 0 MGA (à ajuster). Images réelles depuis vistafrance.com.",
   "collection": "api::product.product",
   "data": [
     {
@@ -7,13 +7,16 @@
       "slug": "je-1680s",
       "shortDescription": "Extracteur de jus Vista France",
       "description": "Extracteur de Jus JE-1680S – produit Vista France. Référence constructeur : JE-1680S. Disponible via le réseau Taxibrousse.",
-      "price": 185000,
+      "price": 0,
       "currency": "MGA",
       "sku": "JE-1680S",
       "weight": 1.0,
       "categorySlug": "blenders-extracteurs-jus",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/je-1680s-165764259944.jpg",
+        "https://vistafrance.com/images/product/pics/je-1680s-1657642599903.jpg",
+        "https://vistafrance.com/images/product/pics/je-1680s-16576425991.jpg",
+        "https://vistafrance.com/images/product/pics/je-1680s-1657642599238.jpg"
       ],
       "tags": [
         "vista-france",
@@ -39,13 +42,16 @@
       "slug": "af-925",
       "shortDescription": "Friteuse à air chaud",
       "description": "Friteuse à Air Chaud AF-925 – produit Vista France. Référence constructeur : AF-925. Disponible via le réseau Taxibrousse.",
-      "price": 220000,
+      "price": 0,
       "currency": "MGA",
       "sku": "AF-925",
       "weight": 1.0,
       "categorySlug": "friteuses-plaques-cuisson",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/af-925-1787625147811.jpg",
+        "https://vistafrance.com/images/product/pics/af-925-178762516466.jpg",
+        "https://vistafrance.com/images/product/pics/af-925-1787625163265.jpg",
+        "https://vistafrance.com/images/product/pics/af-925-1787625172566.jpg"
       ],
       "tags": [
         "vista-france",
@@ -71,13 +77,16 @@
       "slug": "gs-201h",
       "shortDescription": "Défroisseur vapeur portatif",
       "description": "Défroisseur à Vapeur Portatif GS-201H – produit Vista France. Référence constructeur : GS-201H. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "GS-201H",
       "weight": 1.0,
       "categorySlug": "nettoyage-lavage",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/gs-201h-165764260018.jpg",
+        "https://vistafrance.com/images/product/pics/gs-201h-1657642600252.jpg",
+        "https://vistafrance.com/images/product/pics/gs-201h-1657642600117.jpg",
+        "https://vistafrance.com/images/product/pics/gs-201h-1657642600971.jpg"
       ],
       "tags": [
         "vista-france",
@@ -103,13 +112,13 @@
       "slug": "tfa-160rc",
       "shortDescription": "Ventilateur soufflant",
       "description": "Ventilateur Soufflant TFA-160RC – produit Vista France. Référence constructeur : TFA-160RC. Disponible via le réseau Taxibrousse.",
-      "price": 75000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TFA-160RC",
       "weight": 1.0,
       "categorySlug": "ventilateurs-chauffage",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tfa-160rc-1704177208278.jpg"
       ],
       "tags": [
         "vista-france",
@@ -135,13 +144,14 @@
       "slug": "fd-1608",
       "shortDescription": "Ventilateur de bureau 16 pouces",
       "description": "Ventilateur de Bureau 16\" FD-1608 – produit Vista France. Référence constructeur : FD-1608. Disponible via le réseau Taxibrousse.",
-      "price": 65000,
+      "price": 0,
       "currency": "MGA",
       "sku": "FD-1608",
       "weight": 1.0,
       "categorySlug": "ventilateurs-chauffage",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/fd-1608-1762308497696.jpg",
+        "https://vistafrance.com/images/product/pics/fd-1608-176230849758.jpg"
       ],
       "tags": [
         "vista-france",
@@ -167,13 +177,13 @@
       "slug": "imf-2601",
       "shortDescription": "Ventilateur brumisateur",
       "description": "Ventilateur Brumisateur IMF-2601 – produit Vista France. Référence constructeur : IMF-2601. Disponible via le réseau Taxibrousse.",
-      "price": 145000,
+      "price": 0,
       "currency": "MGA",
       "sku": "IMF-2601",
       "weight": 1.0,
       "categorySlug": "ventilateurs-chauffage",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/imf-2601-1706594151574.jpg"
       ],
       "tags": [
         "vista-france",
@@ -199,13 +209,16 @@
       "slug": "hds-7510",
       "shortDescription": "Kit de beauté multifonction",
       "description": "Kit de Beauté HDS-7510 – produit Vista France. Référence constructeur : HDS-7510. Disponible via le réseau Taxibrousse.",
-      "price": 110000,
+      "price": 0,
       "currency": "MGA",
       "sku": "HDS-7510",
       "weight": 1.0,
       "categorySlug": "kit-beaute",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/hds-7510-1673317995794.jpg",
+        "https://vistafrance.com/images/product/pics/hds-7510-1673317995553.jpg",
+        "https://vistafrance.com/images/product/pics/hds-7510-1673317995960.jpg",
+        "https://vistafrance.com/images/product/pics/hds-7510-1673317995179.jpg"
       ],
       "tags": [
         "vista-france",
@@ -231,13 +244,16 @@
       "slug": "mgk-7230r",
       "shortDescription": "Rasoir et kit tondeuse",
       "description": "Rasoir Électrique et Kit Tondeuse MGK-7230R – produit Vista France. Référence constructeur : MGK-7230R. Disponible via le réseau Taxibrousse.",
-      "price": 98000,
+      "price": 0,
       "currency": "MGA",
       "sku": "MGK-7230R",
       "weight": 1.0,
       "categorySlug": "kit-beaute",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/mgk-7230r-1673323470197.jpg",
+        "https://vistafrance.com/images/product/pics/mgk-7230r-1673323470696.jpg",
+        "https://vistafrance.com/images/product/pics/mgk-7230r-1673323470291.jpg",
+        "https://vistafrance.com/images/product/pics/mgk-7230r-1673323470451.jpg"
       ],
       "tags": [
         "vista-france",
@@ -263,13 +279,16 @@
       "slug": "hc-7004",
       "shortDescription": "Tondeuse à cheveux",
       "description": "Tondeuse Cheveux HC-7004 – produit Vista France. Référence constructeur : HC-7004. Disponible via le réseau Taxibrousse.",
-      "price": 55000,
+      "price": 0,
       "currency": "MGA",
       "sku": "HC-7004",
       "weight": 1.0,
       "categorySlug": "kit-beaute",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/hc-7004-1700549486249.jpg",
+        "https://vistafrance.com/images/product/pics/hc-7004-1700549486551.jpg",
+        "https://vistafrance.com/images/product/pics/hc-7004-1700549486375.jpg",
+        "https://vistafrance.com/images/product/pics/hc-7004-1700549486977.jpg"
       ],
       "tags": [
         "vista-france",
@@ -295,13 +314,16 @@
       "slug": "efs-195m",
       "shortDescription": "Trancheuse électrique",
       "description": "Trancheuse Électrique EFS-195M – produit Vista France. Référence constructeur : EFS-195M. Disponible via le réseau Taxibrousse.",
-      "price": 125000,
+      "price": 0,
       "currency": "MGA",
       "sku": "EFS-195M",
       "weight": 1.0,
       "categorySlug": "mixeurs-robots-cuisine",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/efs-195m-1762314144240.jpg",
+        "https://vistafrance.com/images/product/pics/efs-195m-1762313468990.jpg",
+        "https://vistafrance.com/images/product/pics/efs-195m-1762313468256.jpg",
+        "https://vistafrance.com/images/product/pics/efs-195m-1762313468960.jpg"
       ],
       "tags": [
         "vista-france",
@@ -327,13 +349,16 @@
       "slug": "fds-325p",
       "shortDescription": "Cuiseur à vapeur",
       "description": "Cuiseur à Vapeur FDS-325P – produit Vista France. Référence constructeur : FDS-325P. Disponible via le réseau Taxibrousse.",
-      "price": 135000,
+      "price": 0,
       "currency": "MGA",
       "sku": "FDS-325P",
       "weight": 1.0,
       "categorySlug": "mixeurs-robots-cuisine",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/fds-325p-1762309371330.jpg",
+        "https://vistafrance.com/images/product/pics/fds-325p-1762309371463.jpg",
+        "https://vistafrance.com/images/product/pics/fds-325p-1762309371203.jpg",
+        "https://vistafrance.com/images/product/pics/fds-325p-176230937150.jpg"
       ],
       "tags": [
         "vista-france",
@@ -359,13 +384,15 @@
       "slug": "mg-540",
       "shortDescription": "Hachoir à viandes",
       "description": "Hachoir à Viandes MG-540 – produit Vista France. Référence constructeur : MG-540. Disponible via le réseau Taxibrousse.",
-      "price": 165000,
+      "price": 0,
       "currency": "MGA",
       "sku": "MG-540",
       "weight": 1.0,
       "categorySlug": "mixeurs-robots-cuisine",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/mg-540-1762396766570.jpg",
+        "https://vistafrance.com/images/product/pics/mg-540-1762396766972.jpg",
+        "https://vistafrance.com/images/product/pics/mg-540-1762396766207.jpg"
       ],
       "tags": [
         "vista-france",
@@ -391,13 +418,16 @@
       "slug": "stm-1610",
       "shortDescription": "Batteur électrique",
       "description": "Batteur STM-1610 – produit Vista France. Référence constructeur : STM-1610. Disponible via le réseau Taxibrousse.",
-      "price": 72000,
+      "price": 0,
       "currency": "MGA",
       "sku": "STM-1610",
       "weight": 1.0,
       "categorySlug": "mixeurs-robots-cuisine",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/stm-1610-1762414683553.jpg",
+        "https://vistafrance.com/images/product/pics/stm-1610-1762413999755.jpg",
+        "https://vistafrance.com/images/product/pics/stm-1610-1762413999549.jpg",
+        "https://vistafrance.com/images/product/pics/stm-1610-1762413999834.jpg"
       ],
       "tags": [
         "vista-france",
@@ -423,13 +453,15 @@
       "slug": "rc-1009",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-1009 – produit Vista France. Référence constructeur : RC-1009. Disponible via le réseau Taxibrousse.",
-      "price": 85000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-1009",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-1009-1787205154907.jpg",
+        "https://vistafrance.com/images/product/pics/rc-1009-1786956522610.jpg",
+        "https://vistafrance.com/images/product/pics/rc-1009-1762411927989.jpg"
       ],
       "tags": [
         "vista-france",
@@ -455,13 +487,16 @@
       "slug": "rc-101s",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-101S – produit Vista France. Référence constructeur : RC-101S. Disponible via le réseau Taxibrousse.",
-      "price": 88000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-101S",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-101s-1762398457116.jpg",
+        "https://vistafrance.com/images/product/pics/rc-101s-1762398457305.jpg",
+        "https://vistafrance.com/images/product/pics/rc-101s-1762398457200.jpg",
+        "https://vistafrance.com/images/product/pics/rc-101s-17623990984.jpg"
       ],
       "tags": [
         "vista-france",
@@ -487,13 +522,15 @@
       "slug": "rc-102",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-102 – produit Vista France. Référence constructeur : RC-102. Disponible via le réseau Taxibrousse.",
-      "price": 90000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-102",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-102-1657642608441.jpg",
+        "https://vistafrance.com/images/product/pics/rc-102-1657642608330.jpg",
+        "https://vistafrance.com/images/product/pics/rc-102-1657642608760.jpg"
       ],
       "tags": [
         "vista-france",
@@ -519,13 +556,16 @@
       "slug": "rc-103",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-103 – produit Vista France. Référence constructeur : RC-103. Disponible via le réseau Taxibrousse.",
-      "price": 92000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-103",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-103-1671528477448.jpg",
+        "https://vistafrance.com/images/product/pics/rc-103-1671528477483.jpg",
+        "https://vistafrance.com/images/product/pics/rc-103-1657642593401.jpg",
+        "https://vistafrance.com/images/product/pics/rc-103-1657642593170.jpg"
       ],
       "tags": [
         "vista-france",
@@ -551,13 +591,16 @@
       "slug": "rc-104",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-104 – produit Vista France. Référence constructeur : RC-104. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-104",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-104-1688700988816.jpg",
+        "https://vistafrance.com/images/product/pics/rc-104-1662341097931.jpg",
+        "https://vistafrance.com/images/product/pics/rc-104-1662341097299.jpg",
+        "https://vistafrance.com/images/product/pics/rc-104-1688700900279.jpg"
       ],
       "tags": [
         "vista-france",
@@ -583,13 +626,15 @@
       "slug": "rc-180",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-180 – produit Vista France. Référence constructeur : RC-180. Disponible via le réseau Taxibrousse.",
-      "price": 98000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-180",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-180-1762410213331.jpg",
+        "https://vistafrance.com/images/product/pics/rc-180-1762410213254.jpg",
+        "https://vistafrance.com/images/product/pics/rc-180-1762410213641.jpg"
       ],
       "tags": [
         "vista-france",
@@ -615,13 +660,16 @@
       "slug": "rc-181s",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-181S – produit Vista France. Référence constructeur : RC-181S. Disponible via le réseau Taxibrousse.",
-      "price": 100000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-181S",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-181s-1762398987437.jpg",
+        "https://vistafrance.com/images/product/pics/rc-181s-1762398987436.jpg",
+        "https://vistafrance.com/images/product/pics/rc-181s-1762399604895.jpg",
+        "https://vistafrance.com/images/product/pics/rc-181s-1762399046929.jpg"
       ],
       "tags": [
         "vista-france",
@@ -647,13 +695,15 @@
       "slug": "rc-182",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-182 – produit Vista France. Référence constructeur : RC-182. Disponible via le réseau Taxibrousse.",
-      "price": 102000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-182",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-182-1657642608222.jpg",
+        "https://vistafrance.com/images/product/pics/rc-182-1657642608663.jpg",
+        "https://vistafrance.com/images/product/pics/rc-182-1657642608100.jpg"
       ],
       "tags": [
         "vista-france",
@@ -679,13 +729,16 @@
       "slug": "rc-183",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-183 – produit Vista France. Référence constructeur : RC-183. Disponible via le réseau Taxibrousse.",
-      "price": 105000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-183",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-183-1671528932211.jpg",
+        "https://vistafrance.com/images/product/pics/rc-183-1671528932406.jpg",
+        "https://vistafrance.com/images/product/pics/rc-183-1657642593487.jpg",
+        "https://vistafrance.com/images/product/pics/rc-183-1657642593122.jpg"
       ],
       "tags": [
         "vista-france",
@@ -711,13 +764,16 @@
       "slug": "rc-184",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-184 – produit Vista France. Référence constructeur : RC-184. Disponible via le réseau Taxibrousse.",
-      "price": 108000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-184",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-184-1662341395207.jpg",
+        "https://vistafrance.com/images/product/pics/rc-184-1662341395628.jpg",
+        "https://vistafrance.com/images/product/pics/rc-184-1688701042895.jpg",
+        "https://vistafrance.com/images/product/pics/rc-184-1662341395143.jpg"
       ],
       "tags": [
         "vista-france",
@@ -743,13 +799,15 @@
       "slug": "rc-185d1",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-185D1 – produit Vista France. Référence constructeur : RC-185D1. Disponible via le réseau Taxibrousse.",
-      "price": 112000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-185D1",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-185d1-1657642611642.jpg",
+        "https://vistafrance.com/images/product/pics/rc-185d1-1657642612743.jpg",
+        "https://vistafrance.com/images/product/pics/rc-185d1-1657642612830.jpg"
       ],
       "tags": [
         "vista-france",
@@ -775,13 +833,15 @@
       "slug": "rc-225d1",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-225D1 – produit Vista France. Référence constructeur : RC-225D1. Disponible via le réseau Taxibrousse.",
-      "price": 118000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-225D1",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-225d1-1762412991623.jpg",
+        "https://vistafrance.com/images/product/pics/rc-225d1-1762412991367.jpg",
+        "https://vistafrance.com/images/product/pics/rc-225d1-176241299186.jpg"
       ],
       "tags": [
         "vista-france",
@@ -807,13 +867,15 @@
       "slug": "rc-225d11",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-225D11 – produit Vista France. Référence constructeur : RC-225D11. Disponible via le réseau Taxibrousse.",
-      "price": 120000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-225D11",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-225d11-1762412404916.jpg",
+        "https://vistafrance.com/images/product/pics/rc-225d11-1762412404247.jpg",
+        "https://vistafrance.com/images/product/pics/rc-225d11-1762412404266.jpg"
       ],
       "tags": [
         "vista-france",
@@ -839,13 +901,15 @@
       "slug": "rc-225d12",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-225D12 – produit Vista France. Référence constructeur : RC-225D12. Disponible via le réseau Taxibrousse.",
-      "price": 122000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-225D12",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-225d12-1786956846123.jpg",
+        "https://vistafrance.com/images/product/pics/rc-225d12-1786956846986.jpg",
+        "https://vistafrance.com/images/product/pics/rc-225d12-1786956846347.jpg"
       ],
       "tags": [
         "vista-france",
@@ -871,13 +935,15 @@
       "slug": "rc-225d7",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-225D7 – produit Vista France. Référence constructeur : RC-225D7. Disponible via le réseau Taxibrousse.",
-      "price": 125000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-225D7",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-225d7-1657642598547.jpg",
+        "https://vistafrance.com/images/product/pics/rc-225d7-1657642598427.jpg",
+        "https://vistafrance.com/images/product/pics/rc-225d7-1657642598959.jpg"
       ],
       "tags": [
         "vista-france",
@@ -903,13 +969,15 @@
       "slug": "rc-300",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-300 – produit Vista France. Référence constructeur : RC-300. Disponible via le réseau Taxibrousse.",
-      "price": 130000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-300",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-300-1762410659399.jpg",
+        "https://vistafrance.com/images/product/pics/rc-300-1762410659422.jpg",
+        "https://vistafrance.com/images/product/pics/rc-300-1762410659969.jpg"
       ],
       "tags": [
         "vista-france",
@@ -935,13 +1003,16 @@
       "slug": "rc-301s",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-301S – produit Vista France. Référence constructeur : RC-301S. Disponible via le réseau Taxibrousse.",
-      "price": 132000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-301S",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-301s-1762399580776.jpg",
+        "https://vistafrance.com/images/product/pics/rc-301s-1762399580509.jpg",
+        "https://vistafrance.com/images/product/pics/rc-301s-1762399580501.jpg",
+        "https://vistafrance.com/images/product/pics/rc-301s-1762399580870.jpg"
       ],
       "tags": [
         "vista-france",
@@ -967,13 +1038,15 @@
       "slug": "rc-302",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-302 – produit Vista France. Référence constructeur : RC-302. Disponible via le réseau Taxibrousse.",
-      "price": 135000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-302",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-302-1657642608907.jpg",
+        "https://vistafrance.com/images/product/pics/rc-302-1657642608150.jpg",
+        "https://vistafrance.com/images/product/pics/rc-302-1657642608304.jpg"
       ],
       "tags": [
         "vista-france",
@@ -999,13 +1072,16 @@
       "slug": "rc-303",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-303 – produit Vista France. Référence constructeur : RC-303. Disponible via le réseau Taxibrousse.",
-      "price": 138000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-303",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-303-168048848784.jpg",
+        "https://vistafrance.com/images/product/pics/rc-303-1680488370955.jpg",
+        "https://vistafrance.com/images/product/pics/rc-303-1657642593950.jpg",
+        "https://vistafrance.com/images/product/pics/rc-303-1657642593256.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1031,13 +1107,16 @@
       "slug": "rc-304",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-304 – produit Vista France. Référence constructeur : RC-304. Disponible via le réseau Taxibrousse.",
-      "price": 140000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-304",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-304-166234170792.jpg",
+        "https://vistafrance.com/images/product/pics/rc-304-1693624179105.jpg",
+        "https://vistafrance.com/images/product/pics/rc-304-166234170737.jpg",
+        "https://vistafrance.com/images/product/pics/rc-304-1662341707329.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1063,13 +1142,15 @@
       "slug": "rc-429",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-429 – produit Vista France. Référence constructeur : RC-429. Disponible via le réseau Taxibrousse.",
-      "price": 145000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-429",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-429-1787206184406.jpg",
+        "https://vistafrance.com/images/product/pics/rc-429-1762411157572.jpg",
+        "https://vistafrance.com/images/product/pics/rc-429-1762411157602.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1095,13 +1176,15 @@
       "slug": "rc-808",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-808 – produit Vista France. Référence constructeur : RC-808. Disponible via le réseau Taxibrousse.",
-      "price": 150000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-808",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-808-1695633460625.jpg",
+        "https://vistafrance.com/images/product/pics/rc-808-1695633467490.jpg",
+        "https://vistafrance.com/images/product/pics/rc-808-1695633467702.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1127,13 +1210,15 @@
       "slug": "rc-809",
       "shortDescription": "Cuiseur à riz",
       "description": "Cuiseur à Riz RC-809 – produit Vista France. Référence constructeur : RC-809. Disponible via le réseau Taxibrousse.",
-      "price": 155000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RC-809",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rc-809-1762411519677.jpg",
+        "https://vistafrance.com/images/product/pics/rc-809-1762411519537.jpg",
+        "https://vistafrance.com/images/product/pics/rc-809-1762411519218.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1159,13 +1244,15 @@
       "slug": "vmc-801",
       "shortDescription": "Multicuiseur",
       "description": "Multicuiseur VMC-801 – produit Vista France. Référence constructeur : VMC-801. Disponible via le réseau Taxibrousse.",
-      "price": 175000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VMC-801",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vmc-801-1657642611583.jpg",
+        "https://vistafrance.com/images/product/pics/vmc-801-1657642497904.jpg",
+        "https://vistafrance.com/images/product/pics/vmc-801-1657642497885.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1191,13 +1278,16 @@
       "slug": "ppm-150a",
       "shortDescription": "Machine à pâtes",
       "description": "Machine à Pâtes PPM-150A – produit Vista France. Référence constructeur : PPM-150A. Disponible via le réseau Taxibrousse.",
-      "price": 165000,
+      "price": 0,
       "currency": "MGA",
       "sku": "PPM-150A",
       "weight": 1.0,
       "categorySlug": "cuiseurs-riz-pates-pizza",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/ppm-150a-170141916228.jpg",
+        "https://vistafrance.com/images/product/pics/ppm-150a-1701419162714.jpg",
+        "https://vistafrance.com/images/product/pics/ppm-150a-1701419162399.jpg",
+        "https://vistafrance.com/images/product/pics/ppm-150a-1657642487403.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1223,13 +1313,13 @@
       "slug": "vvf-1120h",
       "shortDescription": "Thermos",
       "description": "Thermos VVF-1120H – produit Vista France. Référence constructeur : VVF-1120H. Disponible via le réseau Taxibrousse.",
-      "price": 45000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-1120H",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-1120h-172126877339.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1255,13 +1345,13 @@
       "slug": "vvf-1120h-br",
       "shortDescription": "Thermos",
       "description": "Thermos VVF-1120H-BR – produit Vista France. Référence constructeur : VVF-1120H-BR. Disponible via le réseau Taxibrousse.",
-      "price": 48000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-1120H-BR",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-1120h-sr-br-fb-1657642598828.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1287,13 +1377,13 @@
       "slug": "vvf-1120h-rp1",
       "shortDescription": "Thermos",
       "description": "Thermos VVF-1120H-RP1 – produit Vista France. Référence constructeur : VVF-1120H-RP1. Disponible via le réseau Taxibrousse.",
-      "price": 48000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-1120H-RP1",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-1120h-mg1-rp1-fl1-1657642607333.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1319,13 +1409,13 @@
       "slug": "vvf-1132h",
       "shortDescription": "Thermos",
       "description": "Thermos VVF-1132H – produit Vista France. Référence constructeur : VVF-1132H. Disponible via le réseau Taxibrousse.",
-      "price": 52000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-1132H",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-1132h-172126881057.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1351,13 +1441,13 @@
       "slug": "vvf-1132h-br",
       "shortDescription": "Thermos",
       "description": "Thermos VVF-1132H-BR – produit Vista France. Référence constructeur : VVF-1132H-BR. Disponible via le réseau Taxibrousse.",
-      "price": 55000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-1132H-BR",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-1132h-sr-br-fb-1657642598566.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1383,13 +1473,13 @@
       "slug": "vvf-1132h-rp1",
       "shortDescription": "Thermos",
       "description": "Thermos VVF-1132H-RP1 – produit Vista France. Référence constructeur : VVF-1132H-RP1. Disponible via le réseau Taxibrousse.",
-      "price": 55000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-1132H-RP1",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-1132h-mg1-rp1-fl1-1657642607300.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1415,13 +1505,13 @@
       "slug": "vvf-3520h-sc",
       "shortDescription": "Thermos",
       "description": "Thermos VVF-3520H-SC – produit Vista France. Référence constructeur : VVF-3520H-SC. Disponible via le réseau Taxibrousse.",
-      "price": 62000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-3520H-SC",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-3520h-sc-1675388244536.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1447,13 +1537,13 @@
       "slug": "vvf-3532h-sc",
       "shortDescription": "Thermos",
       "description": "Thermos VVF-3532H-SC – produit Vista France. Référence constructeur : VVF-3532H-SC. Disponible via le réseau Taxibrousse.",
-      "price": 68000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-3532H-SC",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-3532h-sc-1675388286107.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1479,13 +1569,13 @@
       "slug": "vvf-3610sc-pt",
       "shortDescription": "Thermos",
       "description": "Thermos VVF-3610SC-PT – produit Vista France. Référence constructeur : VVF-3610SC-PT. Disponible via le réseau Taxibrousse.",
-      "price": 70000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-3610SC-PT",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-3610sc-pt-1693815136521.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1511,13 +1601,13 @@
       "slug": "vvf-3610sc-ss",
       "shortDescription": "Thermos",
       "description": "Thermos VVF-3610SC-SS – produit Vista France. Référence constructeur : VVF-3610SC-SS. Disponible via le réseau Taxibrousse.",
-      "price": 72000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-3610SC-SS",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-3610sc-ss-1709532561282.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1543,13 +1633,13 @@
       "slug": "vvf-3618sc-pt",
       "shortDescription": "Thermos",
       "description": "Thermos VVF-3618SC-PT – produit Vista France. Référence constructeur : VVF-3618SC-PT. Disponible via le réseau Taxibrousse.",
-      "price": 75000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-3618SC-PT",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-3618sc-pt-1693815930973.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1575,13 +1665,13 @@
       "slug": "vvf-3618sc-ss",
       "shortDescription": "Thermos",
       "description": "Thermos VVF-3618SC-SS – produit Vista France. Référence constructeur : VVF-3618SC-SS. Disponible via le réseau Taxibrousse.",
-      "price": 78000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-3618SC-SS",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-3618sc-ss-1693816230858.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1607,13 +1697,13 @@
       "slug": "vvf-3810a-dc",
       "shortDescription": "Thermos DC",
       "description": "Thermos VVF-3810A-DC – produit Vista France. Référence constructeur : VVF-3810A-DC. Disponible via le réseau Taxibrousse.",
-      "price": 85000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-3810A-DC",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-3810a-dc-1762756388472.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1639,13 +1729,13 @@
       "slug": "vvf-3818a-dc",
       "shortDescription": "Thermos DC",
       "description": "Thermos VVF-3818A-DC – produit Vista France. Référence constructeur : VVF-3818A-DC. Disponible via le réseau Taxibrousse.",
-      "price": 90000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVF-3818A-DC",
       "weight": 1.0,
       "categorySlug": "thermos-glacieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvf-3818a-dc-17627571231.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1671,13 +1761,13 @@
       "slug": "ym-1-5-7g",
       "shortDescription": "Yaourtière",
       "description": "Yaourtière YM-1.5-7G – produit Vista France. Référence constructeur : YM-1.5-7G. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "YM-1.5-7G",
       "weight": 1.0,
       "categorySlug": "yaourtieres-sorbettieres",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/appareils-electromenagers-fr-1679564311.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1703,13 +1793,13 @@
       "slug": "hts-5300bt-5-1",
       "shortDescription": "Home cinéma 5.1 CH Bluetooth",
       "description": "Home Cinéma 5.1 HTS-5300BT – produit Vista France. Référence constructeur : HTS-5300BT(5.1). Disponible via le réseau Taxibrousse.",
-      "price": 450000,
+      "price": 0,
       "currency": "MGA",
       "sku": "HTS-5300BT(5.1)",
       "weight": 1.0,
       "categorySlug": "home-cinema",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1735,13 +1825,13 @@
       "slug": "l-16",
       "shortDescription": "Tapis de souris",
       "description": "Tapis Souris L-16 – produit Vista France. Référence constructeur : L-16. Disponible via le réseau Taxibrousse.",
-      "price": 12000,
+      "price": 0,
       "currency": "MGA",
       "sku": "L-16",
       "weight": 1.0,
       "categorySlug": "accessoires-informatiques",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/l-16-1657642610200.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1767,13 +1857,15 @@
       "slug": "ski-1500w-2",
       "shortDescription": "Convertisseur 1500W",
       "description": "Convertisseur Solaire SKI-1500W-2 – produit Vista France. Référence constructeur : SKI-1500W-2. Disponible via le réseau Taxibrousse.",
-      "price": 380000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SKI-1500W-2",
       "weight": 1.0,
       "categorySlug": "gamme-solaire",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/ski-1500w-2-165764250156.jpg",
+        "https://vistafrance.com/images/product/pics/ski-1500w-2-1657642501179.jpg",
+        "https://vistafrance.com/images/product/pics/ski-1500w-2-1657642501828.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1799,13 +1891,13 @@
       "slug": "sbs-5006bt-2-1",
       "shortDescription": "Barre de son 2.1 avec caisson",
       "description": "Barre de Son 2.1 SBS-5006BT – produit Vista France. Référence constructeur : SBS-5006BT(2.1). Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SBS-5006BT(2.1)",
       "weight": 1.0,
       "categorySlug": "barres-de-son",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1831,13 +1923,13 @@
       "slug": "sbs-5008bt-5-1",
       "shortDescription": "Barre de son 5.1 avec caisson",
       "description": "Barre de Son 5.1 SBS-5008BT – produit Vista France. Référence constructeur : SBS-5008BT(5.1). Disponible via le réseau Taxibrousse.",
-      "price": 420000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SBS-5008BT(5.1)",
       "weight": 1.0,
       "categorySlug": "barres-de-son",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1863,13 +1955,13 @@
       "slug": "sp-962bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-962BT – produit Vista France. Référence constructeur : SP-962BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-962BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1895,13 +1987,13 @@
       "slug": "sp-965bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-965BT – produit Vista France. Référence constructeur : SP-965BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 98000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-965BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1927,13 +2019,13 @@
       "slug": "sp-9904bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9904BT – produit Vista France. Référence constructeur : SP-9904BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 110000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9904BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1959,13 +2051,13 @@
       "slug": "sp-9910bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9910BT – produit Vista France. Référence constructeur : SP-9910BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 115000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9910BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -1991,13 +2083,13 @@
       "slug": "sp-9916bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9916BT – produit Vista France. Référence constructeur : SP-9916BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 120000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9916BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2023,13 +2115,13 @@
       "slug": "sp-9918bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9918BT – produit Vista France. Référence constructeur : SP-9918BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 125000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9918BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2055,13 +2147,13 @@
       "slug": "sp-9920bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9920BT – produit Vista France. Référence constructeur : SP-9920BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 130000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9920BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2087,13 +2179,13 @@
       "slug": "sp-9922bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9922BT – produit Vista France. Référence constructeur : SP-9922BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 135000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9922BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2119,13 +2211,13 @@
       "slug": "sp-9925bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9925BT – produit Vista France. Référence constructeur : SP-9925BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 140000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9925BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2151,13 +2243,13 @@
       "slug": "sp-9926bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9926BT – produit Vista France. Référence constructeur : SP-9926BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 145000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9926BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2183,13 +2275,13 @@
       "slug": "sp-9938bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9938BT – produit Vista France. Référence constructeur : SP-9938BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 150000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9938BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2215,13 +2307,13 @@
       "slug": "sp-9940bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9940BT – produit Vista France. Référence constructeur : SP-9940BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 155000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9940BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2247,13 +2339,13 @@
       "slug": "sp-9945bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9945BT – produit Vista France. Référence constructeur : SP-9945BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 160000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9945BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2279,13 +2371,13 @@
       "slug": "sp-9948bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9948BT – produit Vista France. Référence constructeur : SP-9948BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 165000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9948BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2311,13 +2403,13 @@
       "slug": "sp-9950bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SP-9950BT – produit Vista France. Référence constructeur : SP-9950BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 170000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-9950BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2343,13 +2435,13 @@
       "slug": "spd-9928bt-1-0",
       "shortDescription": "Enceinte portable Bluetooth",
       "description": "Enceinte Portable SPD-9928BT – produit Vista France. Référence constructeur : SPD-9928BT(1.0). Disponible via le réseau Taxibrousse.",
-      "price": 175000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SPD-9928BT(1.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2375,13 +2467,13 @@
       "slug": "sp-2210bt-2-0",
       "shortDescription": "Enceintes pro 2.0 Bluetooth",
       "description": "Enceintes Professionnelles SP-2210BT – produit Vista France. Référence constructeur : SP-2210BT(2.0). Disponible via le réseau Taxibrousse.",
-      "price": 320000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SP-2210BT(2.0)",
       "weight": 1.0,
       "categorySlug": "enceintes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/slides/sp-1096bt-fr-1679561118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2407,13 +2499,14 @@
       "slug": "led-10071uhd-sd",
       "shortDescription": "Smart TV 100 pouces UHD",
       "description": "Smart TV LED 100\" UHD LED-10071UHD-SD – produit Vista France. Référence constructeur : LED-10071UHD-SD. Disponible via le réseau Taxibrousse.",
-      "price": 8500000,
+      "price": 0,
       "currency": "MGA",
       "sku": "LED-10071UHD-SD",
       "weight": 1.0,
       "categorySlug": "televisions",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/led-10071uhd-sd-1762503765498.jpg",
+        "https://vistafrance.com/images/product/pics/led-10071uhd-sd-1709103537121.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2439,13 +2532,13 @@
       "slug": "led-3265hd-sd",
       "shortDescription": "Smart TV 32 pouces HD",
       "description": "Smart TV LED 32\" HD LED-3265HD-SD – produit Vista France. Référence constructeur : LED-3265HD-SD. Disponible via le réseau Taxibrousse.",
-      "price": 450000,
+      "price": 0,
       "currency": "MGA",
       "sku": "LED-3265HD-SD",
       "weight": 1.0,
       "categorySlug": "televisions",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/led-3265hd-sd-1700555502905.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2471,13 +2564,13 @@
       "slug": "led-4367fhd-sd",
       "shortDescription": "Smart TV 43 pouces Full HD",
       "description": "Smart TV LED 43\" FHD LED-4367FHD-SD – produit Vista France. Référence constructeur : LED-4367FHD-SD. Disponible via le réseau Taxibrousse.",
-      "price": 780000,
+      "price": 0,
       "currency": "MGA",
       "sku": "LED-4367FHD-SD",
       "weight": 1.0,
       "categorySlug": "televisions",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/led-4367fhd-sd-1700555846276.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2503,13 +2596,13 @@
       "slug": "led-5059fhd-sd",
       "shortDescription": "Smart TV 50 pouces Full HD",
       "description": "Smart TV LED 50\" FHD LED-5059FHD-SD – produit Vista France. Référence constructeur : LED-5059FHD-SD. Disponible via le réseau Taxibrousse.",
-      "price": 980000,
+      "price": 0,
       "currency": "MGA",
       "sku": "LED-5059FHD-SD",
       "weight": 1.0,
       "categorySlug": "televisions",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/led-5059fhd-sd-1693271468820.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2535,13 +2628,14 @@
       "slug": "led-5561uhd-sd",
       "shortDescription": "Smart TV 55 pouces UHD",
       "description": "Smart TV LED 55\" UHD LED-5561UHD-SD – produit Vista France. Référence constructeur : LED-5561UHD-SD. Disponible via le réseau Taxibrousse.",
-      "price": 1250000,
+      "price": 0,
       "currency": "MGA",
       "sku": "LED-5561UHD-SD",
       "weight": 1.0,
       "categorySlug": "televisions",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/led-5561uhd-sd-1762503183608.jpg",
+        "https://vistafrance.com/images/product/pics/led-5561uhd-sd-1762503183317.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2567,13 +2661,14 @@
       "slug": "led-6563uhd-sd",
       "shortDescription": "Smart TV 65 pouces UHD",
       "description": "Smart TV LED 65\" UHD LED-6563UHD-SD – produit Vista France. Référence constructeur : LED-6563UHD-SD. Disponible via le réseau Taxibrousse.",
-      "price": 1680000,
+      "price": 0,
       "currency": "MGA",
       "sku": "LED-6563UHD-SD",
       "weight": 1.0,
       "categorySlug": "televisions",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/led-6563uhd-sd-1762503352385.jpg",
+        "https://vistafrance.com/images/product/pics/led-6563uhd-sd-1762503352955.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2599,13 +2694,14 @@
       "slug": "led-7573uhd-sd",
       "shortDescription": "Smart TV 75 pouces UHD",
       "description": "Smart TV LED 75\" UHD LED-7573UHD-SD – produit Vista France. Référence constructeur : LED-7573UHD-SD. Disponible via le réseau Taxibrousse.",
-      "price": 2450000,
+      "price": 0,
       "currency": "MGA",
       "sku": "LED-7573UHD-SD",
       "weight": 1.0,
       "categorySlug": "televisions",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/led-7573uhd-sd-1762502655778.jpg",
+        "https://vistafrance.com/images/product/pics/led-7573uhd-sd-1762502656204.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2631,13 +2727,14 @@
       "slug": "led-8569uhd-sd",
       "shortDescription": "Smart TV 85 pouces UHD",
       "description": "Smart TV LED 85\" UHD LED-8569UHD-SD – produit Vista France. Référence constructeur : LED-8569UHD-SD. Disponible via le réseau Taxibrousse.",
-      "price": 3200000,
+      "price": 0,
       "currency": "MGA",
       "sku": "LED-8569UHD-SD",
       "weight": 1.0,
       "categorySlug": "televisions",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/led-8569uhd-sd-1709102119892.jpg",
+        "https://vistafrance.com/images/product/pics/led-8569uhd-sd-1709103153189.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2663,13 +2760,15 @@
       "slug": "vvs-1000b",
       "shortDescription": "Stabilisateur 1000VA",
       "description": "Stabilisateur VVS-1000B – produit Vista France. Référence constructeur : VVS-1000B. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVS-1000B",
       "weight": 1.0,
       "categorySlug": "onduleurs-stabilisateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvs-1000b-1675240626540.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-1000b-1675240626282.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-1000b-1675240626517.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2695,13 +2794,15 @@
       "slug": "vvs-1000d2",
       "shortDescription": "Stabilisateur 1000VA",
       "description": "Stabilisateur VVS-1000D2 – produit Vista France. Référence constructeur : VVS-1000D2. Disponible via le réseau Taxibrousse.",
-      "price": 98000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVS-1000D2",
       "weight": 1.0,
       "categorySlug": "onduleurs-stabilisateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvs-1000d2-1657642597792.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-1000d2-1657642597225.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-1000d2-1657642597277.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2727,13 +2828,15 @@
       "slug": "vvs-1500b",
       "shortDescription": "Stabilisateur 1500VA",
       "description": "Stabilisateur VVS-1500B – produit Vista France. Référence constructeur : VVS-1500B. Disponible via le réseau Taxibrousse.",
-      "price": 125000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVS-1500B",
       "weight": 1.0,
       "categorySlug": "onduleurs-stabilisateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvs-1500b-1675240552740.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-1500b-1675240551739.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-1500b-1675240552912.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2759,13 +2862,15 @@
       "slug": "vvs-2000b",
       "shortDescription": "Stabilisateur 2000VA",
       "description": "Stabilisateur VVS-2000B – produit Vista France. Référence constructeur : VVS-2000B. Disponible via le réseau Taxibrousse.",
-      "price": 155000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVS-2000B",
       "weight": 1.0,
       "categorySlug": "onduleurs-stabilisateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvs-2000b-1675240691702.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-2000b-1675240691607.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-2000b-1675240691995.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2791,13 +2896,15 @@
       "slug": "vvs-2000d2",
       "shortDescription": "Stabilisateur 2000VA",
       "description": "Stabilisateur VVS-2000D2 – produit Vista France. Référence constructeur : VVS-2000D2. Disponible via le réseau Taxibrousse.",
-      "price": 160000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVS-2000D2",
       "weight": 1.0,
       "categorySlug": "onduleurs-stabilisateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvs-2000d2-1657642597589.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-2000d2-1657642597458.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-2000d2-1657642597419.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2823,13 +2930,14 @@
       "slug": "vvs-3000d",
       "shortDescription": "Stabilisateur 3000VA",
       "description": "Stabilisateur VVS-3000D – produit Vista France. Référence constructeur : VVS-3000D. Disponible via le réseau Taxibrousse.",
-      "price": 220000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVS-3000D",
       "weight": 1.0,
       "categorySlug": "onduleurs-stabilisateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvs-3000d-1657642500484.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-3000d-1657642500881.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2855,13 +2963,14 @@
       "slug": "vvs-5000d",
       "shortDescription": "Stabilisateur 5000VA",
       "description": "Stabilisateur VVS-5000D – produit Vista France. Référence constructeur : VVS-5000D. Disponible via le réseau Taxibrousse.",
-      "price": 320000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVS-5000D",
       "weight": 1.0,
       "categorySlug": "onduleurs-stabilisateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvs-5000d-1657642500805.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-5000d-1657642496546.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2887,13 +2996,15 @@
       "slug": "vvs-500b",
       "shortDescription": "Stabilisateur 500VA",
       "description": "Stabilisateur VVS-500B – produit Vista France. Référence constructeur : VVS-500B. Disponible via le réseau Taxibrousse.",
-      "price": 65000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VVS-500B",
       "weight": 1.0,
       "categorySlug": "onduleurs-stabilisateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vvs-500b-1657642496502.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-500b-165764249638.jpg",
+        "https://vistafrance.com/images/product/pics/vvs-500b-1657642496279.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2919,13 +3030,13 @@
       "slug": "vws-10000d3",
       "shortDescription": "Stabilisateur 10000VA",
       "description": "Stabilisateur VWS-10000D3 – produit Vista France. Référence constructeur : VWS-10000D3. Disponible via le réseau Taxibrousse.",
-      "price": 580000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VWS-10000D3",
       "weight": 1.0,
       "categorySlug": "onduleurs-stabilisateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vws-10000d3-1762747262613.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2951,13 +3062,13 @@
       "slug": "vws-15000d4",
       "shortDescription": "Stabilisateur 15000VA",
       "description": "Stabilisateur VWS-15000D4 – produit Vista France. Référence constructeur : VWS-15000D4. Disponible via le réseau Taxibrousse.",
-      "price": 750000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VWS-15000D4",
       "weight": 1.0,
       "categorySlug": "onduleurs-stabilisateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vws-15000d4-1725851764479.jpg"
       ],
       "tags": [
         "vista-france",
@@ -2983,13 +3094,13 @@
       "slug": "vws-5000d3",
       "shortDescription": "Stabilisateur 5000VA",
       "description": "Stabilisateur VWS-5000D3 – produit Vista France. Référence constructeur : VWS-5000D3. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VWS-5000D3",
       "weight": 1.0,
       "categorySlug": "onduleurs-stabilisateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vws-5000d3-1657642600217.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3015,13 +3126,14 @@
       "slug": "bs-180",
       "shortDescription": "Pèse-personne digital",
       "description": "Pèse-personne BS-180 – produit Vista France. Référence constructeur : BS-180. Disponible via le réseau Taxibrousse.",
-      "price": 35000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BS-180",
       "weight": 1.0,
       "categorySlug": "pese-personne",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bs-180-1666781292870.jpg",
+        "https://vistafrance.com/images/product/pics/bs-180-1666781292801.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3047,13 +3159,14 @@
       "slug": "ds-40pc",
       "shortDescription": "Balance poids-prix",
       "description": "Balance Poids-Prix DS-40PC – produit Vista France. Référence constructeur : DS-40PC. Disponible via le réseau Taxibrousse.",
-      "price": 185000,
+      "price": 0,
       "currency": "MGA",
       "sku": "DS-40PC",
       "weight": 1.0,
       "categorySlug": "balances-commerciales",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/ds-40pc-1666781713415.jpg",
+        "https://vistafrance.com/images/product/pics/ds-40pc-1666781713974.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3079,13 +3192,14 @@
       "slug": "ls-50",
       "shortDescription": "Pèse-bagage",
       "description": "Pèse-Bagage LS-50 – produit Vista France. Référence constructeur : LS-50. Disponible via le réseau Taxibrousse.",
-      "price": 45000,
+      "price": 0,
       "currency": "MGA",
       "sku": "LS-50",
       "weight": 1.0,
       "categorySlug": "balances-commerciales",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/ls-50-1666680531225.jpg",
+        "https://vistafrance.com/images/product/pics/ls-50-1666680531170.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3111,13 +3225,14 @@
       "slug": "ps-1000pcf",
       "shortDescription": "Balance plateforme",
       "description": "Balance Plateforme PS-1000PCF – produit Vista France. Référence constructeur : PS-1000PCF. Disponible via le réseau Taxibrousse.",
-      "price": 420000,
+      "price": 0,
       "currency": "MGA",
       "sku": "PS-1000PCF",
       "weight": 1.0,
       "categorySlug": "balances-commerciales",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/ps-1000pcf-1666843528921.jpg",
+        "https://vistafrance.com/images/product/pics/ps-1000pcf-1666843528227.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3143,13 +3258,13 @@
       "slug": "cd-10l-wh11",
       "shortDescription": "Congélateur coffre 100L",
       "description": "Congélateur Coffre CD-10L – produit Vista France. Référence constructeur : CD-10L-WH11. Disponible via le réseau Taxibrousse.",
-      "price": 480000,
+      "price": 0,
       "currency": "MGA",
       "sku": "CD-10L-WH11",
       "weight": 1.0,
       "categorySlug": "congelateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3175,13 +3290,13 @@
       "slug": "cd-17l-wh11",
       "shortDescription": "Congélateur coffre 170L",
       "description": "Congélateur Coffre CD-17L – produit Vista France. Référence constructeur : CD-17L-WH11. Disponible via le réseau Taxibrousse.",
-      "price": 620000,
+      "price": 0,
       "currency": "MGA",
       "sku": "CD-17L-WH11",
       "weight": 1.0,
       "categorySlug": "congelateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3207,13 +3322,13 @@
       "slug": "cd-23l-wh11",
       "shortDescription": "Congélateur coffre 230L",
       "description": "Congélateur Coffre CD-23L – produit Vista France. Référence constructeur : CD-23L-WH11. Disponible via le réseau Taxibrousse.",
-      "price": 750000,
+      "price": 0,
       "currency": "MGA",
       "sku": "CD-23L-WH11",
       "weight": 1.0,
       "categorySlug": "congelateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3239,13 +3354,13 @@
       "slug": "cd-28lg-wh14",
       "shortDescription": "Congélateur coffre 280L",
       "description": "Congélateur Coffre CD-28LG – produit Vista France. Référence constructeur : CD-28LG-WH14. Disponible via le réseau Taxibrousse.",
-      "price": 880000,
+      "price": 0,
       "currency": "MGA",
       "sku": "CD-28LG-WH14",
       "weight": 1.0,
       "categorySlug": "congelateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3271,13 +3386,13 @@
       "slug": "cd-35lg-wh14",
       "shortDescription": "Congélateur coffre 350L",
       "description": "Congélateur Coffre CD-35LG – produit Vista France. Référence constructeur : CD-35LG-WH14. Disponible via le réseau Taxibrousse.",
-      "price": 980000,
+      "price": 0,
       "currency": "MGA",
       "sku": "CD-35LG-WH14",
       "weight": 1.0,
       "categorySlug": "congelateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3303,13 +3418,13 @@
       "slug": "cd-39l-wh1",
       "shortDescription": "Congélateur coffre 390L",
       "description": "Congélateur Coffre CD-39L – produit Vista France. Référence constructeur : CD-39L-WH1. Disponible via le réseau Taxibrousse.",
-      "price": 1050000,
+      "price": 0,
       "currency": "MGA",
       "sku": "CD-39L-WH1",
       "weight": 1.0,
       "categorySlug": "congelateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3335,13 +3450,13 @@
       "slug": "cd-55l-wh14",
       "shortDescription": "Congélateur coffre 550L",
       "description": "Congélateur Coffre CD-55L – produit Vista France. Référence constructeur : CD-55L-WH14. Disponible via le réseau Taxibrousse.",
-      "price": 1280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "CD-55L-WH14",
       "weight": 1.0,
       "categorySlug": "congelateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3367,13 +3482,13 @@
       "slug": "cd-60ldd-wh14",
       "shortDescription": "Congélateur coffre 600L",
       "description": "Congélateur Coffre CD-60LDD – produit Vista France. Référence constructeur : CD-60LDD-WH14. Disponible via le réseau Taxibrousse.",
-      "price": 1380000,
+      "price": 0,
       "currency": "MGA",
       "sku": "CD-60LDD-WH14",
       "weight": 1.0,
       "categorySlug": "congelateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3399,13 +3514,13 @@
       "slug": "cd-70ldd-wh14",
       "shortDescription": "Congélateur coffre 700L",
       "description": "Congélateur Coffre CD-70LDD – produit Vista France. Référence constructeur : CD-70LDD-WH14. Disponible via le réseau Taxibrousse.",
-      "price": 1550000,
+      "price": 0,
       "currency": "MGA",
       "sku": "CD-70LDD-WH14",
       "weight": 1.0,
       "categorySlug": "congelateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3431,13 +3546,13 @@
       "slug": "sdc-35-whgr14",
       "shortDescription": "Congélateur coffre SDC-35",
       "description": "Congélateur Coffre SDC-35 – produit Vista France. Référence constructeur : SDC-35-WHGR14. Disponible via le réseau Taxibrousse.",
-      "price": 920000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SDC-35-WHGR14",
       "weight": 1.0,
       "categorySlug": "congelateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/sdc-35-whgr14-169664447116.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3463,13 +3578,13 @@
       "slug": "sdc-40-whgr14",
       "shortDescription": "Congélateur coffre SDC-40",
       "description": "Congélateur Coffre SDC-40 – produit Vista France. Référence constructeur : SDC-40-WHGR14. Disponible via le réseau Taxibrousse.",
-      "price": 980000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SDC-40-WHGR14",
       "weight": 1.0,
       "categorySlug": "congelateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/sdc-40-whgr14-1696644809244.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3495,13 +3610,14 @@
       "slug": "vf-30-ss11",
       "shortDescription": "Congélateur vertical",
       "description": "Congélateur Vertical VF-30-SS11 – produit Vista France. Référence constructeur : VF-30-SS11. Disponible via le réseau Taxibrousse.",
-      "price": 1150000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VF-30-SS11",
       "weight": 1.0,
       "categorySlug": "congelateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vf-30-ss11-1762331384554.jpg",
+        "https://vistafrance.com/images/product/pics/vf-30-ss11-176233148159.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3527,13 +3643,13 @@
       "slug": "rd-14-wh1",
       "shortDescription": "Réfrigérateur double portes",
       "description": "Réfrigérateur Double Portes RD-14 – produit Vista France. Référence constructeur : RD-14-WH1. Disponible via le réseau Taxibrousse.",
-      "price": 680000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RD-14-WH1",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3559,13 +3675,13 @@
       "slug": "rd-15-bl18",
       "shortDescription": "Réfrigérateur double portes",
       "description": "Réfrigérateur Double Portes RD-15 – produit Vista France. Référence constructeur : RD-15-BL18. Disponible via le réseau Taxibrousse.",
-      "price": 720000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RD-15-BL18",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3591,13 +3707,13 @@
       "slug": "rd-16-wh1",
       "shortDescription": "Réfrigérateur double portes",
       "description": "Réfrigérateur Double Portes RD-16 – produit Vista France. Référence constructeur : RD-16-WH1. Disponible via le réseau Taxibrousse.",
-      "price": 780000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RD-16-WH1",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3623,13 +3739,13 @@
       "slug": "rd-20-bl11",
       "shortDescription": "Réfrigérateur double portes",
       "description": "Réfrigérateur Double Portes RD-20 – produit Vista France. Référence constructeur : RD-20-BL11. Disponible via le réseau Taxibrousse.",
-      "price": 920000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RD-20-BL11",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3655,13 +3771,13 @@
       "slug": "rd-26-bl11",
       "shortDescription": "Réfrigérateur double portes",
       "description": "Réfrigérateur Double Portes RD-26 – produit Vista France. Référence constructeur : RD-26-BL11. Disponible via le réseau Taxibrousse.",
-      "price": 1150000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RD-26-BL11",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3687,13 +3803,13 @@
       "slug": "rd-32-bl11",
       "shortDescription": "Réfrigérateur double portes",
       "description": "Réfrigérateur Double Portes RD-32 – produit Vista France. Référence constructeur : RD-32-BL11. Disponible via le réseau Taxibrousse.",
-      "price": 1380000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RD-32-BL11",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3719,13 +3835,14 @@
       "slug": "rdc-35wd-ss11",
       "shortDescription": "Réfrigérateur double portes",
       "description": "Réfrigérateur Double Portes RDC-35WD – produit Vista France. Référence constructeur : RDC-35WD-SS11. Disponible via le réseau Taxibrousse.",
-      "price": 1550000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RDC-35WD-SS11",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rdc-35wd-ss11-1705116221747.jpg",
+        "https://vistafrance.com/images/product/pics/rdc-35wd-ss11-1705116221834.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3751,13 +3868,14 @@
       "slug": "rdc-38wd-ss11",
       "shortDescription": "Réfrigérateur double portes",
       "description": "Réfrigérateur Double Portes RDC-38WD – produit Vista France. Référence constructeur : RDC-38WD-SS11. Disponible via le réseau Taxibrousse.",
-      "price": 1680000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RDC-38WD-SS11",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rdc-38wd-ss11-1705119111119.jpg",
+        "https://vistafrance.com/images/product/pics/rdc-38wd-ss11-1705116435740.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3783,13 +3901,13 @@
       "slug": "sc-28-gr14",
       "shortDescription": "Réfrigérateur porte vitrée",
       "description": "Réfrigérateur Vitrée SC-28 – produit Vista France. Référence constructeur : SC-28-GR14. Disponible via le réseau Taxibrousse.",
-      "price": 850000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SC-28-GR14",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3815,13 +3933,13 @@
       "slug": "sc-38-gr14",
       "shortDescription": "Réfrigérateur porte vitrée",
       "description": "Réfrigérateur Vitrée SC-38 – produit Vista France. Référence constructeur : SC-38-GR14. Disponible via le réseau Taxibrousse.",
-      "price": 1050000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SC-38-GR14",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3847,13 +3965,13 @@
       "slug": "sc-40-wh6",
       "shortDescription": "Réfrigérateur porte vitrée",
       "description": "Réfrigérateur Vitrée SC-40 – produit Vista France. Référence constructeur : SC-40-WH6. Disponible via le réseau Taxibrousse.",
-      "price": 1120000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SC-40-WH6",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3879,13 +3997,13 @@
       "slug": "sc-50-wh15",
       "shortDescription": "Réfrigérateur porte vitrée",
       "description": "Réfrigérateur Vitrée SC-50 – produit Vista France. Référence constructeur : SC-50-WH15. Disponible via le réseau Taxibrousse.",
-      "price": 1280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SC-50-WH15",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3911,13 +4029,13 @@
       "slug": "sc-60-wh6",
       "shortDescription": "Réfrigérateur porte vitrée",
       "description": "Réfrigérateur Vitrée SC-60 – produit Vista France. Référence constructeur : SC-60-WH6. Disponible via le réseau Taxibrousse.",
-      "price": 1450000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SC-60-WH6",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3943,13 +4061,13 @@
       "slug": "sc-80dd-wh6",
       "shortDescription": "Réfrigérateur porte vitrée",
       "description": "Réfrigérateur Vitrée SC-80DD – produit Vista France. Référence constructeur : SC-80DD-WH6. Disponible via le réseau Taxibrousse.",
-      "price": 1750000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SC-80DD-WH6",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -3975,13 +4093,13 @@
       "slug": "scc-39-gr16",
       "shortDescription": "Réfrigérateur porte vitrée",
       "description": "Réfrigérateur Vitrée SCC-39 – produit Vista France. Référence constructeur : SCC-39-GR16. Disponible via le réseau Taxibrousse.",
-      "price": 1180000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SCC-39-GR16",
       "weight": 1.0,
       "categorySlug": "refrigerateurs",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4007,13 +4125,13 @@
       "slug": "sc-38-bu17a-dc",
       "shortDescription": "Réfrigérateur vitrée DC solaire",
       "description": "Réfrigérateur Vitre DC SC-38 – produit Vista France. Référence constructeur : SC-38-BU17A-DC. Disponible via le réseau Taxibrousse.",
-      "price": 1450000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SC-38-BU17A-DC",
       "weight": 1.0,
       "categorySlug": "frigo-congelateurs-solaires",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/sc-38-bu17a-dc-1787710571365.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4039,13 +4157,14 @@
       "slug": "scd-10l-gr7a-dc",
       "shortDescription": "Congélateur DC solaire",
       "description": "Congélateur DC SCD-10L – produit Vista France. Référence constructeur : SCD-10L-GR7A-DC. Disponible via le réseau Taxibrousse.",
-      "price": 680000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SCD-10L-GR7A-DC",
       "weight": 1.0,
       "categorySlug": "frigo-congelateurs-solaires",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/scd-10l-whgr7-dc-1764914555753.jpg",
+        "https://vistafrance.com/images/product/pics/scd-10l-whgr7-dc-1764914555985.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4071,13 +4190,14 @@
       "slug": "scd-17l-gr7a-dc",
       "shortDescription": "Congélateur DC solaire",
       "description": "Congélateur DC SCD-17L – produit Vista France. Référence constructeur : SCD-17L-GR7A-DC. Disponible via le réseau Taxibrousse.",
-      "price": 820000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SCD-17L-GR7A-DC",
       "weight": 1.0,
       "categorySlug": "frigo-congelateurs-solaires",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/scd-17l-whgr7a-dc-gr7a-dc-1764916146208.jpg",
+        "https://vistafrance.com/images/product/pics/scd-17l-whgr7a-dc-gr7a-dc-1764916146691.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4103,13 +4223,14 @@
       "slug": "scd-23l-gr7a-dc",
       "shortDescription": "Congélateur DC solaire",
       "description": "Congélateur DC SCD-23L – produit Vista France. Référence constructeur : SCD-23L-GR7A-DC. Disponible via le réseau Taxibrousse.",
-      "price": 950000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SCD-23L-GR7A-DC",
       "weight": 1.0,
       "categorySlug": "frigo-congelateurs-solaires",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/scd-23l-whgr7a-dc-gr7a-dc-1764918005757.jpg",
+        "https://vistafrance.com/images/product/pics/scd-23l-whgr7a-dc-gr7a-dc-1764918005627.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4135,13 +4256,14 @@
       "slug": "scd-28l-gr17a-dc",
       "shortDescription": "Congélateur DC solaire",
       "description": "Congélateur DC SCD-28L – produit Vista France. Référence constructeur : SCD-28L-GR17A-DC. Disponible via le réseau Taxibrousse.",
-      "price": 1080000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SCD-28L-GR17A-DC",
       "weight": 1.0,
       "categorySlug": "frigo-congelateurs-solaires",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/scd-28l-gr17a-dc-1779249489388.jpg",
+        "https://vistafrance.com/images/product/pics/scd-28l-gr17a-dc-1779249489881.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4167,13 +4289,14 @@
       "slug": "scd-35l-gr17a-dc",
       "shortDescription": "Congélateur DC solaire",
       "description": "Congélateur DC SCD-35L – produit Vista France. Référence constructeur : SCD-35L-GR17A-DC. Disponible via le réseau Taxibrousse.",
-      "price": 1250000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SCD-35L-GR17A-DC",
       "weight": 1.0,
       "categorySlug": "frigo-congelateurs-solaires",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/scd-35l-gr17a-dc-1779249816974.jpg",
+        "https://vistafrance.com/images/product/pics/scd-35l-gr17a-dc-1779249816397.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4199,13 +4322,14 @@
       "slug": "srd-16-sl7-dc",
       "shortDescription": "Réfrigérateur DC solaire",
       "description": "Réfrigérateur DC SRD-16 – produit Vista France. Référence constructeur : SRD-16-SL7-DC. Disponible via le réseau Taxibrousse.",
-      "price": 980000,
+      "price": 0,
       "currency": "MGA",
       "sku": "SRD-16-SL7-DC",
       "weight": 1.0,
       "categorySlug": "frigo-congelateurs-solaires",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rd-16-whgr7-dc-1692842555118.jpg",
+        "https://vistafrance.com/images/product/pics/rd-16-whgr7-dc-1692842555183.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4231,13 +4355,13 @@
       "slug": "bto-560clx",
       "shortDescription": "Four encastrable",
       "description": "Four Encastrable BTO-560CLX – produit Vista France. Référence constructeur : BTO-560CLX. Disponible via le réseau Taxibrousse.",
-      "price": 580000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BTO-560CLX",
       "weight": 1.0,
       "categorySlug": "fours-electriques-encastrables",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bto-560clx-1666839056481.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4263,13 +4387,14 @@
       "slug": "dev-6500c-w",
       "shortDescription": "Groupe électrogène diesel",
       "description": "Groupe Électrogène Diesel DEV-6500C – produit Vista France. Référence constructeur : DEV-6500C(W). Disponible via le réseau Taxibrousse.",
-      "price": 1850000,
+      "price": 0,
       "currency": "MGA",
       "sku": "DEV-6500C(W)",
       "weight": 1.0,
       "categorySlug": "groupes-electrogenes-diesel",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/dev-6500cw-16732576533.jpg",
+        "https://vistafrance.com/images/product/pics/dev-6500cw-1673257653694.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4295,13 +4420,16 @@
       "slug": "vs-190hdc-e",
       "shortDescription": "Coffre-fort hôtel",
       "description": "Coffre-Fort Hôtel VS-190HDC-E – produit Vista France. Référence constructeur : VS-190HDC-E. Disponible via le réseau Taxibrousse.",
-      "price": 320000,
+      "price": 0,
       "currency": "MGA",
       "sku": "VS-190HDC-E",
       "weight": 1.0,
       "categorySlug": "coffres-forts-hotel",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/vs-190hdc-e-1657642499727.jpg",
+        "https://vistafrance.com/images/product/pics/vs-190hdc-e-1668497203202.jpg",
+        "https://vistafrance.com/images/product/pics/vs-190hdc-e-165764249997.jpg",
+        "https://vistafrance.com/images/product/pics/vs-190hdc-e-1668497203893.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4327,13 +4455,16 @@
       "slug": "rt-53l",
       "shortDescription": "Lanterne électrique",
       "description": "Lanterne RT-53L – produit Vista France. Référence constructeur : RT-53L. Disponible via le réseau Taxibrousse.",
-      "price": 28000,
+      "price": 0,
       "currency": "MGA",
       "sku": "RT-53L",
       "weight": 1.0,
       "categorySlug": "lanternes-torches",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/rt-53l-1673600003144.jpg",
+        "https://vistafrance.com/images/product/pics/rt-53l-1666772920906.jpg",
+        "https://vistafrance.com/images/product/pics/rt-53l-1666772920127.jpg",
+        "https://vistafrance.com/images/product/pics/rt-53l-1666772920722.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4359,13 +4490,16 @@
       "slug": "str-a101",
       "shortDescription": "Poussette bébé",
       "description": "Poussette STR-A101 – produit Vista France. Référence constructeur : STR-A101. Disponible via le réseau Taxibrousse.",
-      "price": 185000,
+      "price": 0,
       "currency": "MGA",
       "sku": "STR-A101",
       "weight": 1.0,
       "categorySlug": "poussettes",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/str-a101-1657642602663.jpg",
+        "https://vistafrance.com/images/product/pics/str-a101-1657642602316.jpg",
+        "https://vistafrance.com/images/product/pics/str-a101-1657642602465.jpg",
+        "https://vistafrance.com/images/product/pics/str-a101-1657642602916.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4391,13 +4525,15 @@
       "slug": "kst-a1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-A1001 – produit Vista France. Référence constructeur : KST-A1001. Disponible via le réseau Taxibrousse.",
-      "price": 75000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-A1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-a1001-1669965497770.jpg",
+        "https://vistafrance.com/images/product/pics/kst-a1001-1669965497975.jpg",
+        "https://vistafrance.com/images/product/pics/kst-a1001-1669966000611.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4423,13 +4559,16 @@
       "slug": "kst-b1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-B1001 – produit Vista France. Référence constructeur : KST-B1001. Disponible via le réseau Taxibrousse.",
-      "price": 78000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-B1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-b1001-1669884416131.jpg",
+        "https://vistafrance.com/images/product/pics/kst-b1001-1669884416418.jpg",
+        "https://vistafrance.com/images/product/pics/kst-b1001-1669884416927.jpg",
+        "https://vistafrance.com/images/product/pics/kst-b1001-16698844164.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4455,13 +4594,15 @@
       "slug": "kst-c1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-C1001 – produit Vista France. Référence constructeur : KST-C1001. Disponible via le réseau Taxibrousse.",
-      "price": 80000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-C1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-c1001-1669884739810.jpg",
+        "https://vistafrance.com/images/product/pics/kst-c1001-1669884739564.jpg",
+        "https://vistafrance.com/images/product/pics/kst-c1001-1669966126476.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4487,13 +4628,16 @@
       "slug": "kst-d1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-D1001 – produit Vista France. Référence constructeur : KST-D1001. Disponible via le réseau Taxibrousse.",
-      "price": 82000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-D1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-d1001-1669885077714.jpg",
+        "https://vistafrance.com/images/product/pics/kst-d1001-166988507762.jpg",
+        "https://vistafrance.com/images/product/pics/kst-d1001-1669885077722.jpg",
+        "https://vistafrance.com/images/product/pics/kst-d1001-1669885077928.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4519,13 +4663,16 @@
       "slug": "kst-h1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-H1001 – produit Vista France. Référence constructeur : KST-H1001. Disponible via le réseau Taxibrousse.",
-      "price": 85000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-H1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-h1001-1669888503223.jpg",
+        "https://vistafrance.com/images/product/pics/kst-h1001-1669888503777.jpg",
+        "https://vistafrance.com/images/product/pics/kst-h1001-1669888503726.jpg",
+        "https://vistafrance.com/images/product/pics/kst-h1001-1669966336661.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4551,13 +4698,16 @@
       "slug": "kst-j1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-J1001 – produit Vista France. Référence constructeur : KST-J1001. Disponible via le réseau Taxibrousse.",
-      "price": 88000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-J1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-j1001-16699634491.jpg",
+        "https://vistafrance.com/images/product/pics/kst-j1001-1669887218730.jpg",
+        "https://vistafrance.com/images/product/pics/kst-j1001-166988721858.jpg",
+        "https://vistafrance.com/images/product/pics/kst-j1001-1669887218891.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4583,13 +4733,16 @@
       "slug": "kst-l1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-L1001 – produit Vista France. Référence constructeur : KST-L1001. Disponible via le réseau Taxibrousse.",
-      "price": 90000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-L1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-l1001-1669887586428.jpg",
+        "https://vistafrance.com/images/product/pics/kst-l1001-1669887586142.jpg",
+        "https://vistafrance.com/images/product/pics/kst-l1001-1669887586463.jpg",
+        "https://vistafrance.com/images/product/pics/kst-l1001-1669966454862.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4615,13 +4768,15 @@
       "slug": "kst-m1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-M1001 – produit Vista France. Référence constructeur : KST-M1001. Disponible via le réseau Taxibrousse.",
-      "price": 92000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-M1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-m1001-1669967251837.jpg",
+        "https://vistafrance.com/images/product/pics/kst-m1001-1669887857982.jpg",
+        "https://vistafrance.com/images/product/pics/kst-m1001-1669966402417.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4647,13 +4802,16 @@
       "slug": "kst-p1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-P1001 – produit Vista France. Référence constructeur : KST-P1001. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-P1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-p1001-1692683527774.jpg",
+        "https://vistafrance.com/images/product/pics/kst-p1001-1692683527677.jpg",
+        "https://vistafrance.com/images/product/pics/kst-p1001-169268352732.jpg",
+        "https://vistafrance.com/images/product/pics/kst-p1001-1692683720102.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4679,13 +4837,16 @@
       "slug": "kst-q1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-Q1001 – produit Vista France. Référence constructeur : KST-Q1001. Disponible via le réseau Taxibrousse.",
-      "price": 98000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-Q1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-q1001-1692683973779.jpg",
+        "https://vistafrance.com/images/product/pics/kst-q1001-1692683973916.jpg",
+        "https://vistafrance.com/images/product/pics/kst-q1001-1692683973114.jpg",
+        "https://vistafrance.com/images/product/pics/kst-q1001-1692684106169.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4711,13 +4872,16 @@
       "slug": "kst-r1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-R1001 – produit Vista France. Référence constructeur : KST-R1001. Disponible via le réseau Taxibrousse.",
-      "price": 100000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-R1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-r1001-1693628464849.jpg",
+        "https://vistafrance.com/images/product/pics/kst-r1001-1693628464168.jpg",
+        "https://vistafrance.com/images/product/pics/kst-r1001-1693628464262.jpg",
+        "https://vistafrance.com/images/product/pics/kst-r1001-1692684324275.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4743,13 +4907,16 @@
       "slug": "kst-s1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-S1001 – produit Vista France. Référence constructeur : KST-S1001. Disponible via le réseau Taxibrousse.",
-      "price": 102000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-S1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-s1001-1692684560329.jpg",
+        "https://vistafrance.com/images/product/pics/kst-s1001-1692684560814.jpg",
+        "https://vistafrance.com/images/product/pics/kst-s1001-169268456041.jpg",
+        "https://vistafrance.com/images/product/pics/kst-s1001-1692684761333.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4775,13 +4942,16 @@
       "slug": "kst-t1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-T1001 – produit Vista France. Référence constructeur : KST-T1001. Disponible via le réseau Taxibrousse.",
-      "price": 105000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-T1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-t1001-1693628544415.jpg",
+        "https://vistafrance.com/images/product/pics/kst-t1001-1693628544364.jpg",
+        "https://vistafrance.com/images/product/pics/kst-t1001-1693628544528.jpg",
+        "https://vistafrance.com/images/product/pics/kst-t1001-1692684909141.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4807,13 +4977,16 @@
       "slug": "kst-u1001",
       "shortDescription": "Trottinette",
       "description": "Trottinette KST-U1001 – produit Vista France. Référence constructeur : KST-U1001. Disponible via le réseau Taxibrousse.",
-      "price": 108000,
+      "price": 0,
       "currency": "MGA",
       "sku": "KST-U1001",
       "weight": 1.0,
       "categorySlug": "trottinettes-skateboards",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/kst-u1001-1692685231220.jpg",
+        "https://vistafrance.com/images/product/pics/kst-u1001-1692685231545.jpg",
+        "https://vistafrance.com/images/product/pics/kst-u1001-1692685231991.jpg",
+        "https://vistafrance.com/images/product/pics/kst-u1001-1692685269459.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4839,13 +5012,15 @@
       "slug": "tcy-a301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-A301 – produit Vista France. Référence constructeur : TCY-A301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-A301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-a301-1657642603397.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-a301-1657642603246.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-a301-1657642603595.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4871,13 +5046,15 @@
       "slug": "tcy-b301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-B301 – produit Vista France. Référence constructeur : TCY-B301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-B301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-b301-165764260346.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-b301-1657642603526.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-b301-1657642603338.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4903,13 +5080,15 @@
       "slug": "tcy-c301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-C301 – produit Vista France. Référence constructeur : TCY-C301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-C301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-c301-1657642603218.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-c301-1657642603824.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-c301-1657642603154.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4935,13 +5114,14 @@
       "slug": "tcy-d301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-D301 – produit Vista France. Référence constructeur : TCY-D301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-D301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-d301-1657642603681.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-d301-1657642603785.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4967,13 +5147,15 @@
       "slug": "tcy-e301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-E301 – produit Vista France. Référence constructeur : TCY-E301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-E301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-e301-1657642603895.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-e301-1657642603362.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-e301-1657642603131.jpg"
       ],
       "tags": [
         "vista-france",
@@ -4999,13 +5181,15 @@
       "slug": "tcy-h301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-H301 – produit Vista France. Référence constructeur : TCY-H301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-H301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-h301-165764260398.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-h301-1657642603773.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-h301-165764260353.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5031,13 +5215,14 @@
       "slug": "tcy-i301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-I301 – produit Vista France. Référence constructeur : TCY-I301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-I301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-i301-1657642605903.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-i301-1657642605577.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5063,13 +5248,16 @@
       "slug": "tcy-j301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-J301 – produit Vista France. Référence constructeur : TCY-J301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-J301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-j301-1765349797518.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-j301-1765349797554.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-j301-1765349797546.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-j301-176776833118.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5095,13 +5283,14 @@
       "slug": "tcy-k301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-K301 – produit Vista France. Référence constructeur : TCY-K301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-K301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-k301-176535023939.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-k301-176535023988.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5127,13 +5316,14 @@
       "slug": "tcy-l301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-L301 – produit Vista France. Référence constructeur : TCY-L301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-L301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-l301-1767770931583.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-l301-1767770931180.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5159,13 +5349,15 @@
       "slug": "tcy-m301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-M301 – produit Vista France. Référence constructeur : TCY-M301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-M301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-m301-1776838992178.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-m301-1776838992439.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-m301-1776838992992.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5191,13 +5383,15 @@
       "slug": "tcy-n301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-N301 – produit Vista France. Référence constructeur : TCY-N301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-N301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-n301-1776839294401.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-n301-177683929489.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-n301-1776839294120.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5223,13 +5417,14 @@
       "slug": "tcy-p301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-P301 – produit Vista France. Référence constructeur : TCY-P301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-P301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-p301-17768395967.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-p301-177683959619.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5255,13 +5450,15 @@
       "slug": "tcy-q301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-Q301 – produit Vista France. Référence constructeur : TCY-Q301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-Q301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-q301-177683987564.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-q301-1776839875464.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-q301-1776839875692.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5287,13 +5484,16 @@
       "slug": "tcy-r301",
       "shortDescription": "Tricycle pour enfants",
       "description": "Tricycle Enfant TCY-R301 – produit Vista France. Référence constructeur : TCY-R301. Disponible via le réseau Taxibrousse.",
-      "price": 95000,
+      "price": 0,
       "currency": "MGA",
       "sku": "TCY-R301",
       "weight": 1.0,
       "categorySlug": "tricycles-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/tcy-r301-17768402091.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-r301-1776840209506.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-r301-1776840209137.jpg",
+        "https://vistafrance.com/images/product/pics/tcy-r301-1776840209848.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5319,13 +5519,15 @@
       "slug": "bmc-ab501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AB501 – produit Vista France. Référence constructeur : BMC-AB501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AB501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-ab501-169267027224.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-ab501-1692670272248.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-ab501-169267027295.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5351,13 +5553,14 @@
       "slug": "bmc-aj501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AJ501 – produit Vista France. Référence constructeur : BMC-AJ501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AJ501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-aj501-1762480876154.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-aj501-1762480876741.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5383,13 +5586,14 @@
       "slug": "bmc-ak501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AK501 – produit Vista France. Référence constructeur : BMC-AK501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AK501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-ak501-1762481408852.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-ak501-1762481408283.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5415,13 +5619,14 @@
       "slug": "bmc-al501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AL501 – produit Vista France. Référence constructeur : BMC-AL501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AL501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-al501-1764644786457.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-al501-1764644786281.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5447,13 +5652,14 @@
       "slug": "bmc-am501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AM501 – produit Vista France. Référence constructeur : BMC-AM501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AM501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-am501-1776828975222.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-am501-1776828975344.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5479,13 +5685,16 @@
       "slug": "bmc-an501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AN501 – produit Vista France. Référence constructeur : BMC-AN501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AN501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-an501-1776829313509.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-an501-1776829313422.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-an501-177682931345.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-an501-1776829313947.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5511,13 +5720,15 @@
       "slug": "bmc-ap501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AP501 – produit Vista France. Référence constructeur : BMC-AP501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AP501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-ap501-1776829617874.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-ap501-1776829617938.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-ap501-177682961785.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5543,13 +5754,15 @@
       "slug": "bmc-aq501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AQ501 – produit Vista France. Référence constructeur : BMC-AQ501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AQ501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-aq501-1778032841823.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-aq501-1778032841523.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-aq501-1778032841776.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5575,13 +5788,15 @@
       "slug": "bmc-ar501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AR501 – produit Vista France. Référence constructeur : BMC-AR501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AR501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-ar501-1776830004240.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-ar501-1776830004905.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-ar501-1776830004671.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5607,13 +5822,15 @@
       "slug": "bmc-as501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AS501 – produit Vista France. Référence constructeur : BMC-AS501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AS501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-as501-1776830572641.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-as501-1776830572314.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-as501-1776830572112.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5639,13 +5856,15 @@
       "slug": "bmc-at501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AT501 – produit Vista France. Référence constructeur : BMC-AT501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AT501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-at501-1776830869908.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-at501-1776830869872.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-at501-177683086927.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5671,13 +5890,15 @@
       "slug": "bmc-au501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AU501 – produit Vista France. Référence constructeur : BMC-AU501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AU501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-au501-1776831191970.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-au501-1776831191533.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-au501-1776831191933.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5703,13 +5924,14 @@
       "slug": "bmc-av501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AV501 – produit Vista France. Référence constructeur : BMC-AV501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AV501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-av501-177683150115.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-av501-1776831501306.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5735,13 +5957,14 @@
       "slug": "bmc-aw501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AW501 – produit Vista France. Référence constructeur : BMC-AW501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AW501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-aw501-177683179750.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-aw501-1776831797899.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5767,13 +5990,14 @@
       "slug": "bmc-ax501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-AX501 – produit Vista France. Référence constructeur : BMC-AX501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-AX501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-ax501-177683210964.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-ax501-177683210990.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5799,13 +6023,14 @@
       "slug": "bmc-b501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-B501 – produit Vista France. Référence constructeur : BMC-B501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-B501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-b501-1657642604856.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-b501-1657642604224.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5831,13 +6056,15 @@
       "slug": "bmc-g501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-G501 – produit Vista France. Référence constructeur : BMC-G501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-G501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-g501-1657642604243.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-g501-1657642604247.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-g501-1675321636319.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5863,13 +6090,15 @@
       "slug": "bmc-j501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-J501 – produit Vista France. Référence constructeur : BMC-J501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-J501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-j501-1657642610796.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-j501-1657642611453.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-j501-1675326693142.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5895,13 +6124,15 @@
       "slug": "bmc-k501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-K501 – produit Vista France. Référence constructeur : BMC-K501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-K501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-k501-1657642611710.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-k501-1675328487937.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-k501-167532833745.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5927,13 +6158,15 @@
       "slug": "bmc-m501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-M501 – produit Vista France. Référence constructeur : BMC-M501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-M501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-m501-16643546001000.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-m501-1664354600240.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-m501-1664354601313.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5959,13 +6192,15 @@
       "slug": "bmc-n501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-N501 – produit Vista France. Référence constructeur : BMC-N501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-N501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-n501-1664354997849.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-n501-1664354997921.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-n501-1664354997900.jpg"
       ],
       "tags": [
         "vista-france",
@@ -5991,13 +6226,15 @@
       "slug": "bmc-r501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-R501 – produit Vista France. Référence constructeur : BMC-R501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-R501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-r501-1664357243610.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-r501-1664357243766.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-r501-166435724376.jpg"
       ],
       "tags": [
         "vista-france",
@@ -6023,13 +6260,15 @@
       "slug": "bmc-v501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-V501 – produit Vista France. Référence constructeur : BMC-V501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-V501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-v501-1666940898530.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-v501-1666940898882.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-v501-1666940898474.jpg"
       ],
       "tags": [
         "vista-france",
@@ -6055,13 +6294,15 @@
       "slug": "bmc-w501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-W501 – produit Vista France. Référence constructeur : BMC-W501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-W501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-w501-1664362020898.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-w501-1664362020692.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-w501-1664362020209.jpg"
       ],
       "tags": [
         "vista-france",
@@ -6087,13 +6328,16 @@
       "slug": "bmc-x501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-X501 – produit Vista France. Référence constructeur : BMC-X501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-X501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-x501-1693797033175.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-x501-1692672045433.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-x501-1692672045556.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-x501-1692672045907.jpg"
       ],
       "tags": [
         "vista-france",
@@ -6119,13 +6363,16 @@
       "slug": "bmc-y501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-Y501 – produit Vista France. Référence constructeur : BMC-Y501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-Y501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-y501-1692672264949.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-y501-1692672264413.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-y501-1692672264508.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-y501-1692672264924.jpg"
       ],
       "tags": [
         "vista-france",
@@ -6151,13 +6398,15 @@
       "slug": "bmc-z501",
       "shortDescription": "Moto électrique pour enfants",
       "description": "Moto Électrique Enfant BMC-Z501 – produit Vista France. Référence constructeur : BMC-Z501. Disponible via le réseau Taxibrousse.",
-      "price": 280000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BMC-Z501",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bmc-z501-1692672474133.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-z501-1692672474818.jpg",
+        "https://vistafrance.com/images/product/pics/bmc-z501-1692672474805.jpg"
       ],
       "tags": [
         "vista-france",
@@ -6183,13 +6432,15 @@
       "slug": "bcr-ab401",
       "shortDescription": "Voiture électrique pour enfants",
       "description": "Voiture Électrique Enfant BCR-AB401 – produit Vista France. Référence constructeur : BCR-AB401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BCR-AB401",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bcr-ab401-1692596467705.jpg",
+        "https://vistafrance.com/images/product/pics/bcr-ab401-1692596466133.jpg",
+        "https://vistafrance.com/images/product/pics/bcr-ab401-169259646776.jpg"
       ],
       "tags": [
         "vista-france",
@@ -6215,13 +6466,14 @@
       "slug": "bcr-ac401",
       "shortDescription": "Voiture électrique pour enfants",
       "description": "Voiture Électrique Enfant BCR-AC401 – produit Vista France. Référence constructeur : BCR-AC401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BCR-AC401",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bcr-ac401-1692596801584.jpg",
+        "https://vistafrance.com/images/product/pics/bcr-ac401-169259680164.jpg"
       ],
       "tags": [
         "vista-france",
@@ -6247,13 +6499,14 @@
       "slug": "bcr-ad401",
       "shortDescription": "Voiture électrique pour enfants",
       "description": "Voiture Électrique Enfant BCR-AD401 – produit Vista France. Référence constructeur : BCR-AD401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BCR-AD401",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bcr-ad401-1692596991680.jpg",
+        "https://vistafrance.com/images/product/pics/bcr-ad401-1692596991888.jpg"
       ],
       "tags": [
         "vista-france",
@@ -6279,13 +6532,14 @@
       "slug": "bcr-af401",
       "shortDescription": "Voiture électrique pour enfants",
       "description": "Voiture Électrique Enfant BCR-AF401 – produit Vista France. Référence constructeur : BCR-AF401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BCR-AF401",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bcr-af401-1692597743506.jpg",
+        "https://vistafrance.com/images/product/pics/bcr-af401-1692597743775.jpg"
       ],
       "tags": [
         "vista-france",
@@ -6311,13 +6565,13 @@
       "slug": "bcr-aj401",
       "shortDescription": "Voiture électrique pour enfants",
       "description": "Voiture Électrique Enfant BCR-AJ401 – produit Vista France. Référence constructeur : BCR-AJ401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BCR-AJ401",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bcr-aj401-1692600978325.jpg"
       ],
       "tags": [
         "vista-france",
@@ -6343,13 +6597,14 @@
       "slug": "bcr-ak401",
       "shortDescription": "Voiture électrique pour enfants",
       "description": "Voiture Électrique Enfant BCR-AK401 – produit Vista France. Référence constructeur : BCR-AK401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BCR-AK401",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
+        "https://vistafrance.com/images/product/pics/bcr-ak401-1692601207997.jpg",
+        "https://vistafrance.com/images/product/pics/bcr-ak401-1692601207363.jpg"
       ],
       "tags": [
         "vista-france",
@@ -6375,704 +6630,10 @@
       "slug": "bcr-am401",
       "shortDescription": "Voiture électrique pour enfants",
       "description": "Voiture Électrique Enfant BCR-AM401 – produit Vista France. Référence constructeur : BCR-AM401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
+      "price": 0,
       "currency": "MGA",
       "sku": "BCR-AM401",
       "weight": 1.0,
       "categorySlug": "motos-voitures-electriques-enfants",
       "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-AM401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-AN401",
-      "slug": "bcr-an401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-AN401 – produit Vista France. Référence constructeur : BCR-AN401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-AN401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-AN401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-AP401",
-      "slug": "bcr-ap401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-AP401 – produit Vista France. Référence constructeur : BCR-AP401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-AP401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-AP401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-AQ401",
-      "slug": "bcr-aq401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-AQ401 – produit Vista France. Référence constructeur : BCR-AQ401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-AQ401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-AQ401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-AR401",
-      "slug": "bcr-ar401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-AR401 – produit Vista France. Référence constructeur : BCR-AR401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-AR401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-AR401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-AS401",
-      "slug": "bcr-as401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-AS401 – produit Vista France. Référence constructeur : BCR-AS401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-AS401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-AS401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-AT401",
-      "slug": "bcr-at401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-AT401 – produit Vista France. Référence constructeur : BCR-AT401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-AT401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-AT401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-AU401",
-      "slug": "bcr-au401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-AU401 – produit Vista France. Référence constructeur : BCR-AU401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-AU401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-AU401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-AV401",
-      "slug": "bcr-av401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-AV401 – produit Vista France. Référence constructeur : BCR-AV401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-AV401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-AV401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-AW401",
-      "slug": "bcr-aw401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-AW401 – produit Vista France. Référence constructeur : BCR-AW401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-AW401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-AW401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-AX401",
-      "slug": "bcr-ax401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-AX401 – produit Vista France. Référence constructeur : BCR-AX401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-AX401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-AX401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-AY401",
-      "slug": "bcr-ay401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-AY401 – produit Vista France. Référence constructeur : BCR-AY401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-AY401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-AY401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-B401",
-      "slug": "bcr-b401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-B401 – produit Vista France. Référence constructeur : BCR-B401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-B401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-B401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-D401",
-      "slug": "bcr-d401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-D401 – produit Vista France. Référence constructeur : BCR-D401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-D401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-D401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-F401",
-      "slug": "bcr-f401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-F401 – produit Vista France. Référence constructeur : BCR-F401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-F401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-F401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-G401",
-      "slug": "bcr-g401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-G401 – produit Vista France. Référence constructeur : BCR-G401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-G401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-G401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-H401",
-      "slug": "bcr-h401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-H401 – produit Vista France. Référence constructeur : BCR-H401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-H401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-H401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-P401",
-      "slug": "bcr-p401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-P401 – produit Vista France. Référence constructeur : BCR-P401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-P401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-P401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-T401",
-      "slug": "bcr-t401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-T401 – produit Vista France. Référence constructeur : BCR-T401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-T401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-T401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-V401",
-      "slug": "bcr-v401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-V401 – produit Vista France. Référence constructeur : BCR-V401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-V401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-V401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-W401",
-      "slug": "bcr-w401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-W401 – produit Vista France. Référence constructeur : BCR-W401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-W401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-W401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    },
-    {
-      "name": "Voiture Électrique Enfant BCR-X401",
-      "slug": "bcr-x401",
-      "shortDescription": "Voiture électrique pour enfants",
-      "description": "Voiture Électrique Enfant BCR-X401 – produit Vista France. Référence constructeur : BCR-X401. Disponible via le réseau Taxibrousse.",
-      "price": 350000,
-      "currency": "MGA",
-      "sku": "BCR-X401",
-      "weight": 1.0,
-      "categorySlug": "motos-voitures-electriques-enfants",
-      "images": [
-        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400&h=300&fit=crop"
-      ],
-      "tags": [
-        "vista-france",
-        "motos-voitures-electriques-enfants"
-      ],
-      "specifications": [
-        {
-          "label": "Référence",
-          "value": "BCR-X401"
-        },
-        {
-          "label": "Marque",
-          "value": "Vista France"
-        }
-      ],
-      "inStock": true,
-      "stockQuantity": 25,
-      "rating": 4.5,
-      "reviewCount": 0
-    }
-  ]
-}
+        "https

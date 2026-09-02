@@ -4,6 +4,7 @@ import {
   Typography,
   Button,
   Chip,
+  Alert,
   Breadcrumbs,
   Link as MuiLink,
   Grid,
@@ -60,32 +61,55 @@ const ProductDetailPage: React.FC = () => {
     };
   }, [product]);
 
-  const handleAddToCart = async () => {
-    if (product) {
-      addItem(product, 1);
-      try {
-        await addCartItemMutation({ productId: product.id, quantity: 1 });
-      } catch (err) {
-        console.error(err);
+  const [actionError, setActionError] = useState<string | null>(null);
+
+  const resolveErrorMessage = (err: unknown): string => {
+    if (err && typeof err === 'object' && 'message' in err && typeof (err as Error).message === 'string') {
+      const msg = (err as Error).message;
+      if (msg.startsWith('error_')) {
+        const translated = t(msg);
+        return translated !== msg ? translated : t(Labels.shop_error);
       }
+      return msg;
+    }
+    return t(Labels.shop_error);
+  };
+
+  const handleAddToCart = async () => {
+    if (!product?.id) {
+      setActionError(t(Labels.shop_product_not_found));
+      return;
+    }
+    setActionError(null);
+    addItem(product, 1);
+    try {
+      await addCartItemMutation({ productId: Number(product.id), quantity: 1 });
+      setDrawerOpen(true);
+    } catch (err) {
+      console.error(err);
+      setActionError(resolveErrorMessage(err));
       setDrawerOpen(true);
     }
   };
 
   const handleBuyNow = async () => {
-    if (product) {
-      setIsBuyingNow(true);
-      addItem(product, 1);
-      try {
-        await addCartItemMutation({ productId: product.id, quantity: 1 });
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setIsBuyingNow(false);
-      }
-      setActiveStep(0);
-      navigate(ROUTES.shopCheckout[i18n.language]);
+    if (!product?.id) {
+      setActionError(t(Labels.shop_product_not_found));
+      return;
     }
+    setActionError(null);
+    setIsBuyingNow(true);
+    addItem(product, 1);
+    try {
+      await addCartItemMutation({ productId: Number(product.id), quantity: 1 });
+    } catch (err) {
+      console.error(err);
+      setActionError(resolveErrorMessage(err));
+    } finally {
+      setIsBuyingNow(false);
+    }
+    setActiveStep(0);
+    navigate(ROUTES.shopCheckout[i18n.language]);
   };
 
   if (isLoading || isPending) {
@@ -197,6 +221,12 @@ const ProductDetailPage: React.FC = () => {
               </Paper>
 
               {/* Actions */}
+              {actionError && (
+                <Alert severity="error" onClose={() => setActionError(null)} sx={{ mb: 1 }}>
+                  {actionError}
+                </Alert>
+              )}
+
               <Stack spacing={1.5}>
                 <Button
                   size="large"

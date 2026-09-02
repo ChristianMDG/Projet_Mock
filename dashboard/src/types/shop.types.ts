@@ -167,6 +167,51 @@ export const OrderStatusChipColors: Record<OrderStatusEnum, ChipColor> = {
   [OrderStatusEnum.CANCELLED]: 'error',
 };
 
+/** Parcours logistique gare (5 statuts métier). */
+export const LOGISTICS_STATUS_FLOW: OrderStatusEnum[] = [
+  OrderStatusEnum.READY_IN_STORE,
+  OrderStatusEnum.DELIVERY_TO_STATION,
+  OrderStatusEnum.DELIVERY_IN_PROGRESS,
+  OrderStatusEnum.AVAILABLE_AT_COUNTER,
+  OrderStatusEnum.DELIVERED,
+];
+
+/** Statuts sélectionnables librement par l'admin/guichet. */
+export const OPERATOR_SELECTABLE_STATUSES: OrderStatusEnum[] = [
+  OrderStatusEnum.PENDING,
+  OrderStatusEnum.CONFIRMED,
+  OrderStatusEnum.PROCESSING,
+  OrderStatusEnum.READY_IN_STORE,
+  OrderStatusEnum.DELIVERY_TO_STATION,
+  OrderStatusEnum.DELIVERY_IN_PROGRESS,
+  OrderStatusEnum.AVAILABLE_AT_COUNTER,
+  OrderStatusEnum.DELIVERED,
+  OrderStatusEnum.CANCELLED,
+];
+
+/** Prochain statut logique dans le parcours gare. */
+export function suggestedNextStatus(current?: OrderStatusEnum | null): OrderStatusEnum | null {
+  if (!current) return OrderStatusEnum.READY_IN_STORE;
+  switch (current) {
+    case OrderStatusEnum.PENDING:
+    case OrderStatusEnum.CONFIRMED:
+    case OrderStatusEnum.PROCESSING:
+    case OrderStatusEnum.SHIPPED:
+    case OrderStatusEnum.PAYMENT_FAILED:
+      return OrderStatusEnum.READY_IN_STORE;
+    case OrderStatusEnum.READY_IN_STORE:
+      return OrderStatusEnum.DELIVERY_TO_STATION;
+    case OrderStatusEnum.DELIVERY_TO_STATION:
+      return OrderStatusEnum.DELIVERY_IN_PROGRESS;
+    case OrderStatusEnum.DELIVERY_IN_PROGRESS:
+      return OrderStatusEnum.AVAILABLE_AT_COUNTER;
+    case OrderStatusEnum.AVAILABLE_AT_COUNTER:
+      return OrderStatusEnum.DELIVERED;
+    default:
+      return null;
+  }
+}
+
 export interface OrderItem {
   id: number;
   productId?: number;

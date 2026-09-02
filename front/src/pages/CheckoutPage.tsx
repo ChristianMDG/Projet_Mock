@@ -22,6 +22,7 @@ import { usePaymentWebSocket } from '@/hooks/payment.hooks';
 import { useCurrencyFormatter } from '@/utils/currency.utils';
 import SEO from '@/components/shared/SEO';
 import { trackEvent } from '@/hooks/google-analytics.hook';
+import { isAxiosError } from 'axios';
 
 const resolveBackendPaymentMethod = (): PaymentMethod => {
   return PaymentMethod.MOBILE_MONEY;
@@ -116,6 +117,27 @@ const CheckoutPage: React.FC = () => {
   const total = getTotal();
   const isBusy = createOrderMutation.isPending || initiatePaymentMutation.isPending;
 
+  const getApiErrorMessage = (err: unknown, fallback: string): string => {
+    if (isAxiosError(err)) {
+      const data = err.response?.data as { message?: string; error?: string; detail?: string } | string | undefined;
+      if (typeof data === 'string' && data.trim()) return data;
+      if (data && typeof data === 'object') {
+        if (data.message) return String(data.message);
+        if (data.detail) return String(data.detail);
+        if (data.error) return String(data.error);
+      }
+      if (err.message) return err.message;
+    }
+    if (err instanceof Error && err.message) {
+      if (err.message.startsWith('error_')) {
+        const translated = t(err.message);
+        return translated !== err.message ? translated : fallback;
+      }
+      return err.message;
+    }
+    return fallback;
+  };
+
   const handleSubmitPayment = async (
     values: { paymentMethodId: string; mobileMoneyOperator: MobileMoneyOperatorEnum; phoneNumber: string },
     {
@@ -127,10 +149,17 @@ const CheckoutPage: React.FC = () => {
     setPaymentPhone(values.phoneNumber);
 
     try {
+      if (!items.length) {
+        throw new Error(t(Labels.shop_order_items_required));
+      }
+      if (!recipientName?.trim() || !recipientPhone?.trim() || !shippingAddress?.trim()) {
+        throw new Error(t(Labels.shop_order_payment_error));
+      }
+
       const paymentMethod = resolveBackendPaymentMethod();
       const villeId = deliveryDestination?.id;
 
-      if (villeId === undefined) {
+      if (villeId === undefined || villeId === null) {
         throw new Error(t(Labels.shop_order_payment_error));
       }
 
@@ -139,11 +168,11 @@ const CheckoutPage: React.FC = () => {
         customerPhone: recipientPhone,
         customerName: recipientName,
         deliveryAddress: shippingAddress,
-        villeId,
+        villeId: Number(villeId),
         paymentMethod,
         deliveryMethod: DeliveryMethod.STANDARD,
         items: items.map(item => ({
-          productId: item.product.id,
+          productId: Number(item.product.id),
           quantity: item.quantity,
           unitPrice: item.product.price,
           lineTotal: item.product.price * item.quantity,
@@ -154,38 +183,43 @@ const CheckoutPage: React.FC = () => {
         total,
       });
 
-      if (order.id) {
-        setOrderId(order.id);
-        setConfirmedOrderNumber(order.orderNumber ?? String(order.id));
-
-        // 2. Initiate mobile money payment
-        const initiated = await initiatePaymentMutation.mutateAsync({
-          id: order.id,
-          request: {
-            paymentMethod,
-            phoneNumber: values.phoneNumber,
-          },
-        });
-
-        if (initiated.paymentUrl) {
-          clearCart();
-          window.location.href = initiated.paymentUrl;
-          return;
-        }
-
-        // Mobile Money flow — show real-time status tracker
-        const transactionRef = initiated.transactionReference ?? null;
-        setPaymentItems([...items]);
-        setPaymentTotal(total);
-        setMobileMoneyTransactionRef(transactionRef);
-        setMobileMoneyOperator(values.mobileMoneyOperator);
-        setCurrentPaymentStatus(PaymentTransactionStatusEnum.INITIATED);
-        setShowMobileMoneyStatus(true);
-      } else {
+      if (!order?.id) {
         throw new Error(t(Labels.shop_order_payment_error));
       }
+
+      setOrderId(order.id);
+      setConfirmedOrderNumber(order.orderNumber ?? String(order.id));
+
+      // 2. Initiate mobile money payment
+      const initiated = await initiatePaymentMutation.mutateAsync({
+        id: order.id,
+        request: {
+          paymentMethod,
+          phoneNumber: values.phoneNumber,
+        },
+      });
+
+      const paymentUrl = (initiated as { paymentUrl?: string | null }).paymentUrl ?? null;
+      const transactionRef = (initiated as { transactionReference?: string | null }).transactionReference ?? null;
+
+      if (paymentUrl) {
+        clearCart();
+        window.location.href = paymentUrl;
+        return;
+      }
+
+      // Mobile Money flow — show real-time status tracker
+      setPaymentItems([...items]);
+      setPaymentTotal(total);
+      setMobileMoneyTransactionRef(transactionRef);
+      setMobileMoneyOperator(values.mobileMoneyOperator);
+      setCurrentPaymentStatus(PaymentTransactionStatusEnum.INITIATED);
+      setShowMobileMoneyStatus(true);
     } catch (err) {
-      setPaymentError(err instanceof Error ? err.message : t(Labels.shop_order_payment_error));
+      console.error('checkout submit failed', err);
+      setPaymentError(getApiErrorMessage(err, t(Labels.shop_order_payment_error)));
+      createOrderMutation.reset();
+      initiatePaymentMutation.reset();
     } finally {
       setSubmitting(false);
     }

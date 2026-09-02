@@ -34,21 +34,37 @@ const OrderResultCard: React.FC<OrderResultCardProps> = ({ order }) => {
   const [success, setSuccess] = useState(false);
   const confirmPickup = useConfirmOrderPickup();
 
-  const handleValidate = async () => {
+const handleValidate = async () => {
     setLocalError(null);
     const trimmed = code.trim();
     if (!/^\d{6}$/.test(trimmed)) {
       setLocalError(t(Labels.order_pickup_invalid_format));
       return;
     }
+    if (!order.id) {
+      setLocalError(t(Labels.order_pickup_invalid_code));
+      return;
+    }
     try {
-      await confirmPickup.mutateAsync({ id: order.id!, code: trimmed });
+      await confirmPickup.mutateAsync({ id: order.id, code: trimmed });
       setSuccess(true);
       setCode('');
-    } catch {
-      setLocalError(t(Labels.order_pickup_invalid_code));
+    } catch (err) {
+      const msg =
+        err && typeof err === 'object' && 'message' in err && typeof (err as Error).message === 'string'
+          ? (err as Error).message
+          : '';
+      if (msg === 'error_invalid_pickup_code' || msg === 'exception_invalid_pickup_code') {
+        setLocalError(t(Labels.error_invalid_pickup_code ?? Labels.order_pickup_invalid_code));
+      } else if (msg.startsWith('error_') || msg.startsWith('exception_')) {
+        const translated = t(msg);
+        setLocalError(translated !== msg ? translated : t(Labels.order_pickup_invalid_code));
+      } else {
+        setLocalError(t(Labels.order_pickup_invalid_code));
+      }
     }
   };
+
 
   const showSuccessAlert = isDelivered || success;
   const showPickupForm = canPickup && !success;

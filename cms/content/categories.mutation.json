@@ -1,202 +1,286 @@
 {
-    "description": "Catégories principales alignées sur Vista France (vistafrance.com/fr). Locale primaire = fr, traductions en + mg.",
-    "collection": "api::category.category",
-    "data": [
-      {
-        "name": "Appareils Electroménagers",
-        "slug": "appareils-electromenagers",
-        "description": "Blenders, friteuses, plaques de cuisson, ventilateurs, mixeurs, cuiseurs à riz et petits électroménagers",
-        "icon": "Kitchen",
-        "imageUrl": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 1,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Home Appliances", "description": "Blenders, fryers, cooktops, fans, mixers, rice cookers and small appliances" },
-          "mg": { "name": "Fitaovana ao an-trano", "description": "Blender, friteuse, plaques, ventilateur, mixeur, cuiseur vary" }
-        }
-      },
-      {
-        "name": "Électroniques",
-        "slug": "electroniques",
-        "description": "Télévisions, enceintes, home cinéma, barres de son, accessoires informatiques et énergie solaire",
-        "icon": "Devices",
-        "imageUrl": "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 2,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Electronics", "description": "TVs, speakers, home cinema, soundbars, computer accessories and solar" },
-          "mg": { "name": "Elektronika", "description": "TV, haino-vaky, home cinema, barre de son, fanampin'ny solosaina" }
-        }
-      },
-      {
-        "name": "Balances",
-        "slug": "balances",
-        "description": "Pèse-personne, balances poids-prix, pèse-bagage et balances plateforme",
-        "icon": "Scale",
-        "imageUrl": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 3,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Scales", "description": "Bathroom scales, price scales, luggage scales and platform scales" },
-          "mg": { "name": "Mizana", "description": "Mizana olona, mizana vidiny, mizana entana" }
-        }
-      },
-      {
-        "name": "Produits Blancs",
-        "slug": "produits-blancs",
-        "description": "Réfrigérateurs, congélateurs et appareils solaires DC",
-        "icon": "Kitchen",
-        "imageUrl": "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 4,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "White Goods", "description": "Refrigerators, freezers and solar DC appliances" },
-          "mg": { "name": "Vokatra fotsy", "description": "Fridge, congélateur ary fitaovana masoandro DC" }
-        }
-      },
-      {
-        "name": "Distributeurs d'Eau",
-        "slug": "distributeurs-eau",
-        "description": "Distributeurs d'eau chaude et froide",
-        "icon": "WaterDrop",
-        "imageUrl": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 5,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Water Dispensers", "description": "Hot and cold water dispensers" },
-          "mg": { "name": "Mpanome rano", "description": "Mpanome rano mafana sy mangatsiaka" }
-        }
-      },
-      {
-        "name": "Micro-ondes & Fours",
-        "slug": "micro-ondes-fours",
-        "description": "Fours micro-ondes, fours électriques et fours encastrables",
-        "icon": "Microwave",
-        "imageUrl": "https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 6,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Microwaves & Ovens", "description": "Microwave ovens, electric ovens and built-in ovens" },
-          "mg": { "name": "Micro-ondes & lafaoro", "description": "Micro-ondes, lafaoro herinaratra" }
-        }
-      },
-      {
-        "name": "Groupes Électrogènes",
-        "slug": "groupes-electrogenes",
-        "description": "Générateurs essence, GPL et diesel",
-        "icon": "Bolt",
-        "imageUrl": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 7,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Generators", "description": "Petrol, LPG and diesel generators" },
-          "mg": { "name": "Groupe électrogène", "description": "Génerateur essence, GPL ary diesel" }
-        }
-      },
-      {
-        "name": "Coffres-forts",
-        "slug": "coffres-forts",
-        "description": "Coffres-forts domestiques, de bureau et hôteliers",
-        "icon": "Lock",
-        "imageUrl": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 8,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Safes", "description": "Home, office and hotel safes" },
-          "mg": { "name": "Vata fiarovana", "description": "Vata fiarovana trano, birao ary hotely" }
-        }
-      },
-      {
-        "name": "Pompes à Eau",
-        "slug": "pompes-a-eau",
-        "description": "Pompes à eau à essence et accessoires",
-        "icon": "WaterDrop",
-        "imageUrl": "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 9,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Water Pumps", "description": "Petrol water pumps and accessories" },
-          "mg": { "name": "Paompy rano", "description": "Paompy rano amin'ny essence" }
-        }
-      },
-      {
-        "name": "Machines à Laver",
-        "slug": "machines-a-laver",
-        "description": "Machines à laver à double cuve et accessoires",
-        "icon": "LocalLaundryService",
-        "imageUrl": "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 10,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Washing Machines", "description": "Twin-tub washing machines and accessories" },
-          "mg": { "name": "Machine fanasan-damba", "description": "Machine fanasan-damba double cuve" }
-        }
-      },
-      {
-        "name": "Chauffe-eau",
-        "slug": "chauffe-eau",
-        "description": "Chauffe-eau électriques",
-        "icon": "HotTub",
-        "imageUrl": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 11,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Water Heaters", "description": "Electric water heaters" },
-          "mg": { "name": "Mafana rano", "description": "Chauffe-eau herinaratra" }
-        }
-      },
-      {
-        "name": "Loisirs et Voyages",
-        "slug": "loisirs-et-voyages",
-        "description": "Sacs de voyage, sacs à dos et valises",
-        "icon": "Luggage",
-        "imageUrl": "https://images.unsplash.com/photo-1565026057447-bc90a3dceb87?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 12,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Leisure & Travel", "description": "Travel bags, backpacks and suitcases" },
-          "mg": { "name": "Fialam-boly & dia", "description": "Kitapo dia, sac à dos ary valise" }
-        }
-      },
-      {
-        "name": "Poussettes & Puériculture",
-        "slug": "poussettes-puericulture",
-        "description": "Poussettes, trotteurs, chaises hautes et berceaux",
-        "icon": "ChildFriendly",
-        "imageUrl": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 13,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Strollers & Baby Care", "description": "Strollers, walkers, high chairs and cribs" },
-          "mg": { "name": "Poussette & zaza", "description": "Poussette, trotteur, seza avo ary berceau" }
-        }
-      },
-      {
-        "name": "Sports et Loisirs",
-        "slug": "sports-et-loisirs",
-        "description": "Vélos, trottinettes, tricycles et véhicules électriques pour enfants",
-        "icon": "DirectionsBike",
-        "imageUrl": "https://images.unsplash.com/photo-1485965120187-cf146463a1f5?w=800&auto=format&fit=crop&q=80",
-        "displayOrder": 14,
-        "isActive": true,
-        "locale": "fr",
-        "localizations": {
-          "en": { "name": "Sports & Leisure", "description": "Bikes, scooters, tricycles and kids electric vehicles" },
-          "mg": { "name": "Fanatanjahan-tena", "description": "Bisikileta, trottinette, tricycle ary fiara herinaratra zaza" }
+  "description": "Catégories principales alignées sur Vista France (vistafrance.com/fr). Locale primaire = fr, traductions en + mg. Images réelles vistafrance.com.",
+  "collection": "api::category.category",
+  "data": [
+    {
+      "name": "Appareils Electroménagers",
+      "slug": "appareils-electromenagers",
+      "description": "Blenders, friteuses, plaques de cuisson, ventilateurs, mixeurs, cuiseurs à riz et petits électroménagers",
+      "icon": "Kitchen",
+      "imageUrl": "https://vistafrance.com/images/category/link-preview/appareils-electromenagers-fr-1679564311.jpg",
+      "displayOrder": 1,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Home Appliances",
+          "description": "Blenders, fryers, cooktops, fans, mixers, rice cookers and small appliances"
+        },
+        "mg": {
+          "name": "Fitaovana ao an-trano",
+          "description": "Blender, friteuse, plaques, ventilateur, mixeur, cuiseur vary"
         }
       }
-    ]
-  }
+    },
+    {
+      "name": "Électroniques",
+      "slug": "electroniques",
+      "description": "Télévisions, enceintes, home cinéma, barres de son, accessoires informatiques et énergie solaire",
+      "icon": "Devices",
+      "imageUrl": "https://vistafrance.com/images/category/link-preview/electroniques-fr-1679564342.jpg",
+      "displayOrder": 2,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Electronics",
+          "description": "TVs, speakers, home cinema, soundbars, computer accessories and solar"
+        },
+        "mg": {
+          "name": "Elektronika",
+          "description": "TV, haino-vaky, home cinema, barre de son, fanampin'ny solosaina"
+        }
+      }
+    },
+    {
+      "name": "Balances",
+      "slug": "balances",
+      "description": "Pèse-personne, balances poids-prix, pèse-bagage et balances plateforme",
+      "icon": "Scale",
+      "imageUrl": "https://vistafrance.com/images/category/link-preview/electroniques-fr-1679564342.jpg",
+      "displayOrder": 3,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Scales",
+          "description": "Bathroom scales, price scales, luggage scales and platform scales"
+        },
+        "mg": {
+          "name": "Mizana",
+          "description": "Mizana olona, mizana vidiny, mizana entana"
+        }
+      }
+    },
+    {
+      "name": "Produits Blancs",
+      "slug": "produits-blancs",
+      "description": "Réfrigérateurs, congélateurs et appareils solaires DC",
+      "icon": "Kitchen",
+      "imageUrl": "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg",
+      "displayOrder": 4,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "White Goods",
+          "description": "Refrigerators, freezers and solar DC appliances"
+        },
+        "mg": {
+          "name": "Vokatra fotsy",
+          "description": "Fridge, congélateur ary fitaovana masoandro DC"
+        }
+      }
+    },
+    {
+      "name": "Distributeurs d'Eau",
+      "slug": "distributeurs-eau",
+      "description": "Distributeurs d'eau chaude et froide",
+      "icon": "WaterDrop",
+      "imageUrl": "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg",
+      "displayOrder": 5,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Water Dispensers",
+          "description": "Hot and cold water dispensers"
+        },
+        "mg": {
+          "name": "Mpanome rano",
+          "description": "Mpanome rano mafana sy mangatsiaka"
+        }
+      }
+    },
+    {
+      "name": "Micro-ondes & Fours",
+      "slug": "micro-ondes-fours",
+      "description": "Fours micro-ondes, fours électriques et fours encastrables",
+      "icon": "Microwave",
+      "imageUrl": "https://vistafrance.com/images/slides/to-482rcl-fr-1679563436.jpg",
+      "displayOrder": 6,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Microwaves & Ovens",
+          "description": "Microwave ovens, electric ovens and built-in ovens"
+        },
+        "mg": {
+          "name": "Micro-ondes & lafaoro",
+          "description": "Micro-ondes, lafaoro herinaratra"
+        }
+      }
+    },
+    {
+      "name": "Groupes Électrogènes",
+      "slug": "groupes-electrogenes",
+      "description": "Générateurs essence, GPL et diesel",
+      "icon": "Bolt",
+      "imageUrl": "https://vistafrance.com/images/category/link-preview/electroniques-fr-1679564342.jpg",
+      "displayOrder": 7,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Generators",
+          "description": "Petrol, LPG and diesel generators"
+        },
+        "mg": {
+          "name": "Groupe électrogène",
+          "description": "Génerateur essence, GPL ary diesel"
+        }
+      }
+    },
+    {
+      "name": "Coffres-forts",
+      "slug": "coffres-forts",
+      "description": "Coffres-forts domestiques, de bureau et hôteliers",
+      "icon": "Lock",
+      "imageUrl": "https://vistafrance.com/images/category/link-preview/electroniques-fr-1679564342.jpg",
+      "displayOrder": 8,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Safes",
+          "description": "Home, office and hotel safes"
+        },
+        "mg": {
+          "name": "Vata fiarovana",
+          "description": "Vata fiarovana trano, birao ary hotely"
+        }
+      }
+    },
+    {
+      "name": "Pompes à Eau",
+      "slug": "pompes-a-eau",
+      "description": "Pompes à eau à essence et accessoires",
+      "icon": "WaterDrop",
+      "imageUrl": "https://vistafrance.com/images/category/link-preview/appareils-electromenagers-fr-1679564311.jpg",
+      "displayOrder": 9,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Water Pumps",
+          "description": "Petrol water pumps and accessories"
+        },
+        "mg": {
+          "name": "Paompy rano",
+          "description": "Paompy rano amin'ny essence"
+        }
+      }
+    },
+    {
+      "name": "Machines à Laver",
+      "slug": "machines-a-laver",
+      "description": "Machines à laver à double cuve et accessoires",
+      "icon": "LocalLaundryService",
+      "imageUrl": "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg",
+      "displayOrder": 10,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Washing Machines",
+          "description": "Twin-tub washing machines and accessories"
+        },
+        "mg": {
+          "name": "Machine fanasan-damba",
+          "description": "Machine fanasan-damba double cuve"
+        }
+      }
+    },
+    {
+      "name": "Chauffe-eau",
+      "slug": "chauffe-eau",
+      "description": "Chauffe-eau électriques",
+      "icon": "HotTub",
+      "imageUrl": "https://vistafrance.com/images/category/link-preview/produits-blancs-fr-1679564387.jpg",
+      "displayOrder": 11,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Water Heaters",
+          "description": "Electric water heaters"
+        },
+        "mg": {
+          "name": "Mafana rano",
+          "description": "Chauffe-eau herinaratra"
+        }
+      }
+    },
+    {
+      "name": "Loisirs et Voyages",
+      "slug": "loisirs-et-voyages",
+      "description": "Sacs de voyage, sacs à dos et valises",
+      "icon": "Luggage",
+      "imageUrl": "https://vistafrance.com/images/slides/bwr-i201-fr-1679563355.jpg",
+      "displayOrder": 12,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Leisure & Travel",
+          "description": "Travel bags, backpacks and suitcases"
+        },
+        "mg": {
+          "name": "Fialam-boly & dia",
+          "description": "Kitapo dia, sac à dos ary valise"
+        }
+      }
+    },
+    {
+      "name": "Poussettes & Puériculture",
+      "slug": "poussettes-puericulture",
+      "description": "Poussettes, trotteurs, chaises hautes et berceaux",
+      "icon": "ChildFriendly",
+      "imageUrl": "https://vistafrance.com/images/slides/hcr-f601-fr-1679561758.jpg",
+      "displayOrder": 13,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Strollers & Baby Care",
+          "description": "Strollers, walkers, high chairs and cribs"
+        },
+        "mg": {
+          "name": "Poussette & zaza",
+          "description": "Poussette, trotteur, seza avo ary berceau"
+        }
+      }
+    },
+    {
+      "name": "Sports et Loisirs",
+      "slug": "sports-et-loisirs",
+      "description": "Vélos, trottinettes, tricycles et véhicules électriques pour enfants",
+      "icon": "DirectionsBike",
+      "imageUrl": "https://vistafrance.com/images/slides/bcr-g401-fr-1679563241.jpg",
+      "displayOrder": 14,
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "name": "Sports & Leisure",
+          "description": "Bikes, scooters, tricycles and kids electric vehicles"
+        },
+        "mg": {
+          "name": "Fanatanjahan-tena",
+          "description": "Bisikileta, trottinette, tricycle ary fiara herinaratra zaza"
+        }
+      }
+    }
+  ]
+}

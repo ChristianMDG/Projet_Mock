@@ -2238,7 +2238,6 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
         maxLength: 500;
       }>;
     sku: Schema.Attribute.String &
-      Schema.Attribute.Unique &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
@@ -2251,7 +2250,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
-          localized: false;
+          localized: true;
         };
       }>;
     specifications: Schema.Attribute.JSON &

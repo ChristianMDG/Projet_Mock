@@ -902,5 +902,11 @@
   "finance_summary_passagers": "Passagers Facturés",
   "finance_summary_passagers_sub": "sur transactions complétées",
   "finance_summary_monthly_title": "Par mois (5 derniers)",
-  "finance_summary_monthly_empty": "Aucune donnée mensuelle"
+  "finance_summary_monthly_empty": "Aucune donnée mensuelle",
+  "shop_order_logistics_flow": "Parcours livraison / gare",
+  "shop_order_status_advance": "Passer au statut suivant",
+  "shop_order_status_free_hint": "Vous pouvez passer librement d’un statut à un autre à tout moment.",
+  "shop_order_status_suggested": "recommandé",
+  "shop_common_copied": "Copié"
+  
 }
