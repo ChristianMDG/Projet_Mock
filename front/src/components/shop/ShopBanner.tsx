@@ -11,12 +11,14 @@ import { SECTION_TYPES } from '@/constants/section.types';
 import type { PaymentSection } from '@/api/dynamic-page.api';
 import { useShopBanner } from '@/hooks/cms.hooks';
 import Labels from '@/labelKeys.json';
+import type { Category } from '@/models/Shop';
 
 interface ShopBannerProps {
+  category?: Category;
   onBrowse?: () => void;
 }
 
-const ShopBanner: React.FC<ShopBannerProps> = () => {
+const ShopBanner: React.FC<ShopBannerProps> = ({ category }) => {
   const { t } = useTranslation();
   const [mounted, setMounted] = useState(false);
 
@@ -29,31 +31,33 @@ const ShopBanner: React.FC<ShopBannerProps> = () => {
   const { data: bannerResponse, isLoading } = useShopBanner();
   const banner = bannerResponse?.data;
 
-  if (mounted && isLoading) {
+  const hasCategory = Boolean(category);
+  const hasBanner = Boolean(banner) && Object.keys(banner ?? {}).length > 0;
+  const isBannerActive = banner?.isActive ?? true;
+
+  if (mounted && isLoading && hasCategory === false) {
     return <HeroLoadingSkeleton />;
   }
 
-  const isBannerHidden = banner?.isActive === false;
-  if (isBannerHidden) return null;
+  if (hasCategory === false && isBannerActive === false) {
+    return null;
+  }
 
-  const hasBannerData = Boolean(banner) && Object.keys(banner ?? {}).length > 0;
-  if (!hasBannerData) {
+  if (hasCategory === false && hasBanner === false) {
     return <MissingContent componentName="Shop Banner" />;
   }
 
-  const hasPaymentMethods = Boolean(paymentMethods?.length);
-  const title = banner?.title ?? t(Labels.shop_banner_title);
-  const subtitle = banner?.subtitle ?? t(Labels.shop_banner_subtitle);
+  const title = category?.name ?? banner?.title ?? t(Labels.shop_banner_title);
+  const subtitle = category?.description ?? banner?.subtitle ?? t(Labels.shop_banner_subtitle);
+  const bgImage = category?.image ?? banner?.backgroundImage;
+  const badge = hasCategory ? t(Labels.shop_filter_by_category) : t(Labels.shop_banner_badge);
+  const showPaymentMethods = Boolean(paymentMethods?.length) && hasCategory === false;
 
   return (
     <HeroSectionContainer component="section" aria-label={title} sx={HERO_DIMENSIONS}>
-      {banner?.backgroundImage && (
+      {bgImage && (
         <HeroBackgroundContainer>
-          <ImageMedia
-            media={banner.backgroundImage}
-            responsivePreset="banner"
-            sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
+          <ImageMedia media={bgImage} responsivePreset="banner" sx={{ width: 1, height: 1, objectFit: 'cover' }} />
         </HeroBackgroundContainer>
       )}
 
@@ -69,7 +73,7 @@ const ShopBanner: React.FC<ShopBannerProps> = () => {
             color: 'secondary.light',
           }}
         >
-          {t(Labels.shop_banner_badge)}
+          {badge}
         </Typography>
 
         <Typography variant="h2" sx={{ color: 'common.white', mb: 1 }}>
@@ -80,7 +84,7 @@ const ShopBanner: React.FC<ShopBannerProps> = () => {
           {subtitle}
         </Typography>
 
-        {hasPaymentMethods && (
+        {showPaymentMethods && (
           <Stack spacing={1} sx={{ mt: 3, alignItems: 'flex-start' }}>
             <Typography variant="caption" sx={{ color: 'common.white', opacity: 0.75 }}>
               {t(Labels.shop_payment_methods_label)}

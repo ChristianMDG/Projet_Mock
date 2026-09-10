@@ -52,6 +52,26 @@ services:
       timeout: 5s
       retries: 5
 
+  elasticsearch:
+    image: elasticsearch:8.19.11
+    container_name: taxibrousse-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - taxibrousse
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -vq '\"status\":\"red\"'" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   # ===========================================================================
   # TIER 3 - Application Services (depend on Tier 0 + Tier 1)
   # ===========================================================================
@@ -68,6 +88,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:-taxibrousse}
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      SPRING_ELASTICSEARCH_URIS: http://elasticsearch:9200
       PORT: 8080
       TAXIBROUSSE_URL: http://localhost:3000
       # Override production ddl-auto for local dev
@@ -91,6 +112,8 @@ services:
       postgres:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      elasticsearch:
         condition: service_healthy
     networks:
       - taxibrousse
@@ -338,6 +361,8 @@ volumes:
     driver: local
     name: taxibrousse_postgres_data
   redis_data:
+    driver: local
+  elasticsearch_data:
     driver: local
   api_logs:
     driver: local

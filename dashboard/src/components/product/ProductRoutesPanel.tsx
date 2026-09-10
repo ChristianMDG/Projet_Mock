@@ -126,7 +126,7 @@ export default function ProductRoutesPanel({ productId }: ProductRoutesPanelProp
           />
 
           <TextField
-            sx={{ width: { xs: '100%', md: 160 } }}
+            sx={{ width: { xs: 1, md: 160 } }}
             label={t(Labels.shop_product_routes_display_order)}
             size="small"
             type="number"

@@ -136,7 +136,12 @@ const GareDetailPage: React.FC = () => {
 
   return (
     <Box sx={{ pt: 2 }}>
-      <SEO title={gare.name} description={gare.description ?? gare.address} breadcrumbs={breadcrumbs} />
+      <SEO
+        title={gare.name}
+        description={gare.description ?? gare.address ?? `${gare.name} - Gare routière sur Taxibrousse`}
+        image={gare.photo?.url || gare.photos?.[0]?.url}
+        breadcrumbs={breadcrumbs}
+      />
       <Box sx={{ mb: 3 }}>
         <Stack
           direction={{ xs: 'column', sm: 'row' }}

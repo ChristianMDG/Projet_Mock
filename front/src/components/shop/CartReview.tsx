@@ -1,19 +1,7 @@
 import React from 'react';
-import {
-  Avatar,
-  Box,
-  Button,
-  ButtonGroup,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  Paper,
-  Typography,
-} from '@mui/material';
+import { Avatar, Button, ButtonGroup, Divider, List, ListItem, Paper, Stack, Typography } from '@mui/material';
 import Add from '@mui/icons-material/Add';
 import Remove from '@mui/icons-material/Remove';
-import Delete from '@mui/icons-material/Delete';
 import ShoppingBag from '@mui/icons-material/ShoppingBag';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import { useTranslation } from 'react-i18next';
@@ -51,78 +39,61 @@ const CartReview: React.FC<CartReviewProps> = ({ onContinue }) => {
     }
   };
 
-  const handleRemove = (item: CartItem) => {
-    removeItem(item.product.id);
-    addCartItemMutation({ productId: item.product.id, quantity: -item.quantity }).catch(console.error);
-  };
-
   return (
-    <Paper elevation={0} sx={{ p: { xs: 2, md: 3 } }}>
+    <Paper variant="outlined" sx={{ p: { xs: 2, md: 3 } }}>
       <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
         {t(Labels.shop_cart_review)} ({getItemCount()} {t(Labels.shop_items)})
       </Typography>
       <List disablePadding>
-        {items.map(item => {
-          const hasReachedStockLimit = false;
-
-          return (
-            <ListItem key={item.product.id} sx={{ py: 2, px: 0, alignItems: 'flex-start' }} disableGutters>
-              <Avatar
-                variant="rounded"
-                src={item.product.images?.[0]?.formats?.thumbnail?.url ?? item.product.images?.[0]?.url}
-                alt={item.product.name}
-                sx={{
-                  bgcolor: 'action.hover',
-                  mr: 2,
-                  width: { xs: 56, md: 64 },
-                  height: { xs: 56, md: 64 },
-                  fontSize: 24,
-                }}
-              >
-                <ShoppingBag fontSize="small" />
-              </Avatar>
-              <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600 }} noWrap>
-                  {item.product.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                  {formatPrice(item.product.price)}
-                </Typography>
-                <ButtonGroup size="small" variant="outlined">
-                  <Button onClick={() => handleDecrease(item)} sx={{ minWidth: 28 }}>
-                    <Remove fontSize="small" />
-                  </Button>
-                  <Button disabled sx={{ minWidth: 36 }}>
-                    {item.quantity}
-                  </Button>
-                  <Button onClick={() => handleIncrease(item)} disabled={hasReachedStockLimit} sx={{ minWidth: 28 }}>
-                    <Add fontSize="small" />
-                  </Button>
-                </ButtonGroup>
-              </Box>
-              <Box sx={{ textAlign: 'right', ml: 2, flexShrink: 0 }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 0.5 }}>
-                  {formatPrice(item.product.price * item.quantity)}
-                </Typography>
-                <IconButton size="small" color="error" onClick={() => handleRemove(item)}>
-                  <Delete fontSize="small" />
-                </IconButton>
-              </Box>
-            </ListItem>
-          );
-        })}
+        {items.map(item => (
+          <ListItem key={item.product.id} sx={{ py: 2, px: 0, alignItems: 'flex-start' }} disableGutters>
+            <Avatar
+              variant="rounded"
+              src={item.product.images?.[0]?.formats?.thumbnail?.url ?? item.product.images?.[0]?.url}
+              alt={item.product.name}
+              sx={{
+                bgcolor: 'action.hover',
+                mr: 2,
+                width: { xs: 56, md: 64 },
+                height: { xs: 56, md: 64 },
+                fontSize: 24,
+              }}
+            >
+              <ShoppingBag fontSize="small" />
+            </Avatar>
+            <Stack sx={{ flex: 1, minWidth: 0 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 600 }} noWrap>
+                {item.product.name}
+              </Typography>
+              <ButtonGroup size="small" variant="outlined" sx={{ mt: 1 }}>
+                <Button onClick={() => handleDecrease(item)} sx={{ minWidth: 28 }}>
+                  <Remove fontSize="small" />
+                </Button>
+                <Button disabled sx={{ minWidth: 36 }}>
+                  {item.quantity}
+                </Button>
+                <Button onClick={() => handleIncrease(item)} sx={{ minWidth: 28 }}>
+                  <Add fontSize="small" />
+                </Button>
+              </ButtonGroup>
+            </Stack>
+            <Typography variant="subtitle1" sx={{ fontWeight: 700, ml: 2, flexShrink: 0 }}>
+              {formatPrice(item.product.price * item.quantity)}
+            </Typography>
+          </ListItem>
+        ))}
       </List>
 
       <Divider sx={{ my: 2 }} />
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+      <Stack direction="row" sx={{ justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="subtitle1" color="text.secondary">
           {t(Labels.shop_subtotal)}
         </Typography>
         <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
           {formatPrice(subtotal)}
         </Typography>
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      </Stack>
+      <Stack sx={{ alignItems: 'flex-end' }}>
         <Button
           variant="contained"
           size="large"
@@ -132,7 +103,7 @@ const CartReview: React.FC<CartReviewProps> = ({ onContinue }) => {
         >
           {t(Labels.shop_continue)}
         </Button>
-      </Box>
+      </Stack>
     </Paper>
   );
 };

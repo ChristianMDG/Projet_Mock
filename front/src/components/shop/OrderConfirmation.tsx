@@ -17,7 +17,7 @@ const OrderConfirmation: React.FC<OrderConfirmationProps> = ({ onContinueShoppin
   const hasDeliveryDestination = Boolean(deliveryDestination);
 
   return (
-    <Paper elevation={0} sx={{ p: { xs: 3, md: 4 }, textAlign: 'center' }}>
+    <Paper variant="outlined" sx={{ p: { xs: 3, md: 4 }, textAlign: 'center' }}>
       <CheckCircle color="success" sx={{ fontSize: { xs: 56, md: 64 }, mb: 2 }} />
       <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
         {t(Labels.shop_order_confirmed)}

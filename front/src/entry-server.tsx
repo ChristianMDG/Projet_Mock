@@ -6,7 +6,10 @@ import App from './App';
 import { QueryProvider } from './providers/QueryProvider';
 import { createSSRQueryClient } from './utils/queryClient';
 import { getVilles, getTopVilles } from './api/ville.api';
-import { getKoperatives } from './api/koperative.api';
+import { getKoperatives, getKoperativeBySlug } from './api/koperative.api';
+import { getGareById } from './api/gare.api';
+import { getVoyage } from './api/voyage.api';
+import { voyageKeys } from './hooks/voyage.hooks';
 import { getRoutesByDepartureVilleId } from './api/route.api';
 import dayjs from './utils/dayjs';
 
@@ -18,6 +21,8 @@ import {
   getShopBanner,
   getPromotionBanner,
   getProducts,
+  getProductBySlug,
+  getCategories,
 } from './api/cms.api';
 import { dehydrate } from '@tanstack/react-query';
 import { setupAxiosAuthInterceptor } from './api/interceptor.api';
@@ -95,6 +100,7 @@ function isShopRoute(url: string): boolean {
   const pathname = url.toLowerCase();
   const shopRoutes = [
     ...Object.values(ROUTES.shop),
+    ...Object.values(ROUTES.shopCategory),
     ...Object.values(ROUTES.shopProduct),
     ...Object.values(ROUTES.shopCheckout),
   ];
@@ -102,6 +108,84 @@ function isShopRoute(url: string): boolean {
     const base = route.split(':')[0].replace(/\/$/, '');
     return pathname === base || pathname.startsWith(`${base}/`);
   });
+}
+
+const SHOP_NON_PRODUCT_SEGMENTS = new Set([
+  'sokajy',
+  'categorie',
+  'category',
+  'kaomandy',
+  'commande',
+  'checkout',
+  'fandoavana',
+  'paiement',
+  'payment',
+]);
+
+/**
+ * Extract product slug from URL if it matches shopProduct route pattern.
+ * e.g. /tsena/iphone-15 -> 'iphone-15'
+ *      /fr/boutique/iphone-15 -> 'iphone-15'
+ */
+function getShopProductSlug(url: string, language: string): string | null {
+  const cleanPath = url.split('?')[0].replace(/\/$/, '');
+  const prefix = language === DEFAULT_LANGUAGE ? '/tsena' : `/${language}/${language === 'fr' ? 'boutique' : 'shop'}`;
+
+  if (cleanPath.startsWith(`${prefix}/`)) {
+    const subPath = cleanPath.slice(prefix.length + 1);
+    const segments = subPath.split('/').filter(Boolean);
+    if (segments.length === 1) {
+      const candidate = segments[0];
+      if (SHOP_NON_PRODUCT_SEGMENTS.has(candidate.toLowerCase())) {
+        return null;
+      }
+      return candidate;
+    }
+  }
+  return null;
+}
+
+const KOPERATIVE_NON_SLUG_SEGMENTS = new Set(['vaovao', 'nouveau', 'new']);
+
+function getKoperativeSlug(url: string, language: string): string | null {
+  const cleanPath = url.split('?')[0].replace(/\/$/, '');
+  const prefix = language === DEFAULT_LANGUAGE ? '/koperativa' : `/${language}/cooperatives`;
+  const infoPrefix = language === DEFAULT_LANGUAGE ? '/koperativa-fampahalalana' : `/${language}/cooperative-info`;
+
+  let subPath = '';
+  if (cleanPath.startsWith(`${prefix}/`)) {
+    subPath = cleanPath.slice(prefix.length + 1);
+  } else if (cleanPath.startsWith(`${infoPrefix}/`)) {
+    subPath = cleanPath.slice(infoPrefix.length + 1);
+  }
+
+  if (subPath) {
+    const segments = subPath.split('/').filter(Boolean);
+    if (segments.length === 1) {
+      const candidate = segments[0];
+      if (KOPERATIVE_NON_SLUG_SEGMENTS.has(candidate.toLowerCase())) {
+        return null;
+      }
+      return candidate;
+    }
+  }
+  return null;
+}
+
+function getGareId(url: string): number | null {
+  const match = /(?:gara|gares|stations)\/(\d+)/i.exec(url);
+  if (match) {
+    return Number.parseInt(match[1], 10);
+  }
+  return null;
+}
+
+function getVoyageId(url: string): number | null {
+  const match = /(?:dia|voyage|trip)\/(\d+)/i.exec(url);
+  if (match) {
+    return Number.parseInt(match[1], 10);
+  }
+  return null;
 }
 
 /**
@@ -238,8 +322,28 @@ export async function render(url: string, cookieHeader?: string) {
     );
   }
 
+  // Prefetch specific voyage if voyageId is in URL (e.g. reservation, payment)
+  const voyageId = getVoyageId(url);
+  if (voyageId) {
+    queries.push(
+      queryClient.fetchQuery({
+        queryKey: voyageKeys.detail(voyageId),
+        queryFn: () => getVoyage(voyageId),
+      }),
+    );
+  }
+
   // Prefetch banners based on route
   if (isGareRoute(url)) {
+    const gareId = getGareId(url);
+    if (gareId) {
+      queries.push(
+        queryClient.fetchQuery({
+          queryKey: ['gare', gareId],
+          queryFn: () => getGareById(gareId),
+        }),
+      );
+    }
     queries.push(
       queryClient.fetchQuery({
         queryKey: ['gare-banner', language],
@@ -255,6 +359,15 @@ export async function render(url: string, cookieHeader?: string) {
   }
 
   if (isKoperativeRoute(url)) {
+    const koperativeSlug = getKoperativeSlug(url, language);
+    if (koperativeSlug) {
+      queries.push(
+        queryClient.fetchQuery({
+          queryKey: ['koperative', 'slug', koperativeSlug],
+          queryFn: () => getKoperativeBySlug(koperativeSlug),
+        }),
+      );
+    }
     queries.push(
       queryClient.fetchQuery({
         queryKey: ['koperative-banner', language],
@@ -274,10 +387,28 @@ export async function render(url: string, cookieHeader?: string) {
   }
 
   if (isShopRoute(url)) {
+    const productSlug = getShopProductSlug(url, language);
+    if (productSlug) {
+      queries.push(
+        queryClient.fetchQuery({
+          queryKey: ['product', 'cms', language, productSlug],
+          queryFn: () => getProductBySlug(productSlug, language),
+        }),
+      );
+    }
+
     queries.push(
       queryClient.fetchQuery({
         queryKey: ['shop-banner', language],
         queryFn: () => getShopBanner(language),
+      }),
+      queryClient.fetchQuery({
+        queryKey: ['categories', language],
+        queryFn: () => getCategories(language),
+      }),
+      queryClient.fetchQuery({
+        queryKey: ['products', language, {}],
+        queryFn: () => getProducts(language),
       }),
       queryClient.fetchQuery({
         queryKey: ['products', language],

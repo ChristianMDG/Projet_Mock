@@ -25,8 +25,8 @@ public class ProductController implements IProductController {
     private final IProductImportService productImportService;
 
     @Override
-    public ResponseEntity<Page<Product>> listProducts(Pageable pageable) {
-        return ResponseEntity.ok(productService.findAll(pageable));
+    public ResponseEntity<Page<Product>> listProducts(ProductSearchParams params, Pageable pageable) {
+        return ResponseEntity.ok(productService.search(params, pageable));
     }
 
     @Override

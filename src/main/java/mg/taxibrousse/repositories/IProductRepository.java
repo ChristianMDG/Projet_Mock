@@ -26,9 +26,20 @@ public interface IProductRepository extends JpaRepository<ProductEntity, Long>, 
 
     Page<ProductEntity> findByIsActiveTrue(Pageable pageable);
 
+    @Query("SELECT DISTINCT p FROM Product p LEFT JOIN FETCH p.category c LEFT JOIN FETCH p.images i WHERE p.isActive = true AND p.price > 0")
+    List<ProductEntity> findAllActiveForSearchIndex();
+
+    @Query(value = "SELECT frm.related_id, f.url FROM files_related_mph frm " +
+            "JOIN files f ON frm.file_id = f.id " +
+            "WHERE frm.related_type = 'api::product.product' AND frm.field = 'images' " +
+            "ORDER BY frm.related_id, frm.order ASC", nativeQuery = true)
+    List<Object[]> findProductPrimaryImages();
+
     Page<ProductEntity> findByCategoryIdAndIsActiveTrue(Long categoryId, Pageable pageable);
 
     Page<ProductEntity> findByPriceBetweenAndIsActiveTrue(BigDecimal min, BigDecimal max, Pageable pageable);
+
+    Page<ProductEntity> findByPriceGreaterThan(BigDecimal price, Pageable pageable);
 
     @Query("SELECT p FROM Product p " + "WHERE p.isActive = TRUE " + "AND p.id <> :productId " + "AND p.category.id = :categoryId " + "AND p.price BETWEEN :minPrice AND :maxPrice "
             + "ORDER BY ABS(p.price - :pivotPrice) ASC, p.rating DESC NULLS LAST")

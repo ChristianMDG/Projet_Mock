@@ -44,6 +44,11 @@ export const updateOrderStatus = async (id: number, request: UpdateOrderStatusRe
   return data;
 };
 
+export const confirmOrderPickup = async (id: number, code: string): Promise<Order> => {
+  const { data } = await axios.post<Order>(`${API_URL}/${id}/pickup`, { code });
+  return data;
+};
+
 export interface OrderPaymentRequest {
   paymentMethod: PaymentMethod;
   phoneNumber?: string;
@@ -82,10 +87,5 @@ export const failOrderPayment = async (id: number, reason?: string): Promise<Ord
   const { data } = await axios.post<Order>(`${API_URL}/${id}/payment/fail`, null, {
     params: reason ? { reason } : undefined,
   });
-  return data;
-};
-
-export const confirmOrderPickup = async (orderId: number, code: string): Promise<Order> => {
-  const { data } = await axios.post<Order>(`${API_URL}/${orderId}/pickup`, { code });
   return data;
 };

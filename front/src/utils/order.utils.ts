@@ -9,12 +9,12 @@ import type { TFunction } from 'i18next';
 export const ORDER_STATUS_COLORS: Partial<Record<OrderStatus, ChipProps['color']>> = {
   [OrderStatus.PENDING]: 'warning',
   [OrderStatus.CONFIRMED]: 'info',
-  [OrderStatus.PROCESSING]: 'info',
-  [OrderStatus.SHIPPED]: 'primary',
   [OrderStatus.READY_IN_STORE]: 'info',
   [OrderStatus.DELIVERY_TO_STATION]: 'primary',
   [OrderStatus.DELIVERY_IN_PROGRESS]: 'primary',
   [OrderStatus.AVAILABLE_AT_COUNTER]: 'warning',
+  [OrderStatus.PROCESSING]: 'info',
+  [OrderStatus.SHIPPED]: 'primary',
   [OrderStatus.DELIVERED]: 'success',
   [OrderStatus.CANCELLED]: 'error',
   [OrderStatus.PAYMENT_FAILED]: 'error',
@@ -45,10 +45,6 @@ export const getStatusLabel = (status?: OrderStatus | string, t?: TFunction | ((
       return translate(Labels.order_status_pending);
     case OrderStatus.CONFIRMED:
       return translate(Labels.order_status_confirmed);
-    case OrderStatus.PROCESSING:
-      return translate(Labels.order_status_processing);
-    case OrderStatus.SHIPPED:
-      return translate(Labels.order_status_shipped);
     case OrderStatus.READY_IN_STORE:
       return translate(Labels.order_status_ready_in_store);
     case OrderStatus.DELIVERY_TO_STATION:
@@ -57,6 +53,10 @@ export const getStatusLabel = (status?: OrderStatus | string, t?: TFunction | ((
       return translate(Labels.order_status_delivery_in_progress);
     case OrderStatus.AVAILABLE_AT_COUNTER:
       return translate(Labels.order_status_available_at_counter);
+    case OrderStatus.PROCESSING:
+      return translate(Labels.order_status_processing);
+    case OrderStatus.SHIPPED:
+      return translate(Labels.order_status_shipped);
     case OrderStatus.DELIVERED:
       return translate(Labels.order_status_delivered);
     case OrderStatus.CANCELLED:

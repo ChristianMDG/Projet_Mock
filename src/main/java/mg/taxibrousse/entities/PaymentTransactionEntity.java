@@ -87,4 +87,7 @@ public class PaymentTransactionEntity extends BaseEntity {
 
     @Column(name = "commission_fee", precision = 10, scale = 2, columnDefinition = "numeric(10,2) default 0")
     private BigDecimal commissionFee = BigDecimal.ZERO;
+
+    @Column(name = "montant_transfert", precision = 10, scale = 2, columnDefinition = "numeric(10,2) default 0")
+    private BigDecimal montantTransfert = BigDecimal.ZERO;
 }

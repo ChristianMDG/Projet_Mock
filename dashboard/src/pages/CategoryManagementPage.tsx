@@ -190,7 +190,7 @@ export default function CategoryManagementPage() {
       {showLoader ? <LinearProgress sx={{ mb: 1, borderRadius: 1 }} /> : null}
 
       {hasCategories ? (
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: 1 }}>
           <MaterialReactTable
             {...mrtTableProps}
             columns={columns}

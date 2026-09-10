@@ -7,3 +7,4 @@
 export * from './routes';
 export * from './section.types';
 export * from './seo.keywords';
+export * from './contact.constants';

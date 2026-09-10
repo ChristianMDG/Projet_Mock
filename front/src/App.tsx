@@ -4,7 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { appTheme } from './themes/appTheme';
+import { appTheme, ShopThemeProvider } from './themes';
 import { ROUTES, syncLanguageFromPath } from '@/constants';
 import { useLanguageSync } from '@/hooks/language-preference.hooks';
 import { useGoogleAnalytics, useGlobalInteractionTracking } from '@/hooks/google-analytics.hook';
@@ -43,6 +43,7 @@ import ListDynamicPage from './pages/ListDynamicPage';
 import DynamicPage from './pages/DynamicPage';
 import KoperativeInfoPage from './pages/KoperativeInfoPage';
 import ShopPage from './pages/ShopPage';
+import ShopProductsPage from './pages/ShopProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
 import ShopPaymentSuccessPage from './pages/ShopPaymentSuccessPage';
@@ -75,11 +76,60 @@ const routeConfig = [
   { key: 'dynamicPage', path: ROUTES.dynamicPage, element: <DynamicPage /> },
   { key: 'accountDetail', path: ROUTES.accountDetail, element: <AccountDetailPage /> },
   { key: 'cooperativeInfo', path: ROUTES.cooperativeInfo, element: <KoperativeInfoPage /> },
-  { key: 'shop', path: ROUTES.shop, element: <ShopPage /> },
-  { key: 'shopCheckout', path: ROUTES.shopCheckout, element: <CheckoutPage /> },
-  { key: 'shopPaymentSuccess', path: ROUTES.shopPaymentSuccess, element: <ShopPaymentSuccessPage /> },
-  { key: 'shopPaymentCancel', path: ROUTES.shopPaymentCancel, element: <ShopPaymentCancelPage /> },
-  { key: 'shopProduct', path: ROUTES.shopProduct, element: <ProductDetailPage /> },
+  {
+    key: 'shop',
+    path: ROUTES.shop,
+    element: (
+      <ShopThemeProvider>
+        <ShopPage />
+      </ShopThemeProvider>
+    ),
+  },
+  {
+    key: 'shopCategory',
+    path: ROUTES.shopCategory,
+    element: (
+      <ShopThemeProvider>
+        <ShopProductsPage />
+      </ShopThemeProvider>
+    ),
+  },
+  {
+    key: 'shopCheckout',
+    path: ROUTES.shopCheckout,
+    element: (
+      <ShopThemeProvider>
+        <CheckoutPage />
+      </ShopThemeProvider>
+    ),
+  },
+  {
+    key: 'shopPaymentSuccess',
+    path: ROUTES.shopPaymentSuccess,
+    element: (
+      <ShopThemeProvider>
+        <ShopPaymentSuccessPage />
+      </ShopThemeProvider>
+    ),
+  },
+  {
+    key: 'shopPaymentCancel',
+    path: ROUTES.shopPaymentCancel,
+    element: (
+      <ShopThemeProvider>
+        <ShopPaymentCancelPage />
+      </ShopThemeProvider>
+    ),
+  },
+  {
+    key: 'shopProduct',
+    path: ROUTES.shopProduct,
+    element: (
+      <ShopThemeProvider>
+        <ProductDetailPage />
+      </ShopThemeProvider>
+    ),
+  },
 ];
 
 const SSRSafeNavigate: React.FC<{ to: string; replace?: boolean }> = ({ to, replace }) => {

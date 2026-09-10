@@ -1,4 +1,4 @@
-import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes, alpha } from '@mui/material/styles';
 
 // Extend the theme interface to add custom shadows and custom breakpoints
 declare module '@mui/material/styles' {
@@ -56,6 +56,12 @@ declare module '@mui/material/styles' {
     };
   }
 }
+const notchedFocus = (color: string) => ({
+  borderColor: color,
+  borderWidth: 1,
+  overflow: 'visible',
+  filter: `drop-shadow(0 0 1.5px ${alpha(color, 0.45)}) drop-shadow(0 0 3px ${alpha(color, 0.25)})`,
+});
 
 const theme = createTheme({
   breakpoints: {
@@ -402,9 +408,28 @@ const theme = createTheme({
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           borderRadius: 8,
-        },
+          '& .MuiOutlinedInput-notchedOutline': {
+            transition: theme.transitions.create(['border-color', 'filter'], {
+              duration: theme.transitions.duration.shorter,
+            }),
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': notchedFocus(theme.palette.primary.main),
+          '&.Mui-error.Mui-focused .MuiOutlinedInput-notchedOutline': notchedFocus(theme.palette.error.main),
+          '&.Mui-focused.MuiOutlinedInput-colorSecondary .MuiOutlinedInput-notchedOutline': notchedFocus(
+            theme.palette.secondary.main,
+          ),
+          '&.Mui-focused.MuiOutlinedInput-colorSuccess .MuiOutlinedInput-notchedOutline': notchedFocus(
+            theme.palette.success.main,
+          ),
+          '&.Mui-focused.MuiOutlinedInput-colorWarning .MuiOutlinedInput-notchedOutline': notchedFocus(
+            theme.palette.warning.main,
+          ),
+          '&.Mui-focused.MuiOutlinedInput-colorInfo .MuiOutlinedInput-notchedOutline': notchedFocus(
+            theme.palette.info.main,
+          ),
+        }),
         input: {
           '&::placeholder': {
             opacity: 0.45,

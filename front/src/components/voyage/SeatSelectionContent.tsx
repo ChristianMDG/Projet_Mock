@@ -8,7 +8,9 @@ import Labels from '@/labelKeys.json';
 import PaymentMethods from '@/components/payment/PaymentMethods';
 import SeatSelectionPanelSkeleton from './SeatSelectionPanelSkeleton';
 import StoreIcon from '@mui/icons-material/Store';
+import AirlineSeatReclineNormal from '@mui/icons-material/AirlineSeatReclineNormal';
 import StyledIcon from '@/components/ui/StyledIcon';
+import { ShortNoticeBookingAlert } from './ShortNoticeBookingAlert';
 
 interface SeatSelectionContentProps {
   loading: boolean;
@@ -41,8 +43,12 @@ export const SeatSelectionContent: React.FC<SeatSelectionContentProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  if (loading) return <SeatSelectionPanelSkeleton />;
-  if (error) return <Alert severity="error">{t(Labels.error_loading_voyages)}</Alert>;
+  if (loading) {
+    return <SeatSelectionPanelSkeleton />;
+  }
+  if (error) {
+    return <Alert severity="error">{t(Labels.error_loading_voyages)}</Alert>;
+  }
 
   return (
     <Grid container spacing={3}>
@@ -57,6 +63,7 @@ export const SeatSelectionContent: React.FC<SeatSelectionContentProps> = ({
       <Grid size={{ xs: 12, sm: 6 }}>
         <Box sx={{ mt: 2, display: { xs: 'none', md: 'flex' }, gap: 1, flexWrap: 'wrap', mb: 2 }}>
           <Chip
+            icon={<AirlineSeatReclineNormal sx={{ fontSize: '0.9rem !important' }} />}
             label={`${remainingAvailableSeats} ${t(Labels.seat_available)}`}
             color="success"
             variant="outlined"
@@ -100,6 +107,7 @@ export const SeatSelectionContent: React.FC<SeatSelectionContentProps> = ({
             </Button>
           </Box>
         )}
+        <ShortNoticeBookingAlert departureTime={voyage.departureTime} />
         <PaymentMethods showDesc={false} />
       </Grid>
     </Grid>

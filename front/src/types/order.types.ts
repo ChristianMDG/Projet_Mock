@@ -31,13 +31,13 @@ export interface Order extends Base {
   previousStatus?: OrderStatus;
   statusChangedAt?: string;
   statusChangeReason?: string;
-  pickupCode?: string;
   subtotal: number;
   shipping: number;
   tax?: number;
   total: number;
   currency?: string;
   trackingNumber?: string;
+  pickupCode?: string;
   carrier?: string;
   shippingWeight?: number;
   promotionCode?: string;
@@ -48,6 +48,10 @@ export interface Order extends Base {
   paymentUrl?: string | null;
   /** Transient field carrying the gateway transaction reference, when available. */
   transactionReference?: string | null;
+}
+
+export interface ConfirmPickupRequest {
+  code: string;
 }
 
 /** Request body for `POST /api/orders/buy-now`. */

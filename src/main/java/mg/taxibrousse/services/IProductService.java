@@ -12,6 +12,8 @@ public interface IProductService {
 
     Page<Product> findAll(Pageable pageable);
 
+    Page<Product> findByPriceGreaterThanZero(Pageable pageable);
+
     Page<Product> search(ProductSearchParams params, Pageable pageable);
 
     Product findById(Long id);

@@ -29,7 +29,7 @@ import {
 } from '@mui/icons-material';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { MaterialReactTable, type MRT_ColumnDef } from 'material-react-table';
-import { SectionHeader, StatCard, mrtTableProps } from '@/components/shared';
+import { SectionHeader, StatCard, StyledIcon, mrtTableProps, PhoneLink } from '@/components/shared';
 import {
   useUserStatistics,
   useVoyageurs,
@@ -89,6 +89,7 @@ export default function UserManagementPage() {
         header: t(Labels.user_phone),
         accessorKey: 'phone',
         size: 200,
+        Cell: ({ cell }) => <PhoneLink phone={cell.getValue<string>()} />,
       },
       {
         header: t(Labels.user_email),
@@ -288,7 +289,7 @@ export default function UserManagementPage() {
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Search />
+                      <StyledIcon icon={Search} />
                     </InputAdornment>
                   ),
                 },

@@ -15,5 +15,6 @@ export { VoyageItemSkeleton } from './VoyageItemSkeleton';
 export { default as VoyageListSkeleton } from './VoyageListSkeleton';
 export { default as VoyageWeeklyResultsSkeleton } from './VoyageWeeklyResultsSkeleton';
 export { default as ShopPageSkeleton } from './ShopPageSkeleton';
+export { default as ShopProductsPageSkeleton } from './ShopProductsPageSkeleton';
 export { default as ProductCardSkeleton } from './ProductCardSkeleton';
 export { default as ProductGridSkeleton } from './ProductGridSkeleton';

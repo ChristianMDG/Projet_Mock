@@ -1,27 +1,27 @@
 {
-    "description": "Shop landing hero banner (singleType). Simple copy aligned with Tsena Taxibrousse.",
-    "collection": "api::shop-banner.shop-banner",
-    "data": [
-        {
-            "title": "Tsena Taxibrousse",
-            "subtitle": "Vos produits livrés partout à Madagascar",
-            "ctaText": "Explorer la boutique",
-            "ctaLink": "/boutique",
-            "backgroundImageUrl": "https://res.cloudinary.com/dba8nelvb/image/upload/v1787493009/taxibrousse/cms/shop_lacity_ivandry_316fb8a665.jpg",
-            "isActive": true,
-            "locale": "fr",
-            "localizations": {
-                "en": {
-                    "title": "Tsena Taxibrousse",
-                    "subtitle": "Your products delivered across Madagascar",
-                    "ctaText": "Explore the shop"
-                },
-                "mg": {
-                    "title": "Tsena Taxibrousse",
-                    "subtitle": "Livraison manerana an'i Madagasikara",
-                    "ctaText": "Hijery ny tsena"
-                }
-            }
+  "description": "Shop landing hero banner (singleType). Simple copy aligned with Tsena Taxibrousse.",
+  "collection": "api::shop-banner.shop-banner",
+  "data": [
+    {
+      "title": "Tsena Taxibrousse",
+      "subtitle": "Vos produits livrés partout à Madagascar",
+      "ctaText": "Explorer la boutique",
+      "ctaLink": "/boutique",
+      "backgroundImageUrl": "https://res.cloudinary.com/dm4m7evkz/image/upload/v1788688497/taxibrousse/cms/shop_banner_b6fb024b23.jpg",
+      "isActive": true,
+      "locale": "fr",
+      "localizations": {
+        "en": {
+          "title": "Tsena Taxibrousse",
+          "subtitle": "Your products delivered across Madagascar",
+          "ctaText": "Explore the shop"
+        },
+        "mg": {
+          "title": "Tsena Taxibrousse",
+          "subtitle": "Livraison manerana an'i Madagasikara",
+          "ctaText": "Hijery ny tsena"
         }
-    ]
+      }
+    }
+  ]
 }

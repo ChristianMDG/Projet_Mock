@@ -56,12 +56,11 @@ export default function OrderManagementPage() {
   const exportOrders = useExportOrders();
 
   const filteredOrders = useMemo(() => {
-    const list = Array.isArray(orders) ? orders : [];
     const needle = search.trim().toLowerCase();
-    if (!needle) return list;
-    return list.filter(
+    if (!needle) return orders;
+    return orders.filter(
       (o) =>
-        (o.orderNumber ?? '').toLowerCase().includes(needle) ||
+        o.orderNumber.toLowerCase().includes(needle) ||
         (o.customerName ?? '').toLowerCase().includes(needle) ||
         (o.customerEmail ?? '').toLowerCase().includes(needle) ||
         (o.customerPhone ?? '').toLowerCase().includes(needle)
@@ -235,7 +234,7 @@ export default function OrderManagementPage() {
 
       {isFetching ? <LinearProgress sx={{ mb: 1, borderRadius: 1 }} /> : null}
 
-      <Box sx={{ width: '100%' }}>
+      <Box sx={{ width: 1 }}>
         <MaterialReactTable
           {...mrtTableProps}
           columns={columns}
@@ -247,9 +246,7 @@ export default function OrderManagementPage() {
             onClick: () => setSelected(row.original),
           })}
           renderEmptyRowsFallback={() => (
-            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', py: 4 }}>
-              {t(Labels.shop_order_none)}
-            </Box>
+            <Box sx={{ width: 1, display: 'flex', justifyContent: 'center', py: 4 }}>{t(Labels.shop_order_none)}</Box>
           )}
         />
       </Box>

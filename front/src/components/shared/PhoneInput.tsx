@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Chip, InputAdornment, TextField, TextFieldProps } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
+import StyledIcon from '@/components/ui/StyledIcon';
 import {
   formatPhoneForDisplay,
   formatPhoneInput,
@@ -105,7 +106,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
           input: {
             startAdornment: (
               <InputAdornment position="start">
-                <PhoneIcon color={hasError ? 'error' : 'action'} />
+                <StyledIcon icon={PhoneIcon} />
               </InputAdornment>
             ),
             ...textFieldProps.slotProps?.input,

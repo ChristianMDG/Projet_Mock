@@ -25,12 +25,13 @@ import { ReservationStatusLabels } from '@/types/reservation.types';
 import { VoyageStatusLabels } from '@/types/voyage.types';
 import { useBatchStatus, usePauseBatch, usePlayBatch, useRunBatchNow } from '@/hooks/batch.hook';
 import { PlayArrow, Pause, PlayCircleFilled } from '@mui/icons-material';
-import type { ReservationStatusEnum } from '@/types/reservation.types';
+import type { ReservationStatusEnum, Reservation } from '@/types/reservation.types';
 import type { VoyageStatusEnum } from '@/types/voyage.types';
 import { formatCurrency } from '@/utils/format';
 import { resStatusColors, voyStatusColors } from '@/utils/statusColors';
 import { paletteTokens } from '@/themes/appTheme';
 import Labels from '@/labelKeys.json';
+import { RecentReservationAccordion } from '@/components/reservation';
 
 export default function HomePage() {
   const { t } = useTranslation();
@@ -165,6 +166,75 @@ export default function HomePage() {
         ))}
       </Grid>
 
+      {/* Quick Actions + Recent */}
+      <Grid container spacing={3} sx={{ mb: 3 }}>
+        {/* Recent Reservations */}
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Card sx={{ borderRadius: 2.5 }}>
+            <CardContent>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, fontSize: '1rem' }}>
+                {t(Labels.home_recent_reservations)}
+              </Typography>
+              <Stack spacing={1.5}>
+                {isLoading
+                  ? [0, 1, 2, 3, 4].map((i) => <Skeleton key={i} height={48} />)
+                  : (stats?.recentReservations ?? [])
+                      .slice(0, 5)
+                      .map((r, index) => (
+                        <RecentReservationAccordion
+                          key={r.id}
+                          r={r as unknown as Reservation}
+                          defaultExpanded={index === 0}
+                        />
+                      ))}
+              </Stack>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Card sx={{ borderRadius: 2.5 }}>
+            <CardContent>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, fontSize: '1rem' }}>
+                {t(Labels.home_quick_actions)}
+              </Typography>
+              <Stack spacing={1.5}>
+                {quickActions.map((action) => (
+                  <Button
+                    key={action.path}
+                    component={Link}
+                    to={action.path}
+                    variant="outlined"
+                    onClick={() => {
+                      if (action.path === '/reservation') {
+                        useReservationStore.getState().resetFilters();
+                      }
+                    }}
+                    sx={{
+                      justifyContent: 'flex-start',
+                      gap: 1.5,
+                      p: 1.5,
+                      borderRadius: 2,
+                      textTransform: 'none',
+                    }}
+                  >
+                    <Avatar sx={{ width: 36, height: 36, bgcolor: action.color }}>{action.icon}</Avatar>
+                    <Box sx={{ textAlign: 'left' }}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: '0.8rem' }}>
+                        {action.title}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {action.description}
+                      </Typography>
+                    </Box>
+                  </Button>
+                ))}
+              </Stack>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
       {/* Charts */}
       <Grid container spacing={3} sx={{ mb: 3 }}>
         {/* Reservation Pie */}
@@ -284,95 +354,6 @@ export default function HomePage() {
           </Box>
         </CardContent>
       </Card>
-
-      {/* Quick Actions + Recent */}
-      <Grid container spacing={3}>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{ borderRadius: 2.5 }}>
-            <CardContent sx={{ p: 3 }}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, fontSize: '1rem' }}>
-                {t(Labels.home_quick_actions)}
-              </Typography>
-              <Stack spacing={1.5}>
-                {quickActions.map((action) => (
-                  <Button
-                    key={action.path}
-                    component={Link}
-                    to={action.path}
-                    variant="outlined"
-                    onClick={() => {
-                      if (action.path === '/reservation') {
-                        useReservationStore.getState().resetFilters();
-                      }
-                    }}
-                    sx={{
-                      justifyContent: 'flex-start',
-                      gap: 1.5,
-                      p: 1.5,
-                      borderRadius: 2,
-                      textTransform: 'none',
-                    }}
-                  >
-                    <Avatar sx={{ width: 36, height: 36, bgcolor: action.color }}>{action.icon}</Avatar>
-                    <Box sx={{ textAlign: 'left' }}>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 600, fontSize: '0.8rem' }}>
-                        {action.title}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        {action.description}
-                      </Typography>
-                    </Box>
-                  </Button>
-                ))}
-              </Stack>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Recent Reservations */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{ borderRadius: 2.5 }}>
-            <CardContent sx={{ p: 3 }}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, fontSize: '1rem' }}>
-                {t(Labels.home_recent_reservations)}
-              </Typography>
-              <Stack spacing={1}>
-                {isLoading
-                  ? [0, 1, 2, 3, 4].map((i) => <Skeleton key={i} height={48} />)
-                  : (stats?.recentReservations ?? []).map((r) => (
-                      <Box
-                        key={r.id}
-                        sx={(theme) => ({
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          p: 1.5,
-                          borderRadius: 1.5,
-                          bgcolor: alpha(theme.palette.divider, 0.04),
-                          '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.04) },
-                        })}
-                      >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Avatar sx={{ width: 28, height: 28, fontSize: '0.7rem', bgcolor: 'primary.main' }}>
-                            {r.voyageur?.firstName?.[0] ?? '?'}
-                          </Avatar>
-                          <Box>
-                            <Typography variant="body2" sx={{ fontWeight: 500, fontSize: '0.8rem' }}>
-                              {r.voyageur ? `${r.voyageur.firstName} ${r.voyageur.lastName}` : r.bookingReference}
-                            </Typography>
-                            <Typography variant="caption" color="text.secondary">
-                              {r.bookingReference}
-                            </Typography>
-                          </Box>
-                        </Box>
-                        <Chip label={r.status} size="small" sx={{ fontSize: '0.65rem', height: 22, fontWeight: 600 }} />
-                      </Box>
-                    ))}
-              </Stack>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
 
       {/* Admin Operations */}
       <Grid container spacing={3} sx={{ mt: 0 }}>

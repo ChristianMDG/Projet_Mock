@@ -7,7 +7,7 @@ import { ReservationStatusLabels, PaymentStatusLabels } from '@/types/reservatio
 import { useUpdateReservationStatus, useCancelReservation, useConfirmReservation } from '@/hooks/reservation.hook';
 import { resStatusColors, payStatusColors } from '@/utils/statusColors';
 import ReservationActions from './ReservationActions';
-import { mrtTableProps } from '@/components/shared';
+import { mrtTableProps, PhoneLink } from '@/components/shared';
 import { formatDateCustom, formatCurrency } from '@/utils/format';
 import Labels from '@/labelKeys.json';
 
@@ -81,6 +81,7 @@ function getColumns(
       accessorFn: (row) => row.voyageur?.phone ?? '-',
       id: 'phone',
       size: 140,
+      Cell: ({ cell }) => <PhoneLink phone={cell.getValue<string>()} />,
     },
     {
       header: t(Labels.reservation_col_koperative),

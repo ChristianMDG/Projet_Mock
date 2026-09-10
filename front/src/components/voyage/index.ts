@@ -21,5 +21,6 @@ export { VoyageResults } from './VoyageResults';
 export { VoyageWeeklyResults } from './VoyageWeeklyResults';
 export { SeatSelectionPanel } from './SeatSelectionPanel';
 export { default as VoyageMonthlyCalendar } from './VoyageMonthlyCalendar';
+export { ShortNoticeBookingAlert } from './ShortNoticeBookingAlert';
 
 export * from './scheduler';

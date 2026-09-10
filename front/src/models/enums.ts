@@ -316,3 +316,15 @@ export const getTimeFilters = (t: (key: string) => string) => [
     icon: React.createElement(NightsStay, { fontSize: 'small' }),
   },
 ];
+
+// Global Search Tab Enum
+export enum GlobalSearchTabEnum {
+  ALL = 'ALL',
+  PRODUCTS = 'PRODUCTS',
+  CATEGORIES = 'CATEGORIES',
+  VOYAGES = 'VOYAGES',
+}
+
+export const SearchTabEnum = GlobalSearchTabEnum;
+export type SearchTabEnum = GlobalSearchTabEnum;
+export type GlobalSearchTab = GlobalSearchTabEnum;

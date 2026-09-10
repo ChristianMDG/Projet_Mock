@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import { Stack, Typography, LinearProgress } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useCheckoutStore } from '@/stores/checkout.store';
 import Labels from '@/labelKeys.json';
@@ -16,7 +16,7 @@ const CheckoutProgress: React.FC = () => {
   const activeStep = useCheckoutStore(state => state.activeStep);
 
   return (
-    <Box sx={{ mb: 4 }}>
+    <Stack sx={{ mb: 4 }}>
       {/* Simple step labels for mobile */}
       <Stack
         direction="row"
@@ -64,18 +64,20 @@ const CheckoutProgress: React.FC = () => {
 
       <Stack direction="row" spacing={1}>
         {CHECKOUT_STEPS_KEYS.map((_, index) => (
-          <Box
+          <LinearProgress
             key={index}
+            variant="determinate"
+            value={index < activeStep ? 100 : index === activeStep ? 50 : 0}
+            color={index <= activeStep ? 'primary' : 'inherit'}
             sx={{
               height: 4,
               flexGrow: 1,
-              bgcolor: index < activeStep ? 'primary.main' : index === activeStep ? 'primary.light' : 'divider',
-              transition: 'background-color 0.3s ease',
+              borderRadius: 1,
             }}
           />
         ))}
       </Stack>
-    </Box>
+    </Stack>
   );
 };
 

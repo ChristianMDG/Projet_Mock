@@ -17,6 +17,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { useNavigate, Link, useLocation, matchPath } from 'react-router-dom';
 import { useColorScheme, useMediaQuery, Button } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
+import { GlobalSearchModal } from '@/components/search';
+import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/AuthContext';
 import { ROUTES, generateRoute } from '@/constants/routes';
@@ -54,10 +57,52 @@ interface TabConfig {
   category?: string;
 }
 
+const SearchTrigger = styled(IconButton)(({ theme }) => ({
+  marginLeft: theme.spacing(1.5),
+  width: 40,
+  height: 40,
+  color: theme.palette.primary.main,
+  backgroundColor: alpha(theme.palette.primary.light, 0.04),
+  border: `2px solid ${alpha(theme.palette.primary.light, 0.2)}`,
+  borderRadius: '24px',
+  boxSizing: 'border-box',
+  textTransform: 'none',
+  transition: theme.transitions.create(['background-color', 'border-color', 'box-shadow', 'transform'], {
+    duration: theme.transitions.duration.shorter,
+  }),
+  '&:hover': {
+    borderColor: alpha(theme.palette.primary.light, 0.4),
+    backgroundColor: alpha(theme.palette.primary.light, 0.08),
+    boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, 0.12)}`,
+    transform: 'translateY(-1px)',
+  },
+  '&:focus-visible': {
+    boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, 0.2)}`,
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: 36,
+    height: 36,
+    marginLeft: theme.spacing(1),
+  },
+}));
+
 const BasicHeader = () => {
   const [openDrawer, setOpenDrawer] = React.useState<boolean>(false);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [mounted, setMounted] = useState(false);
+  const [searchModalOpen, setSearchModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      const isCmdOrCtrl = e.metaKey || e.ctrlKey;
+      if (isCmdOrCtrl && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearchModalOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
 
   const { user, isAuthenticated, logout } = useAuth();
   const { mode, setMode } = useColorScheme();
@@ -281,6 +326,7 @@ const BasicHeader = () => {
                 }}
               />
             </Button>
+
             <Box
               sx={{
                 flexDirection: 'row',
@@ -305,17 +351,53 @@ const BasicHeader = () => {
               <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                 <LanguageSelector />
               </Box>
+
+              {/* Global Search Button */}
+              <SearchTrigger
+                onClick={() => setSearchModalOpen(true)}
+                aria-label={t(LabelKeys.global_search_placeholder)}
+                title={t(LabelKeys.global_search_placeholder)}
+              >
+                <SearchIcon fontSize="small" />
+              </SearchTrigger>
+
               {isAuthenticated && user ? (
                 <Box
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
+                    ml: { xs: 1, sm: 1.5 },
                   }}
                 >
                   <Tooltip title={`${user.firstName} ${user.lastName}`}>
-                    <IconButton onClick={handleOpenUserMenu} size="large" sx={{ p: 1 }}>
+                    <IconButton
+                      onClick={handleOpenUserMenu}
+                      size="large"
+                      aria-label="Account settings"
+                      sx={{
+                        p: 0,
+                        width: { xs: 36, sm: 40 },
+                        height: { xs: 36, sm: 40 },
+                        borderRadius: '24px',
+                        border: theme => `2px solid ${alpha(theme.palette.primary.light, 0.2)}`,
+                        transition: theme =>
+                          theme.transitions.create(['background-color', 'border-color', 'box-shadow', 'transform'], {
+                            duration: theme.transitions.duration.shorter,
+                          }),
+                        '&:hover': {
+                          borderColor: theme => alpha(theme.palette.primary.light, 0.4),
+                          boxShadow: theme => `0 0 0 3px ${alpha(theme.palette.primary.main, 0.12)}`,
+                          transform: 'translateY(-1px)',
+                        },
+                      }}
+                    >
                       <Avatar
-                        sx={{ bgcolor: 'secondary.main', color: 'primary.main', width: 32, height: 32 }}
+                        sx={{
+                          bgcolor: 'secondary.main',
+                          color: 'primary.main',
+                          width: { xs: 28, sm: 32 },
+                          height: { xs: 28, sm: 32 },
+                        }}
                         alt={user.firstName}
                       />
                     </IconButton>
@@ -367,6 +449,7 @@ const BasicHeader = () => {
         </HideOnMobile>
       </Container>
       <MenusDrawer isOpen={openDrawer} handleOpen={handleOpenDrawer} tabConfig={tabConfig} />
+      <GlobalSearchModal open={searchModalOpen} onClose={() => setSearchModalOpen(false)} />
     </AppBar>
   );
 };

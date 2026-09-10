@@ -60,6 +60,17 @@ export function useUpdateOrderStatus() {
   });
 }
 
+export function useConfirmOrderPickup() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, code }: { id: number; code: string }) => confirmOrderPickup(id, code),
+    onSuccess: async (_data, variables) => {
+      await queryClient.invalidateQueries({ queryKey: ORDERS_KEY });
+      await queryClient.invalidateQueries({ queryKey: ['order', variables.id] });
+    },
+  });
+}
+
 export function useInitiateOrderPayment() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -106,16 +117,5 @@ export function useFailOrderPayment() {
 export function useExportOrders() {
   return useMutation<Blob, Error, OrderExportParams | undefined>({
     mutationFn: params => exportOrders(params),
-  });
-}
-
-export function useConfirmOrderPickup() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({ id, code }: { id: number; code: string }) => confirmOrderPickup(id, code),
-    onSuccess: async (_data, variables) => {
-      await queryClient.invalidateQueries({ queryKey: ORDERS_KEY });
-      await queryClient.invalidateQueries({ queryKey: ['order', variables.id] });
-    },
   });
 }

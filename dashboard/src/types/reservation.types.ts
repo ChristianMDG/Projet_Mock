@@ -84,6 +84,7 @@ export interface Facturation {
   fraisTransaction?: number;
   commissionSeats?: number;
   commissionFee?: number;
+  montantTransfert?: number;
 }
 
 // Main Reservation interface

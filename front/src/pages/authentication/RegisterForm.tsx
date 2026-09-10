@@ -16,6 +16,7 @@ import PersonOutlined from '@mui/icons-material/PersonOutlined';
 import BadgeOutlined from '@mui/icons-material/BadgeOutlined';
 import PhoneInput from '@/components/shared/PhoneInput';
 import AccountTypeTabs from '@/components/ui/AccountTypeTabs';
+import StyledIcon from '@/components/ui/StyledIcon';
 import type { AccountModel } from '@/types/auth.types';
 import Labels from '@/labelKeys.json';
 import { useTranslation } from 'react-i18next';
@@ -71,7 +72,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             input: {
               startAdornment: (
                 <InputAdornment position="start">
-                  <PersonOutlined fontSize="small" color="action" />
+                  <StyledIcon icon={PersonOutlined} fontSize="small" />
                 </InputAdornment>
               ),
             },
@@ -95,7 +96,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             input: {
               startAdornment: (
                 <InputAdornment position="start">
-                  <PersonOutlined fontSize="small" color="action" />
+                  <StyledIcon icon={PersonOutlined} fontSize="small" />
                 </InputAdornment>
               ),
             },
@@ -119,7 +120,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             input: {
               startAdornment: (
                 <InputAdornment position="start">
-                  <BadgeOutlined fontSize="small" color="action" />
+                  <StyledIcon icon={BadgeOutlined} fontSize="small" />
                 </InputAdornment>
               ),
             },
@@ -158,7 +159,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             placeholder="••••••••"
             startAdornment={
               <InputAdornment position="start">
-                <LockOutlined fontSize="small" color="action" />
+                <StyledIcon icon={LockOutlined} fontSize="small" />
               </InputAdornment>
             }
             endAdornment={

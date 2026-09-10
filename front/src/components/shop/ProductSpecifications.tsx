@@ -1,6 +1,5 @@
-import React from 'react';
-import { Box, Typography, Table, TableBody, TableRow, TableCell, Paper, Divider, Chip } from '@mui/material';
-import InfoOutlined from '@mui/icons-material/InfoOutlined';
+import React, { memo } from 'react';
+import { Typography, Paper, Chip, Stack, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import type { Product } from '@/models/Shop';
 import Labels from '@/labelKeys.json';
@@ -12,44 +11,86 @@ interface ProductSpecificationsProps {
 const ProductSpecifications: React.FC<ProductSpecificationsProps> = ({ product }) => {
   const { t } = useTranslation();
   const specs = product.specifications ?? [];
+  const hasSpecs = specs.length > 0;
+  const hasSku = Boolean(product.sku);
+  const hasOrigin = Boolean(product.origin);
+  const isBestSeller = Boolean(product.isBestSeller);
+  const tags = product.tags ?? [];
+  const hasTags = tags.length > 0;
+  const hasMetadata = hasSku || hasOrigin || isBestSeller || hasTags;
+  const hasContent = hasSpecs || hasMetadata;
 
-  if (specs.length === 0) return null;
-
-  return (
-    <Box sx={{ mt: 6 }}>
-      <Divider sx={{ mb: 4 }} />
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
-        <InfoOutlined color="primary" />
-        <Typography variant="h5" sx={{ fontWeight: 700 }}>
+  if (hasContent) {
+    return (
+      <Paper variant="outlined" sx={{ p: { xs: 2, sm: 2.5 }, mt: 3 }}>
+        <Typography variant="h6" sx={{ mb: 2 }}>
           {t(Labels.shop_specifications)}
         </Typography>
-      </Box>
 
-      <Paper variant="outlined" sx={{ overflow: 'hidden' }}>
-        <Table>
-          <TableBody>
+        {hasSpecs && (
+          <Grid container spacing={2}>
             {specs.map((spec, i) => (
-              <TableRow key={spec.label} sx={{ bgcolor: i % 2 === 0 ? 'action.hover' : 'transparent' }}>
-                <TableCell sx={{ fontWeight: 600, width: '35%', color: 'text.secondary', border: 'none', py: 1.5 }}>
+              <Grid key={`${spec.label}-${i}`} size={{ xs: 12, sm: 6 }}>
+                <Typography variant="caption" sx={{ display: 'block', fontWeight: 500 }}>
                   {spec.label}
-                </TableCell>
-                <TableCell sx={{ border: 'none', py: 1.5 }}>{spec.value}</TableCell>
-              </TableRow>
+                </Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600, mt: 0.25 }}>
+                  {spec.value}
+                </Typography>
+              </Grid>
             ))}
-          </TableBody>
-        </Table>
-      </Paper>
-
-      {/* Product metadata */}
-      <Box sx={{ display: 'flex', gap: 1.5, mt: 2, flexWrap: 'wrap' }}>
-        {product.sku && <Chip label={`SKU: ${product.sku}`} size="small" variant="outlined" />}
-        {product.origin && (
-          <Chip label={`${t(Labels.shop_origin)}: ${product.origin}`} size="small" variant="outlined" />
+          </Grid>
         )}
-        {product.isBestSeller && <Chip label={t(Labels.shop_best_seller)} size="small" color="warning" />}
-      </Box>
-    </Box>
-  );
+
+        {hasMetadata && (
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              flexWrap: 'wrap',
+              gap: 1,
+              mt: hasSpecs ? 2.5 : 0,
+              pt: hasSpecs ? 2 : 0,
+              borderTop: hasSpecs ? 1 : 0,
+              borderColor: 'divider',
+            }}
+          >
+            {hasSku && <Chip label={`SKU: ${product.sku}`} size="small" variant="outlined" />}
+            {hasOrigin && (
+              <Chip label={`${t(Labels.shop_origin)}: ${product.origin}`} size="small" variant="outlined" />
+            )}
+            {isBestSeller && <Chip label={t(Labels.shop_best_seller)} size="small" color="warning" />}
+            {hasTags && (
+              <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', alignItems: 'center', ml: 0.5 }}>
+                {tags.map(tag => {
+                  const label = tag.startsWith('#') ? tag : `#${tag}`;
+                  return (
+                    <Typography
+                      key={tag}
+                      variant="caption"
+                      sx={{
+                        color: 'primary.main',
+                        fontWeight: 500,
+                        cursor: 'pointer',
+                        fontSize: '0.78rem',
+                        '&:hover': {
+                          textDecoration: 'underline',
+                        },
+                      }}
+                    >
+                      {label}
+                    </Typography>
+                  );
+                })}
+              </Stack>
+            )}
+          </Stack>
+        )}
+      </Paper>
+    );
+  }
+
+  return null;
 };
 
-export default ProductSpecifications;
+export default memo(ProductSpecifications);

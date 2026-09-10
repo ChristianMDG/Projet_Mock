@@ -144,7 +144,12 @@ const KoperativeDetailPage = () => {
 
   return (
     <Grid container rowSpacing={1} sx={{ pt: 1, mb: 1 }} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-      <SEO title={koperative.name} description={koperative.description} breadcrumbs={breadcrumbs} />
+      <SEO
+        title={koperative.name}
+        description={koperative.description || `${koperative.name} - Coopérative de transport sur Taxibrousse`}
+        image={koperative.logoUrl}
+        breadcrumbs={breadcrumbs}
+      />
       <Grid size={{ xs: 12, md: 4 }}>
         <Card sx={{ mx: 'auto', width: 1 }}>
           <CardContent>

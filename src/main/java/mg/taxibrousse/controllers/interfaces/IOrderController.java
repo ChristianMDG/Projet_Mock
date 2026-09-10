@@ -3,6 +3,7 @@ package mg.taxibrousse.controllers.interfaces;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import mg.taxibrousse.dto.shop.BuyNowRequest;
+import mg.taxibrousse.dto.shop.ConfirmPickupRequest;
 import mg.taxibrousse.dto.shop.OrderPaymentRequest;
 import mg.taxibrousse.dto.shop.OrderSearchParams;
 import mg.taxibrousse.dto.shop.UpdateOrderStatusRequest;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import mg.taxibrousse.dto.shop.PickupVerificationRequest;
+
 import java.time.LocalDateTime;
 
 @RestController
@@ -61,6 +62,10 @@ public interface IOrderController {
     @PreAuthorize("hasAuthority('ADMIN')")
     ResponseEntity<Order> updateOrderStatus(@PathVariable Long id, @Valid @RequestBody UpdateOrderStatusRequest body, Authentication authentication);
 
+    @PostMapping("/{id}/pickup")
+    @PreAuthorize("permitAll()")
+    ResponseEntity<Order> confirmPickup(@PathVariable Long id, @Valid @RequestBody ConfirmPickupRequest body);
+
     @PostMapping("/{id}/payment/initiate")
     @PreAuthorize("permitAll()")
     ResponseEntity<Order> initiatePayment(@PathVariable Long id, @Valid @RequestBody OrderPaymentRequest body) throws java.io.IOException, InterruptedException;
@@ -72,8 +77,4 @@ public interface IOrderController {
     @PostMapping("/{id}/payment/fail")
     @PreAuthorize("permitAll()")
     ResponseEntity<Order> failOrder(@PathVariable Long id, @RequestParam(required = false) String reason);
-    
-    @PostMapping("/{id}/pickup")
-    @PreAuthorize("permitAll()")
-    ResponseEntity<Order> confirmPickup(@PathVariable Long id, @Valid @RequestBody PickupVerificationRequest body);
 }

@@ -1,12 +1,17 @@
 package mg.taxibrousse.repositories.specs;
 
 import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import mg.taxibrousse.dto.shop.ProductSearchParams;
+import mg.taxibrousse.entities.CategoryEntity;
+import mg.taxibrousse.entities.ProductCategoryEntity;
 import mg.taxibrousse.entities.ProductEntity;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +34,12 @@ public final class ProductSpecifications {
 
             predicates.add(cb.isTrue(root.get("isActive")));
 
+            if (p != null && p.getMinPrice() != null && p.getMinPrice().compareTo(BigDecimal.ZERO) > 0) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("price"), p.getMinPrice()));
+            } else {
+                predicates.add(cb.greaterThan(root.get("price"), BigDecimal.ZERO));
+            }
+
             if (p == null) {
                 return cb.and(predicates.toArray(new Predicate[0]));
             }
@@ -42,18 +53,26 @@ public final class ProductSpecifications {
                 predicates.add(cb.or(onName, onDesc, onShort));
             }
 
-            if (p.getCategoryId() != null) {
-                predicates.add(cb.equal(root.get("category").get("id"), p.getCategoryId()));
-            }
-
+            boolean hasCategoryId = p.getCategoryId() != null;
             boolean hasCategorySlug = StringUtils.hasText(p.getCategorySlug());
-            if (hasCategorySlug) {
-                predicates.add(cb.equal(root.get("category").get("slug"), p.getCategorySlug()));
+
+            if (hasCategoryId || hasCategorySlug) {
+                Join<ProductEntity, ProductCategoryEntity> catJoin = root.join("category", JoinType.LEFT);
+                Join<ProductCategoryEntity, CategoryEntity> parentCatJoin = catJoin.join("category", JoinType.LEFT);
+
+                if (hasCategoryId) {
+                    Predicate matchSubId = cb.equal(catJoin.get("id"), p.getCategoryId());
+                    Predicate matchParentId = cb.equal(parentCatJoin.get("id"), p.getCategoryId());
+                    predicates.add(cb.or(matchSubId, matchParentId));
+                }
+
+                if (hasCategorySlug) {
+                    Predicate matchSubSlug = cb.equal(catJoin.get("slug"), p.getCategorySlug());
+                    Predicate matchParentSlug = cb.equal(parentCatJoin.get("slug"), p.getCategorySlug());
+                    predicates.add(cb.or(matchSubSlug, matchParentSlug));
+                }
             }
 
-            if (p.getMinPrice() != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("price"), p.getMinPrice()));
-            }
             if (p.getMaxPrice() != null) {
                 predicates.add(cb.lessThanOrEqualTo(root.get("price"), p.getMaxPrice()));
             }

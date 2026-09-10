@@ -495,7 +495,7 @@ const ReservationPage: React.FC = () => {
                       input: {
                         startAdornment: (
                           <InputAdornment position="start">
-                            <SearchIcon />
+                            <StyledIcon icon={SearchIcon} />
                           </InputAdornment>
                         ),
                       },

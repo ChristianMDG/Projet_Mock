@@ -13,6 +13,7 @@ import mg.taxibrousse.repositories.IKoperativeRepository;
 import mg.taxibrousse.repositories.IReservationRepository;
 import mg.taxibrousse.repositories.IVoyageRepository;
 import mg.taxibrousse.services.IDashboardService;
+import mg.taxibrousse.services.IReservationService;
 import mg.taxibrousse.services.IWebSocketSessionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,7 @@ public class DashboardService implements IDashboardService {
     private final IVoyageRepository voyageRepository;
     private final IKoperativeRepository koperativeRepository;
     private final IWebSocketSessionService webSocketSessionService;
+    private final IReservationService reservationService;
 
     @Override
     public DashboardStatsResponse getDashboardStats() {
@@ -121,7 +123,10 @@ public class DashboardService implements IDashboardService {
 
     private List<Reservation> findRecentReservations() {
         List<ReservationEntity> entities = reservationRepository.findTop5ByOrderByBookingDateDesc();
-        return entities.stream().map(Reservation::fromEntity).toList();
+        return entities.stream()
+                .map(Reservation::fromEntity)
+                .map(reservationService::enrichReservation)
+                .toList();
     }
 
     // -------------------------------------------------------------------------

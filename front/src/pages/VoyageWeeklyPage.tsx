@@ -20,11 +20,34 @@ export default function VoyageWeeklyPage() {
   const [searchParams] = useSearchParams();
   const { data: villes = [] } = useVilles();
 
-  const hasAppliedUrlParams = useRef(false);
+  const lastAppliedQuery = useRef<string>('');
 
   const { hasSearched, fromVille, toVille, setSearchParams } = useVoyageSearchStore();
+  const { parseUrlQuery } = useVoyageSearchUrl();
 
   useComponentView('Page', 'Voyage Results');
+
+  const parsed = useMemo(() => parseUrlQuery(searchParams), [searchParams, parseUrlQuery]);
+
+  const activeFromVille = useMemo(() => {
+    if (fromVille) {
+      return fromVille;
+    }
+    if (parsed.fromVilleName) {
+      return villes.find(v => v.name?.toLowerCase() === parsed.fromVilleName?.toLowerCase());
+    }
+    return undefined;
+  }, [fromVille, parsed.fromVilleName, villes]);
+
+  const activeToVille = useMemo(() => {
+    if (toVille) {
+      return toVille;
+    }
+    if (parsed.toVilleName) {
+      return villes.find(v => v.name?.toLowerCase() === parsed.toVilleName?.toLowerCase());
+    }
+    return undefined;
+  }, [toVille, parsed.toVilleName, villes]);
 
   const queryString = useMemo(() => {
     const qs = searchParams.toString();
@@ -32,18 +55,21 @@ export default function VoyageWeeklyPage() {
   }, [searchParams]);
 
   const seoTitle = useMemo(() => {
-    if (fromVille?.name && toVille?.name) {
-      return `${fromVille.name} → ${toVille.name}`;
+    if (activeFromVille?.name && activeToVille?.name) {
+      return `${activeFromVille.name} → ${activeToVille.name}`;
     }
     return t(Labels.voyage_search_title);
-  }, [fromVille?.name, toVille?.name, t]);
+  }, [activeFromVille?.name, activeToVille?.name, t]);
 
   const seoDescription = useMemo(() => {
-    if (fromVille?.name && toVille?.name) {
-      return t(Labels.seo_description_voyage_search_with_cities, { from: fromVille.name, to: toVille.name });
+    if (activeFromVille?.name && activeToVille?.name) {
+      return t(Labels.seo_description_voyage_search_with_cities, {
+        from: activeFromVille.name,
+        to: activeToVille.name,
+      });
     }
     return t(Labels.seo_description_voyage_search);
-  }, [fromVille?.name, toVille?.name, t]);
+  }, [activeFromVille?.name, activeToVille?.name, t]);
 
   const seoCanonicalQueryParams = useMemo(() => {
     return [
@@ -64,12 +90,12 @@ export default function VoyageWeeklyPage() {
       { name: t(Labels.voyage_search_title), path: ROUTES.searchResults[i18n.language] },
     ];
 
-    if (fromVille && toVille) {
-      crumbs.push({ name: `${fromVille.name} → ${toVille.name}`, path: searchPath });
+    if (activeFromVille && activeToVille) {
+      crumbs.push({ name: `${activeFromVille.name} → ${activeToVille.name}`, path: searchPath });
     }
 
     return crumbs;
-  }, [fromVille, toVille, i18n.language, queryString, t]);
+  }, [activeFromVille, activeToVille, i18n.language, queryString, t]);
 
   const alternates = useMemo(
     () => ({
@@ -82,20 +108,21 @@ export default function VoyageWeeklyPage() {
 
   const extraKeywords = useMemo(() => {
     const extras: string[] = [];
-    if (fromVille?.name) extras.push(fromVille.name);
-    if (toVille?.name) extras.push(toVille.name);
+    if (activeFromVille?.name) extras.push(activeFromVille.name);
+    if (activeToVille?.name) extras.push(activeToVille.name);
     return extras;
-  }, [fromVille?.name, toVille?.name]);
+  }, [activeFromVille?.name, activeToVille?.name]);
 
   const handleEditSearch = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const { parseUrlQuery } = useVoyageSearchUrl();
-
   useEffect(() => {
-    const canApplyParams = !hasAppliedUrlParams.current && villes.length > 0;
-    if (canApplyParams) {
+    const currentQuery = searchParams.toString();
+    const isNewQuery = currentQuery !== lastAppliedQuery.current;
+    const hasVilles = villes.length > 0;
+
+    if (isNewQuery && hasVilles) {
       const parsed = parseUrlQuery(searchParams);
       const newParams: Partial<VoyageSearchState> = {};
 
@@ -116,7 +143,7 @@ export default function VoyageWeeklyPage() {
 
       if (Object.keys(newParams).length > 0) {
         setSearchParams(newParams);
-        hasAppliedUrlParams.current = true;
+        lastAppliedQuery.current = currentQuery;
       }
     }
   }, [searchParams, villes, setSearchParams, parseUrlQuery]);
@@ -148,7 +175,7 @@ export default function VoyageWeeklyPage() {
   return (
     <>
       <SEO
-        key={`${fromVille?.id}-${toVille?.id}`}
+        key={`${activeFromVille?.id}-${activeToVille?.id}`}
         title={seoTitle}
         description={seoDescription}
         canonicalQueryParams={seoCanonicalQueryParams}

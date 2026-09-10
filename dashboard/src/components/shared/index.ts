@@ -9,3 +9,4 @@ export { mrtTableProps } from './mrtTableProps';
 export * from './StyledSwitch';
 export { default as StyledIcon } from './StyledIcon';
 export { default as KoperativeAutocomplete } from './KoperativeAutocomplete';
+export { default as PhoneLink } from './PhoneLink';

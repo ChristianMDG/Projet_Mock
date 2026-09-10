@@ -17,7 +17,9 @@ export function LoginPopper({ sx }: LoginPopperProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  if (isAuthenticated) return null;
+  if (isAuthenticated) {
+    return null;
+  }
 
   const handleLogin = () => {
     navigate(ROUTES.login[i18n.language], { state: { mode: 'login' } });
@@ -35,16 +37,26 @@ export function LoginPopper({ sx }: LoginPopperProps) {
         textTransform: 'none',
         px: { xs: 1, sm: 1.5 },
         py: 0.25,
-        marginLeft: 1.5,
+        height: { xs: 36, sm: 40 },
+        marginLeft: { xs: 1, sm: 1.5 },
         fontWeight: 600,
         fontSize: '0.85rem',
         backgroundColor: alpha(theme.palette.primary.light, 0.04),
         backdropFilter: 'blur(8px)',
         border: `2px solid ${alpha(theme.palette.primary.light, 0.2)}`,
         color: 'primary.main',
+        boxSizing: 'border-box',
+        transition: theme.transitions.create(['background-color', 'border-color', 'box-shadow', 'transform'], {
+          duration: theme.transitions.duration.shorter,
+        }),
         '&:hover': {
           backgroundColor: alpha(theme.palette.primary.light, 0.08),
           borderColor: alpha(theme.palette.primary.light, 0.4),
+          boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, 0.12)}`,
+          transform: 'translateY(-1px)',
+        },
+        '&:focus-visible': {
+          boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, 0.2)}`,
         },
         ...sx,
       }}

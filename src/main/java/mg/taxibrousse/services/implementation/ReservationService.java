@@ -517,7 +517,8 @@ public class ReservationService implements IReservationService {
         return Reservation.fromEntity(reservationRepository.save(reservation));
     }
 
-    private Reservation enrichReservation(Reservation reservation) {
+    @Override
+    public Reservation enrichReservation(Reservation reservation) {
         if (reservation != null && reservation.getFacturation() != null) {
             Long facturationId = reservation.getFacturation().getId();
             var transactions = paymentTransactionRepository.findByFacturationIdOrderByInitiatedAtDesc(facturationId);
@@ -532,6 +533,15 @@ public class ReservationService implements IReservationService {
                 reservation.getFacturation().setFraisTransaction(tx.getFraisTransaction());
                 reservation.getFacturation().setCommissionSeats(tx.getCommissionSeats());
                 reservation.getFacturation().setCommissionFee(tx.getCommissionFee());
+                reservation.getFacturation().setMontantTransfert(tx.getMontantTransfert());
+            }
+
+            if (reservation.getFacturation().getMontantTransfert() == null) {
+                BigDecimal total = ofNullable(reservation.getFacturation().getTotalAmount()).orElse(BigDecimal.ZERO);
+                BigDecimal remaining = ofNullable(reservation.getFacturation().getRemainingAmount()).orElse(BigDecimal.ZERO);
+                BigDecimal paid = total.subtract(remaining).max(BigDecimal.ZERO);
+                BigDecimal commissionSeats = ofNullable(reservation.getFacturation().getCommissionSeats()).orElse(BigDecimal.ZERO);
+                reservation.getFacturation().setMontantTransfert(paid.subtract(commissionSeats).max(BigDecimal.ZERO));
             }
         }
         return reservation;

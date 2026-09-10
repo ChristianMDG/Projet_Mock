@@ -1,7 +1,10 @@
 export { default as ShopBanner } from './ShopBanner';
 export { default as ProductCard } from './ProductCard';
-export { formatPrice } from './utils';
+export { formatPrice, sortProducts } from './utils';
 export { default as ProductGrid } from './ProductGrid';
+export { default as ProductGridEmpty } from './ProductGridEmpty';
+export { default as ProductDescription } from './ProductDescription';
+export { default as ProductBuyBox } from './ProductBuyBox';
 export { default as CartDrawer } from './CartDrawer';
 export { default as CartIconButton } from './CartIconButton';
 export { default as FeaturedProducts } from './FeaturedProducts';
@@ -10,6 +13,13 @@ export { default as ProductSpecifications } from './ProductSpecifications';
 export { default as SellerInfo } from './SellerInfo';
 export { default as ProductImageGallery } from './ProductImageGallery';
 export { default as ShopCategoryImageList } from './ShopCategoryImageList';
+export { default as ShopCategoryCard } from './ShopCategoryCard';
+export { default as ShopCategoryTabs } from './ShopCategoryTabs';
+export { default as ShopCategoryDrawer } from './ShopCategoryDrawer';
+export { default as ShopSortSelect } from './ShopSortSelect';
+export { default as ShopAlgoliaSearch } from './ShopAlgoliaSearch';
+export { default as ShopSearchFacets } from './ShopSearchFacets';
+export { default as ShopSearchHighlight } from './ShopSearchHighlight';
 
 export { default as CheckoutProgress } from './CheckoutProgress';
 export { default as DeliveryInfo } from './DeliveryInfo';

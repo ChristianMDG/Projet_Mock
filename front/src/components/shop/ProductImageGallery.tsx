@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, IconButton, Stack, Typography, alpha, Theme } from '@mui/material';
+import React, { useState, memo } from 'react';
+import { Card, CardMedia, CardContent, IconButton, Stack, Typography, alpha, Theme } from '@mui/material';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import type { StrapiMedia } from '@/types/cms.types';
@@ -17,12 +17,9 @@ const navSx = {
   bgcolor: (theme: Theme) => alpha(theme.palette.background.paper, 0.85),
   backdropFilter: 'blur(4px)',
   color: 'text.primary',
-  boxShadow: 2,
   '&:hover': {
     bgcolor: (theme: Theme) => alpha(theme.palette.background.paper, 0.95),
-    transform: 'translateY(-50%) scale(1.1)',
   },
-  transition: 'transform 0.2s, background-color 0.2s',
 } as const;
 
 const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({ images, alt, badges }) => {
@@ -35,38 +32,38 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({ images, alt, 
 
   return (
     <Stack spacing={2}>
-      <Box
+      <Card
         sx={{
           position: 'relative',
-          bgcolor: 'action.hover',
           overflow: 'hidden',
           aspectRatio: { xs: '1 / 1', md: '4 / 3' },
-          border: '1px solid',
-          borderColor: 'divider',
         }}
       >
         {hasImages ? (
-          <Box
+          <CardMedia
             component="img"
-            src={images[activeIndex]?.url}
+            image={images[activeIndex]?.url}
             alt={alt}
             sx={{
               width: 1,
               height: 1,
               objectFit: 'cover',
-              display: 'block',
-              transition: 'transform 0.3s ease-in-out',
-              '&:hover': {
-                transform: 'scale(1.03)',
-              },
             }}
           />
         ) : (
-          <Stack sx={{ width: 1, height: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <CardContent
+            sx={{
+              width: 1,
+              height: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <Typography variant="h1" sx={{ color: 'text.disabled' }}>
               📦
             </Typography>
-          </Stack>
+          </CardContent>
         )}
 
         {badges && (
@@ -85,18 +82,15 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({ images, alt, 
             </IconButton>
           </>
         )}
-      </Box>
+      </Card>
 
       {hasMultiple && (
-        <Box sx={{ display: 'flex', gap: 1.5, overflowX: 'auto', pb: 0.5 }}>
+        <Stack direction="row" spacing={1.5} sx={{ overflowX: 'auto', pb: 0.5 }}>
           {images.map((image, index) => {
             const isActive = index === activeIndex;
             return (
-              <Box
+              <Card
                 key={image.id ?? `${image.url}-${index}`}
-                component="img"
-                src={image.url}
-                alt={`${alt} ${index + 1}`}
                 onClick={() => setActiveIndex(index)}
                 sx={{
                   flex: '0 0 auto',
@@ -104,25 +98,30 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({ images, alt, 
                   aspectRatio: '1 / 1',
                   cursor: 'pointer',
                   overflow: 'hidden',
-                  border: '2px solid',
-                  borderColor: isActive ? 'primary.main' : 'transparent',
-                  opacity: isActive ? 1 : 0.65,
-                  objectFit: 'cover',
-                  display: 'block',
-                  transform: isActive ? 'scale(1.05)' : 'none',
-                  transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                  '&:hover': {
-                    opacity: 1,
-                    transform: 'scale(1.05)',
-                  },
+                  opacity: isActive ? 1 : 0.7,
+                  ...(isActive && {
+                    borderColor: 'primary.main',
+                    borderWidth: 2,
+                  }),
                 }}
-              />
+              >
+                <CardMedia
+                  component="img"
+                  image={image.url}
+                  alt={`${alt} ${index + 1}`}
+                  sx={{
+                    width: 1,
+                    height: 1,
+                    objectFit: 'cover',
+                  }}
+                />
+              </Card>
             );
           })}
-        </Box>
+        </Stack>
       )}
     </Stack>
   );
 };
 
-export default ProductImageGallery;
+export default memo(ProductImageGallery);

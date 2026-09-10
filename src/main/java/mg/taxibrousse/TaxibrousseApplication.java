@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoCo
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
@@ -26,6 +27,7 @@ import static org.springframework.data.web.config.EnableSpringDataWebSupport.Pag
 @SpringBootApplication(exclude = {JdbcRepositoriesAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class})
 @EntityScan(basePackages = {"mg.taxibrousse.entities"})
 @EnableJpaRepositories(basePackages = {"mg.taxibrousse.repositories"})
+@EnableElasticsearchRepositories(basePackages = {"mg.taxibrousse.search.repositories"})
 @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO)
 public class TaxibrousseApplication {
 

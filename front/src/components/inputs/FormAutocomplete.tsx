@@ -1,5 +1,7 @@
-import { Autocomplete, TextField } from '@mui/material';
+import React from 'react';
+import { Autocomplete, InputAdornment, TextField } from '@mui/material';
 import { useField, useFormikContext } from 'formik';
+import StyledIcon from '@/components/ui/StyledIcon';
 
 interface FormAutocompleteProps<T> {
   name: string;
@@ -11,6 +13,7 @@ interface FormAutocompleteProps<T> {
   placeholder?: string;
   helperText?: string;
   fullWidth?: boolean;
+  startIcon?: React.ElementType;
 }
 
 function FormAutocomplete<T>({
@@ -23,6 +26,7 @@ function FormAutocomplete<T>({
   placeholder,
   helperText,
   fullWidth = true,
+  startIcon,
 }: FormAutocompleteProps<T>) {
   const [field, meta] = useField(name);
   const { setFieldValue } = useFormikContext();
@@ -40,10 +44,23 @@ function FormAutocomplete<T>({
           {...params}
           label={label}
           placeholder={placeholder}
-          error={meta.touched && !!meta.error}
+          error={meta.touched && Boolean(meta.error)}
           helperText={meta.touched && meta.error ? meta.error : helperText}
           required={required}
           margin="dense"
+          slotProps={{
+            ...params.slotProps,
+            input: {
+              ...params.slotProps?.input,
+              startAdornment: startIcon ? (
+                <InputAdornment position="start">
+                  <StyledIcon icon={startIcon} />
+                </InputAdornment>
+              ) : (
+                params.slotProps?.input?.startAdornment
+              ),
+            },
+          }}
         />
       )}
     />

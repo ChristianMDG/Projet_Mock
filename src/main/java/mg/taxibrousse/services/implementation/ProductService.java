@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -43,6 +44,12 @@ public class ProductService implements IProductService {
         return productRepository.findAll(pageable).map(Product::fromEntity);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Product> findByPriceGreaterThanZero(Pageable pageable) {
+        return search(new ProductSearchParams(), pageable);
+    }
+    
     @Override
     @Transactional(readOnly = true)
     public Page<Product> search(ProductSearchParams params, Pageable pageable) {

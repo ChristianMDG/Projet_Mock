@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Box, TextField, FormControl, InputLabel, Select, MenuItem, Button, Grid, InputAdornment } from '@mui/material';
 import { Search, FilterAltOff, Phone } from '@mui/icons-material';
+import { StyledIcon } from '@/components/shared';
 import { useReservationStore } from '@/stores/reservation.store';
 import { ReservationStatusEnum, ReservationStatusLabels } from '@/types/reservation.types';
 import Labels from '@/labelKeys.json';
@@ -22,7 +23,7 @@ export default function ReservationFilters() {
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Search />
+                    <StyledIcon icon={Search} />
                   </InputAdornment>
                 ),
               },
@@ -41,7 +42,7 @@ export default function ReservationFilters() {
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Phone />
+                    <StyledIcon icon={Phone} />
                   </InputAdornment>
                 ),
               },

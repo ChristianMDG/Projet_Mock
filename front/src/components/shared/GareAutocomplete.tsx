@@ -16,6 +16,7 @@ import { Gare } from '@/models/Gare';
 import { useGares } from '@/hooks/gare.hooks';
 import { useTranslation } from 'react-i18next';
 import Labels from '@/labelKeys.json';
+import StyledIcon from '@/components/ui/StyledIcon';
 
 interface GareAutocompleteProps<Multiple extends boolean = false> {
   value: Multiple extends true ? Gare[] : Gare | null;
@@ -109,8 +110,8 @@ const GareAutocomplete = <Multiple extends boolean = false>({
       }}
       renderOption={(props, gare) => (
         <MenuItem disabled={gare.id === 0} {...props} key={gare.id}>
-          <ListItemIcon>
-            <LocationOnIcon color="action" />
+          <ListItemIcon sx={{ minWidth: 36 }}>
+            <StyledIcon icon={LocationOnIcon} />
           </ListItemIcon>
           <ListItemText primary={getGareLabel(gare)} secondary={getGareDetails(gare)} />
         </MenuItem>
@@ -121,23 +122,23 @@ const GareAutocomplete = <Multiple extends boolean = false>({
           label={label}
           placeholder={placeholder}
           required={required}
-          error={error || !!queryError}
+          error={error || Boolean(queryError)}
           helperText={queryError ? t(Labels.error_loading_voyages) : helperText}
           slotProps={{
             ...params.slotProps,
             input: {
-              ...params.slotProps.input,
+              ...params.slotProps?.input,
               startAdornment: StartIcon ? (
                 <InputAdornment position="start">
-                  <StartIcon color="action" />
+                  <StyledIcon icon={StartIcon} />
                 </InputAdornment>
               ) : (
-                params.slotProps.input.startAdornment
+                params.slotProps?.input?.startAdornment
               ),
               endAdornment: (
                 <>
                   {isLoading && <CircularProgress color="inherit" size={20} />}
-                  {params.slotProps.input.endAdornment}
+                  {params.slotProps?.input?.endAdornment}
                 </>
               ),
             },

@@ -314,12 +314,7 @@ export default function ProductFormDialog({ open, onClose, product, initialTab =
                     borderColor: img.primary ? 'primary.main' : 'divider',
                   }}
                 >
-                  <Box
-                    component="img"
-                    src={img.url}
-                    alt=""
-                    sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
+                  <Box component="img" src={img.url} alt="" sx={{ width: 1, height: 1, objectFit: 'cover' }} />
                   <Tooltip title={t(Labels.shop_product_image_set_primary)}>
                     <IconButton
                       size="small"

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Chip, Paper, Typography } from '@mui/material';
+import { Button, Chip, Paper, Typography, Stack } from '@mui/material';
 import { Form, Formik, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import LocalShipping from '@mui/icons-material/LocalShipping';
@@ -104,13 +104,21 @@ const DeliveryInfoFields: React.FC<DeliveryInfoFieldsProps> = ({ onBack }) => {
       <Typography variant="h6" sx={{ fontWeight: 600, my: 2 }}>
         {t(Labels.shop_recipient_info)}
       </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Stack spacing={2}>
         <FormTextField name="recipientName" label={t(Labels.shop_recipient_name)} required />
         <FormTextField name="recipientPhone" label={t(Labels.shop_recipient_phone)} required />
-        <FormTextField name="shippingAddress" label={t(Labels.shop_shipping_address)} required multiline rows={2} />
-      </Box>
+        <FormTextField
+          name="shippingAddress"
+          label={t(Labels.shop_shipping_address)}
+          helperText={t(Labels.shop_shipping_address_helper)}
+          required
+          multiline
+          rows={2}
+          slotProps={{ inputLabel: { shrink: true } }}
+        />
+      </Stack>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+      <Stack direction="row" sx={{ justifyContent: 'space-between', mt: 3 }}>
         <Button onClick={onBack} startIcon={<StyledIcon icon={ArrowBack} />}>
           {t(Labels.shop_go_back)}
         </Button>
@@ -123,7 +131,7 @@ const DeliveryInfoFields: React.FC<DeliveryInfoFieldsProps> = ({ onBack }) => {
         >
           {t(Labels.shop_proceed_to_payment)}
         </Button>
-      </Box>
+      </Stack>
     </>
   );
 };
@@ -153,7 +161,7 @@ const DeliveryInfo: React.FC<DeliveryInfoProps> = ({ onBack, onContinue }) => {
   };
 
   return (
-    <Paper elevation={0} sx={{ p: { xs: 2, md: 3 } }}>
+    <Paper variant="outlined" sx={{ p: { xs: 2, md: 3 } }}>
       <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
         <StyledIcon icon={LocalShipping} />
         {t(Labels.shop_delivery_title)}

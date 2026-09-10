@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Drawer,
-  Box,
   Typography,
   IconButton,
   Divider,
@@ -9,6 +8,7 @@ import {
   List,
   ListItem,
   Avatar,
+  Stack,
   ButtonGroup,
 } from '@mui/material';
 import Close from '@mui/icons-material/Close';
@@ -36,46 +36,30 @@ const CartDrawer: React.FC = () => {
   const { mutateAsync: addCartItemMutation } = useAddCartItem();
   const hasItems = items.length > 0;
 
-  const blurActiveElement = () => {
+  const handleClose = () => {
     if (typeof document !== 'undefined' && document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
+    setDrawerOpen(false);
   };
 
   const handleViewCart = () => {
-    blurActiveElement();
+    handleClose();
     setActiveStep(0);
-    setDrawerOpen(false);
     navigate(ROUTES.shopCheckout[i18n.language]);
   };
 
-  const handleContinueShopping = () => {
-    blurActiveElement();
-    setDrawerOpen(false);
-  };
-
   return (
-    <Drawer
-      anchor="right"
-      open={drawerOpen}
-      onClose={handleContinueShopping}
-      disableRestoreFocus
-      disableAutoFocus
-      slotProps={{
-        transition: {
-          onExit: blurActiveElement,
-        },
-      }}
-    >
-      <Box sx={{ width: { xs: 320, sm: 400 }, display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2 }}>
+    <Drawer anchor="right" open={drawerOpen} onClose={handleClose} disableRestoreFocus disableAutoFocus>
+      <Stack sx={{ width: { xs: 320, sm: 400 }, height: 1 }}>
+        <Stack direction="row" sx={{ alignItems: 'center', justifyContent: 'space-between', p: 2 }}>
           <Typography variant="h6" sx={{ fontWeight: 600 }}>
             {t(Labels.shop_cart_title)} ({getItemCount()})
           </Typography>
-          <IconButton onClick={handleContinueShopping}>
+          <IconButton onClick={handleClose}>
             <Close />
           </IconButton>
-        </Box>
+        </Stack>
         <Divider />
 
         {hasItems ? (
@@ -91,40 +75,38 @@ const CartDrawer: React.FC = () => {
                   >
                     <ShoppingBag fontSize="small" />
                   </Avatar>
-                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                  <Stack sx={{ flex: 1, minWidth: 0 }}>
                     <Typography variant="body2" sx={{ fontWeight: 600 }} noWrap>
                       {item.product.name}
                     </Typography>
                     <Typography variant="body2" color="primary" sx={{ fontWeight: 700 }}>
                       {formatPrice(item.product.price)}
                     </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.5 }}>
-                      <ButtonGroup size="small" variant="outlined">
-                        <Button
-                          onClick={() => {
-                            updateQuantity(item.product.id, item.quantity - 1);
-                            addCartItemMutation({ productId: item.product.id, quantity: -1 }).catch(console.error);
-                          }}
-                          sx={{ minWidth: 28 }}
-                        >
-                          <Remove fontSize="small" />
-                        </Button>
-                        <Button disabled sx={{ minWidth: 36 }}>
-                          {item.quantity}
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            updateQuantity(item.product.id, item.quantity + 1);
-                            addCartItemMutation({ productId: item.product.id, quantity: 1 }).catch(console.error);
-                          }}
-                          sx={{ minWidth: 28 }}
-                        >
-                          <Add fontSize="small" />
-                        </Button>
-                      </ButtonGroup>
-                    </Box>
-                  </Box>
-                  <Box sx={{ textAlign: 'right', ml: 1 }}>
+                    <ButtonGroup size="small" variant="outlined" sx={{ mt: 0.5 }}>
+                      <Button
+                        onClick={() => {
+                          updateQuantity(item.product.id, item.quantity - 1);
+                          addCartItemMutation({ productId: item.product.id, quantity: -1 }).catch(console.error);
+                        }}
+                        sx={{ minWidth: 28 }}
+                      >
+                        <Remove fontSize="small" />
+                      </Button>
+                      <Button disabled sx={{ minWidth: 36 }}>
+                        {item.quantity}
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          updateQuantity(item.product.id, item.quantity + 1);
+                          addCartItemMutation({ productId: item.product.id, quantity: 1 }).catch(console.error);
+                        }}
+                        sx={{ minWidth: 28 }}
+                      >
+                        <Add fontSize="small" />
+                      </Button>
+                    </ButtonGroup>
+                  </Stack>
+                  <Stack sx={{ textAlign: 'right', ml: 1, flexShrink: 0 }}>
                     <Typography variant="body2" sx={{ fontWeight: 700, mb: 0.5 }}>
                       {formatPrice(item.product.price * item.quantity)}
                     </Typography>
@@ -140,20 +122,20 @@ const CartDrawer: React.FC = () => {
                     >
                       <Delete fontSize="small" />
                     </IconButton>
-                  </Box>
+                  </Stack>
                 </ListItem>
               ))}
             </List>
             <Divider />
-            <Box sx={{ p: 2 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+            <Stack sx={{ p: 2 }}>
+              <Stack direction="row" sx={{ justifyContent: 'space-between', mb: 2 }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
                   {t(Labels.shop_total)}
                 </Typography>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700, color: 'primary.main' }}>
                   {formatPrice(getTotal())}
                 </Typography>
-              </Box>
+              </Stack>
               <Button
                 variant="contained"
                 fullWidth
@@ -164,7 +146,7 @@ const CartDrawer: React.FC = () => {
               >
                 {t(Labels.shop_view_cart)}
               </Button>
-              <Button variant="outlined" fullWidth size="medium" onClick={handleContinueShopping} sx={{ mb: 1 }}>
+              <Button variant="outlined" fullWidth size="medium" onClick={handleClose} sx={{ mb: 1 }}>
                 {t(Labels.shop_continue_shopping)}
               </Button>
               <Button
@@ -177,30 +159,20 @@ const CartDrawer: React.FC = () => {
               >
                 {t(Labels.shop_clear_cart)}
               </Button>
-            </Box>
+            </Stack>
           </>
         ) : (
-          <Box
-            sx={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              p: 4,
-              gap: 2,
-            }}
-          >
+          <Stack sx={{ flex: 1, alignItems: 'center', justifyContent: 'center', p: 4, gap: 2 }}>
             <ShoppingBag sx={{ fontSize: 56, color: 'text.disabled' }} />
             <Typography color="text.secondary" sx={{ textAlign: 'center' }}>
               {t(Labels.shop_cart_empty)}
             </Typography>
-            <Button variant="contained" onClick={handleContinueShopping}>
+            <Button variant="contained" onClick={handleClose}>
               {t(Labels.shop_back_to_shop)}
             </Button>
-          </Box>
+          </Stack>
         )}
-      </Box>
+      </Stack>
     </Drawer>
   );
 };

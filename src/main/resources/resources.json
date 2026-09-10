@@ -2179,13 +2179,13 @@
   },
   {
     "key": "error_invalid_order_status",
-    "mg": "Sata commandy tsy mety",
+    "mg": "Sata kaomandy tsy mety",
     "fr": "Statut de commande invalide",
     "en": "Invalid order status"
   },
   {
     "key": "error_invalid_order_status_transition",
-    "mg": "Fiovan-tsata commandy tsy mety",
+    "mg": "Fiovan-tsata kaomandy tsy mety",
     "fr": "Transition de statut de commande invalide",
     "en": "Invalid order status transition"
   },
@@ -2575,7 +2575,7 @@
   },
   {
     "key": "exception_invalid_order_status_transition",
-    "mg": "Fiovan-tsata commandy tsy mety",
+    "mg": "Fiovan-tsata kaomandy tsy mety",
     "fr": "Transition de statut de commande invalide",
     "en": "Invalid order status transition"
   },
@@ -2593,21 +2593,45 @@
   },
   {
     "key": "exception_order_invalid_transition",
-    "mg": "Tsy mety ny fiovan-tsata commandy",
+    "mg": "Tsy mety ny fiovan-tsata kaomandy",
     "fr": "Transition de commande invalide",
     "en": "Invalid order transition"
   },
   {
     "key": "exception_order_not_found",
-    "mg": "Tsy hita ny commandy",
+    "mg": "Tsy hita ny kaomandy",
     "fr": "Commande introuvable",
     "en": "Order not found"
   },
   {
     "key": "exception_order_not_pending",
-    "mg": "Tsy miandry intsony ny commandy",
+    "mg": "Tsy miandry intsony ny kaomandy",
     "fr": "Commande non en attente",
     "en": "Order is not pending"
+  },
+  {
+    "key": "exception_invalid_pickup_code",
+    "mg": "Kaody fakana entana tsy mety",
+    "fr": "Code de récupération invalide",
+    "en": "Invalid pickup code"
+  },
+  {
+    "key": "error_invalid_pickup_code",
+    "mg": "Kaody fakana entana tsy mety",
+    "fr": "Code de récupération invalide",
+    "en": "Invalid pickup code"
+  },
+  {
+    "key": "error_pickup_code_required",
+    "mg": "Ilaina ny kaody fakana entana",
+    "fr": "Le code de récupération est obligatoire",
+    "en": "Pickup code is required"
+  },
+  {
+    "key": "error_invalid_pickup_code_format",
+    "mg": "Ny kaody dia tokony ho tarehimarika 6",
+    "fr": "Le code doit comporter 6 chiffres",
+    "en": "The code must be 6 digits"
   },
   {
     "key": "exception_otp_verification_failed",
@@ -4483,25 +4507,55 @@
   },
   {
     "key": "order_list_title",
-    "mg": "Commandy",
+    "mg": "Kaomandy",
     "fr": "Commandes",
     "en": "Orders"
   },
   {
+    "key": "order_pickup_code_placeholder",
+    "mg": "Ohatra: 123456",
+    "fr": "Ex: 123456",
+    "en": "e.g. 123456"
+  },
+  {
+    "key": "order_pickup_invalid_code",
+    "mg": "Kaody fakana entana tsy mety. Hamarino ny kaody misy tarehimarika 6.",
+    "fr": "Code de récupération invalide. Veuillez vérifier le code à 6 chiffres.",
+    "en": "Invalid pickup code. Please check the 6-digit code."
+  },
+  {
+    "key": "order_pickup_section_desc",
+    "mg": "Ampidiro ny kaody fakana entana misy tarehimarika 6 hanamarinana ny fandraisana ny entana:",
+    "fr": "Entrez le code de récupération à 6 chiffres pour confirmer la réception du colis :",
+    "en": "Enter the 6-digit pickup code to confirm package receipt:"
+  },
+  {
+    "key": "order_pickup_submit",
+    "mg": "Hamafiso ny fakana entana",
+    "fr": "Confirmer la récupération",
+    "en": "Confirm pickup"
+  },
+  {
+    "key": "order_pickup_success",
+    "mg": "Voaray soa aman-tsara ny entana!",
+    "fr": "Colis récupéré avec succès !",
+    "en": "Package successfully collected!"
+  },
+  {
     "key": "order_search_by_number",
-    "mg": "Laharana commandy",
+    "mg": "Laharana kaomandy",
     "fr": "Numéro de commande",
     "en": "Order number"
   },
   {
     "key": "order_search_info",
-    "mg": "Ampidiro ny laharana commandy mba hitady ny commandy nataonao.",
+    "mg": "Ampidiro ny laharana kaomandy mba hitady ny kaomandy nataonao.",
     "fr": "Entrez votre numéro de commande pour retrouver votre commande.",
     "en": "Enter your order number to find your order."
   },
   {
     "key": "order_search_not_found",
-    "mg": "Tsy hita commandy manana io laharana io.",
+    "mg": "Tsy hita ny kaomandy manana io laharana io.",
     "fr": "Aucune commande trouvée avec ce numéro.",
     "en": "No order found with this number."
   },
@@ -4512,10 +4566,22 @@
     "en": "e.g. ORD-2024-001"
   },
   {
+    "key": "order_search_placeholder",
+    "mg": "Karohy amin'ny laharana kaomandy...",
+    "fr": "Rechercher par numéro de commande...",
+    "en": "Search by order number..."
+  },
+  {
     "key": "order_search_submit",
-    "mg": "Karohy ny commandy",
+    "mg": "Karohy ny kaomandy",
     "fr": "Rechercher ma commande",
     "en": "Search my order"
+  },
+  {
+    "key": "order_status_available_at_counter",
+    "mg": "Efa tonga eny amin'ny kountera",
+    "fr": "Disponible au guichet",
+    "en": "Available at counter"
   },
   {
     "key": "order_status_cancelled",
@@ -4536,6 +4602,18 @@
     "en": "Delivered"
   },
   {
+    "key": "order_status_delivery_in_progress",
+    "mg": "Andalam-panaterana",
+    "fr": "Livraison en cours",
+    "en": "Delivery in progress"
+  },
+  {
+    "key": "order_status_delivery_to_station",
+    "mg": "Alefa eny amin'ny toby",
+    "fr": "Livraison en gare",
+    "en": "Delivery to station"
+  },
+  {
     "key": "order_status_payment_failed",
     "mg": "Tsy lasa ny fandoavana",
     "fr": "Paiement échoué",
@@ -4552,6 +4630,12 @@
     "mg": "Amboarina",
     "fr": "En traitement",
     "en": "Processing"
+  },
+  {
+    "key": "order_status_ready_in_store",
+    "mg": "Vonona ao am-pivarotana",
+    "fr": "Prêt en magasin",
+    "en": "Ready in store"
   },
   {
     "key": "order_status_shipped",
@@ -5610,6 +5694,12 @@
     "en": "seats available"
   },
   {
+    "key": "seat_available_abbr",
+    "mg": "pl.",
+    "fr": "pl.",
+    "en": "pl."
+  },
+  {
     "key": "seat_configuration_status",
     "mg": "Toe-javatra",
     "fr": "Statut",
@@ -5790,6 +5880,24 @@
     "en": "New"
   },
   {
+    "key": "shop_badge_product",
+    "mg": "Vokatra",
+    "fr": "Produit",
+    "en": "Product"
+  },
+  {
+    "key": "shop_category_badge",
+    "mg": "Sokajy",
+    "fr": "Rayon",
+    "en": "Aisle"
+  },
+  {
+    "key": "shop_category_subtitle",
+    "mg": "Sokajy Tsena",
+    "fr": "Catégorie Boutique",
+    "en": "Shop Category"
+  },
+  {
     "key": "shop_banner_badge",
     "mg": "Tsena Taxibrousse",
     "fr": "Tsena Taxibrousse",
@@ -5940,6 +6048,12 @@
     "en": "Delivery fee"
   },
   {
+    "key": "shop_delivery_free",
+    "mg": "Maimaim-poana",
+    "fr": "Gratuit",
+    "en": "Free"
+  },
+  {
     "key": "shop_delivery_info",
     "mg": "Mombamomba ny fanaterana",
     "fr": "Informations de livraison",
@@ -6012,6 +6126,24 @@
     "en": "Items"
   },
   {
+    "key": "shop_subcategories",
+    "mg": "Sokajy kely",
+    "fr": "Sous-catégories",
+    "en": "Subcategories"
+  },
+  {
+    "key": "shop_all_categories",
+    "mg": "Sokajy rehetra",
+    "fr": "Toutes les catégories",
+    "en": "All categories"
+  },
+  {
+    "key": "shop_all_subcategories",
+    "mg": "Rehetra",
+    "fr": "Toutes",
+    "en": "All"
+  },
+  {
     "key": "shop_koperative_desc",
     "mg": "Fanaterana faritra ataon'ny koperativa mpiara-miasa",
     "fr": "Livraison régionale assurée par nos coopératives partenaires",
@@ -6022,6 +6154,12 @@
     "mg": "Ireo mpiara-miasa Koperativa",
     "fr": "Nos partenaires Koperative",
     "en": "Our Koperative Partners"
+  },
+  {
+    "key": "shop_low_stock",
+    "mg": "Vitsy sisa",
+    "fr": "Stock limité",
+    "en": "Low stock"
   },
   {
     "key": "shop_nav_label",
@@ -6036,28 +6174,40 @@
     "en": "No products found"
   },
   {
+    "key": "shop_no_products_desc",
+    "mg": "Tsy misy vokatra mifanaraka amin'ny sivana.",
+    "fr": "Aucun produit ne correspond à vos critères de recherche.",
+    "en": "No products match your search criteria."
+  },
+  {
     "key": "shop_order_confirmed",
-    "mg": "Commandy voamarina",
+    "mg": "Kaomandy voamarina",
     "fr": "Commande confirmée",
     "en": "Order confirmed"
   },
   {
     "key": "shop_order_confirmed_desc",
-    "mg": "Ny commandinao dia voamarina",
+    "mg": "Voamarina ny kaomandinao",
     "fr": "Votre commande a été confirmée",
     "en": "Your order has been confirmed"
   },
   {
     "key": "shop_order_payment_error",
-    "mg": "Hadisoana tamin'ny fandoavana ny commandy",
+    "mg": "Hadisoana tamin'ny fandoavana ny kaomandy",
     "fr": "Erreur lors du paiement de la commande",
     "en": "Order payment error"
   },
   {
     "key": "shop_order_summary",
-    "mg": "Famintinana ny commandy",
+    "mg": "Famintinana ny kaomandy",
     "fr": "Récapitulatif de la commande",
     "en": "Order summary"
+  },
+  {
+    "key": "shop_order_summary_delivery_helper",
+    "mg": "Maimaim-poana ny fanaterana",
+    "fr": "La livraison est gratuite",
+    "en": "Delivery is free"
   },
   {
     "key": "shop_origin",
@@ -6127,7 +6277,7 @@
   },
   {
     "key": "shop_payment_success_description",
-    "mg": "Voamarina ny commandy. Misaotra amin'ny fividianana!",
+    "mg": "Voamarina ny kaomandy. Misaotra amin'ny fividianana!",
     "fr": "Votre commande a été confirmée. Merci pour votre achat !",
     "en": "Your order has been confirmed. Thank you for your purchase!"
   },
@@ -6184,6 +6334,192 @@
     "mg": "Vokatra mitovitovy",
     "fr": "Produits similaires",
     "en": "Related products"
+  },
+  {
+    "key": "shop_results_count",
+    "mg": "vokatra {{count}}",
+    "fr": "{{count}} produits",
+    "en": "{{count}} products"
+  },
+  {
+    "key": "shop_search_clear",
+    "mg": "Fafao ny fikarohana",
+    "fr": "Effacer la recherche",
+    "en": "Clear search"
+  },
+  {
+    "key": "shop_search_in_stock_only",
+    "mg": "Misy amin'ny tahiry ihany",
+    "fr": "En stock uniquement",
+    "en": "In stock only"
+  },
+  {
+    "key": "shop_search_instant",
+    "mg": "Fikarohana haingana",
+    "fr": "Recherche instantanée",
+    "en": "Instant search"
+  },
+  {
+    "key": "shop_search_matching_categories",
+    "mg": "Sokajy mifanaraka",
+    "fr": "Catégories correspondantes",
+    "en": "Matching categories"
+  },
+  {
+    "key": "shop_search_matching_products",
+    "mg": "Entana natolotra",
+    "fr": "Produits suggérés",
+    "en": "Suggested products"
+  },
+  {
+    "key": "shop_search_no_results_for",
+    "mg": "Tsy misy vokany ho an'ny « {{query}} »",
+    "fr": "Aucun résultat trouvé pour « {{query}} »",
+    "en": "No results found for \"{{query}}\""
+  },
+  {
+    "key": "shop_search_placeholder",
+    "mg": "Hikaroka entana, marika, sokajy...",
+    "fr": "Rechercher un produit, une marque, une catégorie...",
+    "en": "Search for products, brands, categories..."
+  },
+  {
+    "key": "shop_search_price_50k_200k",
+    "mg": "50 000 - 200 000 Ar",
+    "fr": "50 000 - 200 000 Ar",
+    "en": "50,000 - 200,000 Ar"
+  },
+  {
+    "key": "shop_search_price_above_200k",
+    "mg": "Ambonin'ny 200 000 Ar",
+    "fr": "Plus de 200 000 Ar",
+    "en": "Above 200,000 Ar"
+  },
+  {
+    "key": "shop_search_price_all",
+    "mg": "Vidiny rehetra",
+    "fr": "Tous les prix",
+    "en": "All prices"
+  },
+  {
+    "key": "shop_search_price_filter",
+    "mg": "Vidiny",
+    "fr": "Prix",
+    "en": "Price"
+  },
+  {
+    "key": "shop_search_price_under_50k",
+    "mg": "Latsaky ny 50 000 Ar",
+    "fr": "Moins de 50 000 Ar",
+    "en": "Under 50,000 Ar"
+  },
+  {
+    "key": "shop_search_results_stat",
+    "mg": "Entana {{count}} hita",
+    "fr": "{{count}} produit trouvé",
+    "en": "{{count}} product found"
+  },
+  {
+    "key": "shop_search_results_stat_plural",
+    "mg": "Entana {{count}} hita",
+    "fr": "{{count}} produits trouvés",
+    "en": "{{count}} products found"
+  },
+  {
+    "key": "shop_search_suggestions_title",
+    "mg": "Tolo-kevitra fikarohana",
+    "fr": "Suggestions de recherche",
+    "en": "Search suggestions"
+  },
+  {
+    "key": "shop_search_suggestion_check_spelling",
+    "mg": "Hamarino ny tsipelina ny teny nosoratana",
+    "fr": "Vérifiez l'orthographe des mots saisis",
+    "en": "Check the spelling of entered words"
+  },
+  {
+    "key": "shop_search_suggestion_broader_terms",
+    "mg": "Andramo amin'ny teny ankapobeny kokoa na sokajy hafa",
+    "fr": "Essayez avec des termes plus généraux ou une autre catégorie",
+    "en": "Try more general terms or another category"
+  },
+  {
+    "key": "shop_search_suggestion_remove_filters",
+    "mg": "Esory ny sivana sasany amin'ny vidiny na ny fahazoana azy",
+    "fr": "Supprimez certains filtres de prix ou de disponibilité",
+    "en": "Remove some price or availability filters"
+  },
+  {
+    "key": "shop_search_view_all_results",
+    "mg": "Jereo ny vokatra rehetra ({{count}})",
+    "fr": "Voir tous les résultats ({{count}})",
+    "en": "View all results ({{count}})"
+  },
+  {
+    "key": "global_search_placeholder",
+    "mg": "Hikaroka dia, vokatra, sokajy... (⌘K)",
+    "fr": "Rechercher voyages, trajets, produits, catégories... (⌘K)",
+    "en": "Search trips, routes, products, categories... (⌘K)"
+  },
+  {
+    "key": "global_search_voyages",
+    "mg": "Dia & Zotra",
+    "fr": "Voyages & Lignes",
+    "en": "Trips & Routes"
+  },
+  {
+    "key": "global_search_products",
+    "mg": "Vokatra",
+    "fr": "Produits Boutique",
+    "en": "Shop Products"
+  },
+  {
+    "key": "global_search_categories",
+    "mg": "Sokajy",
+    "fr": "Rayons & Catégories",
+    "en": "Departments & Categories"
+  },
+  {
+    "key": "global_search_empty_title",
+    "mg": "Tsy misy valiny",
+    "fr": "Aucun résultat trouvé",
+    "en": "No results found"
+  },
+  {
+    "key": "global_search_empty_subtitle",
+    "mg": "Andramo teny hafa toy ny 'Antananarivo => Toamasina', '06:00', 'KOFMAD'...",
+    "fr": "Essayez avec d'autres mots-clés comme 'Antananarivo => Toamasina', '06:00', 'KOFMAD', 'Fasankarana'...",
+    "en": "Try keywords like 'Antananarivo => Toamasina', '06:00', 'KOFMAD', 'Fasankarana'..."
+  },
+  {
+    "key": "global_search_navigate",
+    "mg": "Hivezivezy",
+    "fr": "Naviguer",
+    "en": "Navigate"
+  },
+  {
+    "key": "global_search_select",
+    "mg": "Hanokatra",
+    "fr": "Ouvrir",
+    "en": "Open"
+  },
+  {
+    "key": "global_search_close",
+    "mg": "Hanidy",
+    "fr": "Fermer",
+    "en": "Close"
+  },
+  {
+    "key": "global_search_view_all",
+    "mg": "Hijery ny valiny rehetra",
+    "fr": "Voir tous les résultats",
+    "en": "View all results"
+  },
+  {
+    "key": "global_search_took",
+    "mg": "ms",
+    "fr": "ms",
+    "en": "ms"
   },
   {
     "key": "shop_review_comment_label",
@@ -6324,6 +6660,12 @@
     "en": "Shipping address"
   },
   {
+    "key": "shop_shipping_address_helper",
+    "mg": "Toerana fantatry ny maro ho an'ny tanànan'Antananarivo, raha tsy izany dia eny amin'ny Gare Routière ho an'ny faritra",
+    "fr": "Un lieu connu pour la ville de Tana, sinon à la Gare Routière pour les régions",
+    "en": "A well-known place for Antananarivo city, otherwise at the bus station (Gare Routière) for regions"
+  },
+  {
     "key": "shop_size_guide",
     "mg": "Torolàlana habeny",
     "fr": "Guide des tailles",
@@ -6334,6 +6676,36 @@
     "mg": "Haben'ny",
     "fr": "Taille",
     "en": "Size"
+  },
+  {
+    "key": "shop_sort_best_seller",
+    "mg": "Lafo indrindra",
+    "fr": "Meilleures ventes",
+    "en": "Best sellers"
+  },
+  {
+    "key": "shop_sort_newest",
+    "mg": "Vaovao indrindra",
+    "fr": "Nouveautés",
+    "en": "Newest"
+  },
+  {
+    "key": "shop_sort_price_asc",
+    "mg": "Vidiny miakatra",
+    "fr": "Prix croissant",
+    "en": "Price: Low to High"
+  },
+  {
+    "key": "shop_sort_price_desc",
+    "mg": "Vidiny midina",
+    "fr": "Prix décroissant",
+    "en": "Price: High to Low"
+  },
+  {
+    "key": "shop_sort_relevance",
+    "mg": "Mifanaraka indrindra",
+    "fr": "Pertinence",
+    "en": "Relevance"
   },
   {
     "key": "shop_specifications",
@@ -6379,7 +6751,7 @@
   },
   {
     "key": "shop_subtotal",
-    "mg": "Fitambaran-karena",
+    "mg": "Zana-tontaliny",
     "fr": "Sous-total",
     "en": "Subtotal"
   },
@@ -6415,7 +6787,7 @@
   },
   {
     "key": "shop_view_orders",
-    "mg": "Jereo ny commandy",
+    "mg": "Jereo ny kaomandy",
     "fr": "Voir mes commandes",
     "en": "View My Orders"
   },
@@ -8982,6 +9354,12 @@
     "en": "Trip Selection"
   },
   {
+    "key": "voyage_short_notice_contact_message",
+    "mg": "Azafady mandefasa hafatra alohan'ny hamandrihana seza :",
+    "fr": "Veuillez nous envoyer un message avant de réserver :",
+    "en": "Please send us a message before booking:"
+  },
+  {
     "key": "voyage_stats_recurring",
     "mg": "Miverimberina",
     "fr": "Récurrents",
@@ -9274,17 +9652,5 @@
     "mg": "Tsy misy mpandeha",
     "fr": "Sans passager",
     "en": "Without passenger"
-  },
-  {
-    "key": "error_invalid_pickup_code",
-    "mg": "Kaody fanangonana tsy mety",
-    "fr": "Code de récupération invalide",
-    "en": "Invalid pickup code"
-  },
-  {
-    "key": "exception_invalid_pickup_code",
-    "mg": "Ny kaody 6 isa nampidirinao dia tsy mifanaraka amin'ny kaody apetraka amin'ny colis.",
-    "fr": "Le code à 6 chiffres saisi ne correspond pas au code apposé sur le colis.",
-    "en": "The 6-digit code entered does not match the code affixed on the package."
   }
 ]

@@ -22,7 +22,7 @@ import java.util.List;
 public interface IProductController {
 
     @GetMapping
-    ResponseEntity<Page<Product>> listProducts(@PageableDefault(size = 20) Pageable pageable);
+    ResponseEntity<Page<Product>> listProducts(@ModelAttribute ProductSearchParams params, @PageableDefault(size = 20) Pageable pageable);
 
     @GetMapping("/search")
     ResponseEntity<Page<Product>> searchProducts(@ModelAttribute ProductSearchParams params, @PageableDefault(size = 20) Pageable pageable);

@@ -36,6 +36,7 @@ public class PaymentTransaction extends BaseDto<PaymentTransactionEntity> {
     private BigDecimal fraisTransaction;
     private BigDecimal commissionSeats;
     private BigDecimal commissionFee;
+    private BigDecimal montantTransfert;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime initiatedAt;
@@ -70,6 +71,7 @@ public class PaymentTransaction extends BaseDto<PaymentTransactionEntity> {
         model.setFraisTransaction(entity.getFraisTransaction());
         model.setCommissionSeats(entity.getCommissionSeats());
         model.setCommissionFee(entity.getCommissionFee());
+        model.setMontantTransfert(entity.getMontantTransfert());
         return model;
     }
 
@@ -96,7 +98,8 @@ public class PaymentTransaction extends BaseDto<PaymentTransactionEntity> {
                 .fraisTotal(entity.getFraisTotal())
                 .fraisTransaction(entity.getFraisTransaction())
                 .commissionSeats(entity.getCommissionSeats())
-                .commissionFee(entity.getCommissionFee());
+                .commissionFee(entity.getCommissionFee())
+                .montantTransfert(entity.getMontantTransfert());
     }
 
     public static PaymentTransaction fromEntityLight(PaymentTransactionEntity entity) {
@@ -123,6 +126,7 @@ public class PaymentTransaction extends BaseDto<PaymentTransactionEntity> {
         entity.setFraisTransaction(fraisTransaction);
         entity.setCommissionSeats(commissionSeats);
         entity.setCommissionFee(commissionFee);
+        entity.setMontantTransfert(montantTransfert);
         return entity;
     }
 

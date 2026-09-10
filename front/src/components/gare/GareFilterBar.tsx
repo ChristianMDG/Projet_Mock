@@ -18,6 +18,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import DepartureBoardIcon from '@mui/icons-material/DepartureBoard';
 import VilleAutocomplete from '@/components/shared/VilleAutocomplete';
 import ButtonTx from '@/components/ui/ButtonTx';
+import StyledIcon from '@/components/ui/StyledIcon';
 import ProtectedTx from '@/components/ProtectedTx';
 import { Ville } from '@/types';
 import { GareFilter } from '@/types/type.util';
@@ -80,7 +81,7 @@ const GareFilterBar: React.FC<SimpleGareFilterBarProps> = ({ filter, onFilterCha
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon color="action" />
+                    <StyledIcon icon={SearchIcon} />
                   </InputAdornment>
                 ),
                 endAdornment:

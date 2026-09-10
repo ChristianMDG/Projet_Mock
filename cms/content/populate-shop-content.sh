@@ -623,6 +623,9 @@ run_step "1/10 categories (top-level)" \
   load_collection_mutation "$SCRIPT_DIR/categories.mutation.json" "categories" \
     'del(.imageUrl)'
 
+run_step "1b/10 category images (Madagascar)" \
+  "$SCRIPT_DIR/populate-categories-with-images.sh"
+
 run_step "2/10 product-categories (subcategories)" \
   load_subcategories_with_parent "$SCRIPT_DIR/subcategories.mutation.json"
 

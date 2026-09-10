@@ -10,7 +10,7 @@ services:
   # ===========================================================================
 
   postgres:
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     container_name: taxibrousse-postgres
     environment:
       TZ: Indian/Antananarivo
@@ -64,6 +64,35 @@ services:
           cpus: '0.5'
         reservations:
           memory: 256M
+          cpus: '0.25'
+
+  elasticsearch:
+    image: elasticsearch:8.19.11
+    container_name: taxibrousse-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - taxibrousse
+    ports:
+      - "127.0.0.1:9200:9200"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -s http://localhost:9200/_cat/health | grep -q 'green\\|yellow'" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
           cpus: '0.25'
 
   # ===========================================================================
@@ -156,6 +185,9 @@ services:
       LOGGING_LEVEL_ORG_HIBERNATE: "WARN"
       LOGGING_FILE_NAME: "/taxibrousse/logs/taxibrousse-api.log"
 
+      # Elasticsearch Configuration
+      SPRING_ELASTICSEARCH_URIS: http://elasticsearch:9200
+
       # Server Configuration
       PORT: 8080
 
@@ -163,6 +195,8 @@ services:
       postgres:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      elasticsearch:
         condition: service_healthy
     volumes:
       - api_logs:/taxibrousse/logs
@@ -572,7 +606,6 @@ services:
           memory: 128M
           cpus: '0.1'
 
-
 networks:
   taxibrousse:
     driver: bridge
@@ -593,4 +626,5 @@ volumes:
     driver: local
   prometheus_data:
     driver: local
-
+  elasticsearch_data:
+    driver: local

@@ -2,7 +2,7 @@ import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 
 export default [
-  { ignores: ['dist', 'node_modules', '*.config.js', '*.config.ts', 'e2e/**', '**/*.d.ts'] },
+  { ignores: ['dist', 'node_modules', '*.config.js', '**/*.d.ts'] },
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {

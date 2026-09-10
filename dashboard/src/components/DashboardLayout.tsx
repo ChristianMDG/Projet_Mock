@@ -16,7 +16,6 @@ import {
   Facebook,
   Percent,
   AccountBalance,
-  ShoppingCart,
 } from '@mui/icons-material';
 import { Stack, Chip } from '@mui/material';
 
@@ -123,11 +122,6 @@ export default function DashboardLayout() {
         segment: 'reservation',
         title: t(Labels.sidebar_reservations),
         icon: <EventSeat />,
-      },
-      {
-        segment: 'shop/orders',
-        title: t(Labels.sidebar_orders),
-        icon: <ShoppingCart />,
       },
       {
         segment: 'routes',

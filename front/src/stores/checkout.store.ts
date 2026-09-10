@@ -37,6 +37,8 @@ interface CheckoutState {
   showMobileMoneyStatus: boolean;
   mobileMoneyOperator: MobileMoneyOperatorEnum | null;
   paymentItems: CartItem[];
+  paymentSubtotal: number;
+  paymentDeliveryFee: number;
   paymentTotal: number;
 
   // Actions
@@ -54,6 +56,8 @@ interface CheckoutState {
   setMobileMoneyTransactionRef: (ref: string | null) => void;
   setMobileMoneyOperator: (operator: MobileMoneyOperatorEnum | null) => void;
   setPaymentItems: (items: CartItem[]) => void;
+  setPaymentSubtotal: (subtotal: number) => void;
+  setPaymentDeliveryFee: (deliveryFee: number) => void;
   setPaymentTotal: (total: number) => void;
   setOrderId: (id: number | null) => void;
   setOrderNumber: (orderNumber: string | null) => void;
@@ -81,6 +85,8 @@ const initialState = {
   showMobileMoneyStatus: false,
   mobileMoneyOperator: null,
   paymentItems: [],
+  paymentSubtotal: 0,
+  paymentDeliveryFee: 0,
   paymentTotal: 0,
 };
 
@@ -103,6 +109,8 @@ export const useCheckoutStore = create<CheckoutState>()(
       setMobileMoneyTransactionRef: ref => set({ mobileMoneyTransactionRef: ref }),
       setMobileMoneyOperator: operator => set({ mobileMoneyOperator: operator }),
       setPaymentItems: items => set({ paymentItems: items }),
+      setPaymentSubtotal: subtotal => set({ paymentSubtotal: subtotal }),
+      setPaymentDeliveryFee: deliveryFee => set({ paymentDeliveryFee: deliveryFee }),
       setPaymentTotal: total => set({ paymentTotal: total }),
       setOrderId: id => set({ orderId: id }),
       setOrderNumber: orderNumber => set({ orderNumber: orderNumber, confirmedOrderNumber: orderNumber }),

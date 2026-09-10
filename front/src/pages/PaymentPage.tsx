@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PhoneIcon from '@mui/icons-material/Phone';
 import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
+import { ShortNoticeBookingAlert } from '@/components/voyage';
 
 import { MobileMoneyOperatorEnum, PaymentTransactionStatusEnum, SeatStatusEnum } from '@/models/enums';
 import { useCurrencyFormatter } from '@/utils/currency.utils';
@@ -247,9 +248,38 @@ const PaymentPage: React.FC = () => {
       }),
     });
 
+    const departureCity = voyage?.departureGare?.ville?.name ?? voyage?.route?.departureGare?.ville?.name;
+    const arrivalCity = voyage?.arrivalGare?.ville?.name ?? voyage?.route?.arrivalGare?.ville?.name;
+    const koperativeName = voyage?.koperative?.name;
+    const hasVoyageInfo = Boolean(departureCity && arrivalCity);
+
+    const hasSeats = Boolean(voyage?.availableSeats && voyage.availableSeats > 0);
+    const seatLabel = hasSeats ? t(Labels.shop_stock_available) : t(Labels.shop_out_of_stock);
+    const formattedVoyagePrice = voyage?.pricePerSeat
+      ? `${new Intl.NumberFormat('fr-MG').format(voyage.pricePerSeat)} Ar`
+      : '';
+
+    const voyageTitle = hasVoyageInfo
+      ? `${departureCity} → ${arrivalCity}${koperativeName ? ` (${koperativeName})` : ''}${formattedVoyagePrice ? ` • ${formattedVoyagePrice}` : ''}`
+      : t(Labels.button_pay);
+
+    const voyageDescription = hasVoyageInfo
+      ? `Réservation taxi-brousse ${departureCity} - ${arrivalCity}${koperativeName ? ` avec ${koperativeName}` : ''}. Tarif: ${formattedVoyagePrice || `${voyage?.pricePerSeat ?? 0} MGA`} • ${seatLabel}.`
+      : undefined;
+
+    const voyageImage = voyage?.crafter?.photo?.url || voyage?.koperative?.logoUrl || '/weekly-voyage-banner.png';
+
     return (
       <Box sx={{ minHeight: '100vh', maxWidth: 600, mx: 'auto' }}>
-        <SEO title={t(Labels.button_pay)} />
+        <SEO
+          title={voyageTitle}
+          description={voyageDescription}
+          image={voyageImage}
+          type={hasVoyageInfo ? 'product' : 'website'}
+          productPrice={voyage?.pricePerSeat}
+          productCurrency="MGA"
+          productAvailability={voyage?.availableSeats && voyage.availableSeats > 0 ? 'instock' : 'oos'}
+        />
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
           <Button startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)} sx={{ fontWeight: 500 }}>
             {t(Labels.button_back)}
@@ -265,6 +295,7 @@ const PaymentPage: React.FC = () => {
             onAdvanceAmountChange={setAdvanceAmount}
           />
         </Box>
+        <ShortNoticeBookingAlert departureTime={voyage?.departureTime} />
         <Card>
           <CardContent>
             {showPaymentStatus ? (

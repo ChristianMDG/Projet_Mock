@@ -198,7 +198,11 @@ const KoperativeInfoPage: React.FC = () => {
         maxWidth: 'lg',
       }}
     >
-      <SEO title={cooperative.name} description={cooperative.description} />
+      <SEO
+        title={cooperative.name}
+        description={cooperative.description || `${cooperative.name} - Coopérative de transport sur Taxibrousse`}
+        image={cooperative.coverImage || cooperative.logo}
+      />
       {/* En-tête avec image de couverture */}
       <Card sx={{ mb: 4, overflow: 'hidden' }}>
         <CardMedia

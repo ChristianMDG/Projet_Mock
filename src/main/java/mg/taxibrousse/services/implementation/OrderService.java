@@ -72,8 +72,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderService implements IOrderService {
 
-    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
-
     private final IOrderRepository orderRepository;
     private final ICartRepository cartRepository;
     private final ICartItemRepository cartItemRepository;
@@ -88,6 +86,12 @@ public class OrderService implements IOrderService {
     private final ObjectProvider<IMVolaService> mvolaProvider;
     private final ObjectProvider<IAirtelMoneyService> airtelProvider;
     private final ObjectProvider<IOrangeMoneyService> orangeProvider;
+
+    private static final SecureRandom RANDOM = new SecureRandom();
+
+    private String generatePickupCode() {
+        return String.format("%06d", RANDOM.nextInt(1_000_000));
+    }
 
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
@@ -112,7 +116,9 @@ public class OrderService implements IOrderService {
 
         OrderEntity order = Optional.ofNullable(request).map(r -> r.toEntity(null)).orElseGet(OrderEntity::new);
         order.setOrderNumber(generateOrderNumber());
-        order.setPickupCode(generatePickupCode());
+        if (!StringUtils.hasText(order.getPickupCode())) {
+            order.setPickupCode(generatePickupCode());
+        }
         order.setUserAccount(cart.getUserAccount());
         order.setStatus(OrderStatusEnum.PENDING);
 
@@ -402,16 +408,13 @@ public class OrderService implements IOrderService {
         });
     }
 
+
     private String generateOrderNumber() {
         String candidate;
         do {
             candidate = "SO-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         } while (orderRepository.existsByOrderNumber(candidate));
         return candidate;
-    }
-
-    private String generatePickupCode() {
-        return String.format("%06d", SECURE_RANDOM.nextInt(1_000_000));
     }
 
     @Override
@@ -423,45 +426,34 @@ public class OrderService implements IOrderService {
     @Override
     @Transactional
     public Order updateStatus(Long orderId, OrderStatusEnum newStatus, String reason, Long adminUserId) {
-        OrderEntity order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
+        OrderEntity order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
         OrderStatusEnum current = order.getStatus();
         if (current == newStatus) {
             return Order.fromEntity(order);
         }
-        if (newStatus == null) {
-            throw new InvalidOrderStatusTransitionException("Target status is required");
+        boolean canTransition = Optional.ofNullable(current).map(c -> c.canTransitionTo(newStatus)).orElse(false);
+        if (canTransition) {
+            if (newStatus == OrderStatusEnum.CANCELLED && current == OrderStatusEnum.PENDING) {
+                releaseReservations(order, "order.updateStatus.cancel:" + order.getOrderNumber());
+            }
+
+            if (!StringUtils.hasText(order.getPickupCode())) {
+                order.setPickupCode(generatePickupCode());
+            }
+
+            Order model = Order.fromEntity(order);
+            model.setPreviousStatus(current);
+            model.setStatus(newStatus);
+            model.setStatusChangedAt(LocalDateTime.now());
+            model.setStatusChangeReason(reason);
+            order = model.toEntity(order);
+
+            OrderEntity saved = orderRepository.save(order);
+            notificationService.notifyStatusChange(saved, current);
+            log.info("Order {} status {} -> {} by admin={}", saved.getOrderNumber(), current, newStatus, adminUserId);
+            return Order.fromEntity(saved);
         }
-
-        // Dashboard admin/guichet (adminUserId présent) : passage libre à tout moment.
-        // Sinon : respecter canTransitionTo (API publique / automatismes).
-        boolean allowed = adminUserId != null
-                || Optional.ofNullable(current).map(c -> c.canTransitionTo(newStatus)).orElse(false);
-        if (!allowed) {
-            throw new InvalidOrderStatusTransitionException(
-                    "Invalid order status transition: " + current + " -> " + newStatus);
-        }
-
-        if (newStatus == OrderStatusEnum.CANCELLED
-                && (current == OrderStatusEnum.PENDING || current == OrderStatusEnum.PROCESSING
-                || current == OrderStatusEnum.CONFIRMED)) {
-            releaseReservations(order, "order.updateStatus.cancel:" + order.getOrderNumber());
-        }
-
-        Order model = Order.fromEntity(order);
-        model.setPreviousStatus(current);
-        model.setStatus(newStatus);
-        model.setStatusChangedAt(LocalDateTime.now());
-        model.setStatusChangeReason(
-                (reason != null && !reason.isBlank())
-                        ? reason
-                        : "Status updated by operator");
-        order = model.toEntity(order);
-
-        OrderEntity saved = orderRepository.save(order);
-        notificationService.notifyStatusChange(saved, current);
-        log.info("Order {} status {} -> {} by admin={}", saved.getOrderNumber(), current, newStatus, adminUserId);
-        return Order.fromEntity(saved);
+        throw new InvalidOrderStatusTransitionException("Invalid order status transition: " + current + " -> " + newStatus);
     }
 
     @Override
@@ -469,29 +461,27 @@ public class OrderService implements IOrderService {
     public Order confirmPickup(Long orderId, String code) {
         OrderEntity order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
-        if (order.getStatus() == OrderStatusEnum.DELIVERED) {
-            return Order.fromEntity(order);
-        }
-        if (order.getStatus() == OrderStatusEnum.CANCELLED) {
+
+        if (StringUtils.hasText(code) && code.trim().equals(order.getPickupCode())) {
+            if (order.getStatus() == OrderStatusEnum.DELIVERED) {
+                return Order.fromEntity(order);
+            }
+
+            OrderStatusEnum previousStatus = order.getStatus();
+            Order model = Order.fromEntity(order);
+            model.setPreviousStatus(previousStatus);
+            model.setStatus(OrderStatusEnum.DELIVERED);
+            model.setStatusChangedAt(LocalDateTime.now());
+            model.setStatusChangeReason("Code de récupération validé au guichet");
+            order = model.toEntity(order);
+
+            OrderEntity saved = orderRepository.save(order);
+            notificationService.notifyStatusChange(saved, previousStatus);
+            log.info("Order {} pickup confirmed via code validation", saved.getOrderNumber());
+            return Order.fromEntity(saved);
+        } else {
             throw new ShopException("error_invalid_pickup_code", "exception_invalid_pickup_code");
         }
-        String expected = order.getPickupCode();
-        String provided = code == null ? "" : code.trim();
-        // Strict: exactly 6 digits and exact match with stored pickup code
-        if (expected == null || expected.isBlank()
-                || !provided.matches("\\d{6}")
-                || !expected.equals(provided)) {
-            throw new ShopException("error_invalid_pickup_code", "exception_invalid_pickup_code");
-        }
-        OrderStatusEnum current = order.getStatus();
-        order.setPreviousStatus(current);
-        order.setStatus(OrderStatusEnum.DELIVERED);
-        order.setStatusChangedAt(LocalDateTime.now());
-        order.setStatusChangeReason("Récupéré avec validation du code guichet");
-        OrderEntity saved = orderRepository.save(order);
-        notificationService.notifyStatusChange(saved, current);
-        log.info("Order {} pickup confirmed with code, status -> DELIVERED", saved.getOrderNumber());
-        return Order.fromEntity(saved);
     }
 
     @Override

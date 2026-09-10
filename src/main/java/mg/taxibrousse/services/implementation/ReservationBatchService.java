@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -126,7 +127,7 @@ public class ReservationBatchService implements IReservationBatchService {
                 List<String> usableSeatNumbers = getUsableSeatNumbersForCrafter(voyage.getCrafter());
                 int seatCapacity = usableSeatNumbers.size();
 
-                int targetOccupancy = calculateTargetOccupancy((int) diff, seatCapacity);
+                int targetOccupancy = calculateTargetOccupancy(voyage, (int) diff, seatCapacity);
 
                 List<Seat> existingSeats = seatService.findByVoyageId(voyageIdOpt.get());
                 int currentOccupied = existingSeats.size();
@@ -229,56 +230,115 @@ public class ReservationBatchService implements IReservationBatchService {
     }
 
     /**
-     * Calculates the target number of occupied seats on a voyage based on days left before departure.
+     * Calculates the dynamic target number of occupied seats for a voyage based on:
+     * - Days left before departure (urgency curve)
+     * - Day of the week (weekend/peak travel days modifier)
+     * - Departure time (peak morning/evening hours modifier)
+     * - Classe / comfort level modifier
+     * - Individual voyage dispersion (deterministic variance per voyage ID + small organic jitter)
      */
-    private int calculateTargetOccupancy(int daysUntilDeparture, int seatCapacity) {
-        double minRatio;
-        double maxRatio;
+    int calculateTargetOccupancy(Voyage voyage, int daysUntilDeparture, int seatCapacity) {
+        if (seatCapacity <= 0) {
+            return 0;
+        }
+
+        double baseMinRatio;
+        double baseMaxRatio;
 
         switch (daysUntilDeparture) {
             case 0 -> {
-                minRatio = 0.90;
-                maxRatio = 1.00;
+                baseMinRatio = 0.80;
+                baseMaxRatio = 1.00;
             }
             case 1 -> {
-                minRatio = 0.80;
-                maxRatio = 0.95;
+                baseMinRatio = 0.75;
+                baseMaxRatio = 0.95;
             }
             case 2 -> {
-                minRatio = 0.65;
-                maxRatio = 0.85;
+                baseMinRatio = 0.60;
+                baseMaxRatio = 0.85;
             }
             case 3 -> {
-                minRatio = 0.50;
-                maxRatio = 0.75;
+                baseMinRatio = 0.45;
+                baseMaxRatio = 0.75;
             }
             case 4 -> {
-                minRatio = 0.40;
-                maxRatio = 0.65;
+                baseMinRatio = 0.35;
+                baseMaxRatio = 0.65;
             }
             case 5 -> {
-                minRatio = 0.30;
-                maxRatio = 0.50;
+                baseMinRatio = 0.25;
+                baseMaxRatio = 0.50;
             }
             case 6 -> {
-                minRatio = 0.20;
-                maxRatio = 0.40;
+                baseMinRatio = 0.15;
+                baseMaxRatio = 0.40;
             }
             default -> {
-                minRatio = 0.15;
-                maxRatio = 0.35;
+                baseMinRatio = 0.10;
+                baseMaxRatio = 0.30;
             }
         }
 
-        int minSeats = (int) Math.round(seatCapacity * minRatio);
-        int maxSeats = (int) Math.round(seatCapacity * maxRatio);
+        double demandModifier = computeVoyageDemandModifier(voyage);
+        double voyageDispersion = computeVoyageDispersion(voyage);
 
-        if (maxSeats < minSeats) {
-            maxSeats = minSeats;
+        double range = Math.max(0.0, baseMaxRatio - baseMinRatio);
+        double randomJitter = (random.nextDouble() * 0.4 - 0.2) * range;
+
+        double targetRatio = baseMinRatio + demandModifier + voyageDispersion + (range > 0 ? random.nextDouble() * range * 0.5 : 0.0) + randomJitter;
+        double clampedRatio = Math.max(0.05, Math.min(1.00, targetRatio));
+
+        int target = (int) Math.round(seatCapacity * clampedRatio);
+        return Math.min(Math.max(target, 0), seatCapacity);
+    }
+
+    /**
+     * Computes demand modifiers based on departure day of week, hour of day, and voyage class.
+     */
+    double computeVoyageDemandModifier(Voyage voyage) {
+        if (voyage == null) {
+            return 0.0;
         }
 
-        int target = minSeats + (maxSeats > minSeats ? random.nextInt(maxSeats - minSeats + 1) : 0);
-        return Math.min(target, seatCapacity);
+        double modifier = 0.0;
+
+        if (voyage.getDepartureTime() != null) {
+            DayOfWeek dayOfWeek = voyage.getDepartureTime().getDayOfWeek();
+            if (dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SUNDAY) {
+                modifier += 0.10;
+            } else if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.MONDAY) {
+                modifier += 0.05;
+            }
+
+            int hour = voyage.getDepartureTime().getHour();
+            if ((hour >= 5 && hour <= 8) || (hour >= 16 && hour <= 19)) {
+                modifier += 0.06;
+            } else if (hour >= 11 && hour <= 14) {
+                modifier -= 0.04;
+            }
+        }
+
+        if (voyage.getClasse() != null && StringUtils.hasText(voyage.getClasse().getName())) {
+            String classeName = voyage.getClasse().getName().toUpperCase();
+            if (classeName.contains("VIP") || classeName.contains("PREMIUM")) {
+                modifier += 0.08;
+            }
+        }
+
+        return modifier;
+    }
+
+    /**
+     * Generates a deterministic dispersion modifier (-0.08 to +0.08) per voyage based on its ID.
+     * Ensures distinct voyages naturally have varied occupancy profiles.
+     */
+    double computeVoyageDispersion(Voyage voyage) {
+        if (voyage != null && voyage.getId() != null) {
+            long hash = Math.abs(voyage.getId().hashCode());
+            return ((hash % 17) - 8) / 100.0;
+        }
+        return 0.0;
     }
 
     private int reserveRandomSeats(Voyage voyage, int count, List<Seat> existingSeats, List<String> usableSeatNumbers) {

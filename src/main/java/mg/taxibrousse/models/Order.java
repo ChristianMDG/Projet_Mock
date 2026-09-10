@@ -58,6 +58,7 @@ public class Order extends BaseDto<OrderEntity> {
     private BigDecimal total;
     private String currency;
     private String trackingNumber;
+    private String pickupCode;
     private String carrier;
     private DeliveryMethodEnum deliveryMethod;
     private Long villeId;
@@ -65,7 +66,6 @@ public class Order extends BaseDto<OrderEntity> {
     private BigDecimal shippingWeight;
     private String promotionCode;
     private BigDecimal discountAmount;
-    private String pickupCode;
     private List<OrderItem> items;
 
     /** Transient: payment URL set by initiatePayment for hosted-checkout providers (PayPal, Stripe, OM). Not persisted. */
@@ -98,6 +98,7 @@ public class Order extends BaseDto<OrderEntity> {
         model.setTotal(entity.getTotal());
         model.setCurrency(entity.getCurrency());
         model.setTrackingNumber(entity.getTrackingNumber());
+        model.setPickupCode(entity.getPickupCode());
         model.setCarrier(entity.getCarrier());
         model.setDeliveryMethod(entity.getDeliveryMethod());
         Optional.ofNullable(entity.getVille()).ifPresent(v -> model.setVilleId(v.getId()));
@@ -105,7 +106,6 @@ public class Order extends BaseDto<OrderEntity> {
         model.setShippingWeight(entity.getShippingWeight());
         model.setPromotionCode(entity.getPromotionCode());
         model.setDiscountAmount(entity.getDiscountAmount());
-        model.setPickupCode(entity.getPickupCode());
         if (entity.getItems() != null) {
             model.setItems(mapEntities(entity.getItems(), OrderItem::fromEntity));
         }
@@ -138,14 +138,14 @@ public class Order extends BaseDto<OrderEntity> {
                 .total(entity.getTotal())
                 .currency(entity.getCurrency())
                 .trackingNumber(entity.getTrackingNumber())
+                .pickupCode(entity.getPickupCode())
                 .carrier(entity.getCarrier())
                 .deliveryMethod(entity.getDeliveryMethod())
                 .villeId(Optional.ofNullable(entity.getVille()).map(VilleEntity::getId).orElse(null))
                 .fokotanyId(Optional.ofNullable(entity.getFokotany()).map(FokotanyEntity::getId).orElse(null))
                 .shippingWeight(entity.getShippingWeight())
                 .promotionCode(entity.getPromotionCode())
-                .discountAmount(entity.getDiscountAmount())
-                .pickupCode(entity.getPickupCode());
+                .discountAmount(entity.getDiscountAmount());
     }
 
     public static Order fromEntityLight(OrderEntity entity) {
@@ -173,12 +173,12 @@ public class Order extends BaseDto<OrderEntity> {
         targetEntity.setTotal(Optional.ofNullable(total).orElse(BigDecimal.ZERO));
         targetEntity.setCurrency(Optional.ofNullable(currency).orElse("MGA"));
         targetEntity.setTrackingNumber(trackingNumber);
+        targetEntity.setPickupCode(pickupCode);
         targetEntity.setCarrier(carrier);
         targetEntity.setDeliveryMethod(deliveryMethod);
         targetEntity.setShippingWeight(shippingWeight);
         targetEntity.setPromotionCode(promotionCode);
         targetEntity.setDiscountAmount(Optional.ofNullable(discountAmount).orElse(BigDecimal.ZERO));
-        targetEntity.setPickupCode(pickupCode);
         applyRelations(targetEntity);
         return targetEntity;
     }

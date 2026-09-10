@@ -66,7 +66,7 @@ const ShopPaymentSuccessPage: React.FC = () => {
       </Stack>
 
       {/* Order details card */}
-      <Card sx={{ mb: 3, borderRadius: 2 }} elevation={0}>
+      <Card variant="outlined" sx={{ mb: 3, borderRadius: 2 }}>
         <CardContent>
           <Stack direction="row" sx={{ alignItems: 'center', mb: 2 }} spacing={1}>
             <Receipt sx={{ color: 'primary.main' }} />

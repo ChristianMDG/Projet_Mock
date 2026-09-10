@@ -67,8 +67,8 @@ export const Seat: React.FC<SeatProps> = memo(
           };
         case 'reserved':
           return {
-            border: `2px solid ${theme.palette.grey[400]}`,
-            color: theme.palette.error.contrastText,
+            border: `1.5px solid ${isDark ? theme.palette.grey[700] : theme.palette.grey[300]}`,
+            color: isDark ? theme.palette.text.primary : theme.palette.text.secondary,
             clickable: false,
           };
         case 'blocked':
@@ -89,8 +89,8 @@ export const Seat: React.FC<SeatProps> = memo(
         default:
           return {
             backgroundColor: isDark ? theme.palette.background.paper : 'white',
-            border: `1.5px solid ${isDark ? theme.palette.grey[700] : theme.palette.grey[300]}`,
-            color: isDark ? theme.palette.text.primary : theme.palette.text.secondary,
+            border: `2px solid ${theme.palette.grey[400]}`,
+            color: theme.palette.error.contrastText,
             boxShadow: `0 1px 3px 0 ${isDark ? theme.palette.grey[900] : theme.palette.grey[200]}`,
             fontWeight: 'bold',
             clickable: true,
@@ -180,13 +180,13 @@ export const Seat: React.FC<SeatProps> = memo(
           return <BrokenImageIcon sx={iconSx} />;
         case 'reserved':
           return (
-            <StyledBadge badgeContent={seatConfig.position} color="secondary" overlap="circular">
+            <StyledBadge badgeContent={seatConfig.position} color="default" overlap="circular">
               <Person color="primary" sx={iconSx} />
             </StyledBadge>
           );
         default:
           return (
-            <StyledBadge badgeContent={seatConfig.position} color="default" overlap="circular">
+            <StyledBadge badgeContent={seatConfig.position} color="secondary" overlap="circular">
               <UserSeatIcon color="primary" sx={iconSx} />
             </StyledBadge>
           );

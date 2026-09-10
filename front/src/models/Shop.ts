@@ -55,6 +55,7 @@ export interface Product {
   shortDescription: string;
   price: number;
   originalPrice?: number;
+  discountPercentage?: number;
   currency: string;
   images: StrapiMedia[];
   category: ProductCategory;

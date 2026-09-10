@@ -58,6 +58,18 @@ public interface ISeatRepository extends JpaRepository<SeatEntity, Long> {
     List<SeatEntity> findByVoyageIdAndSeatStatus(@Param("voyageId") Long voyageId, @Param("status") SeatStatusEnum status);
 
     /**
+     * Count reserved seats grouped by voyage IDs
+     */
+    @Query("""
+            SELECT s.voyage.id, COUNT(s)
+            FROM Seat s
+            WHERE s.seatStatus = 'RESERVED'
+            AND s.voyage.id IN :voyageIds
+            GROUP BY s.voyage.id
+            """)
+    List<Object[]> findReservedSeatsCountByVoyageIds(@Param("voyageIds") List<Long> voyageIds);
+
+    /**
      * Count available seats for a voyage
      */
     @Query("""

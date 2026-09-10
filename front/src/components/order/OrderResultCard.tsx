@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
-import { Alert, Box, Button, Chip, Divider, Paper, Stack, TextField, Typography } from '@mui/material';
+import React from 'react';
+import { Chip, Divider, Paper, Stack, Typography } from '@mui/material';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useTranslation } from 'react-i18next';
 import type { Order } from '@/types/order.types';
-import { OrderStatus } from '@/types/shop-enums.types';
 import dayjs from '@/utils/dayjs';
 import { getStatusChipColor, getStatusLabel } from '@/utils/order.utils';
-import { useConfirmOrderPickup } from '@/hooks/order.hooks';
-import Labels from '@/labelKeys.json';
+import OrderPickupVerification from './OrderPickupVerification';
 
 export interface OrderResultCardProps {
   order: Order;
@@ -21,53 +18,6 @@ const OrderResultCard: React.FC<OrderResultCardProps> = ({ order }) => {
   const hasItems = Boolean(order.items?.length);
   const orderRef = order.orderNumber ? `#${order.orderNumber}` : `#${order.id}`;
   const createdAt = order.createdAt ? dayjs(order.createdAt).locale(i18n.language).format('D MMMM YYYY') : null;
-
-  const isDelivered = order.status === OrderStatus.DELIVERED;
-  const canPickup =
-    !isDelivered &&
-    order.status !== OrderStatus.CANCELLED &&
-    order.status !== OrderStatus.PENDING &&
-    order.status !== OrderStatus.PAYMENT_FAILED;
-
-  const [code, setCode] = useState('');
-  const [localError, setLocalError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const confirmPickup = useConfirmOrderPickup();
-
-const handleValidate = async () => {
-    setLocalError(null);
-    const trimmed = code.trim();
-    if (!/^\d{6}$/.test(trimmed)) {
-      setLocalError(t(Labels.order_pickup_invalid_format));
-      return;
-    }
-    if (!order.id) {
-      setLocalError(t(Labels.order_pickup_invalid_code));
-      return;
-    }
-    try {
-      await confirmPickup.mutateAsync({ id: order.id, code: trimmed });
-      setSuccess(true);
-      setCode('');
-    } catch (err) {
-      const msg =
-        err && typeof err === 'object' && 'message' in err && typeof (err as Error).message === 'string'
-          ? (err as Error).message
-          : '';
-      if (msg === 'error_invalid_pickup_code' || msg === 'exception_invalid_pickup_code') {
-        setLocalError(t(Labels.error_invalid_pickup_code ?? Labels.order_pickup_invalid_code));
-      } else if (msg.startsWith('error_') || msg.startsWith('exception_')) {
-        const translated = t(msg);
-        setLocalError(translated !== msg ? translated : t(Labels.order_pickup_invalid_code));
-      } else {
-        setLocalError(t(Labels.order_pickup_invalid_code));
-      }
-    }
-  };
-
-
-  const showSuccessAlert = isDelivered || success;
-  const showPickupForm = canPickup && !success;
 
   return (
     <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 2 }}>
@@ -146,79 +96,22 @@ const handleValidate = async () => {
                   Articles
                 </Typography>
               </Stack>
-              {order.items.map((item, index) => {
-                const lineAmount =
-                  item.lineTotal ?? (item.unitPrice && item.quantity ? item.unitPrice * item.quantity : 0);
-                return (
-                  <Stack key={item.id ?? index} direction="row" sx={{ justifyContent: 'space-between', pl: 1 }}>
-                    <Typography variant="body2">
-                      {item.productName} × {item.quantity}
-                    </Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      {lineAmount.toLocaleString(i18n.language)} Ar
-                    </Typography>
-                  </Stack>
-                );
-              })}
+              {order.items.map(item => (
+                <Stack key={item.id} direction="row" sx={{ justifyContent: 'space-between', pl: 1 }}>
+                  <Typography variant="body2">
+                    {item.productName} × {item.quantity}
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                    {item.lineTotal?.toLocaleString(i18n.language)} Ar
+                  </Typography>
+                </Stack>
+              ))}
             </Stack>
           </>
         )}
 
-        {showSuccessAlert && (
-          <Alert severity="success" icon={<CheckCircleIcon fontSize="inherit" />}>
-            {t(Labels.order_pickup_success)}
-          </Alert>
-        )}
-
-        {showPickupForm && (
-          <Box
-            sx={{
-              p: 1.5,
-              borderRadius: 1,
-              bgcolor: 'action.hover',
-              border: '1px solid',
-              borderColor: 'divider',
-            }}
-          >
-            <Typography variant="subtitle2" gutterBottom>
-              {t(Labels.order_pickup_code_label)}
-            </Typography>
-            <Stack
-              direction={{ xs: 'column', sm: 'row' }}
-              spacing={1}
-              sx={{ alignItems: 'flex-start' }}
-            >
-              <TextField
-                size="small"
-                value={code}
-                onChange={e => {
-                  const v = e.target.value.replace(/\D/g, '').slice(0, 6);
-                  setCode(v);
-                  setLocalError(null);
-                }}
-                placeholder={t(Labels.order_pickup_code_placeholder)}
-                slotProps={{
-                  htmlInput: {
-                    inputMode: 'numeric',
-                    maxLength: 6,
-                    pattern: '\\d{6}',
-                  },
-                }}
-                error={Boolean(localError)}
-                helperText={localError}
-                sx={{ width: { xs: '100%', sm: 140 } }}
-              />
-              <Button
-                variant="contained"
-                size="small"
-                onClick={handleValidate}
-                disabled={confirmPickup.isPending || code.length !== 6}
-              >
-                {t(Labels.order_pickup_submit)}
-              </Button>
-            </Stack>
-          </Box>
-        )}
+        <Divider />
+        <OrderPickupVerification order={order} />
       </Stack>
     </Paper>
   );

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Alert, Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
+import { Alert, Button, Stack, Typography } from '@mui/material';
 import { Form, Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -43,7 +43,7 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
   const { selectedPaymentMethod, paymentPhone, setSelectedPaymentMethod } = useCheckoutStore();
   const phoneInputRef = useRef<HTMLInputElement>(null);
 
-  const { MVOLA, AIRTEL, ORANGE } = MobileMoneyOperatorEnum;
+  const { MVOLA, AIRTEL } = MobileMoneyOperatorEnum;
 
   useEffect(() => {
     const isMobileMoney = [
@@ -70,19 +70,24 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
   const validationSchema = Yup.object({
     paymentMethodId: Yup.string().required(t(Labels.payment_select_method)),
     mobileMoneyOperator: Yup.string().required(t(Labels.payment_select_operator)),
-    phoneNumber: Yup.string()
-      .matches(/^03[2-9]\d{7}$/, t(Labels.payment_validation_invalid_phone))
-      .required(t(Labels.payment_validation_phone_required)),
+    phoneNumber: Yup.string().when('paymentMethodId', {
+      is: (val: MobileMoneyOperatorEnum) => [MVOLA, AIRTEL].includes(val),
+      then: schema =>
+        schema
+          .matches(/^03[2-9]\d{7}$/, t(Labels.payment_validation_invalid_phone))
+          .required(t(Labels.payment_validation_phone_required)),
+      otherwise: schema => schema.optional(),
+    }),
   });
 
   return (
-    <Box>
+    <Stack spacing={2}>
       {onBack && (
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+        <Stack direction="row" sx={{ alignItems: 'center' }}>
           <Button startIcon={<ArrowBackIcon />} onClick={onBack} sx={{ fontWeight: 500 }}>
             {t(Labels.button_back)}
           </Button>
-        </Box>
+        </Stack>
       )}
 
       <Typography variant="h4" gutterBottom>
@@ -102,7 +107,9 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
             if (isSubmitting || isBusy) {
               return true;
             }
-            return !values.phoneNumber || !/^03[2-9]\d{7}$/.test(values.phoneNumber);
+            const isOperatorMobileMoney = [MVOLA, AIRTEL].includes(values.mobileMoneyOperator);
+            const hasPhone = Boolean(values.phoneNumber);
+            return isOperatorMobileMoney && hasPhone === false;
           };
 
           const phonePlaceholder = (() => {
@@ -118,7 +125,7 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
               <Stack spacing={2}>
                 <PaymentMethodAccordion selectedMethod={values.paymentMethodId} onMethodChange={handleMethodChange} />
 
-                {[MVOLA, AIRTEL, ORANGE].includes(values.mobileMoneyOperator) && (
+                {[MVOLA, AIRTEL].includes(values.mobileMoneyOperator) && (
                   <>
                     <FormTextField
                       inputRef={phoneInputRef}
@@ -152,13 +159,7 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
                     fullWidth
                     disabled={isSubmitDisabled()}
                     sx={{ py: 1.5 }}
-                    startIcon={
-                      isSubmitting || isBusy ? (
-                        <CircularProgress size={20} color="inherit" />
-                      ) : (
-                        <StyledIcon icon={PhoneAndroidOutlinedIcon} />
-                      )
-                    }
+                    startIcon={<StyledIcon icon={PhoneAndroidOutlinedIcon} />}
                   >
                     {isSubmitting || isBusy ? (
                       t(Labels.processing)
@@ -175,7 +176,7 @@ const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({
           );
         }}
       </Formik>
-    </Box>
+    </Stack>
   );
 };
 

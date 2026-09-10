@@ -1,51 +1,90 @@
-import React from 'react';
-import { Box, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import React, { memo } from 'react';
+import { Typography, Stack, Grid, Paper } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import type { Product } from '@/models/Shop';
-import ProductCard from './ProductCard';
+import type { Product, SortOption } from '@/models/Shop';
+import ProductCard from '@/components/shop/ProductCard';
+import ProductGridEmpty from '@/components/shop/ProductGridEmpty';
+import ShopSortSelect from '@/components/shop/ShopSortSelect';
 import Labels from '@/labelKeys.json';
 
 interface ProductGridProps {
   products: Product[];
-  parentCategorySlug?: string | null;
-  subcategorySlugs?: string[];
   onProductClick?: (product: Product) => void;
+  onClearFilters?: () => void;
   title?: string;
+  sortBy?: SortOption;
+  onSortChange?: (sort: SortOption) => void;
+  searchQuery?: string;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ products, subcategorySlugs, onProductClick, title }) => {
+const BORDERED_GRID_SX = {
+  '--Grid-borderWidth': '1px',
+  borderTop: 'var(--Grid-borderWidth) solid',
+  borderLeft: 'var(--Grid-borderWidth) solid',
+  borderColor: 'divider',
+  '& > div': {
+    borderRight: 'var(--Grid-borderWidth) solid',
+    borderBottom: 'var(--Grid-borderWidth) solid',
+    borderColor: 'divider',
+  },
+} as const;
+
+const ProductGrid: React.FC<ProductGridProps> = ({
+  products,
+  onProductClick,
+  onClearFilters,
+  title,
+  sortBy,
+  onSortChange,
+  searchQuery,
+}) => {
   const { t } = useTranslation();
 
-  const displayedProducts = subcategorySlugs?.length
-    ? products.filter(p => p.category?.slug && subcategorySlugs.includes(p.category.slug))
-    : products;
+  const hasProducts = products.length > 0;
+  const hasNoProducts = products.length === 0;
+  const hasTitle = Boolean(title);
+  const hasSort = Boolean(sortBy && onSortChange);
 
   return (
-    <Box sx={{ mb: 3 }}>
-      {title && (
-        <Typography variant="h4" sx={{ mb: 3, fontWeight: 600 }}>
-          {title}
-        </Typography>
+    <Stack spacing={{ xs: 1.5, md: 2 }}>
+      {(hasTitle || hasSort) && (
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: { xs: 0.75, sm: 1 },
+          }}
+        >
+          <Stack direction="row" spacing={1} sx={{ alignItems: 'baseline' }}>
+            {hasTitle && <Typography variant="h6">{title}</Typography>}
+            {hasProducts && (
+              <Typography variant="caption" color="text.secondary">
+                ({t(Labels.shop_results_count, { count: products.length })})
+              </Typography>
+            )}
+          </Stack>
+          {hasSort && hasProducts && <ShopSortSelect value={sortBy!} onChange={onSortChange!} />}
+        </Stack>
       )}
 
-      <Grid container spacing={2}>
-        {displayedProducts.map(product => (
-          <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={product.id}>
-            <ProductCard product={product} onClick={onProductClick} />
+      {hasProducts && (
+        <Paper elevation={0} sx={{ overflow: 'hidden', borderRadius: 0, bgcolor: 'transparent' }}>
+          <Grid container sx={BORDERED_GRID_SX}>
+            {products.map(product => (
+              <Grid size={{ xs: 6, sm: 4, md: 4, lg: 3 }} key={product.id}>
+                <ProductCard product={product} onClick={onProductClick} searchQuery={searchQuery} />
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-
-      {displayedProducts.length === 0 && (
-        <Box sx={{ textAlign: 'center', py: 8 }}>
-          <Typography variant="h6" color="text.secondary">
-            {t(Labels.shop_no_products)}
-          </Typography>
-        </Box>
+        </Paper>
       )}
-    </Box>
+
+      {hasNoProducts && <ProductGridEmpty onClearFilters={onClearFilters} searchQuery={searchQuery} />}
+    </Stack>
   );
 };
 
-export default ProductGrid;
+export default memo(ProductGrid);

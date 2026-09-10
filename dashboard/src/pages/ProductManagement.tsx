@@ -214,7 +214,7 @@ export default function ProductManagement() {
 
       {isLoading ? <LinearProgress sx={{ mb: 1, borderRadius: 1 }} /> : null}
 
-      <Box sx={{ width: '100%' }}>
+      <Box sx={{ width: 1 }}>
         <MaterialReactTable
           {...mrtTableProps}
           columns={columns}
@@ -222,9 +222,7 @@ export default function ProductManagement() {
           state={{ isLoading }}
           initialState={{ density: 'compact', pagination: { pageIndex: 0, pageSize: 20 } }}
           renderEmptyRowsFallback={() => (
-            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', py: 4 }}>
-              {t(Labels.shop_product_none)}
-            </Box>
+            <Box sx={{ width: 1, display: 'flex', justifyContent: 'center', py: 4 }}>{t(Labels.shop_product_none)}</Box>
           )}
         />
       </Box>

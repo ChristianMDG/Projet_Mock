@@ -58,6 +58,20 @@ public interface IVoyageRepository extends JpaRepository<VoyageEntity, Long> {
             """)
     Page<VoyageEntity> findAllWithRelations(Pageable pageable);
 
+    @Query("""
+                SELECT v FROM Voyage v
+                INNER JOIN FETCH v.koperative k
+                INNER JOIN FETCH v.departureGare dg
+                INNER JOIN FETCH dg.ville dv
+                INNER JOIN FETCH v.arrivalGare ag
+                INNER JOIN FETCH ag.ville av
+                WHERE v.isTemplate = false
+                  AND v.status = 'SCHEDULED'
+                  AND v.departureTime >= :since
+                ORDER BY v.departureTime ASC
+            """)
+    List<VoyageEntity> findUpcomingVoyagesForSearchIndex(@Param("since") LocalDateTime since);
+
     // JPA queries returning complete Voyage entities with related data
     @Query("""
                 SELECT v FROM Voyage v

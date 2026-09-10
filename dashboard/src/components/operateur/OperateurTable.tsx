@@ -4,7 +4,7 @@ import { Box, Typography, Chip } from '@mui/material';
 import { CheckCircle, Cancel } from '@mui/icons-material';
 import { MaterialReactTable, type MRT_ColumnDef, type MRT_PaginationState } from 'material-react-table';
 import type { UserOperator } from '@/types/operateur.types';
-import { mrtTableProps, StyledSwitch } from '@/components/shared';
+import { mrtTableProps, StyledSwitch, PhoneLink } from '@/components/shared';
 import { useUpdateOperateur } from '@/hooks/operateur.hook';
 import Labels from '@/labelKeys.json';
 
@@ -43,7 +43,7 @@ function getColumns(
       header: t(Labels.operateur_col_phone),
       accessorKey: 'phone',
       size: 150,
-      Cell: ({ cell }) => cell.getValue<string>() ?? '-',
+      Cell: ({ cell }) => <PhoneLink phone={cell.getValue<string>()} />,
     },
     {
       header: t(Labels.user_email),

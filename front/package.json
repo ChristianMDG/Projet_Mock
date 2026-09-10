@@ -11,7 +11,7 @@
     "build": "npm run build:client && npm run build:server",
     "build:client": "tsc -b && vite build --mode production",
     "build:server": "SSR_BUILD=true vite build --mode production",
-    "test": "vitest run",
+    "test": "vitest run --exclude 'e2e/**'",
     "test:e2e": "playwright test",
     "build:dev": "tsc -b && vite build --mode development",
     "lint": "eslint .",

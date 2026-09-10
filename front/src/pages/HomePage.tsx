@@ -2,6 +2,7 @@ import Container from '@mui/material/Container';
 import { Box } from '@mui/material';
 import Section from '@/components/section/Section';
 import LiveRoutePricing from '@/components/section/LiveRoutePricing';
+import ShopPresenceBanner from '@/components/section/ShopPresenceBanner';
 import SEO from '@/components/shared/SEO';
 import { SECTION_TYPES, HOME_PAGE_ESSENTIAL_SECTIONS } from '@/constants';
 
@@ -22,6 +23,9 @@ export default function HomePage() {
       <SEO title={t(Labels.nav_home)} siteSearchUrlTemplate={siteSearchUrlTemplate} />
       <HeroSearch />
       <Container maxWidth="lg" sx={{ px: '0 !important' }}>
+        <Box sx={{ mt: 4, mb: 4 }}>
+          <ShopPresenceBanner />
+        </Box>
         <LiveRoutePricing sx={{ my: 4 }} />
         <Box sx={{ mt: 4 }}>
           {HOME_PAGE_ESSENTIAL_SECTIONS.map((sectionType, index) => (

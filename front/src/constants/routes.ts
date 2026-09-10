@@ -218,6 +218,11 @@ export const ROUTES: Record<string, LocalizedPath> = {
     fr: '/fr/boutique',
     en: '/en/shop',
   },
+  shopCategory: {
+    mg: '/tsena/sokajy/:slug',
+    fr: '/fr/boutique/categorie/:slug',
+    en: '/en/shop/category/:slug',
+  },
   shopProduct: {
     mg: '/tsena/:slug',
     fr: '/fr/boutique/:slug',
@@ -297,6 +302,8 @@ export const generateRoute = {
 
   paymentSuccess: (voyageId: string | number, language = 'mg') =>
     ROUTES.paymentSuccess[language].replace(':voyageId', String(voyageId)),
+
+  shopCategory: (slug: string, language = 'mg') => ROUTES.shopCategory[language].replace(':slug', slug),
 
   shopProduct: (slug: string, language = 'mg') => ROUTES.shopProduct[language].replace(':slug', slug),
 };

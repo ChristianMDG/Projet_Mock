@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mg.taxibrousse.controllers.interfaces.IOrderController;
 import mg.taxibrousse.dto.shop.BuyNowRequest;
+import mg.taxibrousse.dto.shop.ConfirmPickupRequest;
 import mg.taxibrousse.dto.shop.OrderPaymentRequest;
 import mg.taxibrousse.dto.shop.OrderSearchParams;
 import mg.taxibrousse.dto.shop.UpdateOrderStatusRequest;
@@ -13,7 +14,6 @@ import mg.taxibrousse.entities.enums.OrderStatusEnum;
 import mg.taxibrousse.models.Order;
 import mg.taxibrousse.repositories.IUserInfoRepository;
 import mg.taxibrousse.services.IOrderService;
-import mg.taxibrousse.dto.shop.PickupVerificationRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -109,6 +109,11 @@ public class OrderController implements IOrderController {
     }
 
     @Override
+    public ResponseEntity<Order> confirmPickup(Long id, ConfirmPickupRequest body) {
+        return ResponseEntity.ok(orderService.confirmPickup(id, body.code()));
+    }
+
+    @Override
     public ResponseEntity<Order> initiatePayment(Long id, OrderPaymentRequest body) throws IOException, InterruptedException {
         return ResponseEntity.ok(orderService.initiatePayment(id, body));
     }
@@ -130,9 +135,4 @@ public class OrderController implements IOrderController {
         }
         return null;
     }
-
-    @Override
-    public ResponseEntity<Order> confirmPickup(Long id, @Valid @RequestBody PickupVerificationRequest body) {
-        return ResponseEntity.ok(orderService.confirmPickup(id, body.getCode()));
-}
 }

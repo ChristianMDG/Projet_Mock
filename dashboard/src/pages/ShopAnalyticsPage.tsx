@@ -34,12 +34,18 @@ import Labels from '@/labelKeys.json';
 const today = () => dayjs().format('YYYY-MM-DD');
 const daysAgo = (n: number) => dayjs().subtract(n, 'day').format('YYYY-MM-DD');
 
-const STATUS_COLORS: Record<OrderStatusEnum, string> = {
+const STATUS_COLORS: Partial<Record<OrderStatusEnum, string>> = {
   [OrderStatusEnum.PENDING]: paletteTokens.warning,
+  [OrderStatusEnum.CONFIRMED]: paletteTokens.info,
+  [OrderStatusEnum.READY_IN_STORE]: paletteTokens.info,
+  [OrderStatusEnum.DELIVERY_TO_STATION]: paletteTokens.indigo,
+  [OrderStatusEnum.DELIVERY_IN_PROGRESS]: paletteTokens.teal,
+  [OrderStatusEnum.AVAILABLE_AT_COUNTER]: paletteTokens.warning,
   [OrderStatusEnum.PROCESSING]: paletteTokens.info,
   [OrderStatusEnum.SHIPPED]: paletteTokens.indigo,
   [OrderStatusEnum.DELIVERED]: paletteTokens.success,
   [OrderStatusEnum.CANCELLED]: paletteTokens.error,
+  [OrderStatusEnum.PAYMENT_FAILED]: paletteTokens.error,
 };
 
 export default function ShopAnalyticsPage() {
@@ -150,7 +156,7 @@ export default function ShopAnalyticsPage() {
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
         <Grid size={{ xs: 12, md: 8 }}>
-          <Paper sx={{ p: 2, borderRadius: 2.5, height: '100%' }} variant="outlined">
+          <Paper sx={{ p: 2, borderRadius: 2.5, height: 1 }} variant="outlined">
             <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
               <ShoppingBag sx={{ color: paletteTokens.indigo }} />
               <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -182,7 +188,7 @@ export default function ShopAnalyticsPage() {
           </Paper>
         </Grid>
         <Grid size={{ xs: 12, md: 4 }}>
-          <Paper sx={{ p: 2, borderRadius: 2.5, height: '100%' }} variant="outlined">
+          <Paper sx={{ p: 2, borderRadius: 2.5, height: 1 }} variant="outlined">
             <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>
               {t(Labels.shop_analytics_status_distribution)}
             </Typography>

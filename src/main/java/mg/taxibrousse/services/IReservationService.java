@@ -40,4 +40,6 @@ public interface IReservationService extends IBaseService {
 
     Reservation attachVoyageur(Long reservationId, Long voyageurId);
 
+    Reservation enrichReservation(Reservation reservation);
+
 }

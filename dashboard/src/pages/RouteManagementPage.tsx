@@ -18,7 +18,7 @@ import type { Route } from '@/api/route.api';
 import { useRoutesByVille, useUpdateRoute } from '@/hooks/route.hook';
 import { useVilles } from '@/hooks/ville.hook';
 import { useRouteStore } from '@/stores/route.store';
-import { SectionHeader } from '@/components/shared';
+import { SectionHeader, StyledIcon } from '@/components/shared';
 import VilleSelector from '@/components/VilleSelector';
 import RouteList from '@/components/RouteList';
 import RouteEditForm from '@/components/RouteEditForm';
@@ -127,7 +127,7 @@ export default function RouteManagementPage() {
                       input: {
                         startAdornment: (
                           <InputAdornment position="start">
-                            <Search />
+                            <StyledIcon icon={Search} />
                           </InputAdornment>
                         ),
                       },

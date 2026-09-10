@@ -10,6 +10,7 @@ import {
   getProducts,
   getProductBySlug,
   getSimpleSearch,
+  getKoperativePartners,
 } from '@/api/cms.api';
 import {
   HeroContentResponse,
@@ -19,6 +20,7 @@ import {
   PromotionBannerResponse,
   SimpleSearchResponse,
   ProductFilters,
+  KoperativePartner,
 } from '@/types/cms.types';
 import type { Category, Product } from '@/models/Shop';
 
@@ -108,5 +110,13 @@ export function useSimpleSearch() {
     queryKey: ['simple-search'],
     queryFn: getSimpleSearch,
     staleTime: 15 * 60 * 1000,
+  });
+}
+
+export function useKoperativePartners() {
+  const { i18n } = useTranslation();
+  return useQuery<KoperativePartner[], Error>({
+    queryKey: ['koperative-partners', i18n.language],
+    queryFn: () => getKoperativePartners(i18n.language),
   });
 }

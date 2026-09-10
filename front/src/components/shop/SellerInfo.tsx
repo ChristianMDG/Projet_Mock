@@ -1,8 +1,9 @@
 import React from 'react';
 import {
-  Box,
+  Card,
+  CardContent,
+  CardActions,
   Typography,
-  Paper,
   Rating,
   Avatar,
   Chip,
@@ -16,12 +17,12 @@ import StorefrontOutlined from '@mui/icons-material/StorefrontOutlined';
 import LocationOn from '@mui/icons-material/LocationOn';
 import Verified from '@mui/icons-material/Verified';
 import StarBorder from '@mui/icons-material/StarBorder';
+import Inventory from '@mui/icons-material/Inventory';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import FacebookIcon from '@mui/icons-material/Facebook';
 import { useTranslation } from 'react-i18next';
 import type { Product } from '@/models/Shop';
 import Labels from '@/labelKeys.json';
-import { Inventory } from '@mui/icons-material';
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import FacebookIcon from '@mui/icons-material/Facebook';
 
 interface SellerInfoProps {
   product: Product;
@@ -33,22 +34,22 @@ const SellerInfo: React.FC<SellerInfoProps> = ({ product }) => {
   const isTopRated = (seller?.rating ?? 0) >= 4.5;
 
   return seller ? (
-    <Paper variant="outlined" sx={{ mt: 3, overflow: 'hidden' }}>
+    <Card sx={{ mt: 1, overflow: 'hidden' }}>
       {/* Header */}
-      <Box sx={{ p: 2.5, display: 'flex', alignItems: 'center', gap: 2 }}>
+      <CardContent sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1.5, '&:last-child': { pb: 2 } }}>
         <Avatar
           sx={{
-            width: 64,
-            height: 64,
+            width: 48,
+            height: 48,
             bgcolor: 'secondary.main',
             color: 'secondary.contrastText',
-            fontSize: 28,
+            fontSize: 22,
           }}
         >
           <StorefrontOutlined />
         </Avatar>
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5, flexWrap: 'wrap', gap: 1 }}>
+        <Stack sx={{ flex: 1, minWidth: 0 }}>
+          <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 0.5, flexWrap: 'wrap' }}>
             <Typography variant="subtitle1" sx={{ fontWeight: 700 }} noWrap>
               {seller?.name}
             </Typography>
@@ -66,13 +67,9 @@ const SellerInfo: React.FC<SellerInfoProps> = ({ product }) => {
                 color="secondary"
               />
             )}
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
-            <Stack
-              direction="row"
-              spacing={0.5}
-              sx={{ alignItems: 'center', color: 'text.secondary', justifyContent: 'space-between' }}
-            >
+          </Stack>
+          <Stack direction="row" spacing={2} sx={{ alignItems: 'center', flexWrap: 'wrap' }}>
+            <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center', color: 'text.secondary' }}>
               <LocationOn sx={{ fontSize: 14 }} />
               <Typography variant="caption">{seller.location}</Typography>
             </Stack>
@@ -82,26 +79,26 @@ const SellerInfo: React.FC<SellerInfoProps> = ({ product }) => {
                 {(seller?.rating ?? 0).toFixed(1)}
               </Typography>
             </Stack>
-          </Box>
-        </Box>
-      </Box>
+          </Stack>
+        </Stack>
+      </CardContent>
 
       <Divider />
 
       {/* Stats footer */}
-      <Box
+      <CardActions
         sx={{
-          px: 2.5,
-          py: 1.5,
+          px: 2,
+          py: 1,
           display: 'flex',
           flexDirection: { xs: 'column', sm: 'row' },
           alignItems: { xs: 'stretch', sm: 'center' },
           justifyContent: 'space-between',
-          gap: 2,
-          bgcolor: 'background.default',
+          gap: 1.5,
+          bgcolor: 'action.hover',
         }}
       >
-        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', color: 'text.secondary' }}>
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap', color: 'text.secondary' }}>
           <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
             <Inventory fontSize="small" />
             <Typography variant="caption" sx={{ fontWeight: 500 }}>
@@ -116,8 +113,8 @@ const SellerInfo: React.FC<SellerInfoProps> = ({ product }) => {
               </Typography>
             </Stack>
           )}
-        </Box>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        </Stack>
+        <Stack direction="row" spacing={1}>
           <Tooltip title={t(Labels.chat_messenger)}>
             <IconButton
               size="small"
@@ -142,9 +139,9 @@ const SellerInfo: React.FC<SellerInfoProps> = ({ product }) => {
               <WhatsAppIcon fontSize="small" />
             </IconButton>
           </Tooltip>
-        </Box>
-      </Box>
-    </Paper>
+        </Stack>
+      </CardActions>
+    </Card>
   ) : null;
 };
 

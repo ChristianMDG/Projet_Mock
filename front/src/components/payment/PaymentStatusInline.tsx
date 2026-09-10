@@ -219,36 +219,16 @@ const PaymentStatusInline: React.FC<PaymentStatusInlineProps> = ({
     [COMPLETED, FAILED, TIMEOUT, CANCELLED].includes(status);
 
   const shouldShowRetryButton = () => onRetry && isTerminalStatus(paymentStatus) && paymentStatus !== COMPLETED;
+  const showCompletionAlert = Boolean(getAlertMessage()) && !isPendingValidation();
 
   const activeColor = statusColors[paymentStatus] || statusColors.default;
-
-  const wsChip = (
-    <Chip
-      icon={wsConnected ? <WifiRounded sx={{ fontSize: 'small' }} /> : <WifiOffRounded sx={{ fontSize: 'small' }} />}
-      label={wsConnected ? t(Labels.user_connected) : t(Labels.user_disconnected)}
-      color={wsConnected ? 'success' : 'default'}
-      size="small"
-      variant={wsConnected ? 'filled' : 'outlined'}
-      sx={{
-        fontWeight: 600,
-        borderRadius: '8px',
-        ...(wsConnected && {
-          bgcolor: alpha(theme.palette.success.main, 0.1),
-          color: 'success.main',
-          border: '1px solid',
-          borderColor: alpha(theme.palette.success.main, 0.2),
-          '& .MuiChip-icon': { color: 'success.main' },
-        }),
-      }}
-    />
-  );
 
   return (
     <Zoom in={true} style={{ transitionDelay: '100ms' }}>
       <Stack
         spacing={2}
         sx={{
-          position: 'relative',
+          width: '100%',
           zIndex: 1,
           alignItems: 'center',
         }}
@@ -287,67 +267,95 @@ const PaymentStatusInline: React.FC<PaymentStatusInlineProps> = ({
           </Fade>
         )}
 
-        {/* WebSocket status — inline on mobile, absolute on desktop */}
-        {isMobile ? (
-          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>{wsChip}</Box>
-        ) : (
-          <Box sx={{ position: 'absolute', top: 0, right: 0 }}>{wsChip}</Box>
-        )}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: isMobile ? 2 : 3,
+            width: '100%',
+          }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: isMobile ? 2 : 3, minWidth: 0 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>{getStatusIcon()}</Box>
 
-        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: isMobile ? 2 : 3, width: '100%' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>{getStatusIcon()}</Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, minWidth: 0 }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  color: activeColor,
+                  letterSpacing: '-0.5px',
+                  fontWeight: '700',
+                }}
+              >
+                {getStatusMessage()}
+              </Typography>
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <Typography
-              variant="h5"
-              sx={{
-                color: activeColor,
-                letterSpacing: '-0.5px',
-                fontWeight: '700',
-              }}
-            >
-              {getStatusMessage()}
-            </Typography>
-
-            {transactionReference && (
-              <Fade in={true}>
-                <Box
-                  sx={{
-                    gap: 1,
-                    py: 0.5,
-                    px: 1.5,
-                    borderRadius: 2,
-                    border: '1px solid',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    background: alpha(theme.palette.text.primary, 0.04),
-                    borderColor: alpha(theme.palette.text.primary, 0.04),
-                    alignSelf: 'flex-start',
-                  }}
-                >
-                  <Typography
-                    variant="caption"
-                    color="text.secondary"
+              {transactionReference && (
+                <Fade in={true}>
+                  <Box
                     sx={{
-                      fontWeight: 'medium',
+                      gap: 1,
+                      py: 0.5,
+                      px: 1.5,
+                      borderRadius: 2,
+                      border: '1px solid',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      background: alpha(theme.palette.text.primary, 0.04),
+                      borderColor: alpha(theme.palette.text.primary, 0.04),
+                      alignSelf: 'flex-start',
                     }}
                   >
-                    {t(Labels.payment_otp_title)}:
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.primary"
-                    sx={{
-                      fontWeight: '700',
-                      fontFamily: 'SFMono-Regular, Consolas, monospace',
-                    }}
-                  >
-                    {transactionReference}
-                  </Typography>
-                </Box>
-              </Fade>
-            )}
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{
+                        fontWeight: 'medium',
+                      }}
+                    >
+                      {t(Labels.payment_otp_title)}:
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.primary"
+                      sx={{
+                        fontWeight: '700',
+                        fontFamily: 'SFMono-Regular, Consolas, monospace',
+                      }}
+                    >
+                      {transactionReference}
+                    </Typography>
+                  </Box>
+                </Fade>
+              )}
+            </Box>
           </Box>
+
+          <Chip
+            icon={
+              wsConnected ? <WifiRounded sx={{ fontSize: 'small' }} /> : <WifiOffRounded sx={{ fontSize: 'small' }} />
+            }
+            label={wsConnected ? t(Labels.user_connected) : t(Labels.user_disconnected)}
+            color={wsConnected ? 'success' : 'default'}
+            size="small"
+            variant={wsConnected ? 'filled' : 'outlined'}
+            sx={{
+              fontWeight: 600,
+              borderRadius: '8px',
+              flexShrink: 0,
+              alignSelf: { xs: 'flex-end', sm: 'center' },
+              ...(wsConnected && {
+                bgcolor: alpha(theme.palette.success.main, 0.1),
+                color: 'success.main',
+                border: '1px solid',
+                borderColor: alpha(theme.palette.success.main, 0.2),
+                '& .MuiChip-icon': { color: 'success.main' },
+              }),
+            }}
+          />
         </Box>
 
         {/* Alerts */}
@@ -380,7 +388,7 @@ const PaymentStatusInline: React.FC<PaymentStatusInlineProps> = ({
             </Fade>
           )}
 
-          {getAlertMessage() && !isPendingValidation() && (
+          {showCompletionAlert && (
             <Fade in={true}>
               <Alert
                 severity={getStatusColor()}

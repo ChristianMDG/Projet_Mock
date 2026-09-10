@@ -126,29 +126,29 @@ export interface ProductCategoryReorderItem {
 export enum OrderStatusEnum {
   PENDING = 'PENDING',
   CONFIRMED = 'CONFIRMED',
-  PAYMENT_FAILED = 'PAYMENT_FAILED',
-  PROCESSING = 'PROCESSING',
-  SHIPPED = 'SHIPPED',
   READY_IN_STORE = 'READY_IN_STORE',
   DELIVERY_TO_STATION = 'DELIVERY_TO_STATION',
   DELIVERY_IN_PROGRESS = 'DELIVERY_IN_PROGRESS',
   AVAILABLE_AT_COUNTER = 'AVAILABLE_AT_COUNTER',
+  PROCESSING = 'PROCESSING',
+  SHIPPED = 'SHIPPED',
   DELIVERED = 'DELIVERED',
   CANCELLED = 'CANCELLED',
+  PAYMENT_FAILED = 'PAYMENT_FAILED',
 }
 
 export const OrderStatusLabels: Record<OrderStatusEnum, string> = {
   [OrderStatusEnum.PENDING]: 'shop_order_status_pending',
   [OrderStatusEnum.CONFIRMED]: 'shop_order_status_confirmed',
-  [OrderStatusEnum.PAYMENT_FAILED]: 'shop_order_status_payment_failed',
-  [OrderStatusEnum.PROCESSING]: 'shop_order_status_processing',
-  [OrderStatusEnum.SHIPPED]: 'shop_order_status_shipped',
   [OrderStatusEnum.READY_IN_STORE]: 'shop_order_status_ready_in_store',
   [OrderStatusEnum.DELIVERY_TO_STATION]: 'shop_order_status_delivery_to_station',
   [OrderStatusEnum.DELIVERY_IN_PROGRESS]: 'shop_order_status_delivery_in_progress',
   [OrderStatusEnum.AVAILABLE_AT_COUNTER]: 'shop_order_status_available_at_counter',
+  [OrderStatusEnum.PROCESSING]: 'shop_order_status_processing',
+  [OrderStatusEnum.SHIPPED]: 'shop_order_status_shipped',
   [OrderStatusEnum.DELIVERED]: 'shop_order_status_delivered',
   [OrderStatusEnum.CANCELLED]: 'shop_order_status_cancelled',
+  [OrderStatusEnum.PAYMENT_FAILED]: 'shop_order_status_payment_failed',
 };
 
 type ChipColor = 'default' | 'info' | 'primary' | 'success' | 'error' | 'warning';
@@ -156,72 +156,25 @@ type ChipColor = 'default' | 'info' | 'primary' | 'success' | 'error' | 'warning
 export const OrderStatusChipColors: Record<OrderStatusEnum, ChipColor> = {
   [OrderStatusEnum.PENDING]: 'warning',
   [OrderStatusEnum.CONFIRMED]: 'info',
-  [OrderStatusEnum.PAYMENT_FAILED]: 'error',
-  [OrderStatusEnum.PROCESSING]: 'info',
-  [OrderStatusEnum.SHIPPED]: 'primary',
   [OrderStatusEnum.READY_IN_STORE]: 'info',
   [OrderStatusEnum.DELIVERY_TO_STATION]: 'primary',
   [OrderStatusEnum.DELIVERY_IN_PROGRESS]: 'primary',
   [OrderStatusEnum.AVAILABLE_AT_COUNTER]: 'warning',
+  [OrderStatusEnum.PROCESSING]: 'info',
+  [OrderStatusEnum.SHIPPED]: 'primary',
   [OrderStatusEnum.DELIVERED]: 'success',
   [OrderStatusEnum.CANCELLED]: 'error',
+  [OrderStatusEnum.PAYMENT_FAILED]: 'error',
 };
-
-/** Parcours logistique gare (5 statuts métier). */
-export const LOGISTICS_STATUS_FLOW: OrderStatusEnum[] = [
-  OrderStatusEnum.READY_IN_STORE,
-  OrderStatusEnum.DELIVERY_TO_STATION,
-  OrderStatusEnum.DELIVERY_IN_PROGRESS,
-  OrderStatusEnum.AVAILABLE_AT_COUNTER,
-  OrderStatusEnum.DELIVERED,
-];
-
-/** Statuts sélectionnables librement par l'admin/guichet. */
-export const OPERATOR_SELECTABLE_STATUSES: OrderStatusEnum[] = [
-  OrderStatusEnum.PENDING,
-  OrderStatusEnum.CONFIRMED,
-  OrderStatusEnum.PROCESSING,
-  OrderStatusEnum.READY_IN_STORE,
-  OrderStatusEnum.DELIVERY_TO_STATION,
-  OrderStatusEnum.DELIVERY_IN_PROGRESS,
-  OrderStatusEnum.AVAILABLE_AT_COUNTER,
-  OrderStatusEnum.DELIVERED,
-  OrderStatusEnum.CANCELLED,
-];
-
-/** Prochain statut logique dans le parcours gare. */
-export function suggestedNextStatus(current?: OrderStatusEnum | null): OrderStatusEnum | null {
-  if (!current) return OrderStatusEnum.READY_IN_STORE;
-  switch (current) {
-    case OrderStatusEnum.PENDING:
-    case OrderStatusEnum.CONFIRMED:
-    case OrderStatusEnum.PROCESSING:
-    case OrderStatusEnum.SHIPPED:
-    case OrderStatusEnum.PAYMENT_FAILED:
-      return OrderStatusEnum.READY_IN_STORE;
-    case OrderStatusEnum.READY_IN_STORE:
-      return OrderStatusEnum.DELIVERY_TO_STATION;
-    case OrderStatusEnum.DELIVERY_TO_STATION:
-      return OrderStatusEnum.DELIVERY_IN_PROGRESS;
-    case OrderStatusEnum.DELIVERY_IN_PROGRESS:
-      return OrderStatusEnum.AVAILABLE_AT_COUNTER;
-    case OrderStatusEnum.AVAILABLE_AT_COUNTER:
-      return OrderStatusEnum.DELIVERED;
-    default:
-      return null;
-  }
-}
 
 export interface OrderItem {
   id: number;
   productId?: number;
   productName: string;
-  productSku?: string;
   variantLabel?: string;
   quantity: number;
   unitPrice: number;
-  subtotal?: number;
-  lineTotal?: number;
+  subtotal: number;
 }
 
 export interface OrderAddress {
@@ -241,18 +194,15 @@ export interface Order {
   customerName?: string;
   customerEmail?: string;
   customerPhone?: string;
+  pickupCode?: string;
   status: OrderStatusEnum;
   allowedNextStatuses?: OrderStatusEnum[];
   subtotal: number;
-  shipping?: number;
   deliveryFee?: number;
-  discountAmount?: number;
-  pickupCode?: string;
   discount?: number;
   total: number;
   items: OrderItem[];
-  deliveryAddress?: string | OrderAddress;
-  billingAddress?: string;
+  deliveryAddress?: OrderAddress;
   paymentMethod?: string;
   createdAt: string;
   updatedAt?: string;
@@ -420,4 +370,3 @@ export interface CustomerPattern {
   newCustomers: number;
   returningCustomers: number;
 }
-

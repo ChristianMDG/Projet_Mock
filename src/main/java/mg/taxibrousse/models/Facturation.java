@@ -38,6 +38,7 @@ public class Facturation extends BaseDto<FacturationEntity> {
     private BigDecimal fraisTransaction;
     private BigDecimal commissionSeats;
     private BigDecimal commissionFee;
+    private BigDecimal montantTransfert;
 
     public static Facturation fromEntity(FacturationEntity entity) {
         return fromEntity(entity, false);

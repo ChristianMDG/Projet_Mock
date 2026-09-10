@@ -124,8 +124,11 @@ public class CommissionService implements ICommissionService {
                     .orElse(BigDecimal.ZERO);
             transaction.setCommissionSeats(commissionSeats);
 
-            log.info("Commission computed for transaction {}: commissionSeats={}, commissionFee={}",
-                    transaction.getTransactionReference(), commissionSeats, commissionFee);
+            BigDecimal montantTransfert = paidAmount.subtract(commissionSeats).max(BigDecimal.ZERO);
+            transaction.setMontantTransfert(montantTransfert);
+
+            log.info("Commission computed for transaction {}: commissionSeats={}, commissionFee={}, montantTransfert={}",
+                    transaction.getTransactionReference(), commissionSeats, commissionFee, montantTransfert);
         }
     }
 

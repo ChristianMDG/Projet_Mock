@@ -102,6 +102,23 @@ export interface PaymentMethod extends PaymentMethodAttributes {
   documentId: string;
 }
 
+export interface KoperativePartnerAttributes {
+  name: string;
+  slug: string;
+  initials?: string;
+  location?: string;
+  routes?: string[];
+  description?: string;
+  logo?: StrapiMedia;
+  isActive: boolean;
+  locale?: string;
+}
+
+export interface KoperativePartner extends KoperativePartnerAttributes {
+  id: number;
+  documentId?: string;
+}
+
 // Gare Banner Types
 export interface GareBannerAttributes {
   Title: string;
@@ -213,4 +230,5 @@ export interface ProductFilters {
   sizes?: string[];
   priceMin?: number;
   priceMax?: number;
+  sort?: string;
 }
